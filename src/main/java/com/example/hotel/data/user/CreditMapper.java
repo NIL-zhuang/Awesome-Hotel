@@ -1,4 +1,4 @@
-package com.example.hotel.data.credit;
+package com.example.hotel.data.user;
 
 import com.example.hotel.po.Credit;
 import org.apache.ibatis.annotations.Mapper;

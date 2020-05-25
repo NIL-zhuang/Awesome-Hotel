@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.hotel.HotelMapper">
     <insert id="insertHotel" parameterType="com.example.hotel.po.Hotel"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate,manager_id)
-        values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate},#{managerId})
+        insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate,manager_id, picture)
+        values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate},#{managerId}, #{url})
     </insert>
 
     <select id="selectAllHotel" resultMap="Hotel">
@@ -13,6 +13,10 @@
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
+
+    <update id="updatePicture">
+        update hotel set picture = #{url} where id = #{id}
+    </update>
 
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"/>
@@ -24,6 +28,11 @@
         <result column="phoneNum" property="phoneNum"/>
         <result column="rate" property="rate"/>
         <result column="manager_id" property="managerId"/>
+        <result column="commentTime" property="commentTime"/>
+        <result column="points" property="points"/>
+        <result column="sanitation" property="sanitation"/>
+        <result column="environment" property="environment"/>
+        <result column="picture" property="picture"/>
     </resultMap>
 
 </mapper>

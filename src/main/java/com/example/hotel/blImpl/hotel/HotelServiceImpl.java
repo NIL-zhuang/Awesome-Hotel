@@ -49,6 +49,7 @@ public class HotelServiceImpl implements HotelService {
         hotel.setRate(hotelVO.getRate());
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
+        hotel.setUrl(hotelVO.getUrl());
         hotelMapper.insertHotel(hotel);
     }
 
@@ -70,7 +71,6 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
         HotelVO hotelVO = hotelMapper.selectById(hotelId);
-//        Hotel hotelPO = hotelMapper.selectById()
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
@@ -95,7 +95,7 @@ public class HotelServiceImpl implements HotelService {
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
             roomVO.setRoomType(r.getRoomType().toString());
-            roomVO.setCurNum(r.getCurNum());
+            roomVO.setCurNum(r.getCurNum());    //  TODO change this
             roomVO.setTotal(r.getTotal());
             return roomVO;
         }).collect(Collectors.toList());
@@ -137,5 +137,10 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseVO annualQuestion(Integer questionId) {
         return null;
+    }
+
+    @Override
+    public void updateHotelPicture(Integer hotelId, String url) {
+        hotelMapper.updatePicture(hotelId, url);
     }
 }

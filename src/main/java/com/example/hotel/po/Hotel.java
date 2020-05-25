@@ -15,6 +15,7 @@ public class Hotel {
     private Double rate;
     private String description;
     private String phoneNum;
+    private String url;
 
     public void setCommentTime(Integer commentTime) {
         this.commentTime = commentTime;
@@ -38,6 +39,14 @@ public class Hotel {
 
     public void setEquipment(double equipment) {
         this.equipment = equipment;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     /**

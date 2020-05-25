@@ -12,6 +12,7 @@ public class HotelVO {
     private String description;
     private String phoneNum;
     private Integer managerId;
+    private String url;
 
     private List<RoomVO> rooms;
 
@@ -94,4 +95,13 @@ public class HotelVO {
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 }

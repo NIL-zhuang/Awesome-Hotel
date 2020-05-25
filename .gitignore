@@ -16,6 +16,7 @@
 *.iml
 *.ipr
 .DS_Store
+application.yml
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

@@ -100,8 +100,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updatePortrait(int userId, String url) {
-        return null;
+    public void updatePortrait(int userId, String url) {
+        accountMapper.updatePortrait(userId, url);
     }
 
     @Override
