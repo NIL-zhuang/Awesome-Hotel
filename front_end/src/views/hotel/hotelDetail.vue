@@ -48,10 +48,13 @@
                             <h1>入住-退房时间</h1>
                         </a-row>
                         <a-range-picker
+                                format="YYYY-MM-DD"
                                 @change="changeDate"
-                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }]}]"
+                                v-decorator="[
+                                    'date',
+                                    { rules: [{ required: true, message: '请选择入住时间' }]},
+                                ]"
                                 :default-value="dateRange"
-                                :format="dateFormat"
                         />
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
@@ -103,7 +106,7 @@
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import RoomList from './components/roomList'
     import HotelOutline from './components/hotelOutline'
-    import moment from 'moment';
+
     const columns_of_orders = [
         {
             title: '订单号',
@@ -161,14 +164,13 @@
         data() {
             return {
                 columns_of_orders,
-                dateFormat: 'YYYY-MM-DD',
-                dateRange: [moment(), moment().add(1,'d')]
             }
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
                 'userOrderList',
+                'dateRange',
             ])
         },
         async mounted() {
@@ -185,14 +187,15 @@
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
+                'set_dateRange',
             ]),
             ...mapActions([
                 'getHotelById',
                 'getUserInfo',
                 'getUserOrders',
             ]),
-            changeDate() {
-
+            changeDate(v) {
+                this.set_dateRange(v)
             },
         }
     }

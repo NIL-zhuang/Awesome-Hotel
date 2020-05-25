@@ -86,9 +86,8 @@ const hotel = {
         addOrder: async({ state, commit }, data) => {
             const res = await reserveHotelAPI(data)
             if(res){
-                await message.success('提交中，请稍候...')
                 commit('set_orderModalVisible', false)
-                await message.success('预定成功')
+                message.success('预定成功')
             }
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {

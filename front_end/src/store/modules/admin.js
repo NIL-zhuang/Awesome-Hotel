@@ -44,10 +44,10 @@ const admin = {
                     password:''
                 })
                 commit('set_addManagerModalVisible', false)
-                await message.success('添加成功')
+                message.success('添加成功')
                 dispatch('getManagerList')
             }else{
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         }
     }

@@ -33,7 +33,7 @@ public class HotelController {
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);
-        return ResponseVO.buildSuccess();// 说真的，为什么要传一个空参数，不是很明白
+        return ResponseVO.buildSuccess(true);
     }
 
     @GetMapping("/{hotelId}/detail")

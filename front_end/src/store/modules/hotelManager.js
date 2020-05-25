@@ -13,7 +13,7 @@ import {message} from 'ant-design-vue'
 
 const hotelManager = {
     state: {
-        manageHotelList: [], // 需要一些新的方法
+        manageHotelId: 0, // 需要一些新的方法
         orderList: [],
         addHotelParams: {
             name: '',
@@ -79,7 +79,7 @@ const hotelManager = {
     },
     actions: {
         getHotelOrders: async ({state, commit}) => {
-            let res = await getHotelOrdersAPI(3) // todo
+            let res = await getHotelOrdersAPI(state.manageHotelId)
             if (res) {
                 commit('set_orderList', res)
             }
@@ -99,14 +99,14 @@ const hotelManager = {
                     managerId: '',
                 })
                 commit('set_addHotelModalVisible', false)
-                await message.success('添加成功')
+                message.success('添加成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         },
         addRoom: async ({state, dispatch, commit}) => {
-            const res = await addRoomAPI(state.addRoomParams) // res返回值是null
-            if (!res) { // 这段代码什么意思 返回的res为null才能正确提示？--crx
+            const res = await addRoomAPI(state.addRoomParams)
+            if (res) {
                 commit('set_addRoomModalVisible', false)
                 commit('set_addRoomParams', {
                     roomType: '',
@@ -114,10 +114,10 @@ const hotelManager = {
                     price: '',
                     total: 0,
                     curNum: 0,
-                }) // 为什么要进行这步覆盖操作？？？初始化？ -- crx 2020.04.24
-                await message.success('添加成功')
+                })
+                message.success('添加成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         },
         getHotelCoupon: async ({state, commit}) => {
@@ -134,9 +134,9 @@ const hotelManager = {
                 dispatch('getHotelCoupon')
                 commit('set_addCouponVisible', false)
                 commit('set_couponVisible', true)
-                await message.success('添加策略成功')
+                message.success('添加策略成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         }
     }

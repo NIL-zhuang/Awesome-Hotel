@@ -14,7 +14,6 @@
             <a-form-item v-bind="formItemLayout" label="入住-退房日期">
                 <a-range-picker
                         format="YYYY-MM-DD"
-                        @change="changeDate"
                         v-decorator="[
                             'date',
                             { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange},
@@ -168,7 +167,6 @@
                         sm: {span: 16},
                     },
                 },
-                dateRange: hotelDetail.data().dateRange,
                 totalPrice: '',
                 columns,
                 checkedList: [],
@@ -182,16 +180,16 @@
                 'currentHotelId',
                 'currentHotelInfo',
                 'userId',
+                'dateRange',
                 'orderMatchCouponList'
             ]),
-
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'orderModal'});
         },
         methods: {
             ...mapMutations([
-                'set_orderModalVisible'
+                'set_orderModalVisible',
             ]),
             ...mapActions([
                 'addOrder',
@@ -199,11 +197,6 @@
             ]),
             cancelOrder() {
                 this.set_orderModalVisible(false)
-            },
-            changeDate(v) {
-                if (this.totalPrice !== '') {
-                    this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
-                }
             },
             changePeopleNum(v) {
                 // room 中没有设置人数上限制
@@ -237,7 +230,6 @@
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
-                        console.log(this.currentHotelInfo)
                         const data = {
                             hotelId: this.currentHotelId,
                             hotelName: this.currentHotelInfo.name,
@@ -253,6 +245,7 @@
                             price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
                         }
                         this.addOrder(data)
+                        this.form.resetFields()
                     }
                 });
             },
