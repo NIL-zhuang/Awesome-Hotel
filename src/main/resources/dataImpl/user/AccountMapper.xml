@@ -24,6 +24,13 @@
         update user set birthday = #{birthday} where id = #{id}
     </update>
 
+    <update id="annualCorporate">
+        update user set corporation = #{corporate}
+        where id = #{id}
+    </update>
+
+
+
     <update id="updateAnnualTime">
         update user set annualTime = #{time} where id = #{id}
     </update>

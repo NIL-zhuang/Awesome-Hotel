@@ -24,14 +24,14 @@ public class AdminServiceImpl implements AdminService {
     AdminMapper adminMapper;
 
     @Override
-    public ResponseVO addManager(UserForm userForm) {
+    public ResponseVO addManager(UserForm userForm, Integer hotelId) {
         User user = new User();
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.HotelManager);
         // 似乎还需要设置姓名手机号等？
         try {
-            adminMapper.addManager(user);
+            adminMapper.addManager(user, hotelId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);

@@ -91,7 +91,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseVO corporateVIP(int id, String corporate) {
-        return null;
+        try {
+            accountMapper.updateCorporate(id, corporate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override
