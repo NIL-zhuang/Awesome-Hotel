@@ -39,4 +39,8 @@ public class PasswordEncryptHelper {
             return null;
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println((getMD5("123456")));
+    }
 }

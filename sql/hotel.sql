@@ -264,9 +264,9 @@ BEGIN;
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (4, '1012681@qq.com', '123456', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
-       (5, '123@qq.com', '123456', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
-       (6, '333@qq.com', '123456', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, 'normal', NULL);
+VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
+       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
+       (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, 'normal', NULL);
 /*!40000 ALTER TABLE `User`
     ENABLE KEYS */;
 COMMIT;
