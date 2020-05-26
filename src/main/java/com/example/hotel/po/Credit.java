@@ -8,6 +8,7 @@ public class Credit {
     Integer id;
     Integer userId;
     Integer change;
+    Integer now;
 
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -31,5 +32,13 @@ public class Credit {
 
     public Integer getUserId() {
         return userId;
+    }
+
+    public Integer getNow() {
+        return now;
+    }
+
+    public void setNow(Integer now) {
+        this.now = now;
     }
 }

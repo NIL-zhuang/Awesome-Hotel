@@ -30,6 +30,57 @@
         where id = #{orderid}
     </update>
 
+    <update id="updateComment" parameterType="com.example.hotel.po.Comment">
+        update orderlist
+        set comments = #{comment}
+        points = #{points}
+        sanitation = #{sanitation}
+        environment = #{environment}
+        service = #{service}
+        equipment = #{equipment}
+        where id = #{orderId}
+    </update>
+
+    <select id="getComment" resultMap="Comment">
+        select * from orderlist
+        where id = #{orderId}
+    </select>
+
+    <select id="getAllComment" resultMap="Comment">
+        select * from orderlist
+    </select>
+
+    <select id="getUserComment" resultMap="Comment">
+        select * from orderlist
+        where userId = #{userId}
+    </select>
+
+    <select id="getHotelComment" resultMap="Comment">
+        select * from orderlist
+        where hotelId = #{hotelId}
+    </select>
+
+    <update id="annualComment">
+        update orderlist
+        set comments = NULL
+        points = NULL
+        sanitation = NULL
+        environment = NULL
+        service = NULL
+        equipment = NULL
+        where id = #{orderId}
+    </update>
+
     <resultMap id="Order" type="com.example.hotel.po.Order">
+    </resultMap>
+    <resultMap id="Comment" type="com.example.hotel.po.Comment">
+        <id column="id" property="orderId"/>
+        <result column="userId" property="userId"/>
+        <result column="points" property="points"/>
+        <result column="sanitation" property="sanitation"/>
+        <result column="environment" property="environment"/>
+        <result column="service" property="service"/>
+        <result column="equipment" property="equipment"/>
+        <result column="comments" property="comment"/>
     </resultMap>
 </mapper>

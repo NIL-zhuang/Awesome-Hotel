@@ -2,4 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.question.AnswerMapper">
 
+    <insert id="addAnswer" parameterType="com.example.hotel.po.Answer" useGeneratedKeys="true" keyProperty="id">
+        insert into Answers(userId, questionId, answers)
+        values(#{userId}, #{questionId}, #{answer})
+    </insert>
+
+    <select id="getAllAnswers" resultMap="Answer">
+        select * from Answers
+    </select>
+
+    <select id="getQuestionAnswers" resultMap="Answer">
+        select * from Answers
+        where questionId = #{questionId}
+    </select>
+
+    <delete id="annualAnswer">
+        delete from Answers
+        where id = #{answerId}
+    </delete>
+
+    <resultMap id="Answer" type="com.example.hotel.po.Answer">
+    </resultMap>
 </mapper>

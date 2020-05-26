@@ -19,4 +19,12 @@ public interface HotelMapper {
     HotelVO selectById(@Param("id") Integer id);
 
     int updatePicture(@Param("id") Integer id, @Param("url") String url);
+
+    int updateHotelPoints(@Param("id") Integer id,
+                          @Param("commentTime") Integer commentTime,
+                          @Param("points") double points,
+                          @Param("sanitation") double sanitation,
+                          @Param("environment") double environment,
+                          @Param("service") double service,
+                          @Param("equipment") double equipment);
 }

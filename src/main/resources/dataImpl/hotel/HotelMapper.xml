@@ -18,6 +18,17 @@
         update hotel set picture = #{url} where id = #{id}
     </update>
 
+    <update id="updateHotelPoints">
+        update hotel
+        set commentTime = #{commentTime}
+        points = #{points}
+        sanitation = #{sanitation}
+        envrionment = #{envrionment}
+        service = #{service}
+        equipment = #{equipment}
+        where id = #{id}
+    </update>
+
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"/>
         <result column="address" property="address"/>
