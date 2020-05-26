@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.hotel.data.answer.AnswerMapper">
+<mapper namespace="com.example.hotel.data.question.AnswerMapper">
+
+    <insert id="addQuestion" parameterType="com.example.hotel.po.Question" useGeneratedKeys="true" keyProperty="id">
+        insert into Questions(userID, hotelID, question, available)
+        values(#{userID}, #{hotelID}, #{question}, #{available})
+    </insert>
+
+    <update id="annualQuestion">
+        update question
+        set available = false
+        where id = #{id}
+    </update>
+
+    <select id="getHotelQuestion" resultMap="Question">
+        select *
+        from Questions
+        where hotelID = #{hotelID}
+    </select>
+
+    <select id="getUserQuestion" resultMap="Question">
+        select *
+        from Questions
+        where userID = #{userID}
+    </select>
+
+    <resultMap id="Question" type="com.example.hotel.po.Question">
+    </resultMap>
 
 </mapper>

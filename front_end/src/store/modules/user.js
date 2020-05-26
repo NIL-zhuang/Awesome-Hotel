@@ -18,11 +18,13 @@ import {
 import {
     getHotelByIdAPI
 } from "@/api/hotel";
+import moment from "moment";
 
 const getDefaultState = () => {
     return {
         userId: '',
         userInfo: {},
+        dateRange: [moment(), moment().add(1, 'd')],
         userOrderList: [],
         onceOrderedList: [],
         registerMembershipModalVisible: false,
@@ -53,6 +55,9 @@ const user = {
                 ...data
             }
         },
+        set_dateRange: (state, data) => {
+            state.dateRange = data
+        },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
         },
@@ -72,7 +77,6 @@ const user = {
                 commit('set_userId', res.id)
                 // modifed by glh
                 dispatch('getUserInfo').then(() => {
-                    console.log('login')
                     router.push('/hotel/hotelList')
                 })
             }
@@ -80,7 +84,7 @@ const user = {
         register: async ({commit}, data) => {
             const res = await registerAPI(data)
             if (res) {
-                await message.success('注册成功')
+                message.success('注册成功')
             }
         },
         getUserInfo: ({state, commit}) => {
@@ -105,7 +109,7 @@ const user = {
             }
             const res = await updateUserInfoAPI(params)
             if (res) {
-                await message.success('修改成功')
+                message.success('修改成功')
                 dispatch('getUserInfo')
             }
         },
@@ -133,9 +137,9 @@ const user = {
             const res = await cancelOrderAPI(orderId)
             if (res) {
                 dispatch('getUserOrders')
-                await message.success('撤销成功')
+                message.success('撤销成功')
             } else {
-                await message.error('撤销失败')
+                message.error('撤销失败')
             }
         },
         logout: async ({commit}) => {

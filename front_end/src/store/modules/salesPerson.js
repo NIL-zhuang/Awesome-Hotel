@@ -14,9 +14,7 @@ const salesPerson = {
         allOrderList: [],
         handleAbnormalOrderVisible: false,
         currentUserId: '',
-        currentUserInfo: {
-
-        },
+        currentUserInfo: {},
         addSiteCouponVisible: false,
     },
     mutations: {
@@ -26,16 +24,16 @@ const salesPerson = {
         set_handleAbnormalOrderVisible: function (state, data) {
             state.handleAbnormalOrderVisible = data
         },
-        set_currentUserId: function (state,data) {
+        set_currentUserId: function (state, data) {
             state.currentUserId = data
         },
-        set_currentUserInfo: function(state, data) {
+        set_currentUserInfo: function (state, data) {
             state.currentUserInfo = {
                 ...state.currentUserInfo,
                 ...data
             }
         },
-        set_addSiteCouponVisible:function (state, data) {
+        set_addSiteCouponVisible: function (state, data) {
             state.addSiteCouponVisible = data
         },
     },

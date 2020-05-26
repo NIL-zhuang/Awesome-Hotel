@@ -29,8 +29,6 @@ public interface OrderMapper {
 
     Order getOrderById(@Param("orderid") int orderid);
 
-    int addComment(Comment comment);
-
     int updateComment(Comment comment);
 
     Comment getComment(@Param("orderId") int orderId);

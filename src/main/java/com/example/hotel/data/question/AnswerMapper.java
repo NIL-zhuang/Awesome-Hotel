@@ -1,4 +1,4 @@
-package com.example.hotel.data.answer;
+package com.example.hotel.data.question;
 
 import com.example.hotel.po.Answer;
 import org.apache.ibatis.annotations.Mapper;

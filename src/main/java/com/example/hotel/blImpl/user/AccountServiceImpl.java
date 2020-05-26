@@ -40,10 +40,6 @@ public class AccountServiceImpl implements AccountService {
     public User login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
         // 正式上线的时候要删掉以下3行，现有的管理员和酒店工作人员特殊处理
-        if (null == user) return null;
-        if (user.getEmail().equals("333@qq.com") || user.getEmail().equals("123@qq.com")) {
-            return user;
-        }
         if (!user.getPassword().equals(PasswordEncryptHelper.getMD5(userForm.getPassword()))) {
             return null;
         }
@@ -91,7 +87,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseVO corporateVIP(int id, String corporate) {
-        return null;
+        try {
+            accountMapper.updateCorporate(id, corporate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override
@@ -100,8 +103,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updatePortrait(int userId, String url) {
-        return null;
+    public void updatePortrait(int userId, String url) {
+        accountMapper.updatePortrait(userId, url);
     }
 
     @Override

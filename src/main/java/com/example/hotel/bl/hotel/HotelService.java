@@ -66,4 +66,6 @@ public interface HotelService {
     ResponseVO addQuestion(QuestionVO questionVO);
 
     ResponseVO annualQuestion(Integer questionId);
+
+    void updateHotelPicture(Integer hotelId, String url);
 }

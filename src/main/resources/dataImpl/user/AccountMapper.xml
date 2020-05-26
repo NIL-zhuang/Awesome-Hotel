@@ -24,8 +24,19 @@
         update user set birthday = #{birthday} where id = #{id}
     </update>
 
+    <update id="annualCorporate">
+        update user set corporation = #{corporate}
+        where id = #{id}
+    </update>
+
+
+
     <update id="updateAnnualTime">
         update user set annualTime = #{time} where id = #{id}
+    </update>
+
+    <update id="updatePortrait">
+        update user set portrait = #{url} where id = #{id}
     </update>
 
 
@@ -40,5 +51,9 @@
         <result column="birthday" property="birthday"/>
         <result column="corporation" property="corporation"/>
         <result column="annualTime" property="annualTime"/>
+        <result column="jobNumber" property="jobNumber"/>
+        <result column="hotelID" property="hotelID"/>
+        <result column="VIPType" property="VIPType"/>
+        <result column="portrait" property="portrait"/>
     </resultMap>
 </mapper>

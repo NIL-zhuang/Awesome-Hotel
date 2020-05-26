@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
  * @date 2020/5/24 10:57
@@ -17,7 +19,7 @@ public interface CollectionMapper {
 
     int annualCollection(@Param("id") int id);
 
-    int getUserCollection(@Param("userId") int userId);
+    List<Collection> getUserCollection(@Param("userId") int userId);
 
-    int getHotelCollection(@Param("hotelId") int hotelId);
+    List<Collection> getHotelCollection(@Param("hotelId") int hotelId);
 }

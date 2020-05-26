@@ -53,7 +53,7 @@ public interface AccountService {
 
     ResponseVO normalUser(String corporate);
 
-    ResponseVO updatePortrait(int userId, String url);
+    void updatePortrait(int userId, String url);
 
     List<String> getManagerTelephone(int hotelId);
 }

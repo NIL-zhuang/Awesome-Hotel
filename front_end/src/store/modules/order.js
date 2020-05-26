@@ -23,9 +23,9 @@ const order = {
             const res = await execOrderAPI(orderId)
             if(res) {
                 dispatch('geAllOrders')
-                await message.success('撤销成功')
+                message.success('撤销成功')
             }else{
-                await message.error('撤销失败')
+                message.error('撤销失败')
             }
         },
     }

@@ -14,8 +14,6 @@ public class UserForm {
      */
     private String password;
 
-
-
     public String getEmail() {
         return email;
     }

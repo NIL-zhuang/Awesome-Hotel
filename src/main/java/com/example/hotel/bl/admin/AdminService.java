@@ -17,7 +17,7 @@ public interface AdminService {
      * @param userForm
      * @return
      */
-    ResponseVO addManager(UserForm userForm);
+    ResponseVO addManager(UserForm userForm, Integer hotelId);
 
     /**
      * 获得所有酒店管理人员信息

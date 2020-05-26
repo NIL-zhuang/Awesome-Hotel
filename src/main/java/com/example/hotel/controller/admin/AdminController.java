@@ -3,6 +3,7 @@ package com.example.hotel.controller.admin;
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +21,9 @@ public class AdminController {
     AdminService adminService;
 
     @PostMapping("/addManager")
-    public ResponseVO addManager(@RequestBody UserForm userForm){
+    public ResponseVO addManager(@RequestBody UserForm userForm, @RequestBody Integer hotelId){
 
-        return adminService.addManager(userForm);
+        return adminService.addManager(userForm, hotelId);
     }
 
     @PostMapping("/getAllManagers")

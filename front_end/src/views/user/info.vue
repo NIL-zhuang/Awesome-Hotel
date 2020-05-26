@@ -4,7 +4,12 @@
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
 
-                    <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                    <a-form-item label="头像" v-bind="formItemLayout">
+                        <a-avatar src="./defaultAvatar.png"></a-avatar>
+                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>
+                    </a-form-item>
+
+                    <a-form-item label="用户名" v-bind="formItemLayout">
                         <a-input
                                 placeholder="请填写用户名"
                                 v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
@@ -13,11 +18,11 @@
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
 
-                    <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                    <a-form-item label="邮箱" v-bind="formItemLayout">
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
 
-                    <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                    <a-form-item label="手机号" v-bind="formItemLayout">
                         <a-input
                                 placeholder="请填写手机号"
                                 v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' },
@@ -27,12 +32,11 @@
                         <span v-else>{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
 
-                    <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                    <a-form-item label="信用值" v-bind="formItemLayout">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
 
-                    <a-form-item label="新密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
-                                 v-if="modify">
+                    <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
                         <a-input
                                 type="password"
                                 placeholder="请输入新密码"
@@ -42,8 +46,7 @@
                         />
                     </a-form-item>
 
-                    <a-form-item label="确认密码" :label-col="{ span: 3}" :wrapper-col="{ span: 8, offset: 1}"
-                                 v-if="modify">
+                    <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify">
                         <a-input
                                 type="password"
                                 placeholder="请再次输入密码"
@@ -241,6 +244,15 @@
             return {
                 modify: false,
                 formLayout: 'horizontal',
+                formItemLayout: {
+                    labelCol: {
+                        span: 3
+                    },
+                    wrapperCol: {
+                        span: 8,
+                        offset: 1,
+                    },
+                },
                 pagination: {},
                 columns_of_orders,
                 columns_of_credit,
