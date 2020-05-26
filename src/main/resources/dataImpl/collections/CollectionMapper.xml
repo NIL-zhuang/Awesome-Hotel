@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.question.AnswerMapper">
 
-    <insert id="addCollection" parameterType="com.example.hotel.po.Collection">
+    <insert id="addCollection" parameterType="com.example.hotel.po.Collection" useGeneratedKeys="true" keyProperty="id">
         insert into Collection(id, userID, hotelID)
         values(#{id}, #{userID}, #{hotelID})
     </insert>

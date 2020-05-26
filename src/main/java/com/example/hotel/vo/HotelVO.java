@@ -12,6 +12,12 @@ public class HotelVO {
     private String description;
     private String phoneNum;
     private Integer managerId;
+    private Integer commentTime;
+    private double points;
+    private double sanitation;
+    private double environment;
+    private double service;
+    private double equipment;
     private String url;
 
     private List<RoomVO> rooms;
@@ -104,4 +110,51 @@ public class HotelVO {
         this.url = url;
     }
 
+    public Integer getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(Integer commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public double getPoints() {
+        return points;
+    }
+
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
+    public double getSanitation() {
+        return sanitation;
+    }
+
+    public void setSanitation(double sanitation) {
+        this.sanitation = sanitation;
+    }
+
+    public double getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(double environment) {
+        this.environment = environment;
+    }
+
+    public double getService() {
+        return service;
+    }
+
+    public void setService(double service) {
+        this.service = service;
+    }
+
+    public double getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(double equipment) {
+        this.equipment = equipment;
+    }
 }

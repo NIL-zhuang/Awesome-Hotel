@@ -15,6 +15,15 @@ public class Hotel {
     private Double rate;
     private String description;
     private String phoneNum;
+    /**
+     * 酒店评价
+     */
+    private Integer commentTime;
+    private double points;
+    private double sanitation;
+    private double environment;
+    private double service;
+    private double equipment;
     private String url;
 
     public void setCommentTime(Integer commentTime) {
@@ -78,15 +87,7 @@ public class Hotel {
         return equipment;
     }
 
-    /**
-     * 酒店评价
-     */
-    private Integer commentTime;
-    private double points;
-    private double sanitation;
-    private double environment;
-    private double service;
-    private double equipment;
+
 
     public Integer getId() {
         return id;
