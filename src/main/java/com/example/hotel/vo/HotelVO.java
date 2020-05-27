@@ -12,6 +12,13 @@ public class HotelVO {
     private String description;
     private String phoneNum;
     private Integer managerId;
+    private Integer commentTime;
+    private double points;
+    private double sanitation;
+    private double environment;
+    private double service;
+    private double equipment;
+    private String url;
 
     private List<RoomVO> rooms;
 
