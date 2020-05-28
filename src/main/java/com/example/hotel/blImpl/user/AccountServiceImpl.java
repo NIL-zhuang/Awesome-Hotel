@@ -111,4 +111,5 @@ public class AccountServiceImpl implements AccountService {
     public List<String> getManagerTelephone(int hotelId) {
         return null;
     }
+
 }

@@ -15,3 +15,9 @@ export function addManagerAPI(data) {
         data
     })
 }
+export function getSalesPersonListAPI() {
+    return axios({
+        url: `${api.adminPre}/getAllSalesPerson`,
+        method: 'POST'
+    })
+}

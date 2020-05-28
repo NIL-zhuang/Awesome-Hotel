@@ -1,14 +1,32 @@
 <template>
     <div class="manageUser-wrapper">
         <a-tabs>
-            <a-tab-pane tab="账户管理" key="1">
+            <a-tab-pane tab="酒店工作人员" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加用户</a-button>
+                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加酒店工作人员</a-button>
                 </div>
                 <a-table
                     :columns="columns"
                     :dataSource="managerList"
                     bordered
+                >
+                    <span slot="price" slot-scope="text">
+                        <span>￥{{ text }}</span>
+                    </span>
+                    <span slot="action" slot-scope="text, record">
+                        <a-button type="danger" @click="order(record)">删除用户</a-button>
+                    </span>
+                </a-table>
+            </a-tab-pane>
+
+            <a-tab-pane tab="网站营销人员" key="2">
+                <div style="width: 100%; text-align: right; margin:20px 0">
+                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加网站营销人员</a-button>
+                </div>
+                <a-table
+                        :columns="columns"
+                        :dataSource="salesPersonList"
+                        bordered
                 >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
@@ -69,15 +87,18 @@ export default {
     computed: {
         ...mapGetters([
             'addManagerModalVisible',
-            'managerList'
+            'managerList',
+            'salesPersonList'
         ])
     },
     mounted() {
-      this.getManagerList()
+        this.getManagerList()
+        this.getSalesPersonList()
     },
     methods: {
         ...mapActions([
-            'getManagerList'
+            'getManagerList',
+            'getSalesPersonList',
         ]),
         ...mapMutations([
             'set_addManagerModalVisible'

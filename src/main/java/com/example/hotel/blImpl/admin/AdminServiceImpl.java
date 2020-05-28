@@ -43,4 +43,10 @@ public class AdminServiceImpl implements AdminService {
     public List<User> getAllManagers() {
         return adminMapper.getAllManagers();
     }
+
+    @Override
+    public List<User> getAllSalesPerson() {
+        return adminMapper.getAllSalesPerson();
+    }
+
 }

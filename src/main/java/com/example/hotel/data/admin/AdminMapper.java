@@ -20,4 +20,6 @@ public interface AdminMapper {
     List<User> getAllManagers();
 
     List<User> getHotelManagers(@Param("hotelId") Integer hotelId);
+
+    List<User> getAllSalesPerson();
 }

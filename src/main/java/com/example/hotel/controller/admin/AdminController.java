@@ -31,5 +31,9 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
 
+    @PostMapping("/getAllSalesPerson")
+    public ResponseVO getAllSalesPerson(){
+        return ResponseVO.buildSuccess(adminService.getAllSalesPerson());
+    }
 
 }

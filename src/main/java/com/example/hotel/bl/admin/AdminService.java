@@ -25,5 +25,9 @@ public interface AdminService {
      */
     List<User> getAllManagers();
 
-
+    /**
+     * 获得所有网站营销人员人员信息
+     * @return
+     */
+    List<User> getAllSalesPerson();
 }

@@ -52,5 +52,4 @@ public interface AccountMapper {
 
     int updatePortrait(@Param("id") Integer id, @Param("url") String url);
 
-
 }
