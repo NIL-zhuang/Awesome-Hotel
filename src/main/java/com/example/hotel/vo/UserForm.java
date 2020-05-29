@@ -14,6 +14,11 @@ public class UserForm {
      */
     private String password;
 
+    /**
+     * 酒店Id
+     */
+    private Integer hotelID;
+
     public String getEmail() {
         return email;
     }
@@ -28,5 +33,13 @@ public class UserForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setHotelID(Integer hotelID) {
+        this.hotelID = hotelID;
+    }
+
+    public Integer getHotelID() {
+        return hotelID;
     }
 }

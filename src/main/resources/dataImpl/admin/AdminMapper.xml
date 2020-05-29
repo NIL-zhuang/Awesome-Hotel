@@ -3,7 +3,11 @@
 <mapper namespace="com.example.hotel.data.admin.AdminMapper">
     <insert id="addManager" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
         insert into User(email,password,usertype, hotelID)
-        values(#{email},#{password},#{userType}, #{hotelId})
+        values(#{email},#{password},#{userType},#{hotelID})
+    </insert>
+    <insert id="addSalesPerson" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
+        insert into User(email,password,usertype)
+        values(#{email},#{password},#{userType})
     </insert>
     <select id="getAllManagers" resultMap="User">
         select * from User where usertype='HotelManager'

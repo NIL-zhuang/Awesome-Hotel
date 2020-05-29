@@ -15,7 +15,9 @@ import java.util.List;
 @Repository
 public interface AdminMapper {
 
-    int addManager(User user, Integer hotelId);
+    int addManager(User user);
+
+    int addSalesPerson(User user);
 
     List<User> getAllManagers();
 

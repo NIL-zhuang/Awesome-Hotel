@@ -21,9 +21,13 @@ public class AdminController {
     AdminService adminService;
 
     @PostMapping("/addManager")
-    public ResponseVO addManager(@RequestBody UserForm userForm, @RequestBody Integer hotelId){
+    public ResponseVO addManager(@RequestBody UserForm userForm){
+        return adminService.addManager(userForm);
+    }
 
-        return adminService.addManager(userForm, hotelId);
+    @PostMapping("/addSalesPerson")
+    public ResponseVO addSalesPerson(@RequestBody UserForm userForm){
+        return adminService.addSalesPerson(userForm);
     }
 
     @PostMapping("/getAllManagers")
