@@ -1,20 +1,6 @@
 <template>
     <div class="info-wrapper">
         <a-form :form="form" style="margin-top: 30px">
-            <a-form-item label="头像" v-bind="formItemLayout">
-                <a-avatar src="./defaultAvatar.png"></a-avatar>
-                <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>
-            </a-form-item>
-
-            <a-form-item label="用户名" v-bind="formItemLayout">
-                <a-input
-                        placeholder="请填写用户名"
-                        v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
-                        v-if="modify"
-                />
-                <span v-else>{{ userInfo.userName }}</span>
-            </a-form-item>
-
             <a-form-item label="邮箱" v-bind="formItemLayout">
                 <span>{{ userInfo.email }}</span>
             </a-form-item>
@@ -27,10 +13,6 @@
                         v-if="modify"
                 />
                 <span v-else>{{ userInfo.phoneNumber}}</span>
-            </a-form-item>
-
-            <a-form-item label="信用值" v-bind="formItemLayout">
-                <span>{{ userInfo.credit }}</span>
             </a-form-item>
 
             <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
@@ -62,6 +44,7 @@
                     取消
                 </a-button>
             </a-form-item>
+
             <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
                 <a-button type="primary" @click="modifyInfo">
                     修改信息
@@ -90,7 +73,6 @@
                         offset: 1,
                     },
                 },
-                form: this.$form.createForm(this, {name: 'adminInfo'}),
             }
         },
         computed: {
@@ -99,73 +81,76 @@
                 'userInfo',
             ])
         },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'adminInfo'})
+        },
         async mounted() {
-            await this.getUseInfo()
+            await this.getUserInfo()
         },
         methods: {
             ...mapActions([
                 'getUserInfo',
                 'updateUserInfo',
             ]),
-        },
-        saveModify() {
-            this.form.validateFields((err, values) => {
-                if (!err) {
-                    const data = {
-                        userName: this.form.getFieldValue('userName'),
-                        phoneNumber: this.form.getFieldValue('phoneNumber'),
-                        password: this.form.getFieldValue('password')
+            saveModify() {
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        const data = {
+                            userName: this.form.getFieldValue('userName'),
+                            phoneNumber: this.form.getFieldValue('phoneNumber'),
+                            password: this.form.getFieldValue('password')
+                        }
+                        this.updateUserInfo(data).then(() => {
+                            this.modify = false
+                        })
+                    } else {
+                        message.error("请输入正确的信息")
                     }
-                    this.updateUserInfo(data).then(() => {
-                        this.modify = false
-                    })
-                } else {
-                    message.error("请输入正确的信息")
-                }
-            })
-        },
-
-        modifyInfo() {
-            setTimeout(() => {
-                this.form.setFieldsValue({
-                    'userName': this.userInfo.userName,
-                    'phoneNumber': this.userInfo.phoneNumber,
                 })
-            }, 0)
-            this.modify = true
-        },
+            },
 
-        cancelModify() {
-            this.modify = false
-        },
+            modifyInfo() {
+                setTimeout(() => {
+                    this.form.setFieldsValue({
+                        'userName': this.userInfo.userName,
+                        'phoneNumber': this.userInfo.phoneNumber,
+                    })
+                }, 0)
+                this.modify = true
+            },
 
-        handlePhoneNumber(rule, value, callback) {
-            const re = /1\d{10}/;
-            if (re.test(value)) {
-                callback();
-            } else {
-                callback(new Error('请输入有效手机号'));
-            }
-            callback()
-        },
+            cancelModify() {
+                this.modify = false
+            },
 
-        handlePassword(rule, value, callback) {
-            if (value.length < 6) {
-                callback(new Error('密码长度至少6位'))
-            }
-            callback()
-        },
+            handlePhoneNumber(rule, value, callback) {
+                const re = /1\d{10}/;
+                if (re.test(value)) {
+                    callback();
+                } else {
+                    callback(new Error('请输入有效手机号'));
+                }
+                callback()
+            },
 
-        handlePasswordCheck(rule, value, callback) {
-            const password = this.form.getFieldValue('registerPassword')
-            console.log(password)
-            if (value === undefined) {
-                callback(new Error('请输入密码'))
-            }
-            if (value && password && value.trim() !== password.trim()) {
-                callback(new Error('两次密码不一致'))
-            }
-            callback()
+            handlePassword(rule, value, callback) {
+                if (value.length < 6) {
+                    callback(new Error('密码长度至少6位'))
+                }
+                callback()
+            },
+
+            handlePasswordCheck(rule, value, callback) {
+                const password = this.form.getFieldValue('registerPassword')
+                console.log(password)
+                if (value === undefined) {
+                    callback(new Error('请输入密码'))
+                }
+                if (value && password && value.trim() !== password.trim()) {
+                    callback(new Error('两次密码不一致'))
+                }
+                callback()
+            },
         },
     }
 </script>
