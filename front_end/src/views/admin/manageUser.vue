@@ -6,7 +6,7 @@
                     <a-button type="primary" @click="addManager"><a-icon type="plus" />添加酒店工作人员</a-button>
                 </div>
                 <a-table
-                    :columns="columns"
+                    :columns="columns_of_manager"
                     :dataSource="managerList"
                     bordered
                 >
@@ -21,10 +21,10 @@
 
             <a-tab-pane tab="网站营销人员" key="2">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加网站营销人员</a-button>
+                    <a-button type="primary" @click="addSalesPerson"><a-icon type="plus" />添加网站营销人员</a-button>
                 </div>
                 <a-table
-                        :columns="columns"
+                        :columns="columns_of_salesPerson"
                         :dataSource="salesPersonList"
                         bordered
                 >
@@ -38,17 +38,42 @@
             </a-tab-pane>
         </a-tabs>
         <AddManagerModal></AddManagerModal>
+        <addSalesPersonModal></addSalesPersonModal>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddManagerModal from './components/addManagerModal'
-const columns = [
+import addSalesPersonModal from "./components/addSalesPersonModal";
+const columns_of_manager = [
     {  
         title: '用户邮箱',
         dataIndex: 'email',
     },
     {  
+        title: '用户名',
+        dataIndex: 'userName',
+    },
+    {
+        title: '所属酒店',
+        dataIndex: 'hotelID',
+    },
+    {
+        title: '用户手机号',
+        dataIndex: 'phoneNumber',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      scopedSlots: { customRender: 'action' },
+    },
+  ];
+const columns_of_salesPerson = [
+    {
+        title: '用户邮箱',
+        dataIndex: 'email',
+    },
+    {
         title: '用户名',
         dataIndex: 'userName',
     },
@@ -61,34 +86,33 @@ const columns = [
         dataIndex: 'phoneNumber',
     },
     {
-        title: '信用值',
-        dataIndex: 'credit',
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
     },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' },
-    },
-  ];
+];
 export default {
     name: 'manageHotel',
     data(){
         return {
             formLayout: 'horizontal',
             pagination: {},
-            columns,
+            columns_of_manager,
+            columns_of_salesPerson,
             data: [],
             form: this.$form.createForm(this, { name: 'manageUser' }),
         }
     },
     components: {
-        AddManagerModal
+        AddManagerModal,
+        addSalesPersonModal,
     },
     computed: {
         ...mapGetters([
             'addManagerModalVisible',
+            'addSalesPersonModalVisible',
             'managerList',
-            'salesPersonList'
+            'salesPersonList',
         ])
     },
     mounted() {
@@ -101,11 +125,15 @@ export default {
             'getSalesPersonList',
         ]),
         ...mapMutations([
-            'set_addManagerModalVisible'
+            'set_addManagerModalVisible',
+            'set_addSalesPersonModalVisible',
         ]),
-        addManager(){
+        addManager() {
             this.set_addManagerModalVisible(true)
-        }
+        },
+        addSalesPerson() {
+            this.set_addSalesPersonModalVisible(true)
+        },
     }
 }
 </script>
