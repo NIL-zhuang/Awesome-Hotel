@@ -80,7 +80,32 @@
             <p>展示酒店收到的订单</p>
         </div>
         <div v-if="userInfo.userType==='Admin'">
-            <h1>网站人员看到的页面</h1>
+            <h1>展示所有酒店</h1>
+            <div class="hotelList">
+                <a-layout>
+                    <a-layout-content style="min-width: 800px">
+                        <a-spin :spinning="hotelListLoading">
+                            <div class="card-wrapper">
+                                <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index"
+                                           @click.native="jumpToDetails(item.id)"></HotelCard>
+                                <div v-for="item in emptyBox" :key="item.name"
+                                     class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3"></div>
+                                <a-config-provider :locale="locale">
+                                    <a-pagination
+                                            show-less-items
+                                            show-size-changer
+                                            show-quick-jumper
+                                            :page-size.sync="pageSize"
+                                            :total="hotelList.length"
+                                            :defaultCurrent="1"
+                                            @change="pageChange">
+                                    </a-pagination>
+                                </a-config-provider>
+                            </div>
+                        </a-spin>
+                    </a-layout-content>
+                </a-layout>
+            </div>
         </div>
         <div v-if="userInfo.userType==='SalesPerson'">
             <h1>网站营销人员看到的页面</h1>

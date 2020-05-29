@@ -41,7 +41,11 @@
                     <a-icon type="user" />账户管理
                 </router-link>
             </a-menu-item>
-
+            <a-menu-item key="9" @click="manageAdminInfo" v-if="userInfo.userType==='Admin'">
+                <router-link :to="{ name: 'adminInfo'}">
+                    <a-icon type="user" />个人信息
+                </router-link>
+            </a-menu-item>
             <a-menu-item key="10" @click="manageOrders" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageOrders'}">
                     <a-icon type="shopping-cart" />订单管理
