@@ -19,6 +19,9 @@ const getters = {
     managerList: state => state.admin.managerList,
     addManagerModalVisible: state => state.admin.addManagerModalVisible,
     addManagerParams: state => state.admin.addManagerParams,
+    salesPersonList: state => state.admin.salesPersonList,
+    addSalesPersonModalVisible: state => state.admin.addSalesPersonModalVisible,
+    addSalesPersonParams: state => state.admin.addSalesPersonParams,
     //hotelManager
     manageHotelId: state => state.hotelManager.manageHotelId,
     orderList: state => state.hotelManager.orderList,
@@ -28,6 +31,7 @@ const getters = {
     addCouponVisible: state => state.hotelManager.addCouponVisible,
     activeHotelId: state => state.hotelManager.activeHotelId,
     couponList: state => state.hotelManager.couponList,
+    registerHotelMembershipModalVisible: state => state.hotelManager.registerHotelMembershipModalVisible,
     //salesPerson
     allOrderList: state => state.salesPerson.allOrderList,
     handleAbnormalOrderVisible: state => state.salesPerson.handleAbnormalOrderVisible,

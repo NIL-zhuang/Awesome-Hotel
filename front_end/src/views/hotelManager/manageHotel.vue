@@ -282,8 +282,8 @@ export default {
         deleteHotel(){
 
         },
-        deleteOrder(){
-
+        deleteOrder(record){
+            console.log(record)
         },
         showOrderDatail(record) {
             this.set_orderInfo(record)

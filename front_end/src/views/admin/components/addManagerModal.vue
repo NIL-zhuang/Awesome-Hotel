@@ -15,15 +15,31 @@
                         { rules: [{required: true, message: '请输入用户邮箱', }] }
                     ]"
                 />
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="密码">
-                <a-input
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="用户名">
+            <a-input
                     v-decorator="[
-                        'password',
-                        { rules: [{required: true, message: '请输入密码', }] }
+                        'userName',
+                        { rules: [{required: true, message: '请输入用户名', }] }
                     ]"
-                />
-            </a-form-item >
+            />
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="酒店ID">
+            <a-input
+                    v-decorator="[
+                        'hotelID',
+                        { rules: [{required: true, message: '请输入hotelID', }] }
+                    ]"
+            />
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="密码">
+            <a-input
+                v-decorator="[
+                    'password',
+                    { rules: [{required: true, message: '请输入密码', }] }
+                ]"
+            />
+        </a-form-item >
     </a-Form>
     </a-modal>
 </template>
@@ -49,6 +65,7 @@ export default {
         ...mapGetters([
             'addManagerModalVisible',
             'managerList',
+            'addManagerParams',
         ])
     },
     beforeCreate() {
@@ -75,7 +92,8 @@ export default {
                 if (!err) {
                     const data = {
                         email: this.form.getFieldValue('email'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        hotelId: Number(this.form.getFieldValue('hotelID')),
                     }
                     this.set_addManagerParams(data)
                     this.addManager()

@@ -14,6 +14,13 @@ public class UserVO {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private String birthday;
+    private String corporation;
+    private String annualTime;
+    private String jobNumber;
+    private String hotelID;
+    private String VIPType;
+    private String portrait;
 
     public Integer getId() {
         return id;
@@ -69,5 +76,13 @@ public class UserVO {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }

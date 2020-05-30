@@ -52,7 +52,7 @@ const routes = [
       {
         path: '/hotel/membership',
         name: 'hotelMembership',
-        component: () => import('@/views/hotel/hotelMembership')
+        component: () => import('@/views/hotelManager/hotelMembership')
       },
       {
         path: '/hotelManager/manageHotel',
@@ -63,6 +63,11 @@ const routes = [
         path: '/admin/manageUser',
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')
+      },
+      {
+        path: '/admin/adminInfo',
+        name: 'adminInfo',
+        component: () => import('@/views/admin/adminInfo')
       },
       {
         path: '/salesPerson/manageSiteCoupon',

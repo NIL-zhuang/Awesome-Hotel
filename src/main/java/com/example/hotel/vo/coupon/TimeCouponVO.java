@@ -1,29 +1,32 @@
-package com.example.hotel.vo;
+package com.example.hotel.vo.coupon;
+
+import com.example.hotel.vo.coupon.CouponVO;
 
 import java.time.LocalDateTime;
 
 public class TimeCouponVO extends CouponVO {
-    private String startTime;
-    private String endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    //自行决定是打折还是直接减金额 如果选择打折就把targetMoney变为负数 否则就把discount变为负数
+    // 自行决定是打折还是直接减金额
+    // 如果选择打折就把targetMoney变为负数 否则就把discount变为负数
 
     private double discount;
     private Integer targetMoney;
 
-    public String getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
