@@ -38,6 +38,7 @@ const hotelManager = {
         addCouponVisible: false,
         activeHotelId: 0,
         couponList: [],
+        registerHotelMembershipModalVisible: false,
     },
     mutations: {
         set_managerList: function (state, data) {
@@ -75,6 +76,9 @@ const hotelManager = {
         },
         set_addCouponVisible: function (state, data) {
             state.addCouponVisible = data
+        },
+        set_registerHotelMembershipModalVisible: function (state, data) {
+            state.registerHotelMembershipModalVisible = data
         }
     },
     actions: {

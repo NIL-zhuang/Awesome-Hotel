@@ -10,9 +10,10 @@
                     :dataSource="managerList"
                     bordered
                 >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
+                    <span slot="hotelID" slot-scope="text">
+                        <span>{{ getHotelName(Number(text)) }}</span>
                     </span>
+
                     <span slot="action" slot-scope="text, record">
                         <a-button type="danger" @click="order(record)">删除用户</a-button>
                     </span>
@@ -28,9 +29,6 @@
                         :dataSource="salesPersonList"
                         bordered
                 >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
                     <span slot="action" slot-scope="text, record">
                         <a-button type="danger" @click="order(record)">删除用户</a-button>
                     </span>
@@ -42,100 +40,116 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import AddManagerModal from './components/addManagerModal'
-import addSalesPersonModal from "./components/addSalesPersonModal";
-const columns_of_manager = [
-    {  
-        title: '用户邮箱',
-        dataIndex: 'email',
-    },
-    {  
-        title: '用户名',
-        dataIndex: 'userName',
-    },
-    {
-        title: '所属酒店',
-        dataIndex: 'hotelID',
-    },
-    {
-        title: '用户手机号',
-        dataIndex: 'phoneNumber',
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' },
-    },
-  ];
-const columns_of_salesPerson = [
-    {
-        title: '用户邮箱',
-        dataIndex: 'email',
-    },
-    {
-        title: '用户名',
-        dataIndex: 'userName',
-    },
-    {
-        title: '用户密码',
-        dataIndex: 'password',
-    },
-    {
-        title: '用户手机号',
-        dataIndex: 'phoneNumber',
-    },
-    {
-        title: '操作',
-        key: 'action',
-        scopedSlots: { customRender: 'action' },
-    },
-];
-export default {
-    name: 'manageHotel',
-    data(){
-        return {
-            formLayout: 'horizontal',
-            pagination: {},
-            columns_of_manager,
-            columns_of_salesPerson,
-            data: [],
-            form: this.$form.createForm(this, { name: 'manageUser' }),
+    import { mapGetters, mapMutations, mapActions } from 'vuex'
+    import AddManagerModal from './components/addManagerModal'
+    import addSalesPersonModal from "./components/addSalesPersonModal";
+    const columns_of_manager = [
+        {
+            title: '用户邮箱',
+            dataIndex: 'email',
+        },
+        {
+            title: '用户名',
+            dataIndex: 'userName',
+        },
+        {
+            title: '所属酒店',
+            dataIndex: 'hotelID',
+            scopedSlots: {customRender: 'hotelID'},
+        },
+        {
+            title: '用户手机号',
+            dataIndex: 'phoneNumber',
+        },
+        {
+          title: '操作',
+          key: 'action',
+          scopedSlots: { customRender: 'action' },
+        },
+      ];
+    const columns_of_salesPerson = [
+        {
+            title: '用户邮箱',
+            dataIndex: 'email',
+        },
+        {
+            title: '用户名',
+            dataIndex: 'userName',
+        },
+        {
+            title: '用户密码',
+            dataIndex: 'password',
+        },
+        {
+            title: '所属酒店',
+            dataIndex: 'hotelID',
+        },
+        {
+            title: '用户手机号',
+            dataIndex: 'phoneNumber',
+        },
+        {
+            title: '操作',
+            key: 'action',
+            scopedSlots: { customRender: 'action' },
+        },
+    ];
+    export default {
+        name: 'manageHotel',
+        data(){
+            return {
+                formLayout: 'horizontal',
+                pagination: {},
+                columns_of_manager,
+                columns_of_salesPerson,
+                data: [],
+                form: this.$form.createForm(this, { name: 'manageUser' }),
+            }
+        },
+        components: {
+            AddManagerModal,
+            addSalesPersonModal,
+        },
+        computed: {
+            ...mapGetters([
+                'addManagerModalVisible',
+                'addSalesPersonModalVisible',
+                'managerList',
+                'salesPersonList',
+                'hotelList',
+            ]),
+        },
+        mounted() {
+            this.getManagerList()
+            this.getSalesPersonList()
+            this.getHotelList()
+        },
+        methods: {
+            ...mapActions([
+                'getManagerList',
+                'getSalesPersonList',
+                'getHotelList',
+            ]),
+            ...mapMutations([
+                'set_addManagerModalVisible',
+                'set_addSalesPersonModalVisible',
+            ]),
+            addManager() {
+                this.set_addManagerModalVisible(true)
+            },
+            addSalesPerson() {
+                this.set_addSalesPersonModalVisible(true)
+            },
+            getHotelName(hotelId) {
+                for(let i = 0;i < this.hotelList.length; i++) {
+                    if (this.hotelList[i].id === hotelId) {
+                        return this.hotelList[i].name
+                    }
+                }
+                return '未知'
+            }
         }
-    },
-    components: {
-        AddManagerModal,
-        addSalesPersonModal,
-    },
-    computed: {
-        ...mapGetters([
-            'addManagerModalVisible',
-            'addSalesPersonModalVisible',
-            'managerList',
-            'salesPersonList',
-        ])
-    },
-    mounted() {
-        this.getManagerList()
-        this.getSalesPersonList()
-    },
-    methods: {
-        ...mapActions([
-            'getManagerList',
-            'getSalesPersonList',
-        ]),
-        ...mapMutations([
-            'set_addManagerModalVisible',
-            'set_addSalesPersonModalVisible',
-        ]),
-        addManager() {
-            this.set_addManagerModalVisible(true)
-        },
-        addSalesPerson() {
-            this.set_addSalesPersonModalVisible(true)
-        },
     }
-}
 </script>
 <style scoped lang="less">
     .manageUser-wrapper {
