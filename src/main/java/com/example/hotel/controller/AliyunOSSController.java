@@ -16,6 +16,8 @@ import java.io.FileOutputStream;
  * @author 庄子元 181830266@smail.nju.edu.cn
  * @date 2020/5/25 17:09
  */
+@RestController()
+@RequestMapping("/api/user")
 public class AliyunOSSController {
     private static final String UPLOAD_SUCCESS = "上传成功";
     private static final String UPLOAD_FAILURE = "上传失败";

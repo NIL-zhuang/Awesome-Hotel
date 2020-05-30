@@ -1,4 +1,4 @@
-package com.example.hotel.vo;
+package com.example.hotel.vo.coupon;
 
 public class CouponVO {
     private Integer id;
@@ -7,11 +7,6 @@ public class CouponVO {
     private String name;
     private Integer type;
     private Integer hotelId;
-    private double discount;
-    private String startTime;
-    private String endTime;
-    private Integer discountMoney;
-    private Integer targetRoomNum;
 
     public Integer getId() {
         return id;
@@ -62,45 +57,5 @@ public class CouponVO {
 
     public void setHotelId(Integer id) {
         this.hotelId = id;
-    }
-
-    public double getDiscount() {
-        return this.discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
-    public String getStartTime() {
-        return this.startTime;
-    }
-
-    public void setStartTime(String start_time) {
-        this.startTime = start_time;
-    }
-
-    public String getEndTime() {
-        return this.endTime;
-    }
-
-    public void setEndTime(String end_time) {
-        this.endTime = end_time;
-    }
-
-    public Integer getDiscountMoney() {
-        return this.discountMoney;
-    }
-
-    public void setDiscountMoney(int discount) {
-        this.discountMoney = discount;
-    }
-
-    public Integer getTargetRoomNum() {
-        return this.targetRoomNum;
-    }
-
-    public void setTargetRoomNum(Integer targetRoomNum) {
-        this.targetRoomNum = targetRoomNum;
     }
 }

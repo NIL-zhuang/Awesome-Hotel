@@ -1,8 +1,7 @@
 package com.example.hotel.bl.coupon;
 
 import com.example.hotel.po.Coupon;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelTargetMoneyCouponVO;
+import com.example.hotel.vo.coupon.*;
 import com.example.hotel.vo.OrderVO;
 
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 public interface CouponService {
     /**
      * 返回某一订单可用的优惠策略列表
+     *
      * @param orderVO
      * @return
      */
@@ -17,6 +17,7 @@ public interface CouponService {
 
     /**
      * 查看某个酒店提供的所有优惠策略（包括失效的）
+     *
      * @param hotelId
      * @return
      */
@@ -24,8 +25,17 @@ public interface CouponService {
 
     /**
      * 添加酒店满减优惠策略
+     *
      * @param couponVO
      * @return
      */
     CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
+
+    CouponVO addBirthdayCouponVO(BirthdayCouponVO couponVO);
+
+    CouponVO addManyRoomCoupon(ManyRoomCouponVO couponVO);
+
+    CouponVO addTimeCouponVO(TimeCouponVO couponVO);
+
+    void annualCoupon(Integer couponId);
 }

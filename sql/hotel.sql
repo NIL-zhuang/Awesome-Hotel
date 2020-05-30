@@ -26,17 +26,19 @@ DROP TABLE IF EXISTS `Coupon`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Coupon`
 (
-    `id`             int(11)      NOT NULL AUTO_INCREMENT,
-    `description`    varchar(255) DEFAULT NULL,
-    `hotelId`        int(11)      DEFAULT '-1',
-    `couponType`     int(11)      NOT NULL,
-    `couponName`     varchar(255) NOT NULL,
-    `target_money`   int(11)      DEFAULT NULL,
-    `discount`       double       DEFAULT NULL,
-    `status`         int(11)      DEFAULT NULL,
-    `start_time`     datetime     DEFAULT NULL,
-    `end_time`       datetime     DEFAULT NULL,
-    `discount_money` int(11)      DEFAULT NULL,
+    `id`              int(11)      NOT NULL AUTO_INCREMENT,
+    `description`     varchar(255) DEFAULT NULL,
+    `hotelId`         int(11)      DEFAULT '-1',
+    `couponType`      int(11)      NOT NULL,
+    `couponName`      varchar(255) NOT NULL,
+    `target_money`    int(11)      DEFAULT NULL,
+    `target_room_num` int(11)      DEFAULT NULL,
+    `discount`        double       DEFAULT NULL,
+    `status`          int(11)      DEFAULT NULL,
+    `start_time`      datetime     DEFAULT NULL,
+    `end_time`        datetime     DEFAULT NULL,
+    `discount_money`  int(11)      DEFAULT NULL,
+    `corporate_name`  varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
@@ -50,7 +52,7 @@ BEGIN;
 /*!40000 ALTER TABLE `Coupon`
     DISABLE KEYS */;
 INSERT INTO `Coupon`
-VALUES (2, '满500-100优惠', 2, 3, '满减优惠券', 500, 0, 1, NULL, NULL, 100);
+VALUES (2, '满500-100优惠', 2, 3, '满减优惠券', 500, NULL, 0, 1, NULL, NULL, 100, NULL);
 /*!40000 ALTER TABLE `Coupon`
     ENABLE KEYS */;
 COMMIT;
@@ -153,28 +155,28 @@ DROP TABLE IF EXISTS `OrderList`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OrderList`
 (
-    `id`           int(11) NOT NULL AUTO_INCREMENT,
-    `userId`       int(11)        DEFAULT NULL,
-    `hotelId`      int(11)        DEFAULT NULL,
-    `hotelName`    varchar(255)   DEFAULT NULL,
+    `id`            int(11) NOT NULL AUTO_INCREMENT,
+    `userId`        int(11)        DEFAULT NULL,
+    `hotelId`       int(11)        DEFAULT NULL,
+    `hotelName`     varchar(255)   DEFAULT NULL,
     `hotelPhoneNum` varchar(255)   DEFAULT NULL,
-    `checkInDate`  varchar(255)   DEFAULT NULL,
-    `checkOutDate` varchar(255)   DEFAULT NULL,
-    `roomType`     varchar(255)   DEFAULT NULL,
-    `roomNum`      int(255)       DEFAULT NULL,
-    `peopleNum`    int(255)       DEFAULT NULL,
-    `haveChild`    tinytext,
-    `createDate`   varchar(255)   DEFAULT NULL,
-    `price`        decimal(65, 0) DEFAULT NULL,
-    `clientName`   varchar(255)   DEFAULT NULL,
-    `phoneNumber`  varchar(255)   DEFAULT NULL,
-    `orderState`   varchar(255)   DEFAULT NULL,
-    `comments`     varchar(255)   DEFAULT NULL,
-    `points`       int(5)         DEFAULT 5,
-    `sanitation`   int(5)         DEFAULT 5,
-    `environment`  int(5)         DEFAULT 5,
-    `service`      int(5)         DEFAULT 5,
-    `equipment`    int(5)         DEFAULT 5,
+    `checkInDate`   varchar(255)   DEFAULT NULL,
+    `checkOutDate`  varchar(255)   DEFAULT NULL,
+    `roomType`      varchar(255)   DEFAULT NULL,
+    `roomNum`       int(255)       DEFAULT NULL,
+    `peopleNum`     int(255)       DEFAULT NULL,
+    `haveChild`     tinytext,
+    `createDate`    varchar(255)   DEFAULT NULL,
+    `price`         decimal(65, 0) DEFAULT NULL,
+    `clientName`    varchar(255)   DEFAULT NULL,
+    `phoneNumber`   varchar(255)   DEFAULT NULL,
+    `orderState`    varchar(255)   DEFAULT NULL,
+    `comments`      varchar(255)   DEFAULT NULL,
+    `points`        int(5)         DEFAULT 5,
+    `sanitation`    int(5)         DEFAULT 5,
+    `environment`   int(5)         DEFAULT 5,
+    `service`       int(5)         DEFAULT 5,
+    `equipment`     int(5)         DEFAULT 5,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 14
@@ -264,8 +266,10 @@ BEGIN;
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
-       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal', NULL),
+VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal',
+        NULL),
+       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal',
+        NULL),
        (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, 'normal', NULL);
 /*!40000 ALTER TABLE `User`
     ENABLE KEYS */;
