@@ -25,7 +25,7 @@
                 <a-input
                         v-decorator="[
                         'clientName',
-                        { rules: [{required: true, message: '请填写入住人姓名' }], validateTrigger: 'blur' }
+                        { rules: [{required: true, message: '请填写入住人姓名' }], validateTrigger: 'blur', initialValue: this.userInfo.userName }
                     ]"
                 />
             </a-form-item>
@@ -33,7 +33,7 @@
                 <a-input
                         v-decorator="[
                         'phoneNumber',
-                        { rules: [{ required: true, message: '请输入联系人手机' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }
+                        { rules: [{ required: true, message: '请输入联系人手机' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur', initialValue: this.userInfo.phoneNumber }
                     ]"
                 />
             </a-form-item>
@@ -180,6 +180,7 @@
                 'currentHotelId',
                 'currentHotelInfo',
                 'userId',
+                'userInfo',
                 'dateRange',
                 'orderMatchCouponList'
             ]),
@@ -241,6 +242,8 @@
                             roomNum: this.form.getFieldValue('roomNum'),
                             peopleNum: this.form.getFieldValue('peopleNum'),
                             haveChild: this.form.getFieldValue('haveChild'),
+                            clientName: this.form.getFieldValue('clientName'),
+                            phoneNumber: this.form.getFieldValue('phoneNumber'),
                             createDate: '',
                             price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
                         }

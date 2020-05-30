@@ -11,18 +11,26 @@
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout" label="地址">
                         <a-input
-                                type="text" v-model="address" placeholder="请输入地址" class="searchInput"
+                                type="text" placeholder="请输入地址" class="searchInput"
+                                v-decorator="['address']"
                         />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout" label="商圈">
                         <a-input
-                                type="text" v-model="business_circle" placeholder="请输入商圈" class="searchInput"
+                                type="text" placeholder="请输入商圈" class="searchInput"
+                                v-decorator="['bizRegion']"
                         />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout" label="关键词">
-                        <a-input
-                                type="text" v-model="keyword" placeholder="请输入关键词进行搜索" class="searchInput"
-                        />
+                        <a-select
+                                mode="multiple"
+                                placeholder="请选择酒店关键词"
+                                v-decorator="['tags']"
+                        >
+                            <a-select-option v-for="tag in hotelTags" :key="tag">
+                                {{ tag }}
+                            </a-select-option>
+                        </a-select>
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout" label="价位上限 ¥">
                         <a-row>
@@ -56,11 +64,12 @@
                         <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
                             全选
                         </a-checkbox>
-                        <a-checkbox-group v-model="checkList" :options="hotelStarOptions" @change="onChange" />
+                        <a-checkbox-group :options="hotelStarOptions" @change="onChange"
+                                          v-decorator="['stars',{initialValue: defaultCheckedList}]"
+                        />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout">
-                        <a-button type="primary" icon="search" @click="search" value="搜索"
-                                  class="searchButton">
+                        <a-button type="primary" icon="search" @click="search" value="搜索" class="searchButton">
                             搜索酒店
                         </a-button>
                     </a-form-item>
@@ -102,16 +111,28 @@
                         sm: {span: 10},
                     },
                 },
-                address: '',
-                business_circle: '',
                 keyword: '',
                 value: 1000,
                 rate: 3.0,
                 checkAll: true,
                 indeterminate: false,
                 hotelStarOptions,
-                checkList: defaultCheckedList,
+                defaultCheckedList,
                 dateRange: [moment(), moment().add(1,'d')],
+                hotelTags: [
+                    '温泉',
+                    '干净整洁',
+                    '便宜',
+                    '早餐',
+                    '体验很棒',
+                    '晚安服务',
+                    '酒',
+                    '可乐',
+                    '安静',
+                    '情侣酒店',
+                    '浪漫',
+                    '安全',
+                ]
             }
         },
         beforeCreate() {
@@ -127,11 +148,9 @@
             onChange(checkedList) {
                 this.indeterminate = !!checkedList.length && checkedList.length < hotelStarOptions.length;
                 this.checkAll = checkedList.length === hotelStarOptions.length;
-                console.log(checkedList)
             },
             onCheckAllChange(e) {
                 Object.assign(this, {
-                    checkedList: e.target.checked ? hotelStarOptions : [],
                     indeterminate: false,
                     checkAll: e.target.checked,
                 });
@@ -140,7 +159,16 @@
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
-                        const data = {}
+                        const data = {
+                            checkInDate: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
+                            checkOutDate: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
+                            address: this.form.getFieldValue('address')?this.form.getFieldValue('address'):'',
+                            bizRegion: this.form.getFieldValue('bizRegion')?this.form.getFieldValue('bizRegion'):'',
+                            tags: this.form.getFieldValue('tags')?this.form.getFieldValue('tags'):[],
+                            maxPrice: this.value,
+                            minRate: this.rate,
+                            hotelStars: this.form.getFieldValue('stars'),
+                        }
                     }
                 });
                 // this.$message.loading("Searching", , );
