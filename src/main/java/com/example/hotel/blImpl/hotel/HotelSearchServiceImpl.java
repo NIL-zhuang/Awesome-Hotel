@@ -3,14 +3,17 @@ package com.example.hotel.blImpl.hotel;
 import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.controller.hotel.HotelController;
+import com.example.hotel.data.hotel.HotelMapper;
+import com.example.hotel.po.HotelRoom;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
-import com.example.hotel.vo.SearchBody;
+import com.example.hotel.vo.SearchBodyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: hx
@@ -47,31 +50,31 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private String checkOutDate = null;
     private String address = null;
     private String bizRegion = null;
-    private String hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
+    private String[] hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
     private String[] keyWords = null;
-    private double maxPrice = -1;
-    private double minScore = -1;
+    private double maxPrice = 999;
+    private double minScore = 0;
 
     Node head;
 
 
     @Override
-    public List<HotelVO> searchHotel(SearchBody searchBody) {
-        setInfo(searchBody);
+    public List<HotelVO> searchHotel(SearchBodyVO searchBodyVO) {
+        setInfo(searchBodyVO);
         return search();
     }
 
 
 
-    public void setInfo(SearchBody searchBody){
-        chechInDate = searchBody.getChechInDate();
-        checkOutDate = searchBody.getCheckOutDate();
-        address = searchBody.getAddress();
-        bizRegion = searchBody.getBizRegion();
-        hotelStar = searchBody.getHotelStar();
-        keyWords = searchBody.getKeyWords();
-        maxPrice = searchBody.getMaxPrice();
-        minScore = searchBody.getMinScore();
+    private void setInfo(SearchBodyVO searchBodyVO){
+        chechInDate = searchBodyVO.getChechInDate();
+        checkOutDate = searchBodyVO.getCheckOutDate();
+        address = searchBodyVO.getAddress();
+        bizRegion = searchBodyVO.getBizRegion();
+        hotelStar = searchBodyVO.getHotelStar();
+        keyWords = searchBodyVO.getKeyWords();
+        maxPrice = searchBodyVO.getMaxPrice();
+        minScore = searchBodyVO.getMinScore();
     }
 
 
@@ -79,7 +82,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * 搜索，以 List<HotelVO> 格式返回符合要求的酒店
      * @return
      */
-    public List<HotelVO> search(){
+    private List<HotelVO> search(){
         List<HotelVO> hotelVOS = hotelService.retrieveHotels();
 
         List<HotelVO> targetHotels = null;     //以关联度由高到底排序
@@ -90,6 +93,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
             //数据锁定的遍历，得到时间和地址都符合的hotel
             List<RoomVO> rooms = hotel.getRooms();
+
+
             /**
              * judge为Boolean变量
              * 对表单中刚性条件进行判定，如果某项不符合则为false
@@ -104,7 +109,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              * 5.酒店评分是否符合要求
              *
              */
-            boolean judge = !rooms.isEmpty() && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
+            boolean judge = rooms!=null && !rooms.isEmpty() && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
                             && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
             if(judge){
                 int score = 0;
@@ -154,12 +159,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @return
      */
     private boolean checkHotelScore(HotelVO hotel, double minScore){
-        if(this.minScore==-1)
-            return true;
-        else{
-            double hotelScore = hotel.getRate();
-            return hotelScore >= minScore;
-        }
+        double hotelScore = hotel.getRate();
+        return hotelScore >= minScore;
+
     }
 
 
@@ -171,21 +173,10 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param hotelStar
      * @return
      */
-    private boolean checkHotelStar(HotelVO hotel,String hotelStar){
+    private boolean checkHotelStar(HotelVO hotel,String[] hotelStar){
         String star = hotel.getHotelStar();
-        char[] stars = hotelStar.toCharArray();
 
-        if(stars[0]=='1'){
-            if(star=="三星级")
-                return true;
-        }else if(stars[1]=='1'){
-            if(star=="四星级")
-                return true;
-        }else if(stars[2]=='1'){
-            if(star=="五星级")
-                return true;
-        }
-        return false;
+        return (hotelStar[0].equals(star))||(hotelStar[1].equals(star)) || (hotelStar[2].equals(star));
     }
 
 
@@ -251,7 +242,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     }
 
 
-    //之前填写搜索表单的方法，目前转换为传递 SearchBody 来填写，暂时弃用
+    //之前填写搜索表单的方法，目前转换为传递 SearchBodyVO 来填写，暂时弃用
 
 
     /**
@@ -265,7 +256,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param maxPrice
      * @param minScore
      */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar,
                         String[] keyWords,double maxPrice,double minScore){
 
         setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice,minScore);
@@ -284,7 +275,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param maxPrice
      * @param minScore
      */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar,
                         double maxPrice,double minScore){
 
         setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice);
@@ -303,7 +294,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param keyWords
      * @param maxPrice
      */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar,
                         String[] keyWords,double maxPrice){
 
         setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,keyWords);
@@ -321,7 +312,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param hotelStar
      * @param maxPrice
      */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar,
                         double maxPrice){
 
         setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
@@ -338,7 +329,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param bizRegion
      * @param hotelStar
      */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar){
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar){
         setInfo(checkInDate,checkOutDate,address,bizRegion);
         this.hotelStar = hotelStar;
     }
@@ -382,7 +373,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param keyWords
      */
 
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String[] hotelStar,
                         String keyWords[]){
 
         setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);

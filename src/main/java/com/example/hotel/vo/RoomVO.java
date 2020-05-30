@@ -8,7 +8,7 @@ public class RoomVO {
     private String bedType;
     private String breakfast;
     private Double price;
-    private Integer curNum;
+    private Integer curNum;   //目前有几间
     private Integer total;
     private Integer peopleNum;
 

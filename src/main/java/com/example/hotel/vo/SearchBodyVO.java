@@ -1,13 +1,13 @@
 package com.example.hotel.vo;
 
-public class SearchBody {
+public class SearchBodyVO {
 
 
     private String chechInDate = null;
     private String checkOutDate = null;
     private String address = null;
     private String bizRegion = null;
-    private String hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
+    private String hotelStar[] = null;  //酒店星级种类为长度为3的bitmap , 类型为String
     private String keyWords[];
     private double maxPrice = -1;
     private double minScore = -1;
@@ -28,7 +28,7 @@ public class SearchBody {
         this.bizRegion = bizRegion;
     }
 
-    public void setHotelStar(String hotelStar) {
+    public void setHotelStar(String[] hotelStar) {
         this.hotelStar = hotelStar;
     }
 
@@ -61,7 +61,7 @@ public class SearchBody {
         return address;
     }
 
-    public String getHotelStar() {
+    public String[] getHotelStar() {
         return hotelStar;
     }
 

@@ -105,6 +105,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public List<RoomVO> checkRoom(List<RoomVO> rooms, String beginTime, String endTime) {
+        return null;
+    }
+
+    @Override
     public ResponseVO addLike(LikeVO likeVO) {
         return null;
     }
