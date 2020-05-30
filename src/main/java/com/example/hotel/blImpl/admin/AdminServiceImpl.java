@@ -1,6 +1,7 @@
 package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
+import com.example.hotel.blImpl.user.PasswordEncryptHelper;
 import com.example.hotel.data.admin.AdminMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
@@ -27,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
     public ResponseVO addManager(UserForm userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
-        user.setPassword(userForm.getPassword());
+        user.setPassword(PasswordEncryptHelper.getMD5(userForm.getPassword()));
         user.setHotelID(userForm.getHotelID());
         user.setUserType(UserType.HotelManager);
         // 似乎还需要设置姓名手机号等？
