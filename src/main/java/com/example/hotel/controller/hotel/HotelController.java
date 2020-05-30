@@ -60,4 +60,9 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelSearchService.searchHotel(searchBody));
     }
 
+    @PostMapping("/{hotelId}/registerHotelMembership")
+    public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
+        System.out.println(hotelId);
+        return ResponseVO.buildSuccess(true);
+    }
 }

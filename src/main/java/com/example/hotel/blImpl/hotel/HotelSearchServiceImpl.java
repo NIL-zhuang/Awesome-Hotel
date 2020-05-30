@@ -8,6 +8,7 @@ import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
 import com.example.hotel.vo.SearchBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ class Node{
 
 }
 
+@Service
 public class HotelSearchServiceImpl implements HotelSearchService {
     private final static String FIND_FAIL = "未找到匹配的酒店";
 
