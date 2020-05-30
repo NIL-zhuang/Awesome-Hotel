@@ -52,7 +52,7 @@ const routes = [
       {
         path: '/hotel/membership',
         name: 'hotelMembership',
-        component: () => import('@/views/hotel/hotelMembership')
+        component: () => import('@/views/hotelManager/hotelMembership')
       },
       {
         path: '/hotelManager/manageHotel',
