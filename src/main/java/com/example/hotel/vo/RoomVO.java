@@ -71,4 +71,5 @@ public class RoomVO {
     public Integer getPeopleNum() { return peopleNum; }
 
     public void setPeopleNum(Integer peopleNum) { this.peopleNum = peopleNum; }
+
 }

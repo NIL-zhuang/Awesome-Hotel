@@ -157,4 +157,16 @@ public class HotelVO {
     public void setEquipment(double equipment) {
         this.equipment = equipment;
     }
+
+    public double getMinPrice(){
+        double minPrice = 0;
+        List<RoomVO> rooms = getRooms();
+        while(!rooms.isEmpty()){
+            RoomVO room = rooms.get(0);
+            double roomPrice = room.getPrice();
+            minPrice = roomPrice < minPrice ? roomPrice : minPrice;
+            rooms.remove(0);
+        }
+        return minPrice;
+    }
 }

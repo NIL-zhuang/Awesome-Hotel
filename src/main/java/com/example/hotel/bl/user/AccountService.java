@@ -51,12 +51,9 @@ public interface AccountService {
 
     ResponseVO corporateVIP(int id, String corporate);
 
-    // 把对应企业的所有企业用户全都设置成普通用户
     ResponseVO normalUser(String corporate);
 
     void updatePortrait(int userId, String url);
 
-    // 根据酒店id来获取工作人员的telephone number
     List<String> getManagerTelephone(int hotelId);
-
 }

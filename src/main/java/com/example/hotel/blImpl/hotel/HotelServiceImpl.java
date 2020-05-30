@@ -143,4 +143,5 @@ public class HotelServiceImpl implements HotelService {
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
     }
+
 }
