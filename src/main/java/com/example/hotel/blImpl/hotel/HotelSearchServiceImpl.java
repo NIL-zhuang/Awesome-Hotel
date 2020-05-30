@@ -1,10 +1,12 @@
-package com.example.hotel.blImpl.user;
+package com.example.hotel.blImpl.hotel;
 
+import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.controller.hotel.HotelController;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
+import com.example.hotel.vo.SearchBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -31,193 +33,44 @@ class Node{
 
 }
 
-public class SearchHotel {
+public class HotelSearchServiceImpl implements HotelSearchService {
     private final static String FIND_FAIL = "未找到匹配的酒店";
 
     @Autowired
     private HotelService hotelService;
 
-    private HotelController hotelController;
+    private HotelController hotelController = new HotelController();
 
     private String chechInDate = null;
     private String checkOutDate = null;
     private String address = null;
     private String bizRegion = null;
     private String hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
-    private String keyWords = null;
+    private String keyWords[] = null;
     private double maxPrice = -1;
     private double minScore = -1;
 
     Node head;
 
 
-    public SearchHotel(HotelController hotelController) {
-        this.hotelController = hotelController;
-    }
-
-
-    /**
-     * 表单一
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     * @param keyWords
-     * @param maxPrice
-     * @param minScore
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
-                        String keyWords,double maxPrice,double minScore){
-
-        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice,minScore);
-        this.keyWords = keyWords;
+    @Override
+    public List<HotelVO> searchHotel(SearchBody searchBody) {
+        setInfo(searchBody);
+        return search();
     }
 
 
 
-    /**
-     * 表单二
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     * @param maxPrice
-     * @param minScore
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
-                        double maxPrice,double minScore){
-
-        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice);
-        this.minScore = minScore;
+    public void setInfo(SearchBody searchBody){
+        chechInDate = searchBody.getChechInDate();
+        checkOutDate = searchBody.getCheckOutDate();
+        address = searchBody.getAddress();
+        bizRegion = searchBody.getBizRegion();
+        hotelStar = searchBody.getHotelStar();
+        keyWords = searchBody.getKeyWords();
+        maxPrice = searchBody.getMaxPrice();
+        minScore = searchBody.getMinScore();
     }
-
-
-
-    /**
-     * 表单三
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     * @param keyWords
-     * @param maxPrice
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
-                        String keyWords,double maxPrice){
-
-        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,keyWords);
-        this.maxPrice = maxPrice;
-    }
-
-
-
-    /**
-     * 表单四
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     * @param maxPrice
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
-                        double maxPrice){
-
-        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
-        this.maxPrice = maxPrice;
-    }
-
-
-
-    /**
-     * 表单五
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar){
-        setInfo(checkInDate,checkOutDate,address,bizRegion);
-        this.hotelStar = hotelStar;
-    }
-
-
-
-    /**
-     * 表单六
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param maxPrice
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,double maxPrice){
-        setInfo(checkInDate,checkOutDate,address,bizRegion);
-        this.maxPrice = maxPrice;
-    }
-
-
-
-    /**
-     * 表单七
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param minScore
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,double minScore){
-        setInfo(checkInDate,checkOutDate,address);
-        this.minScore = minScore;
-    }
-
-    /**
-     * 表单八
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     * @param hotelStar
-     * @param keyWords
-     */
-
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
-                        String keyWords){
-
-        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
-        this.keyWords = keyWords;
-    }
-
-    /**
-     * 表单九
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     * @param bizRegion
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion){
-        setInfo(checkInDate,checkOutDate,address);
-        this.bizRegion = bizRegion;
-    }
-
-
-
-    /**
-     * 表单十
-     * @param checkInDate
-     * @param checkOutDate
-     * @param address
-     */
-    public void setInfo(String checkInDate,String checkOutDate,String address){
-        this.chechInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.address = address;
-    }
-
-
 
 
     /**
@@ -356,16 +209,15 @@ public class SearchHotel {
      * @param keyWords
      * @return
      */
-    private int checkKeyWords(HotelVO hotel,String keyWords){
+    private int checkKeyWords(HotelVO hotel,String[] keyWords){
         if(keyWords==null)
             return 0;
         else{
-            String[] keyWord = keyWords.split(" ");
             String description = hotel.getDescription();
-            int l = keyWord.length;
+            int l = keyWords.length;
             int score = 0;
             for(int i=0;i<l;i++){
-                if(description.contains(keyWord[i]))
+                if(description.contains(keyWords[i]))
                     score += 2;
             }
             return score;
@@ -397,5 +249,173 @@ public class SearchHotel {
             }
         }
     }
+
+
+    //之前填写搜索表单的方法，目前转换为传递 SearchBody 来填写，暂时弃用
+
+
+    /**
+     * 表单一
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     * @param keyWords
+     * @param maxPrice
+     * @param minScore
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+                        String[] keyWords,double maxPrice,double minScore){
+
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice,minScore);
+        this.keyWords = keyWords;
+    }
+
+
+
+    /**
+     * 表单二
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     * @param maxPrice
+     * @param minScore
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+                        double maxPrice,double minScore){
+
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice);
+        this.minScore = minScore;
+    }
+
+
+
+    /**
+     * 表单三
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     * @param keyWords
+     * @param maxPrice
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+                        String[] keyWords,double maxPrice){
+
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,keyWords);
+        this.maxPrice = maxPrice;
+    }
+
+
+
+    /**
+     * 表单四
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     * @param maxPrice
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+                        double maxPrice){
+
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
+        this.maxPrice = maxPrice;
+    }
+
+
+
+    /**
+     * 表单五
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar){
+        setInfo(checkInDate,checkOutDate,address,bizRegion);
+        this.hotelStar = hotelStar;
+    }
+
+
+
+    /**
+     * 表单六
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param maxPrice
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,double maxPrice){
+        setInfo(checkInDate,checkOutDate,address,bizRegion);
+        this.maxPrice = maxPrice;
+    }
+
+
+
+    /**
+     * 表单七
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param minScore
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,double minScore){
+        setInfo(checkInDate,checkOutDate,address);
+        this.minScore = minScore;
+    }
+
+    /**
+     * 表单八
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     * @param hotelStar
+     * @param keyWords
+     */
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,
+                        String keyWords[]){
+
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
+        this.keyWords = keyWords;
+    }
+
+    /**
+     * 表单九
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     * @param bizRegion
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion){
+        setInfo(checkInDate,checkOutDate,address);
+        this.bizRegion = bizRegion;
+    }
+
+
+
+    /**
+     * 表单十
+     * @param checkInDate
+     * @param checkOutDate
+     * @param address
+     */
+    public void setInfo(String checkInDate,String checkOutDate,String address){
+        this.chechInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.address = address;
+    }
+
+
+
 
 }
