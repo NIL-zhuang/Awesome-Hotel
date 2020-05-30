@@ -37,5 +37,7 @@ public interface CouponService {
 
     CouponVO addTimeCouponVO(TimeCouponVO couponVO);
 
-    void annualCoupon(Integer couponId);
+    CouponVO addCorporateCouponVO(CorporateCouponVO couponVO);
+
+    void annulCoupon(Integer couponId);
 }

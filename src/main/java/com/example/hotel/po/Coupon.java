@@ -152,6 +152,13 @@ public class Coupon {
         this.discount = discount;
     }
 
+    public String getCorporateName() {
+        return corporateName;
+    }
+
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
+    }
 
     public Coupon() {
     }

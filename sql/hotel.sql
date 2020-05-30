@@ -247,7 +247,7 @@ CREATE TABLE `User`
     `usertype`    varchar(255)   DEFAULT NULL,
     `birthday`    varchar(255)   DEFAULT NULL,
     `corporation` varchar(255)   DEFAULT NULL,
-    `annualTime`  int(5)         DEFAULT 0,
+    `annulTime`  int(5)         DEFAULT 0,
     `jobNumber`   int(11)        DEFAULT NULL,
     `hotelID`     int(11)        DEFAULT NULL,
     `VIPType`     varchar(255)   DEFAULT NULL,

@@ -4,10 +4,7 @@ import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.OrderVO;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 public class TimeCouponStrategyImpl implements CouponMatchStrategy {
@@ -22,27 +19,17 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         try {
-            String couponStartTime = coupon.getStartTime().toString().split("T")[0];
-            String couponEndTime = coupon.getEndTime().toString().split("T")[0];
-            return (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) &&
-                    coupon.getCouponType() == 4 &&
-                    coupon.getStatus() == 1 &&
-                    timeBefore(couponStartTime, orderVO.getCheckInDate()) &&
-                    timeBefore(orderVO.getCheckOutDate(), couponEndTime);
+            LocalDateTime couponStartTime = coupon.getStartTime();
+            LocalDateTime couponEndTime = coupon.getEndTime();
+            LocalDateTime checkIn = TimeFormatHelper.string2Time(orderVO.getCheckInDate());
+            LocalDateTime checkOut = TimeFormatHelper.string2Time(orderVO.getCheckOutDate());
+            return (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) && // 该酒店适用
+                    coupon.getCouponType() == 4 &&  // 限时优惠
+                    coupon.getStatus() == 1 &&  // 优惠券有效
+                    checkIn.isBefore(couponEndTime) &&
+                    checkIn.isAfter(couponStartTime);
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public static boolean timeBefore(String src, String dest) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date ds = formatter.parse(src);
-            Date dd = formatter.parse(dest);
-            return ds.before(dd);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

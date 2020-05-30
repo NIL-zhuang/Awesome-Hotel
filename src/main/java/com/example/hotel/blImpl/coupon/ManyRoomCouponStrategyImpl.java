@@ -17,7 +17,8 @@ public class ManyRoomCouponStrategyImpl implements CouponMatchStrategy {
         try {
             return coupon.getCouponType() == 2 &&
                     (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) &&
-                    orderVO.getRoomNum() >= 3;
+                    orderVO.getRoomNum() >= coupon.getTargetRoomNum() &&
+                    coupon.getStatus() == 1;
         } catch (Exception e) {
             return false;
         }

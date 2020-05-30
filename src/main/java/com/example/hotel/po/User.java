@@ -12,7 +12,7 @@ public class User {
     private UserType userType;
     private String birthday;
     private String corporate;
-    private Integer annualTime = 3;
+    private Integer annulTime = 3;
     private String portrait;
     private String jobNumber;
     private Integer hotelID;
@@ -106,12 +106,12 @@ public class User {
         this.corporate = corporate;
     }
 
-    public Integer getAnnualTime() {
-        return this.annualTime;
+    public Integer getAnnulTime() {
+        return this.annulTime;
     }
 
-    public void setAnnualTime(Integer annualTime) {
-        this.annualTime = annualTime;
+    public void setAnnulTime(Integer annulTime) {
+        this.annulTime = annulTime;
     }
 
     public Integer getHotelID() {

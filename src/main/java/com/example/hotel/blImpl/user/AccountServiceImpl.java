@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
         user.setPassword(PasswordEncryptHelper.getMD5(user.getPassword()));
-        user.setAnnualTime(3);
+        user.setAnnulTime(3);
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {

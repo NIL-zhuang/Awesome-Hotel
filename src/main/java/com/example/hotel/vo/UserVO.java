@@ -16,7 +16,7 @@ public class UserVO {
     private UserType userType;
     private String birthday;
     private String corporation;
-    private String annualTime;
+    private String annulTime;
     private String jobNumber;
     private String hotelID;
     private String VIPType;
@@ -84,5 +84,53 @@ public class UserVO {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public String getCorporation() {
+        return corporation;
+    }
+
+    public void setCorporation(String corporation) {
+        this.corporation = corporation;
+    }
+
+    public String getAnnulTime() {
+        return annulTime;
+    }
+
+    public void setAnnulTime(String annulTime) {
+        this.annulTime = annulTime;
+    }
+
+    public String getJobNumber() {
+        return jobNumber;
+    }
+
+    public void setJobNumber(String jobNumber) {
+        this.jobNumber = jobNumber;
+    }
+
+    public String getHotelID() {
+        return hotelID;
+    }
+
+    public void setHotelID(String hotelID) {
+        this.hotelID = hotelID;
+    }
+
+    public String getVIPType() {
+        return VIPType;
+    }
+
+    public void setVIPType(String VIPType) {
+        this.VIPType = VIPType;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }

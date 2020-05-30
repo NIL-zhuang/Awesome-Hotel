@@ -31,8 +31,8 @@
 
 
 
-    <update id="updateAnnualTime">
-        update user set annualTime = #{time} where id = #{id}
+    <update id="updateAnnulTime">
+        update user set annulTime = #{time} where id = #{id}
     </update>
 
     <update id="updatePortrait">
@@ -49,7 +49,7 @@
         <result column="usertype" property="userType"/>
         <result column="birthday" property="birthday"/>
         <result column="corporation" property="corporation"/>
-        <result column="annualTime" property="annualTime"/>
+        <result column="annulTime" property="annulTime"/>
         <result column="jobNumber" property="jobNumber"/>
         <result column="hotelID" property="hotelID"/>
         <result column="VIPType" property="VIPType"/>

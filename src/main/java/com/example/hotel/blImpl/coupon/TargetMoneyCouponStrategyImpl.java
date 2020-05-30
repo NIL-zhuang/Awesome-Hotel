@@ -20,7 +20,9 @@ public class TargetMoneyCouponStrategyImpl implements CouponMatchStrategy {
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         try {
             return coupon.getCouponType() == 3 &&
-                    orderVO.getPrice() >= coupon.getTargetMoney();
+                    coupon.getStatus() == 1 &&
+                    orderVO.getPrice() >= coupon.getTargetMoney() &&
+                    (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId()));
         } catch (Exception e) {
             return false;
         }

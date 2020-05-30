@@ -21,6 +21,7 @@ public class CouponServiceImpl implements CouponService {
     private final TimeCouponStrategyImpl timeCouponStrategy;
     private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
     private final ManyRoomCouponStrategyImpl manyRoomCouponStrategy;
+    private final CorporateCouponStrategyImpl corporateCouponStrategy;
 
     private final CouponMapper couponMapper;
 
@@ -30,9 +31,10 @@ public class CouponServiceImpl implements CouponService {
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
                              TimeCouponStrategyImpl timeCouponStrategy,
                              BirthdayCouponStrategyImpl birthdayCouponStrategy,
-                             ManyRoomCouponStrategyImpl manyRoomCouponStrategy, CouponMapper couponMapper) {
+                             ManyRoomCouponStrategyImpl manyRoomCouponStrategy, CorporateCouponStrategyImpl corporateCouponStrategy, CouponMapper couponMapper) {
         this.birthdayCouponStrategy = birthdayCouponStrategy;
         this.manyRoomCouponStrategy = manyRoomCouponStrategy;
+        this.corporateCouponStrategy = corporateCouponStrategy;
         this.couponMapper = couponMapper;
         this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
         this.timeCouponStrategy = timeCouponStrategy;
@@ -55,7 +57,6 @@ public class CouponServiceImpl implements CouponService {
                 }
             }
         }
-
         return availAbleCoupons;
     }
 
@@ -100,7 +101,16 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public void annualCoupon(Integer couponId) {
+    public CouponVO addCorporateCouponVO(CorporateCouponVO couponVO) {
+        Coupon coupon = iniCoupon(couponVO);
+        coupon.setDiscount(couponVO.getDiscount());
+        coupon.setCorporateName(couponVO.getCorporateName());
+        couponVO.setId(addCoupon(coupon));
+        return couponVO;
+    }
+
+    @Override
+    public void annulCoupon(Integer couponId) {
         couponMapper.annualCoupon(couponId);
     }
 
