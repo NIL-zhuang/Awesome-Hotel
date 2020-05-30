@@ -9,6 +9,9 @@ import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
 } from '@/api/coupon'
+import {
+    registerHotelMembershipAPI
+} from "@/api/hotelManager";
 import {message} from 'ant-design-vue'
 
 const hotelManager = {
@@ -141,6 +144,16 @@ const hotelManager = {
                 message.success('添加策略成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        registerHotelMembership: async ({state, dispatch, commit}, data) => {
+            const res = await registerHotelMembershipAPI(data)
+            if(res) {
+                dispatch('getHotelById')
+                commit('set_registerHotelMembershipModalVisible', false)
+                message.success('注册成功')
+            } else {
+                message.error('注册失败')
             }
         }
     }

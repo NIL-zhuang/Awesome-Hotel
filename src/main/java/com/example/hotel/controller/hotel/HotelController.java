@@ -48,4 +48,10 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
     }
 
+    // TODO 酒店注册会员
+    @PostMapping("/{hotelId}/registerHotelMembership")
+    public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
+        System.out.println(hotelId);
+        return ResponseVO.buildSuccess(true);
+    }
 }

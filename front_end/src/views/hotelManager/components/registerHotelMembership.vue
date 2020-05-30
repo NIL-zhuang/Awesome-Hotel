@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from "vuex";
+    import {mapGetters, mapMutations, mapActions} from "vuex";
 
     export default {
         name: "registerHotelMembership",
@@ -36,7 +36,8 @@
         },
         computed: {
             ...mapGetters([
-                'registerHotelMembershipModalVisible'
+                'registerHotelMembershipModalVisible',
+                'manageHotelId',
             ])
         },
         beforeCreate() {
@@ -47,13 +48,18 @@
             ...mapMutations([
                 'set_registerHotelMembershipModalVisible'
             ]),
+            ...mapActions([
+               'registerHotelMembership'
+            ]),
             cancelRegister() {
                 this.set_registerHotelMembershipModalVisible(false);
             },
             confirmRegister() {
                 // TODO 注册会员的逻辑
-                alert("register membership!")
-                this.set_registerHotelMembershipModalVisible(false);
+                const data = {
+                    id: this.manageHotelId
+                }
+                this.registerHotelMembership(data)
             }
         }
     }

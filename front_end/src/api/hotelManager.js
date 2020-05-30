@@ -16,3 +16,10 @@ export function addHotelAPI(data) {
         data,
     })
 }
+export function registerHotelMembershipAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/${data.id}/registerHotelMembership`,
+        method: 'POST'
+    })
+}
+

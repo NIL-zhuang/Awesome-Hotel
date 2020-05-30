@@ -8,6 +8,7 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    registerMembershipAPI
 } from '@/api/user'
 
 import {
@@ -155,6 +156,18 @@ const user = {
                 resolve()
             })
         },
+        registerMembership: async ({state, dispatch}, data) => {
+            const params = {
+                id: Number(state.userId),
+                ...data,
+            }
+            const res = await registerMembershipAPI(params)
+            if (res) {
+                message.success('注册成功')
+                dispatch('getUserInfo')
+            }
+        },
+
     }
 }
 

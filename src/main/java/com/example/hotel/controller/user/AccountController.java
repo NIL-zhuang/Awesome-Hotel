@@ -46,4 +46,13 @@ public class AccountController {
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
+
+    // TODO 用户注册会员
+    @PostMapping("/registerMembership")
+    public ResponseVO registerMembership(@RequestParam Integer id,
+                                         @RequestParam String birthday) {
+        System.out.println(id);
+        System.out.println(birthday);
+        return ResponseVO.buildSuccess(true);
+    }
 }

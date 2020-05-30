@@ -30,3 +30,12 @@ export function updateUserInfoAPI(data) {
         data
     })
 }
+// created by glh 2020-05-30
+export function registerMembershipAPI(params) {
+    console.log(params)
+    return axios({
+        url: `${api.userPre}/registerMembership`,
+        method: 'POST',
+        params
+    })
+}
