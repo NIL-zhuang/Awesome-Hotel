@@ -19,12 +19,11 @@
     </update>
 
     <update id="updateHotelPoints">
-        update hotel
-        set commentTime = #{commentTime}
-        points = #{points}
-        sanitation = #{sanitation}
-        envrionment = #{envrionment}
-        service = #{service}
+        update hotel set commentTime = #{commentTime},
+        points = #{points},
+        sanitation = #{sanitation},
+        environment = #{envrionment},
+        service = #{service},
         equipment = #{equipment}
         where id = #{id}
     </update>

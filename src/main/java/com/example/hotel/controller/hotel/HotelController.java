@@ -11,8 +11,6 @@ import com.example.hotel.vo.SearchBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/hotel")
 public class HotelController {
@@ -55,7 +53,7 @@ public class HotelController {
     }
 
 
-    @GetMapping
+    @GetMapping("/searchHotel")
     public ResponseVO searchHotel(@RequestBody SearchBody searchBody){
         return ResponseVO.buildSuccess(hotelSearchService.searchHotel(searchBody));
     }

@@ -1,8 +1,9 @@
-import { message } from 'ant-design-vue'
+import {message} from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    searchHotelAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -13,87 +14,89 @@ import {
 
 const hotel = {
     state: {
-        hotelList: [
-            
-        ],
+        hotelList: [],
+        searchList: [],
         hotelListParams: {
             pageNo: 0,
             pageSize: 12
         },
         hotelListLoading: true,
         currentHotelId: '',
-        currentHotelInfo: {
-
-        },
+        currentHotelInfo: {},
         orderModalVisible: false,
-        currentOrderRoom: {
-
-        },
-        orderMatchCouponList: [
-
-        ]
+        currentOrderRoom: {},
+        orderMatchCouponList: []
     },
     mutations: {
-        set_hotelList: function(state, data) {
+        set_hotelList: function (state, data) {
             state.hotelList = data
         },
-        set_hotelListParams: function(state, data) {
+        set_searchList: function (state, data) {
+            state.searchList = data
+        },
+        set_hotelListParams: function (state, data) {
             state.hotelListParams = {
                 ...state.hotelListParams,
                 ...data,
             }
         },
-        set_hotelListLoading: function(state, data) {
+        set_hotelListLoading: function (state, data) {
             state.hotelListLoading = data
         },
-        set_currentHotelId: function(state, data) {
+        set_currentHotelId: function (state, data) {
             state.currentHotelId = data
         },
-        set_currentHotelInfo: function(state, data) {
+        set_currentHotelInfo: function (state, data) {
             state.currentHotelInfo = {
                 ...state.currentHotelInfo,
                 ...data,
             }
         },
-        set_orderModalVisible: function(state, data) {
+        set_orderModalVisible: function (state, data) {
             state.orderModalVisible = data
         },
-        set_currentOrderRoom: function(state, data) {
+        set_currentOrderRoom: function (state, data) {
             state.currentOrderRoom = {
                 ...state.currentOrderRoom,
                 ...data,
             }
         },
-        set_orderMatchCouponList: function(state, data) {
+        set_orderMatchCouponList: function (state, data) {
             state.orderMatchCouponList = data
         }
     },
 
     actions: {
-        getHotelList: async({commit, state}) => {
+        getHotelList: async ({commit, state}) => {
             const res = await getHotelsAPI()
-            if(res){
+            if (res) {
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
             }
         },
-        getHotelById: async({commit, state}) => {
+        getHotelById: async ({commit, state}) => {
             const res = await getHotelByIdAPI(state.currentHotelId)
-            if(res){
+            if (res) {
                 commit('set_currentHotelInfo', res)
             }
         },
-        addOrder: async({ state, commit }, data) => {
+        addOrder: async ({state, commit}, data) => {
             const res = await reserveHotelAPI(data)
-            if(res){
+            if (res) {
                 commit('set_orderModalVisible', false)
                 message.success('预定成功')
             }
         },
-        getOrderMatchCoupons: async({ state, commit }, data) => {
+        getOrderMatchCoupons: async ({state, commit}, data) => {
             const res = await orderMatchCouponsAPI(data)
-            if(res){
+            if (res) {
                 commit('set_orderMatchCouponList', res)
+            }
+        },
+        searchHotel: async ({state, commit}, data) => {
+            const res = await searchHotelAPI(data)
+            if (res) {
+                commit('set_searchList', res)
             }
         }
     }

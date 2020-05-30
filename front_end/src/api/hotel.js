@@ -5,12 +5,18 @@ const api = {
 export function getHotelsAPI() {
     return axios({
         url: `${api.hotelPre}/all`,
-        method: 'get',
+        method: 'GET',
     })
 }
 export function getHotelByIdAPI(hotelId) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/detail`,
         method: 'GET',
+    })
+}
+export function searchHotelAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/searchHotel`,
+        method: 'GET'
     })
 }

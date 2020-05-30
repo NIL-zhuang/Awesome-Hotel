@@ -48,7 +48,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private String address = null;
     private String bizRegion = null;
     private String hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
-    private String keyWords[] = null;
+    private String[] keyWords = null;
     private double maxPrice = -1;
     private double minScore = -1;
 
@@ -90,8 +90,6 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
             //数据锁定的遍历，得到时间和地址都符合的hotel
             List<RoomVO> rooms = hotel.getRooms();
-
-
             /**
              * judge为Boolean变量
              * 对表单中刚性条件进行判定，如果某项不符合则为false
