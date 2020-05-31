@@ -50,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
         user.setEmail(userForm.getEmail());
         user.setUserName(userForm.getUserName());
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setPassword(userForm.getPassword());
+        user.setPassword(PasswordEncryptHelper.getMD5(userForm.getPassword()));
         user.setUserType(UserType.SalesPerson);
         // 似乎还需要设置姓名手机号等？
         try {

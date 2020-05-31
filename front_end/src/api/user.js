@@ -32,10 +32,17 @@ export function updateUserInfoAPI(data) {
 }
 // created by glh 2020-05-30
 export function registerMembershipAPI(params) {
-    console.log(params)
     return axios({
         url: `${api.userPre}/registerMembership`,
         method: 'POST',
+        params
+    })
+}
+export function getUserInfoByEmailAPI(params) {
+    console.log(params)
+    return axios({
+        url: `${api.userPre}/getUserInfoByEmail`,
+        method: 'GET',
         params
     })
 }

@@ -39,9 +39,9 @@
 
             </a-form>
             <br/><br/><br/>
-            <span style="width: 150px">请输入用户ID</span>
+            <span style="width: 150px">请输入用户邮箱</span>
             <br/>
-            <a-input-search placeholder="请输入用户ID" enter-button @search="onSearch" />
+            <a-input-search placeholder="请输入用户邮箱" enter-button @search="onSearch" />
         </div>
     </div>
 </template>
@@ -64,7 +64,7 @@
             ]),
             userName() {
                 if (this.hasSearch) {
-                    return this.currentUserInfo.userName
+                    return "用户："  + this.currentUserInfo.userName
                 } else {
                     return '请输入用户ID'
                 }
@@ -79,17 +79,17 @@
         },
         methods: {
             ...mapMutations([
-                'set_currentUserId',
+                'set_currentUserEmail',
                 'set_currentUserInfo',
             ]),
             ...mapActions([
-                'getCurrentUserInfo'
+                'getCurrentUserInfoByEmail',
+                'chargeCredit'
             ]),
             onSearch(value) {
                 this.hasSearch = true
-                let userId = Number(value)
-                this.set_currentUserId(userId)
-                this.getCurrentUserInfo()
+                this.set_currentUserEmail(value)
+                this.getCurrentUserInfoByEmail()
             },
             handleChargeMoney(rule, value, callback) {
                 const re = /(^[1-9]\d*$)/
@@ -105,7 +105,7 @@
                         const data = {
                             chargeMoney: this.form.getFieldValue('chargeMoney'),
                         }
-                        alert('充值' + data.chargeMoney)
+                        this.chargeCredit(Number(data.chargeMoney))
                     } else {
                         message.error("请输入有效金额")
                     }

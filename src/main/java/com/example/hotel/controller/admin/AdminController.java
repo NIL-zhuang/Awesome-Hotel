@@ -19,11 +19,6 @@ public class AdminController {
 
     @PostMapping("/addManager")
     public ResponseVO addManager(@RequestBody UserForm userForm){
-        System.out.println(userForm.getEmail());
-        System.out.println(userForm.getPassword());
-        System.out.println(userForm.getUserName());
-        System.out.println(userForm.getHotelId());
-        System.out.println(userForm.getPhoneNumber());
         return adminService.addManager(userForm);
     }
 

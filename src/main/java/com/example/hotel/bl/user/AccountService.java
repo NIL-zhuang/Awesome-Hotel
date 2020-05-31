@@ -34,6 +34,13 @@ public interface AccountService {
     User getUserInfo(int id);
 
     /**
+     * 获取用户个人信息
+     * @param email
+     * @return
+     */
+    User getUserInfoByEmail(String email);
+
+    /**
      * 更新用户个人信息
      *
      * @param id
