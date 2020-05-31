@@ -73,6 +73,7 @@ const salesPerson = {
             const res = await chargeCreditAPI(params)
             if(res) {
                 message.success("充值成功")
+                dispatch(this.getCurrentUserInfoByEmail())
             } else {
                 message.error("充值失败")
             }
