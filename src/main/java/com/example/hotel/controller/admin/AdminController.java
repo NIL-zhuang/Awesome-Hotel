@@ -42,13 +42,11 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.getAllSalesPerson());
     }
 
-    // TODO
     @PostMapping("/{id}/deleteHotelManager")
     public ResponseVO deleteHotelManager(@PathVariable Integer id) {
         return adminService.deleteManager(id);
     }
 
-    // TODO
     @PostMapping("/{id}/deleteSalesPerson")
     public ResponseVO deleteSalesPerson(@PathVariable Integer id) {
         return adminService.deleteSalesPerson(id);
