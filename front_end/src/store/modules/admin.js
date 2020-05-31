@@ -2,9 +2,12 @@ import {
     getManagerListAPI,
     addManagerAPI,
     getSalesPersonListAPI,
+    addSalesPersonAPI,
+    deleteHotelManagerAPI,
+    deleteSalesPersonAPI,
 } from '@/api/admin'
+
 import { message } from 'ant-design-vue'
-import {addSalesPersonAPI} from "../../api/admin";
 
 const admin = {
     state: {
@@ -18,11 +21,15 @@ const admin = {
         addSalesPersonModalVisible: false,
         addManagerParams: {
             email: '',
-            password: '',
+            userName: '',
+            phoneNumber: '',
             hotelId: '',
+            password: '',
         },
         addSalesPersonParams: {
             email: '',
+            userName: '',
+            phoneNumber: '',
             password: '',
         }
     },
@@ -41,7 +48,6 @@ const admin = {
                 ...state.addManagerParams,
                 ...data,
             }
-            console.log(state.addManagerParams)
         },
         set_addSalesPersonModalVisible: function(state, data) {
             state.addSalesPersonModalVisible = data
@@ -93,6 +99,24 @@ const admin = {
                 dispatch('getSalesPersonList')
             }else{
                 message.error('添加失败')
+            }
+        },
+        deleteHotelManager: async({ state, commit, dispatch }, id) => {
+            const res = await deleteHotelManagerAPI(id)
+            if(res) {
+                dispatch('getManagerList')
+                message.success('删除成功')
+            } else {
+                message.error("删除失败")
+            }
+        },
+        deleteSalesPerson: async({ state, commit, dispatch }, id) => {
+            const res = await deleteSalesPersonAPI(id)
+            if(res) {
+                message.success('删除成功')
+                dispatch('getSalesPersonList')
+            } else {
+                message.error("删除失败")
             }
         },
     }

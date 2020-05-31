@@ -37,4 +37,5 @@ public interface AdminService {
      * @return
      */
     List<User> getAllSalesPerson();
+
 }

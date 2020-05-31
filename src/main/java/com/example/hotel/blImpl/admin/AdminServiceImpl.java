@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
     private final static String ACCOUNT_EXIST = "账号已存在";
+    private final static String ACCOUNT_NOTFOUND = "账号不存在";
 
     @Autowired
     AdminMapper adminMapper;
@@ -28,8 +29,10 @@ public class AdminServiceImpl implements AdminService {
     public ResponseVO addManager(UserForm userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
+        user.setUserName(userForm.getUserName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
         user.setPassword(PasswordEncryptHelper.getMD5(userForm.getPassword()));
-        user.setHotelID(userForm.getHotelID());
+        user.setHotelID(userForm.getHotelId());
         user.setUserType(UserType.HotelManager);
         // 似乎还需要设置姓名手机号等？
         try {
@@ -45,6 +48,8 @@ public class AdminServiceImpl implements AdminService {
     public ResponseVO addSalesPerson(UserForm userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
+        user.setUserName(userForm.getUserName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.SalesPerson);
         // 似乎还需要设置姓名手机号等？

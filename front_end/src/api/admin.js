@@ -28,3 +28,16 @@ export function getSalesPersonListAPI() {
         method: 'POST'
     })
 }
+export function deleteHotelManagerAPI(id) {
+    return axios({
+        url: `${api.adminPre}/${id}/deleteHotelManager`,
+        method: 'POST'
+    })
+}
+export function deleteSalesPersonAPI(id) {
+    return axios({
+        url: `${api.adminPre}/${id}/deleteSalesPerson`,
+        method: 'POST'
+    })
+}
+
