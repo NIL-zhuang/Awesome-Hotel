@@ -72,4 +72,25 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getAllSalesPerson();
     }
 
+    @Override
+    public ResponseVO deleteManager(Integer id) {
+        try {
+            adminMapper.deleteManager(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_NOTFOUND);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO deleteSalesPerson(Integer id) {
+        try {
+            adminMapper.deleteSalesPerson(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_NOTFOUND);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
 }

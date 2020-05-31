@@ -9,6 +9,12 @@
         insert into User(email,username,phonenumber,password,usertype)
         values(#{email},#{userName},#{phoneNumber},#{password},#{userType})
     </insert>
+    <delete id="deleteManager">
+        delete from User where id = #{id}
+    </delete>
+    <delete id="deleteSalesPerson">
+        delete from User where id = #{id}
+    </delete>
     <select id="getAllManagers" resultMap="User">
         select * from User where usertype='HotelManager'
     </select>
