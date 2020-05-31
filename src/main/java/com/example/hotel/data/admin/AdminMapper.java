@@ -24,4 +24,8 @@ public interface AdminMapper {
     List<User> getHotelManagers(@Param("hotelId") Integer hotelId);
 
     List<User> getAllSalesPerson();
+
+    int deleteManager(Integer id);
+
+    int deleteSalesPerson(Integer id);
 }

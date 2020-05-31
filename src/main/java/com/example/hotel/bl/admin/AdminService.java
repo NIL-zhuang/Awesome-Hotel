@@ -37,4 +37,14 @@ public interface AdminService {
      * @return
      */
     List<User> getAllSalesPerson();
+
+    /**
+     * 删除酒店工作人员
+     */
+    ResponseVO deleteManager(Integer id);
+
+    /**
+     * 删除网站营销人员
+     */
+    ResponseVO deleteSalesPerson(Integer id);
 }

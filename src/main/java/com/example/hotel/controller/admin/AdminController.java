@@ -5,10 +5,7 @@ import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: chenyizong
@@ -22,6 +19,11 @@ public class AdminController {
 
     @PostMapping("/addManager")
     public ResponseVO addManager(@RequestBody UserForm userForm){
+        System.out.println(userForm.getEmail());
+        System.out.println(userForm.getPassword());
+        System.out.println(userForm.getUserName());
+        System.out.println(userForm.getHotelId());
+        System.out.println(userForm.getPhoneNumber());
         return adminService.addManager(userForm);
     }
 
@@ -40,4 +42,13 @@ public class AdminController {
         return ResponseVO.buildSuccess(adminService.getAllSalesPerson());
     }
 
+    @PostMapping("/{id}/deleteHotelManager")
+    public ResponseVO deleteHotelManager(@PathVariable Integer id) {
+        return adminService.deleteManager(id);
+    }
+
+    @PostMapping("/{id}/deleteSalesPerson")
+    public ResponseVO deleteSalesPerson(@PathVariable Integer id) {
+        return adminService.deleteSalesPerson(id);
+    }
 }
