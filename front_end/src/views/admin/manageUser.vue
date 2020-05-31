@@ -14,8 +14,15 @@
                         <span>{{ getHotelName(Number(text)) }}</span>
                     </span>
 
-                    <span slot="action" slot-scope="text, record">
-                        <a-button type="danger" @click="order(record)">删除用户</a-button>
+                    <span slot="action" slot-scope="record">
+                        <a-popconfirm
+                                title="删除该酒店工作人员?"
+                                ok-text="确定"
+                                cancel-text="取消"
+                                @confirm="confirmDeleteManager(record.id)"
+                        >
+                            <a-button type="danger">删除</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -29,8 +36,15 @@
                         :dataSource="salesPersonList"
                         bordered
                 >
-                    <span slot="action" slot-scope="text, record">
-                        <a-button type="danger" @click="order(record)">删除用户</a-button>
+                    <span slot="action" slot-scope="record">
+                        <a-popconfirm
+                                title="删除该网站营销人员?"
+                                ok-text="确定"
+                                cancel-text="取消"
+                                @confirm="confirmDeleteSalesPerson(record.id)"
+                        >
+                            <a-button type="danger">删除</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -77,14 +91,6 @@
             dataIndex: 'userName',
         },
         {
-            title: '用户密码',
-            dataIndex: 'password',
-        },
-        {
-            title: '所属酒店',
-            dataIndex: 'hotelID',
-        },
-        {
             title: '用户手机号',
             dataIndex: 'phoneNumber',
         },
@@ -129,6 +135,8 @@
                 'getManagerList',
                 'getSalesPersonList',
                 'getHotelList',
+                'deleteHotelManager',
+                'deleteSalesPerson',
             ]),
             ...mapMutations([
                 'set_addManagerModalVisible',
@@ -140,13 +148,21 @@
             addSalesPerson() {
                 this.set_addSalesPersonModalVisible(true)
             },
-            getHotelName(hotelId) {
+            getHotelName(hotelID) {
                 for(let i = 0;i < this.hotelList.length; i++) {
-                    if (this.hotelList[i].id === hotelId) {
+                    if (this.hotelList[i].id === hotelID) {
                         return this.hotelList[i].name
                     }
                 }
                 return '未知'
+            },
+            confirmDeleteManager(id) {
+                console.log(id)
+                this.deleteHotelManager(Number(id))
+            },
+            confirmDeleteSalesPerson(id) {
+                console.log(id)
+                this.deleteSalesPerson(Number(id))
             }
         }
     }

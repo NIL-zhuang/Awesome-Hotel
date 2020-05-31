@@ -54,7 +54,7 @@ public class HotelController {
 
 
     @GetMapping("/searchHotel")
-    public ResponseVO searchHotel(@RequestBody SearchBody searchBody){
+    public ResponseVO searchHotel(@RequestBody SearchBodyVO searchBody){
         return ResponseVO.buildSuccess(hotelSearchService.searchHotel(searchBody));
     }
 

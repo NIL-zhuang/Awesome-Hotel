@@ -13,11 +13,18 @@ public class UserForm {
      * 用户密码
      */
     private String password;
-
+    /**
+     * 用户名
+     */
+    private String userName;
+    /**
+     * 手机号
+     */
+    private String phoneNumber;
     /**
      * 酒店Id
      */
-    private Integer hotelID;
+    private Integer hotelId;
 
     public String getEmail() {
         return email;
@@ -35,11 +42,23 @@ public class UserForm {
         this.password = password;
     }
 
-    public void setHotelID(Integer hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(Integer hotelId) {
+        this.hotelId = hotelId;
     }
 
-    public Integer getHotelID() {
-        return hotelID;
+    public Integer getHotelId() {
+        return hotelId;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPhoneNumber() { return phoneNumber; }
+
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }
