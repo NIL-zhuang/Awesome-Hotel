@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public User login(UserForm userForm) {
-        User user = accountMapper.getAccountByName(userForm.getEmail());
+        User user = accountMapper.getAccountByEmail(userForm.getEmail());
         // 正式上线的时候要删掉以下3行，现有的管理员和酒店工作人员特殊处理
         if (!user.getPassword().equals(PasswordEncryptHelper.getMD5(userForm.getPassword()))) {
             return null;
@@ -49,6 +49,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public User getUserInfo(int id) {
         return accountMapper.getAccountById(id);
+    }
+
+    @Override
+    public User getUserInfoByEmail(String email) {
+        return accountMapper.getAccountByEmail(email);
     }
 
     @Override

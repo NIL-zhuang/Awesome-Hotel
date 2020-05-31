@@ -4,15 +4,19 @@ import {
     getAllOrdersAPI
 } from "../../api/order";
 import {
-    getUserInfoAPI
+    getUserInfoAPI,
+    getUserInfoByEmailAPI,
 } from "../../api/user";
+import {
+    chargeCreditAPI
+} from "../../api/salesPerson";
 import {message} from "ant-design-vue";
 
 const salesPerson = {
     state: {
         allOrderList: [],
         handleAbnormalOrderVisible: false,
-        currentUserId: '',
+        currentUserEmail: '',
         currentUserInfo: {},
         addSiteCouponVisible: false,
     },
@@ -25,6 +29,9 @@ const salesPerson = {
         },
         set_currentUserId: function (state, data) {
             state.currentUserId = data
+        },
+        set_currentUserEmail: function (state, data) {
+            state.currentUserEmail = data
         },
         set_currentUserInfo: function (state, data) {
             state.currentUserInfo = {
@@ -43,12 +50,33 @@ const salesPerson = {
                 commit('set_allOrderList', res)
             }
         },
-        getCurrentUserInfo: async ({state, commit}) => {
-            let res = await getUserInfoAPI(state.currentUserId)
+        getCurrentUserInfoByEmail: async ({state, commit}) => {
+            const params = {
+                email: state.currentUserEmail
+            }
+            let res = await getUserInfoByEmailAPI(params)
+            console.log(res)
             if (res) {
                 commit('set_currentUserInfo', res)
+                message.success("查询成功")
+            } else {
+
             }
         },
+        chargeCredit: async ({state, commit, dispatch}, money) => {
+            console.log("in chargeCredit")
+            console.log(money)
+            const params = {
+                id: state.currentUserInfo.id,
+                money: money,
+            }
+            const res = await chargeCreditAPI(params)
+            if(res) {
+                message.success("充值成功")
+            } else {
+                message.error("充值失败")
+            }
+        }
     }
 }
 export default salesPerson
