@@ -3,8 +3,6 @@ package com.example.hotel.blImpl.hotel;
 import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.controller.hotel.HotelController;
-import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.po.HotelRoom;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
@@ -12,8 +10,9 @@ import com.example.hotel.vo.SearchBodyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 /**
  * @Author: hx
@@ -30,11 +29,6 @@ class Node{
         this.hotel = hotel;
         this.score = score;
     }
-
-    public Node(){
-        score = 0;
-    }
-
 }
 
 @Service
@@ -44,7 +38,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     @Autowired
     private HotelService hotelService;
 
-    private HotelController hotelController = new HotelController();
+    private final HotelController hotelController = new HotelController();
 
     private String chechInDate = null;
     private String checkOutDate = null;
@@ -85,7 +79,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private List<HotelVO> search(){
         List<HotelVO> hotelVOS = hotelService.retrieveHotels();
 
-        List<HotelVO> targetHotels = null;     //以关联度由高到底排序
+        List<HotelVO> targetHotels = new ArrayList<>();     //以关联度由高到底排序
 
         for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
             ResponseVO response = hotelController.getAvailableRoom(hotel.getId(),chechInDate,checkOutDate);

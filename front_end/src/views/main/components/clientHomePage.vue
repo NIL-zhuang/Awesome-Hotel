@@ -25,7 +25,7 @@
                 </a-layout-content>
             </a-layout>
         </div>
-        <div class="Browselist">
+        <div class="browselist">
             <a-layout>
                 <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white;">
                     <a-icon type="eye"/>
@@ -47,7 +47,7 @@
                                 @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                                 @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                                 style="width: 188px; margin-bottom: 8px; display: block;"
-                                v-ant-ref="c => (searchInput = c)"
+                                v-ant-ref="c => (this.searchInput = c)"
                         />
                         <a-button
                                 @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -75,19 +75,19 @@
                                 <a-button @click="jumpToDetails(record.id)" size="small" type="primary">进入酒店</a-button>
                             </span>
                     <template slot="customRender" slot-scope="text, record, index, column">
-                                <span v-if="searchText && searchedColumn === column.dataIndex">
-                                    <template
-                                            v-for="(fragment, i) in text.toString().split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))">
-                                            <mark
-                                                    :key="i"
-                                                    class="highlight"
-                                                    v-if="fragment === searchText"
-                                            >
-                                                {{ fragment }}
-                                            </mark>
-                                            <template v-else>{{ fragment }}</template>
-                                    </template>
-                                </span>
+                        <span v-if="searchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        class="highlight"
+                                        v-if="fragment === searchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
                         <template v-else>
                             {{ text }}
                         </template>
@@ -163,10 +163,8 @@
                     {
                         title: '星级',
                         dataIndex: 'hotelStar',
-                        filters: [{text: '三星级', value: 'Three'}, {text: '四星级', value: 'Four'}, {
-                            text: '五星级',
-                            value: 'Five'
-                        }],
+                        filters: [{text: '三星级', value: '三星级'}, {text: '四星级', value: '四星级'},
+                            {text: '五星级', value: '五星级'}],
                         onFilter: (value, record) => record.hotelStar.includes(value),
                         align: 'center',
                     },
@@ -271,15 +269,17 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 
     .hotelList {
         text-align: center;
         padding: 50px 0;
+
         .emptyBox {
             height: 0;
             margin: 10px 10px
         }
+
         .card-wrapper {
             display: flex;
             justify-content: space-around;
@@ -287,6 +287,7 @@
             flex-grow: 3;
             min-height: 800px
         }
+
         .card-wrapper .card-item {
             margin: 30px;
             position: relative;
@@ -294,7 +295,7 @@
         }
     }
 
-    .Browselist {
+    .browselist {
 
         .info {
             width: 400px;

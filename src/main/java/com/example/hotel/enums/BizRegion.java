@@ -3,7 +3,7 @@ package com.example.hotel.enums;
 public enum BizRegion {
     XiDan("西单");
 
-    private String value;
+    private final String value;
 
     BizRegion(String value) {
         this.value = value;

@@ -1,5 +1,7 @@
 package com.example.hotel.vo;
 
+import com.example.hotel.po.Hotel;
+
 import java.util.List;
 
 public class HotelVO {
@@ -19,6 +21,19 @@ public class HotelVO {
     private double service;
     private double equipment;
     private String url;
+
+    public HotelVO(Hotel hotel){
+        id=hotel.getId();
+        name=hotel.getHotelName();
+        address=hotel.getAddress();
+        bizRegion = hotel.getBizRegion().toString();
+        hotelStar = hotel.getHotelStar().toString();
+        rate = hotel.getRate();
+        description=hotel.getDescription();
+        phoneNum=hotel.getPhoneNum();
+        managerId=hotel.getManagerId();
+        //如果需要还可以再加
+    }
 
     private List<RoomVO> rooms;
 

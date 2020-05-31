@@ -16,6 +16,7 @@ import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,18 +66,24 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> retrieveHotels() {
-        return hotelMapper.selectAllHotel();
+        List<Hotel> hotels = hotelMapper.selectAllHotel();
+        List<HotelVO> hotelVOs = new ArrayList<>();
+        for (Hotel hotel:hotels){
+            hotelVOs.add(new HotelVO(hotel));
+        }
+        return hotelVOs;
     }
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
-        HotelVO hotelVO = hotelMapper.selectById(hotelId);
+        Hotel hotel = hotelMapper.selectById(hotelId);
+        HotelVO hotelVO = new HotelVO(hotel);
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
-            roomVO.setRoomType(r.getRoomType());
+            roomVO.setRoomType(r.getRoomType().toString());
             roomVO.setCurNum(r.getCurNum());
             roomVO.setTotal(r.getTotal());
             return roomVO;
@@ -88,20 +95,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
-        HotelVO hotelVO = hotelMapper.selectById(hotelId);
-        List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
-        List<RoomVO> roomVOS = rooms.stream().map(r -> {
-            RoomVO roomVO = new RoomVO();
-            roomVO.setId(r.getId());
-            roomVO.setPrice(r.getPrice());
-            roomVO.setRoomType(r.getRoomType());
-            roomVO.setCurNum(r.getCurNum());    //  TODO change this
-            roomVO.setTotal(r.getTotal());
-            return roomVO;
-        }).collect(Collectors.toList());
-        hotelVO.setRooms(roomVOS);
-
-        return hotelVO;
+        return retrieveHotelDetails(hotelId); // todo
     }
 
     @Override

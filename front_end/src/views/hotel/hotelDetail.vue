@@ -9,9 +9,9 @@
                     <a-card style="width: 240px">
                         <img
                                 alt="example"
-                                src="@/assets/cover.jpeg"
-                                slot="cover"
                                 referrerPolicy="no-referrer"
+                                slot="cover"
+                                src="@/assets/cover.jpeg"
                         />
                     </a-card>
                     <div class="info">
@@ -29,9 +29,12 @@
                         </div>
                         <div class="items" v-if="currentHotelInfo.hotelStar">
                             <span class="label">星级: </span>
-                            <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" :disabled="true"/>
+                            <a-rate :disabled="true"
+                                    :value="currentHotelInfo.hotelStar === '三星级' ?
+                                    3 : currentHotelInfo.hotelStar === '四星级' ? 4 : 5"
+                                    style="font-size: 15px"/>
                         </div>
-                        <div class="items" v-if="currentHotelInfo.descriptions">
+                        <div class="items" v-if="currentHotelInfo.description">
                             <span class="label">酒店简介:</span>
                             <span class="value">{{ currentHotelInfo.description }}</span>
                         </div>
@@ -43,39 +46,39 @@
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>
-                    <a-tab-pane tab="房间信息" key="1">
+                    <a-tab-pane key="1" tab="房间信息">
                         <a-row>
                             <h1>入住-退房时间</h1>
                         </a-row>
                         <a-range-picker
-                                format="YYYY-MM-DD"
+                                :default-value="dateRange"
                                 @change="changeDate"
+                                format="YYYY-MM-DD"
                                 v-decorator="[
                                     'date',
                                     { rules: [{ required: true, message: '请选择入住时间' }]},
                                 ]"
-                                :default-value="dateRange"
                         />
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
-                    <a-tab-pane tab="酒店详情" key="2">
+                    <a-tab-pane key="2" tab="酒店详情">
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
-                    <a-tab-pane tab="历史订单" key="3">
+                    <a-tab-pane key="3" tab="历史订单">
                         <a-page-header
                                 style="border: 1px solid rgb(235, 237, 240)"
-                                title="您在这家酒店有如下的订单"
                                 sub-title="若要对订单进行撤销或者申诉，请前往个人中心-我的订单进行相关操作"
+                                title="您在这家酒店有如下的订单"
                         />
                         <a-table
                                 :columns="columns_of_orders"
                                 :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
                                 bordered
                         >
-                            <a-tag slot="createDate" color="red" slot-scope="text">
+                            <a-tag color="red" slot="createDate" slot-scope="text">
                                 {{text}}
                             </a-tag>
-                            <a-tag slot="hotelName" color="orange" slot-scope="text">
+                            <a-tag color="orange" slot="hotelName" slot-scope="text">
                                 {{text}}
                             </a-tag>
                             <span slot="roomType" slot-scope="text">
@@ -83,16 +86,16 @@
                                 <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
                                 <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
                             </span>
-                            <a-tag slot="checkInDate" color="red" slot-scope="text">
+                            <a-tag color="red" slot="checkInDate" slot-scope="text">
                                 {{text}}
                             </a-tag>
-                            <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                            <a-tag color="red" slot="checkOutDate" slot-scope="text">
                                 {{text}}
                             </a-tag>
                             <span slot="price" slot-scope="text">
                                 <a-tag color="pink">￥ {{ text }}</a-tag>
                             </span>
-                            <a-tag slot="orderState" color="blue" slot-scope="text">
+                            <a-tag color="blue" slot="orderState" slot-scope="text">
                                 {{ text }}
                             </a-tag>
                         </a-table>
@@ -200,7 +203,7 @@
         }
     }
 </script>
-<style scoped lang="less">
+<style lang="less" scoped>
     .hotelDetailCard {
         padding: 50px 50px;
     }

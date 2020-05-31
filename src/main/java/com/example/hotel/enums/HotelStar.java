@@ -5,7 +5,7 @@ public enum HotelStar {
     Four("四星级"),
     Three("三星级");
 
-    private String value;
+    private final String value;
 
     HotelStar(String value) {
         this.value = value;

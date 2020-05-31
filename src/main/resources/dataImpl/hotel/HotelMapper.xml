@@ -28,13 +28,13 @@
         where id = #{id}
     </update>
 
-    <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
+    <resultMap id="Hotel" type="com.example.hotel.po.Hotel">
         <id column="id" property="id"/>
+        <result column="hotelName" property="hotelName"/>
         <result column="address" property="address"/>
         <result column="bizRegion" property="bizRegion"/>
         <result column="hotelDescription" property="description"/>
         <result column="hotelStar" property="hotelStar"/>
-        <result column="hotelName" property="name"/>
         <result column="phoneNum" property="phoneNum"/>
         <result column="rate" property="rate"/>
         <result column="manager_id" property="managerId"/>

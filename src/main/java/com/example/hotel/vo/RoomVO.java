@@ -5,8 +5,8 @@ import com.example.hotel.enums.RoomType;
 
 public class RoomVO {
     private Integer id;
-    private RoomType roomType;
-    private BedType bedType;
+    private String roomType;
+    private String bedType;
     private String breakfast;
     private Double price;
     private Integer curNum;   //目前有几间
@@ -21,19 +21,19 @@ public class RoomVO {
         this.id = id;
     }
 
-    public RoomType getRoomType() {
+    public String getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(RoomType roomType) {
+    public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
-    public BedType getBedType() {
+    public String getBedType() {
         return bedType;
     }
 
-    public void setBedType(BedType bedType) {
+    public void setBedType(String bedType) {
         this.bedType = bedType;
     }
 
