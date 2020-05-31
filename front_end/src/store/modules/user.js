@@ -78,7 +78,7 @@ const user = {
                 commit('set_userId', res.id)
                 // modifed by glh
                 dispatch('getUserInfo').then(() => {
-                    router.push('/hotel/hotelList')
+                    router.push('/homePage')
                 })
             }
         },

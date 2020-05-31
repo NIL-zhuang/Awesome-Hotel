@@ -16,13 +16,13 @@ const routes = [
   {
     path: '/NJUSE',
     name: 'layout',
-    redirect: '/hotel/hotelList',
+    redirect: '/homePage',
     component: ()=> import('@/views/layout'),
     children: [
       {
-        path: '/hotel/hotelList',
-        name: 'hotelList',
-        component: () => import('@/views/hotel/hotelList')
+        path: '/homePage',
+        name: 'home',
+        component: () => import('@/views/main/homePage')
       },
       {
         path: '/hotel/searchHotel',

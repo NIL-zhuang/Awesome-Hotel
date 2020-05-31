@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name: "salesPerformance"
+        name: 'SalesHomePage'
     }
 </script>
 

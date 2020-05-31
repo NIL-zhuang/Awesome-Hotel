@@ -123,7 +123,6 @@ import modifyHotelInfo from "./components/hotelInfo";
 import hotelRoom from "./components/hotelRoom";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
-import hotelList from "../hotel/hotelList";
 import HotelCoupon from "./components/hotelCoupon";
 const columns_of_hotels = [
     {
@@ -239,7 +238,6 @@ export default {
             'userId',
             'hotelList',
             'orderList',
-            // 'manageHotelList',
             'addHotelModalVisible',
             'addRoomModalVisible',
             'activeHotelId',
