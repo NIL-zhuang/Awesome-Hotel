@@ -1,11 +1,12 @@
 package com.example.hotel.vo;
 
+import com.example.hotel.enums.BedType;
 import com.example.hotel.enums.RoomType;
 
 public class RoomVO {
     private Integer id;
-    private String roomType;
-    private String bedType;
+    private RoomType roomType;
+    private BedType bedType;
     private String breakfast;
     private Double price;
     private Integer curNum;   //目前有几间
@@ -20,19 +21,19 @@ public class RoomVO {
         this.id = id;
     }
 
-    public String getRoomType() {
+    public RoomType getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
-    public String getBedType() {
+    public BedType getBedType() {
         return bedType;
     }
 
-    public void setBedType(String bedType) {
+    public void setBedType(BedType bedType) {
         this.bedType = bedType;
     }
 

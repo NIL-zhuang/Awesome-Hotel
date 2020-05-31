@@ -76,7 +76,7 @@ public class HotelServiceImpl implements HotelService {
             RoomVO roomVO = new RoomVO();
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
-            roomVO.setRoomType(r.getRoomType().toString());
+            roomVO.setRoomType(r.getRoomType());
             roomVO.setCurNum(r.getCurNum());
             roomVO.setTotal(r.getTotal());
             return roomVO;
@@ -94,7 +94,7 @@ public class HotelServiceImpl implements HotelService {
             RoomVO roomVO = new RoomVO();
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
-            roomVO.setRoomType(r.getRoomType().toString());
+            roomVO.setRoomType(r.getRoomType());
             roomVO.setCurNum(r.getCurNum());    //  TODO change this
             roomVO.setTotal(r.getTotal());
             return roomVO;

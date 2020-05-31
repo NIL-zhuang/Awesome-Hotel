@@ -158,19 +158,17 @@ public class HotelVO {
         this.equipment = equipment;
     }
 
-    public double getMinPrice(){
-        double minPrice = 0;
+    public double getMinPrice() {
         List<RoomVO> rooms = getRooms();
         try {
-            while(!rooms.isEmpty()){
-                RoomVO room = rooms.get(0);
-                double roomPrice = room.getPrice();
-                minPrice = Math.min(roomPrice, minPrice);
-                rooms.remove(0);
+            double minPrice = Double.MAX_VALUE;
+            for (RoomVO roomVO : rooms) {
+                minPrice = Math.min(minPrice, roomVO.getPrice());
             }
-        }catch (NullPointerException ex){
+            return minPrice;
+        } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        return minPrice;
+        return 0;
     }
 }
