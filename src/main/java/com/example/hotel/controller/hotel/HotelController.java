@@ -6,8 +6,10 @@ import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.HotelForm;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.SearchBodyVO;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,8 @@ public class HotelController {
 
 
     @PostMapping("/addHotel")
-    public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
-        hotelService.addHotel(hotelVO);
+    public ResponseVO createHotel(@RequestBody HotelForm hotelForm) throws ServiceException {
+        hotelService.addHotel(hotelForm);
         return ResponseVO.buildSuccess(true);
     }
 
@@ -62,6 +64,12 @@ public class HotelController {
     @PostMapping("/{hotelId}/registerHotelMembership")
     public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
         System.out.println(hotelId);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @PostMapping("/{hotelId}/deleteHotel")
+    public ResponseVO deleteHotel(@PathVariable Integer hotelId) {
+        hotelService.delteHotel(hotelId);
         return ResponseVO.buildSuccess(true);
     }
 }

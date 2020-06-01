@@ -20,3 +20,17 @@ export function searchHotelAPI(data) {
         method: 'GET'
     })
 }
+export function addHotelAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/addHotel`,
+        method: 'POST',
+        data,
+    })
+}
+export function deleteHotelAPI(hotelId) {
+    console.log('in api: ' + hotelId)
+    return axios({
+        url: `${api.hotelPre}/${hotelId}/deleteHotel`,
+        method: 'POST'
+    })
+}

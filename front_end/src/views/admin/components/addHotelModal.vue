@@ -14,6 +14,16 @@
                     v-decorator="['hotelName', { rules: [{ required: true, message: '请填写酒店名称' }] }]"
                 />
             </a-form-item>
+            <a-form-item label="酒店商圈" v-bind="formItemLayout">
+                <a-select
+                        v-decorator="[
+                    'bizRegion',
+                    { rules: [{ required: true, message: '请选择酒店星级' }] }]"
+                >
+                    // TODO 之后如果有更多的商圈要在这里改一下
+                    <a-select-option value="XiDan">西单</a-select-option>
+                </a-select>
+            </a-form-item>
             <a-form-item label="酒店地址" v-bind="formItemLayout">
                 <a-input
                     placeholder="请填写酒店地址"
@@ -32,7 +42,7 @@
                   <a-select-option value="Five">五星级</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="手机号" v-bind="formItemLayout">
+            <a-form-item label="联系电话" v-bind="formItemLayout">
                 <a-input
                     placeholder="请填写手机号"
                     v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
@@ -51,6 +61,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { message } from 'ant-design-vue'
 export default {
     name: 'addHotelModal',
     data() {
@@ -69,8 +80,6 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'userId',
-            'addHotelParams',
             'addHotelModalVisible'
         ])
     },
@@ -83,10 +92,10 @@ export default {
     methods: {
         ...mapMutations([
             'set_addHotelParams',
-            'set_addHotelModalVisible'
+            'set_addHotelModalVisible',
         ]),
         ...mapActions([
-            'addHotel'
+            'addHotel',
         ]),
         cancel() {
             this.set_addHotelModalVisible(false)
@@ -101,13 +110,23 @@ export default {
                     const data = {
                         name: this.form.getFieldValue('hotelName'),
                         description: this.form.getFieldValue('description'),
+                        bizRegion: this.form.getFieldValue('bizRegion'),
                         address: this.form.getFieldValue('address'),
                         phoneNum: this.form.getFieldValue('phoneNumber'),
                         hotelStar: this.form.getFieldValue('hotelStar'),
-                        managerId: Number(this.userId)
                     }
                     this.set_addHotelParams(data)
                     this.addHotel()
+                    this.form.setFieldsValue({
+                        hotelName: '',
+                        description: '',
+                        bizRegion: '',
+                        address: '',
+                        phoneNumber: '',
+                        hotelStar: ''
+                    })
+                } else {
+                    message.error('请填写正确的信息')
                 }
             });
         },

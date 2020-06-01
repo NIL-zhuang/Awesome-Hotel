@@ -36,22 +36,21 @@ public class HotelServiceImpl implements HotelService {
     private RoomService roomService;
 
     @Override
-    public void addHotel(HotelVO hotelVO) throws ServiceException {
-        User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
-            throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
-        }
+    public void addHotel(HotelForm hotelForm) throws ServiceException {
         Hotel hotel = new Hotel();
-        hotel.setDescription(hotelVO.getDescription());
-        hotel.setAddress(hotelVO.getAddress());
-        hotel.setHotelName(hotelVO.getName());
-        hotel.setPhoneNum(hotelVO.getPhoneNum());
-        hotel.setManagerId(hotelVO.getManagerId());
-        hotel.setRate(hotelVO.getRate());
-        hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
-        hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
-        hotel.setUrl(hotelVO.getUrl());
+        hotel.setDescription(hotelForm.getDescription());
+        hotel.setAddress(hotelForm.getAddress());
+        hotel.setHotelName(hotelForm.getName());
+        hotel.setPhoneNum(hotelForm.getPhoneNum());
+        hotel.setRate(hotelForm.getRate());
+        hotel.setBizRegion(BizRegion.valueOf(hotelForm.getBizRegion()));
+        hotel.setHotelStar(HotelStar.valueOf(hotelForm.getHotelStar()));
         hotelMapper.insertHotel(hotel);
+    }
+
+    @Override
+    public void delteHotel(Integer hotelId) {
+        hotelMapper.deleteHotel(hotelId);
     }
 
     @Override
