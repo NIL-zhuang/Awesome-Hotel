@@ -19,6 +19,7 @@ const salesPerson = {
         currentUserEmail: '',
         currentUserInfo: {},
         addSiteCouponVisible: false,
+        searchSuccess: false,
     },
     mutations: {
         set_allOrderList: function (state, data) {
@@ -42,6 +43,9 @@ const salesPerson = {
         set_addSiteCouponVisible: function (state, data) {
             state.addSiteCouponVisible = data
         },
+        set_searchSuccess: function (state, data) {
+            state.searchSuccess = data
+        }
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
@@ -55,12 +59,14 @@ const salesPerson = {
                 email: state.currentUserEmail
             }
             let res = await getUserInfoByEmailAPI(params)
+            console.log("in getCurrent")
             console.log(res)
             if (res) {
                 commit('set_currentUserInfo', res)
+                commit('set_searchSuccess', true)
                 message.success("查询成功")
             } else {
-
+                commit('set_searchSuccess', false)
             }
         },
         chargeCredit: async ({state, commit, dispatch}, money) => {

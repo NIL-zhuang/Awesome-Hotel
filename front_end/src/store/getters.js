@@ -38,6 +38,7 @@ const getters = {
     addSiteCouponVisible: state => state.salesPerson.addSiteCouponVisible,
     currentUserId: state => state.salesPerson.currentUserId,
     currentUserInfo: state => state.salesPerson.currentUserInfo,
+    searchSuccess:state => state.salesPerson.searchSuccess,
     //order
     orderDetailVisible: state => state.order.orderDetailVisible,
     orderInfo: state => state.order.orderInfo,
