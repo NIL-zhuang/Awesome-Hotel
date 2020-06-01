@@ -1,7 +1,6 @@
 package com.example.hotel.po;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 
 public class Coupon {
     /**
@@ -43,11 +42,11 @@ public class Coupon {
     /**
      * 可用时间
      */
-    private LocalDateTime startTime;
+    private LocalDate startTime;
     /**
      * 失效时间
      */
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 
     /**
      * 优惠券状态 是否已经失效 1可用 0失效
@@ -56,19 +55,19 @@ public class Coupon {
 
     private String corporateName;
 
-    public LocalDateTime getStartTime() {
+    public LocalDate getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalDate startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalDate getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 

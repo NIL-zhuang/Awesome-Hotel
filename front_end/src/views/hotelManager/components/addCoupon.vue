@@ -1,27 +1,28 @@
 <template xmlns:a-form="http://www.w3.org/1999/html">
     <a-modal
             :visible="addCouponVisible"
-            title="添加优惠策略"
-            cancelText="取消"
-            okText="确定"
             @cancel="cancel"
             @ok="handleSubmit"
+            cancelText="取消"
+            okText="确定"
+            title="添加优惠策略"
     >
         <a-form :form="form" style="margin-top: 30px">
             <a-form-item label="优惠券类型" v-bind="formItemLayout">
                 <a-select
-                        v-decorator="['type',{rules: [{required: true, message: '请选择类型'}]}]"
-                        @change="changeType">
+                        @change="changeType"
+                        v-decorator="['type',{rules: [{required: true, message: '请选择类型'}]}]">
                     <a-select-option value="1">生日特惠</a-select-option>
                     <a-select-option value="2">多间特惠</a-select-option>
                     <a-select-option value="3">满减特惠</a-select-option>
                     <a-select-option value="4">限时特惠</a-select-option>
+                    <a-select-option value="5">合作企业优惠</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
                 <a-input
-                        placeholder="请填写券名"
                         allow-clear
+                        placeholder="请填写券名"
                         v-decorator="['name',{rules: [{required: true, message: '请输入券名'}]}]"
                 />
             </a-form-item>
@@ -31,10 +32,10 @@
                         请简单填写一下优惠券的介绍
                     </template>
                     <a-input
-                            type="textarea"
                             :rows="4"
                             allow-clear
                             placeholder="请填写优惠券简介"
+                            type="textarea"
                             v-decorator="['description',{rules: [{required: true, message: '请填写优惠券简介'}]}]"
                     />
                 </a-tooltip>
@@ -49,8 +50,13 @@
                 />
             </a-form-item>
             <a-form-item label="达标预定数" v-bind="formItemLayout" v-if="isMultipleCoupon">
-                <a-input-number id="inputNumber" v-model="multipleNum" :min="1"/>
+                <a-input-number :min="1" id="inputNumber" v-model="multipleNum"/>
                 <br/>当前值：{{ multipleNum }}
+            </a-form-item>
+            <a-form-item label="合作企业" v-bind="formItemLayout" v-if="isCorporatonCoupon">
+                <a-input
+                        v-decorator="['corporation',{ rules: [{ required: true, message: '请输入合作企业名称' }]}]"
+                />
             </a-form-item>
             <a-form-item label="折扣" v-bind="formItemLayout" v-if="!isReductionCoupon">
                 <a-tooltip>
@@ -58,9 +64,9 @@
                         请输入一个小于100%的折扣
                     </template>
                     <a-input-number
-                            :min="0"
-                            :max="99"
                             :formatter="value => `${value}%`"
+                            :max="99"
+                            :min="0"
                             :parser="value => value.replace('%', '')"
                             v-decorator="['discount',{rules: [{required: true, message: '请输入折扣'}], initialValue: 99}]"
                     />
@@ -101,6 +107,7 @@
                 isMultipleCoupon: false,
                 isReductionCoupon: false,
                 isTimeLimitedCoupon: false,
+                isCorporatonCoupon: false,
                 multipleNum: 1,
             }
         },
@@ -126,21 +133,22 @@
             cancel() {
                 this.set_addCouponVisible(false)
             },
-            resetAll(){
+            resetAll() {
                 this.isReductionCoupon = false
                 this.isTimeLimitedCoupon = false
                 this.isMultipleCoupon = false
+                this.isCorporatonCoupon = false
             },
             changeType(v) {
                 this.resetAll()
-                if (v==='2'){
+                if (v === '2') {
                     this.isMultipleCoupon = true
                 } else if (v === '3') {
                     this.isReductionCoupon = true
                 } else if (v === '4') {
                     this.isTimeLimitedCoupon = true
-                } else {
-
+                } else if (v === '5') {
+                    this.isCorporatonCoupon = true
                 }
             },
             handleSubmit(e) {
@@ -151,13 +159,18 @@
                             name: this.form.getFieldValue('name'),
                             description: this.form.getFieldValue('description'),
                             type: Number(this.form.getFieldValue('type')),
-                            discount: this.type === 1 ? 1.00 : this.form.getFieldValue('discount') / 100,
-                            targetMoney: Number(this.form.getFieldValue('targetMoney')),
-                            discountMoney: Number(this.form.getFieldValue('discountMoney')),
+                            discount: this.form.getFieldValue('discount')?this.form.getFieldValue('discount') / 100:null,
+                            corporateName: this.isCorporatonCoupon?this.form.getFieldValue('corporation'):null,
+                            startTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[0].format('YYYY-MM-DD'):null,
+                            endTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[1].format('YYYY-MM-DD'):null,
+                            targetMoney: this.form.getFieldValue('targetMoney')?Number(this.form.getFieldValue('targetMoney')):null,
+                            discountMoney: this.form.getFieldValue('discountMoney')?Number(this.form.getFieldValue('discountMoney')):null,
                             hotelId: Number(this.activeHotelId),
                             status: 1,
                         }
                         this.addHotelCoupon(data)
+                        console.log(data)
+                        this.form.resetFields()
                     }
                 });
             },

@@ -39,18 +39,18 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponVO);
     }
 
-    @PostMapping("/corporate")
+    @PostMapping("/corporation")
     public ResponseVO addCorporateCoupon(@RequestBody CorporateCouponVO corporateCouponVO) {
         CouponVO couponVO = couponService.addCorporateCouponVO(corporateCouponVO);
         return ResponseVO.buildSuccess(couponVO);
     }
 
-    @PostMapping("/hotelAllCoupons")
+    @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
     }
 
-    @PostMapping("/annalCoupons")
+    @PostMapping("/annulCoupons")
     public ResponseVO annulCoupon(@RequestParam("id") Integer id) {
         couponService.annulCoupon(id);
         return ResponseVO.buildSuccess(true);

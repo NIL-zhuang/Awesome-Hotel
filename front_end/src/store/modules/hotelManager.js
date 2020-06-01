@@ -8,6 +8,10 @@ import {
 import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
+    hotelBirthdayCouponAPI,
+    hotelTimeCouponAPI,
+    hotelManyRoomCouponAPI,
+    hotelCorporateCouponAPI,
 } from '@/api/coupon'
 import {
     registerHotelMembershipAPI
@@ -136,7 +140,25 @@ const hotelManager = {
             }
         },
         addHotelCoupon: async ({commit, dispatch}, data) => {
-            const res = await hotelTargetMoneyAPI(data)
+            let res = null
+            console.log(data)
+            switch (data.type) {
+                case 1:
+                    res = await hotelBirthdayCouponAPI(data)
+                    break
+                case 2:
+                    res = await hotelManyRoomCouponAPI(data)
+                    break
+                case 3:
+                    res = await hotelTargetMoneyAPI(data)
+                    break
+                case 4:
+                    res = await hotelTimeCouponAPI(data)
+                    break
+                case 5:
+                    res = await hotelCorporateCouponAPI(data)
+                    break
+            }
             if (res) {
                 dispatch('getHotelCoupon')
                 commit('set_addCouponVisible', false)

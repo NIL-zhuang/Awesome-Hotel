@@ -4,7 +4,7 @@ import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.OrderVO;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Service
 public class TimeCouponStrategyImpl implements CouponMatchStrategy {
@@ -19,15 +19,14 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         try {
-            LocalDateTime couponStartTime = coupon.getStartTime();
-            LocalDateTime couponEndTime = coupon.getEndTime();
-            LocalDateTime checkIn = TimeFormatHelper.string2Time(orderVO.getCheckInDate());
-            LocalDateTime checkOut = TimeFormatHelper.string2Time(orderVO.getCheckOutDate());
+            LocalDate couponStartTime = coupon.getStartTime();
+            LocalDate couponEndTime = coupon.getEndTime();
+            LocalDate checkIn = LocalDate.parse(orderVO.getCheckInDate());
             return (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) && // 该酒店适用
                     coupon.getCouponType() == 4 &&  // 限时优惠
                     coupon.getStatus() == 1 &&  // 优惠券有效
                     checkIn.isBefore(couponEndTime) &&
-                    checkIn.isAfter(couponStartTime);
+                    checkIn.isAfter(couponStartTime); // 似乎没有用？
         } catch (Exception e) {
             return false;
         }

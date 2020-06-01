@@ -5,6 +5,7 @@ package com.example.hotel.vo.coupon;
  * @date 2020/5/30 16:54
  */
 public class CorporateCouponVO extends CouponVO {
+
     private String corporateName;
     private double discount;
 

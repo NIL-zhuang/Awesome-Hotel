@@ -8,7 +8,7 @@ import com.example.hotel.vo.coupon.*;
 import com.example.hotel.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,8 +94,9 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponVO addTimeCouponVO(TimeCouponVO couponVO) {
         Coupon coupon = iniCoupon(couponVO);
-        coupon.setStartTime(couponVO.getStartTime());
-        coupon.setEndTime(couponVO.getEndTime());
+        coupon.setStartTime(LocalDate.parse(couponVO.getStartTime()));
+        coupon.setEndTime(LocalDate.parse(couponVO.getEndTime()));
+        coupon.setDiscount(couponVO.getDiscount());
         couponVO.setId(addCoupon(coupon));
         return couponVO;
     }

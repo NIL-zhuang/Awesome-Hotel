@@ -14,7 +14,7 @@
                     <a-tag color="blue">{{this.currentHotelInfo.rate}}</a-tag>
                 </div>
             </a-tab-pane>
-            <a-tab-pane tab="常见问题" key="3">
+            <a-tab-pane tab="常见问题" key="2">
                 <a-comment>
                     <a-avatar
                             slot="avatar"
@@ -32,6 +32,9 @@
                         </a-form-item>
                     </div>
                 </a-comment>
+            </a-tab-pane>
+            <a-tab-pane tab="酒店优惠" key="3">
+
             </a-tab-pane>
         </a-tabs>
     </div>

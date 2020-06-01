@@ -6,7 +6,7 @@
 
                     <a-form-item label="头像" v-bind="formItemLayout">
                         <a-avatar src="./defaultAvatar.png"></a-avatar>
-                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>
+<!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
                     </a-form-item>
 
                     <a-form-item label="用户名" v-bind="formItemLayout">

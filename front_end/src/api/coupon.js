@@ -2,6 +2,38 @@ import { axios } from '@/utils/request'
 const api = {
     couponPre: '/api/coupon'
 }
+export function hotelBirthdayCouponAPI(data){
+    return axios({
+        url: `${api.couponPre}/birthday`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelTimeCouponAPI(data) {
+    return axios({
+        url: `${api.couponPre}/time`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelManyRoomCouponAPI(data) {
+    return axios({
+        url: `${api.couponPre}/manyRoom`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function hotelCorporateCouponAPI(data) {
+    return axios({
+        url: `${api.couponPre}/corporation`,
+        method: 'POST',
+        data,
+    })
+}
+
 export function hotelTargetMoneyAPI(data) {
     return axios({
         url: `${api.couponPre}/hotelTargetMoney`,
@@ -9,6 +41,7 @@ export function hotelTargetMoneyAPI(data) {
         data,
     })
 }
+
 
 export function hotelAllCouponsAPI(hotelId) {
     return axios({
