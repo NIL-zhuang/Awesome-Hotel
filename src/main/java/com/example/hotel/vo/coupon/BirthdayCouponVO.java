@@ -7,13 +7,14 @@ import com.example.hotel.vo.coupon.CouponVO;
  * @date 2020/4/29 9:55
  */
 public class BirthdayCouponVO extends CouponVO {
-    private Integer discountMoney;
 
-    public Integer getDiscountMoney() {
-        return this.discountMoney;
+    private double discount;
+
+    public double getDiscount() {
+        return this.discount;
     }
 
-    public void setDiscountMoney(Integer discountMoney) {
-        this.discountMoney = discountMoney;
+    public void setDiscount(double discount) {
+        this.discount= discount;
     }
 }

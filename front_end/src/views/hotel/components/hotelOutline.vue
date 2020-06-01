@@ -34,14 +34,61 @@
                 </a-comment>
             </a-tab-pane>
             <a-tab-pane tab="酒店优惠" key="3">
+                <a-table
+                        :columns="columns"
+                        :dataSource="couponList"
+                        bordered
 
+                >
+                    <template slot="title">
+                        <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
+                    </template>
+                    <a-tag color="purple" slot="couponName" slot-scope="text">
+                        {{text}}
+                    </a-tag>
+                    <a-tag color="blue" slot="discount" slot-scope="disc">
+                        {{disc===0.00?'暂无':disc}}
+                    </a-tag>
+                    <a-tag color="pink" slot="discountMoney" slot-scope="money">
+                        {{money===0?'暂无':money}}
+                    </a-tag>
+                    <span slot="action">
+                <a-button size="small" type="primary">查看详情</a-button>
+            </span>
+                </a-table>
             </a-tab-pane>
         </a-tabs>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
+
+    const columns = [
+        {
+            title: '优惠券名称',
+            dataIndex: 'couponName',
+            scopedSlots: {customRender: 'couponName'},
+        },
+        {
+            title: '折扣',
+            dataIndex: 'discount',
+            scopedSlots: {customRender: 'discount'},
+        },
+        {
+            title: '优惠简介',
+            dataIndex: 'description',
+        },
+        {
+            title: '优惠金额（满减）',
+            dataIndex: 'discountMoney',
+            scopedSlots: {customRender: 'discountMoney'},
+        },
+        {
+            title: '操作',
+            scopedSlots: {customRender: 'action'}
+        }
+    ];
 
     export default {
         name: "hotelOutline",
@@ -49,17 +96,22 @@
             return {
                 hint: '输入您的问题',
                 submitting: false,
+                columns,
             }
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
+                'couponList',
             ])
         },
         mounted() {
-
+            this.getHotelCoupon()
         },
         methods: {
+            ...mapActions([
+                'getHotelCoupon'
+            ]),
             like() {
                 console.log('点赞')
             },

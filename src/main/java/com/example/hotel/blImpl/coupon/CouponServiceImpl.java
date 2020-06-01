@@ -62,7 +62,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
-        return couponMapper.selectByHotelId(hotelId);
+        return couponMapper.selectByHotelId(hotelId); // 需要修改
     }
 
     @Override
@@ -76,8 +76,8 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponVO addBirthdayCouponVO(BirthdayCouponVO couponVO) {
-        Coupon coupon = new Coupon();
-        coupon.setDiscount(couponVO.getDiscountMoney());
+        Coupon coupon = iniCoupon(couponVO);
+        coupon.setDiscount(couponVO.getDiscount());
         couponVO.setId(addCoupon(coupon));
         return couponVO;
     }

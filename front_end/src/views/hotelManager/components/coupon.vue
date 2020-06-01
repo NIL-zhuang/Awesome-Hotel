@@ -17,10 +17,25 @@
                 :columns="columns"
                 :dataSource="couponList"
                 bordered
+
         >
-            <a-tag color="red" slot="couponName" slot-scope="text">
+            <template slot="title">
+                <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
+            </template>
+            <a-tag color="purple" slot="couponName" slot-scope="text">
                 {{text}}
             </a-tag>
+            <a-tag color="blue" slot="discount" slot-scope="disc">
+                {{disc===0.00?'暂无':disc}}
+            </a-tag>
+            <a-tag color="pink" slot="discountMoney" slot-scope="money">
+                {{money===0?'暂无':money}}
+            </a-tag>
+            <span slot="action">
+                <a-button size="small" type="primary">查看详情</a-button>
+                <a-divider type="vertical"></a-divider>
+                <a-button size="small" type="danger">删除优惠券</a-button>
+            </span>
         </a-table>
     </a-modal>
     <AddCoupon></AddCoupon>
@@ -32,22 +47,28 @@ import AddCoupon from './addCoupon'
 
 const columns = [
     {
-        title: '优惠类型',
+        title: '优惠券名称',
         dataIndex: 'couponName',
         scopedSlots: {customRender: 'couponName'},
     },
     {
         title: '折扣',
         dataIndex: 'discount',
+        scopedSlots: {customRender: 'discount'},
     },
     {
         title: '优惠简介',
         dataIndex: 'description',
     },
     {
-        title: '优惠金额',
+        title: '优惠金额（满减）',
         dataIndex: 'discountMoney',
+        scopedSlots: {customRender: 'discountMoney'},
     },
+    {
+        title: '操作',
+        scopedSlots: {customRender: 'action'}
+    }
 ];
 
 export default {
@@ -72,7 +93,7 @@ export default {
             'set_couponVisible',
         ]),
         ...mapActions([
-            'getHotelCoupon'
+
         ]),
         cancel() {
             this.set_couponVisible(false)

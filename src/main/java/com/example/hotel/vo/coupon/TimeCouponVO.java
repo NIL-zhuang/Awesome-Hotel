@@ -1,7 +1,5 @@
 package com.example.hotel.vo.coupon;
 
-import java.time.LocalDateTime;
-
 public class TimeCouponVO extends CouponVO {
 
     private String startTime;
