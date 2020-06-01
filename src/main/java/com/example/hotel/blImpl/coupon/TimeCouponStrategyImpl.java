@@ -25,8 +25,8 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
             return (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) && // 该酒店适用
                     coupon.getCouponType() == 4 &&  // 限时优惠
                     coupon.getStatus() == 1 &&  // 优惠券有效
-                    checkIn.isBefore(couponEndTime) &&
-                    checkIn.isAfter(couponStartTime); // 似乎没有用？
+                    (checkIn.isBefore(couponEndTime)||checkIn.isEqual(couponEndTime))&&
+                    (checkIn.isAfter(couponStartTime)||checkIn.isEqual(couponStartTime));
         } catch (Exception e) {
             return false;
         }
