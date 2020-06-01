@@ -54,9 +54,12 @@ public interface OrderService {
 
     CommentVO getComment(int orderId);
 
+    ResponseVO annulComment(int orderId);
+
     // 根据酒店Id获取所有对应的评价
     List<CommentVO> getHotelComment(int hotelId);
 
     ResponseVO addComment(CommentVO commentVO);
 
+    ResponseVO getUserComments(Integer userId);
 }
