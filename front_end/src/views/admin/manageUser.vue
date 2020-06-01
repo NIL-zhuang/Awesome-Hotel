@@ -21,8 +21,10 @@
                                 cancel-text="取消"
                                 @confirm="confirmDeleteManager(record.id)"
                         >
-                            <a-button type="danger">删除</a-button>
+                            <a-button type="danger" size="small">删除</a-button>
                         </a-popconfirm>
+                        <a-divider type="vertical"></a-divider>
+                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -43,20 +45,24 @@
                                 cancel-text="取消"
                                 @confirm="confirmDeleteSalesPerson(record.id)"
                         >
-                            <a-button type="danger">删除</a-button>
+                            <a-button type="danger" size="small">删除</a-button>
                         </a-popconfirm>
+                        <a-divider type="vertical"></a-divider>
+                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
         <AddManagerModal></AddManagerModal>
         <addSalesPersonModal></addSalesPersonModal>
+        <modifyInfoModal></modifyInfoModal>
     </div>
 </template>
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import AddManagerModal from './components/addManagerModal'
     import addSalesPersonModal from "./components/addSalesPersonModal";
+    import modifyInfoModal from "./components/modifyInfoModal";
     const columns_of_manager = [
         {
             title: '用户邮箱',
@@ -115,6 +121,7 @@
         components: {
             AddManagerModal,
             addSalesPersonModal,
+            modifyInfoModal,
         },
         computed: {
             ...mapGetters([
@@ -141,6 +148,8 @@
             ...mapMutations([
                 'set_addManagerModalVisible',
                 'set_addSalesPersonModalVisible',
+                'set_modifyUserInfo',
+                'set_modifyInfoModalVisible',
             ]),
             addManager() {
                 this.set_addManagerModalVisible(true)
@@ -163,6 +172,10 @@
             confirmDeleteSalesPerson(id) {
                 console.log(id)
                 this.deleteSalesPerson(Number(id))
+            },
+            modifyInfo(record) {
+                this.set_modifyUserInfo(record)
+                this.set_modifyInfoModalVisible(true)
             }
         }
     }
