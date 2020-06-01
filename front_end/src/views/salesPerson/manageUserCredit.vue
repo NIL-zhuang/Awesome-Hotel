@@ -41,7 +41,7 @@
             <br/><br/><br/>
             <span style="width: 150px">请输入用户邮箱</span>
             <br/>
-            <a-input-search placeholder="请输入用户邮箱" enter-button @search="onSearch" />
+            <a-input-search placeholder="请输入用户邮箱" enter-button @search="onSearch" id="searchEmail"/>
         </div>
     </div>
 </template>
@@ -53,7 +53,6 @@
         name: "manageUserCredit",
         data() {
             return {
-                hasSearch: false,
                 form: this.$form.createForm(this, { name: 'chargeMoney' }),
             }
         },
@@ -61,16 +60,17 @@
             ...mapGetters([
                 'currentUserInfo',
                 'currentUserId',
+                'searchSuccess',
             ]),
             userName() {
-                if (this.hasSearch) {
+                if (this.searchSuccess) {
                     return "用户："  + this.currentUserInfo.userName
                 } else {
                     return '请输入用户ID'
                 }
             },
             userPhoneNumber() {
-                if (this.hasSearch) {
+                if (this.searchSuccess) {
                     return this.currentUserInfo.phoneNumber
                 } else {
                     return ''
@@ -87,7 +87,6 @@
                 'chargeCredit'
             ]),
             onSearch(value) {
-                this.hasSearch = true
                 this.set_currentUserEmail(value)
                 this.getCurrentUserInfoByEmail()
             },
@@ -100,15 +99,23 @@
                 }
             },
             charge() {
-                this.form.validateFields((err, values) => {
-                    if (!err) {
-                        const data = {
-                            chargeMoney: this.form.getFieldValue('chargeMoney'),
+                if(this.searchSuccess) {
+                    this.form.validateFields((err, values) => {
+                        if (!err) {
+                            const data = {
+                                chargeMoney: this.form.getFieldValue('chargeMoney'),
+                            }
+                            this.chargeCredit(Number(data.chargeMoney))
+
+                        } else {
+                            message.error("请输入有效金额")
                         }
-                        this.chargeCredit(Number(data.chargeMoney))
-                    } else {
-                        message.error("请输入有效金额")
-                    }
+                    })
+                } else {
+                    message.error('请先进行搜索')
+                }
+                this.form.setFieldsValue({
+                    chargeMoney: '',
                 })
             }
         }

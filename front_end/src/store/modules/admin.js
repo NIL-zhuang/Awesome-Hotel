@@ -6,6 +6,9 @@ import {
     deleteHotelManagerAPI,
     deleteSalesPersonAPI,
 } from '@/api/admin'
+import {
+    updateUserInfoAPI
+} from "../../api/user";
 
 import { message } from 'ant-design-vue'
 
@@ -31,7 +34,9 @@ const admin = {
             userName: '',
             phoneNumber: '',
             password: '',
-        }
+        },
+        modifyInfoModalVisible: false,
+        modifyUserInfo: {},
     },
     mutations: {
         set_managerList: function(state, data) {
@@ -58,6 +63,13 @@ const admin = {
                 ...data,
             }
         },
+        set_modifyUserInfo: function (state, data) {
+            state.modifyUserInfo = data
+            console.log(state.modifyUserInfo)
+        },
+        set_modifyInfoModalVisible: function (state, data) {
+            state.modifyInfoModalVisible = data
+        }
     },
     actions: {
         getManagerList: async({ commit }) => {
@@ -119,6 +131,17 @@ const admin = {
                 message.error("删除失败")
             }
         },
+        adminUpdateUserInfo: async({ state, commit, dispatch }, data) => {
+            const res = await updateUserInfoAPI(data)
+            if (res) {
+                dispatch('getSalesPersonList')
+                dispatch('getManagerList')
+                message.success('修改成功')
+            } else {
+                message.error('修改失败')
+            }
+            commit('set_modifyInfoModalVisible', false)
+        }
     }
 }
 export default admin
