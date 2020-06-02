@@ -10,11 +10,18 @@ public interface HotelService {
     /**
      * 添加酒店
      *
-     * @param hotelVO
+     * @param hotelForm
      * @throws
      */
-    void addHotel(HotelVO hotelVO) throws ServiceException;
+    void addHotel(HotelForm hotelForm) throws ServiceException;
 
+    /**
+     * 删除酒店
+     *
+     * @param hotelId
+     * @throws
+     */
+    void delteHotel(Integer hotelId);
 
     /**
      * 预订酒店修改剩余客房信息

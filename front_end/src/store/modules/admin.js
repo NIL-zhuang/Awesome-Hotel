@@ -8,20 +8,21 @@ import {
 } from '@/api/admin'
 import {
     updateUserInfoAPI
-} from "../../api/user";
+} from "@/api/user";
+import {
+    addHotelAPI,
+    deleteHotelAPI
+} from "@/api/hotel";
 
 import { message } from 'ant-design-vue'
 
 const admin = {
     state: {
+        // 管理酒店工作人员
         managerList: [
 
         ],
-        salesPersonList: [
-
-        ],
         addManagerModalVisible: false,
-        addSalesPersonModalVisible: false,
         addManagerParams: {
             email: '',
             userName: '',
@@ -29,21 +30,36 @@ const admin = {
             hotelId: '',
             password: '',
         },
+        // 管理网站营销人员
+        salesPersonList: [
+
+        ],
+        addSalesPersonModalVisible: false,
         addSalesPersonParams: {
             email: '',
             userName: '',
             phoneNumber: '',
             password: '',
         },
+        // 修改人员信息
         modifyInfoModalVisible: false,
         modifyUserInfo: {},
+        // 添加酒店
+        addHotelParams: {
+            name: '',
+            address: '',
+            bizRegion: '',
+            hotelStar: '',
+            rate: 0,
+            description: '',
+            phoneNum: '',
+        },
+        addHotelModalVisible: false,
     },
     mutations: {
+        // 管理酒店工作人员相关
         set_managerList: function(state, data) {
             state.managerList = data
-        },
-        set_salesPersonList: function (state, data) {
-            state.salesPersonList = data
         },
         set_addManagerModalVisible: function(state, data) {
             state.addManagerModalVisible = data
@@ -54,6 +70,10 @@ const admin = {
                 ...data,
             }
         },
+        // 管理网站营销人员相关
+        set_salesPersonList: function (state, data) {
+            state.salesPersonList = data
+        },
         set_addSalesPersonModalVisible: function(state, data) {
             state.addSalesPersonModalVisible = data
         },
@@ -63,25 +83,31 @@ const admin = {
                 ...data,
             }
         },
+        // 修改酒店工作人员或者网站营销人员的基本信息(用户名、手机号、密码)
         set_modifyUserInfo: function (state, data) {
             state.modifyUserInfo = data
             console.log(state.modifyUserInfo)
         },
         set_modifyInfoModalVisible: function (state, data) {
             state.modifyInfoModalVisible = data
+        },
+        // 酒店管理相关
+        set_addHotelParams: function (state, data) {
+            state.addHotelParams = {
+                ...state.addHotelParams,
+                ...data,
+            }
+        },
+        set_addHotelModalVisible: function (state, data) {
+            state.addHotelModalVisible = data
         }
     },
     actions: {
+        // 管理酒店工作人员
         getManagerList: async({ commit }) => {
             const res = await getManagerListAPI()
             if(res){
                 commit('set_managerList', res)
-            }
-        },
-        getSalesPersonList: async({ commit }) => {
-            const res = await getSalesPersonListAPI()
-            if(res){
-                commit('set_salesPersonList', res)
             }
         },
         addManager: async({ state, commit, dispatch }) => {
@@ -99,6 +125,22 @@ const admin = {
                 message.error('添加失败')
             }
         },
+        deleteHotelManager: async({ state, commit, dispatch }, id) => {
+            const res = await deleteHotelManagerAPI(id)
+            if(res) {
+                dispatch('getManagerList')
+                message.success('删除成功')
+            } else {
+                message.error("删除失败")
+            }
+        },
+        // 管理网站营销人员
+        getSalesPersonList: async({ commit }) => {
+            const res = await getSalesPersonListAPI()
+            if(res){
+                commit('set_salesPersonList', res)
+            }
+        },
         addSalesPerson: async({ state, commit, dispatch }) => {
             const res = await addSalesPersonAPI(state.addSalesPersonParams)
             if(res) {
@@ -113,15 +155,6 @@ const admin = {
                 message.error('添加失败')
             }
         },
-        deleteHotelManager: async({ state, commit, dispatch }, id) => {
-            const res = await deleteHotelManagerAPI(id)
-            if(res) {
-                dispatch('getManagerList')
-                message.success('删除成功')
-            } else {
-                message.error("删除失败")
-            }
-        },
         deleteSalesPerson: async({ state, commit, dispatch }, id) => {
             const res = await deleteSalesPersonAPI(id)
             if(res) {
@@ -131,6 +164,7 @@ const admin = {
                 message.error("删除失败")
             }
         },
+        // 修改人员信息
         adminUpdateUserInfo: async({ state, commit, dispatch }, data) => {
             const res = await updateUserInfoAPI(data)
             if (res) {
@@ -141,6 +175,38 @@ const admin = {
                 message.error('修改失败')
             }
             commit('set_modifyInfoModalVisible', false)
+        },
+        // 添加酒店
+        addHotel: async ({state, dispatch, commit}) => {
+            const res = await addHotelAPI(state.addHotelParams)
+            if (res) {
+                dispatch('getHotelList')
+                commit('set_addHotelParams', {
+                    name: '',
+                    address: '',
+                    bizRegion: 'XiDan',
+                    hotelStar: '',
+                    rate: 0,
+                    description: '',
+                    phoneNum: '',
+                    managerId: '',
+                })
+                commit('set_addHotelModalVisible', false)
+                message.success('添加成功')
+            } else {
+                message.error('添加失败')
+            }
+        },
+        // 删除酒店
+        deleteHotel: async ({state, dispatch, commit}, id) => {
+            console.log('in deleteHotel: ' + id)
+            const res = await deleteHotelAPI(id)
+            if(res) {
+                dispatch('getHotelList')
+                message.success('删除成功')
+            } else {
+                message.error('删除失败')
+            }
         }
     }
 }
