@@ -10,7 +10,8 @@ import {
     hotelBirthdayCouponAPI,
     hotelTimeCouponAPI,
     hotelManyRoomCouponAPI,
-    hotelCorporateCouponAPI,
+    CorporateCouponAPI,
+    deleteCouponAPI,
 } from '@/api/coupon'
 import {
     registerHotelMembershipAPI
@@ -98,7 +99,6 @@ const hotelManager = {
         },
         addHotelCoupon: async ({commit, dispatch}, data) => {
             let res = null
-            console.log(data)
             switch (data.type) {
                 case 1:
                     res = await hotelBirthdayCouponAPI(data)
@@ -113,7 +113,7 @@ const hotelManager = {
                     res = await hotelTimeCouponAPI(data)
                     break
                 case 5:
-                    res = await hotelCorporateCouponAPI(data)
+                    res = await CorporateCouponAPI(data)
                     break
             }
             if (res) {
@@ -122,6 +122,15 @@ const hotelManager = {
                 message.success('添加策略成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        deleteCoupon: async ({commit, dispatch}, data) => {
+            const res = await deleteCouponAPI(data)
+            if (res) {
+                dispatch('getHotelCoupon')
+                message.success('删除成功')
+            }else {
+                message.error('删除失败')
             }
         },
         registerHotelMembership: async ({state, dispatch, commit}, data) => {
@@ -153,4 +162,5 @@ const hotelManager = {
         },
     }
 }
+
 export default hotelManager

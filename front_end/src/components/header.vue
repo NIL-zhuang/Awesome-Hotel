@@ -39,8 +39,8 @@
             </a-menu-item>
             <a-menu-item @click="registerAsMember" key="7" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'hotelMembership'}">
-                    <a-icon type="usergroup-add"/>
-                    注册企业会员
+                    <a-icon type="crown"/>
+                    特权酒店
                 </router-link>
             </a-menu-item>
             <a-menu-item @click="manageUser" key="8" v-if="userInfo.userType==='Admin'">

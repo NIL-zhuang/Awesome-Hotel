@@ -1,4 +1,4 @@
-<template xmlns:a-form="http://www.w3.org/1999/html">
+<template>
     <a-modal
         :visible="orderDetailVisible"
         title="订单详情"
@@ -37,7 +37,7 @@
                 <span v-else>(无儿童)</span>
             </a-descriptions-item>
             <a-descriptions-item label="入住与离店时间" span="2">
-                {{ orderInfo.checkInDate }} - {{ orderInfo.checkOutDate }}
+                {{ orderInfo.checkInDate }} ～ {{ orderInfo.checkOutDate }}
             </a-descriptions-item>
             <a-descriptions-item label="总价">
                 {{ orderInfo.price }}
@@ -87,15 +87,12 @@ export default {
         ...mapMutations([
             'set_orderDetailVisible'
         ]),
-
-
         handleOK() {
             this.set_orderDetailVisible(false)
         },
-
         cancel() {
             this.set_orderDetailVisible(false)
-        }
+        },
     }
 
 }

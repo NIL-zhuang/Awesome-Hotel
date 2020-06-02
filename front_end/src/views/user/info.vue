@@ -132,7 +132,7 @@
                         <a-list-item-meta
                                 :description="item.hotelName"
                         >
-                            <a slot="title" href="https://www.antdv.com/">{{ item.id }}</a>
+                            <a slot="title">{{ item.id }}</a>
                         </a-list-item-meta>
                     </a-list-item>
                 </a-list>

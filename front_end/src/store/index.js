@@ -6,6 +6,7 @@ import hotelManager from './modules/hotelManager'
 import admin from './modules/admin'
 import salesPerson from "./modules/salesPerson"
 import order from './modules/order'
+import coupon from "./modules/coupon"
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         hotelManager,
         admin,
         salesPerson,
-        order
+        order,
+        coupon,
     },
     state: {},
     mutations: {},

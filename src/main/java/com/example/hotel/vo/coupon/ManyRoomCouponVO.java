@@ -5,7 +5,9 @@ package com.example.hotel.vo.coupon;
  * @date 2020/5/30 14:10
  */
 public class ManyRoomCouponVO extends CouponVO {
+
     private Integer targetRoomNum;
+
     private double discount;
 
     public Integer getTargetRoomNum() {
