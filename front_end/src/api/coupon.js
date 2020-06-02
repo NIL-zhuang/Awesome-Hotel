@@ -26,7 +26,7 @@ export function hotelManyRoomCouponAPI(data) {
     })
 }
 
-export function hotelCorporateCouponAPI(data) {
+export function CorporateCouponAPI(data) {
     return axios({
         url: `${api.couponPre}/corporation`,
         method: 'POST',
@@ -39,6 +39,14 @@ export function hotelTargetMoneyAPI(data) {
         url: `${api.couponPre}/hotelTargetMoney`,
         method: 'POST',
         data,
+    })
+}
+
+export function deleteCouponAPI(couponId) {
+    return axios({
+        url: `${api.couponPre}/annulCoupons`,
+        method: 'POST',
+        params: { id: couponId },
     })
 }
 

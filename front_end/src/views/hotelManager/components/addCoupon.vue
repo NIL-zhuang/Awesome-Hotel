@@ -1,4 +1,4 @@
-<template xmlns:a-form="http://www.w3.org/1999/html">
+<template>
     <a-modal
             :visible="addCouponVisible"
             @cancel="cancel"
@@ -16,7 +16,6 @@
                     <a-select-option value="2">多间特惠</a-select-option>
                     <a-select-option value="3">满减特惠</a-select-option>
                     <a-select-option value="4">限时特惠</a-select-option>
-                    <a-select-option value="5">合作企业优惠</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
@@ -163,13 +162,13 @@
                             corporateName: this.isCorporatonCoupon?this.form.getFieldValue('corporation'):null,
                             startTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[0].format('YYYY-MM-DD'):null,
                             endTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[1].format('YYYY-MM-DD'):null,
+                            targetRoomNum: this.isMultipleCoupon?this.multipleNum:null,
                             targetMoney: this.form.getFieldValue('targetMoney')?Number(this.form.getFieldValue('targetMoney')):null,
                             discountMoney: this.form.getFieldValue('discountMoney')?Number(this.form.getFieldValue('discountMoney')):null,
                             hotelId: Number(this.activeHotelId),
                             status: 1,
                         }
                         this.addHotelCoupon(data)
-                        console.log(data)
                         this.form.resetFields()
                     }
                 });

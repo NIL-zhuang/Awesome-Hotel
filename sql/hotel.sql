@@ -250,7 +250,6 @@ CREATE TABLE `User`
     `annulTime`  int(5)         DEFAULT 0,
     `jobNumber`   int(11)        DEFAULT NULL,
     `hotelID`     int(11)        DEFAULT NULL,
-    `VIPType`     varchar(255)   DEFAULT NULL,
     `portrait`    varchar(255)   DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -266,11 +265,11 @@ BEGIN;
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal',
-        NULL),
-       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, 'normal',
-        NULL),
-       (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, 'normal', NULL);
+VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL),
+       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL),
+       (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, NULL),
+       (7, '444@qq.com', 'e10adc3949b', '营销人员1', NULL, NULL, 'SalesPerson', NULL, NULL, 3, NULL, NULL, NULL),
+       (8, '555@qq.com', 'e10adc3949b', '管理人员1', NULL, NULL, 'Admin', NULL, NULL, 3, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `User`
     ENABLE KEYS */;
 COMMIT;
@@ -354,15 +353,32 @@ CREATE TABLE `Answers`
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `credits`;
+DROP TABLE IF EXISTS `Credits`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credits`
+CREATE TABLE `Credits`
 (
     `id`     int(11) NOT NULL AUTO_INCREMENT,
     `userID` int(11) NOT NULL,
     `change` int(11) DEFAULT 0,
     `now`    int(11) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABlE IF EXISTS `VIP`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `VIP`
+(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `type` varchar(255) DEFAULT NULL,
+    `userId` int(11),
+    `corporationName` varchar(255),
+    `level` int(11) DEFAULT 1,
+    `reduction` double DEFAULT 0.00,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4

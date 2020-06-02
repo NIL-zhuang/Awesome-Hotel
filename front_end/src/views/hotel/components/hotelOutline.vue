@@ -47,7 +47,7 @@
                         {{text}}
                     </a-tag>
                     <a-tag color="blue" slot="discount" slot-scope="disc">
-                        {{disc===0.00?'暂无':disc}}
+                        {{disc===0.00?'暂无':100*disc+'%'}}
                     </a-tag>
                     <a-tag color="pink" slot="discountMoney" slot-scope="money">
                         {{money===0?'暂无':money}}

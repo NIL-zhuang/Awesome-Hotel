@@ -19,7 +19,6 @@ public class UserVO {
     private String annulTime;
     private String jobNumber;
     private String hotelID;
-    private String VIPType;
     private String portrait;
 
     public Integer getId() {
@@ -116,14 +115,6 @@ public class UserVO {
 
     public void setHotelID(String hotelID) {
         this.hotelID = hotelID;
-    }
-
-    public String getVIPType() {
-        return VIPType;
-    }
-
-    public void setVIPType(String VIPType) {
-        this.VIPType = VIPType;
     }
 
     public String getPortrait() {

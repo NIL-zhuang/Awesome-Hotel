@@ -16,7 +16,6 @@ public class User {
     private String portrait;
     private String jobNumber;
     private Integer hotelID;
-    private String VIPType;
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
@@ -122,11 +121,4 @@ public class User {
         this.hotelID = hotelID;
     }
 
-    public String getVIPType() {
-        return VIPType;
-    }
-
-    public void setVIPType(String VIPType) {
-        this.VIPType = VIPType;
-    }
 }

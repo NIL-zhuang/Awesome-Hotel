@@ -4,16 +4,23 @@
 
     <insert id="insertCoupon" parameterType="com.example.hotel.po.Coupon"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Coupon(description,couponName,target_money,discount_money,start_time,end_time,hotelId,couponType,discount,status,target_room_num, corporate_name)
-        values(#{description},#{couponName},#{targetMoney},#{discountMoney},#{startTime},#{endTime},#{hotelId},#{couponType},#{discount},#{status},#{targetRoomNum},#{corporateName})
+        insert into Coupon(description, couponName, target_money, discount_money, start_time, end_time, hotelId,
+                           couponType, discount, status, target_room_num, corporate_name)
+        values (#{description}, #{couponName}, #{targetMoney}, #{discountMoney}, #{startTime}, #{endTime}, #{hotelId},
+                #{couponType}, #{discount}, #{status}, #{targetRoomNum}, #{corporateName})
     </insert>
 
     <select id="selectByHotelId" resultMap="Coupon">
-        select * from Coupon where hotelId=#{hotelId}
+        select *
+        from Coupon
+        where hotelId = #{hotelId}
+          and status = 1
     </select>
 
     <delete id="annualCoupon">
-        delete from Coupon where id = #{id}
+        delete
+        from Coupon
+        where id = #{id}
     </delete>
 
 
