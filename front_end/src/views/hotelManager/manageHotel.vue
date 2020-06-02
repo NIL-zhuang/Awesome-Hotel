@@ -1,37 +1,11 @@
 <template>
     <div class="manageHotel-wrapper">
         <a-tabs>
-            <a-tab-pane tab="酒店管理" key="1">
-                <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
-                </div>
-                 <a-table
-                    :columns="columns_of_hotels"
-                    :dataSource="hotelList"
-                    bordered
-                >
-                    <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-popconfirm
-                            title="确定想删除该酒店吗？"
-                            @confirm="deleteHotel(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除酒店</a-button>
-                        </a-popconfirm>
-                    </span>
-                </a-table>
-            </a-tab-pane>
-
-            <a-tab-pane tab="我的酒店" key="2">
+            <a-tab-pane tab="我的酒店" key="1">
                 <modifyHotelInfo></modifyHotelInfo>
             </a-tab-pane>
 
-            <a-tab-pane tab="订单管理" key="3">
+            <a-tab-pane tab="订单管理" key="2">
                 <a-table
                     :columns="columns_of_orders"
                     :dataSource="orderList"
@@ -98,11 +72,11 @@
                 </a-table>
             </a-tab-pane>
 
-            <a-tab-pane tab="优惠管理" key="4">
+            <a-tab-pane tab="优惠管理" key="3">
                 <hotel-coupon></hotel-coupon>
             </a-tab-pane>
 
-            <a-tab-pane tab="客房管理" key="5">
+            <a-tab-pane tab="客房管理" key="4">
                 <hotel-room></hotel-room>
             </a-tab-pane>
         </a-tabs>
@@ -243,12 +217,12 @@ export default {
             'activeHotelId',
             'couponVisible',
             'orderDetailVisible',
+            'userInfo',
+            'hotelInfo',
         ]),
     },
     async mounted() {
-        await this.getHotelList()
-        console.log()
-        await this.getHotelOrders()
+        await this.getHotelInfo(Number(this.userInfo.hotelID)) // 获取该管理员对应的酒店
     },
     methods: {
         ...mapMutations([
@@ -264,6 +238,7 @@ export default {
             'getHotelOrders',
             'getHotelCoupon',
             'execOrder',
+            'getHotelInfo',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)

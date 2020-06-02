@@ -71,7 +71,7 @@ const user = {
     },
 
     actions: {
-        login: async ({dispatch, commit}, userData) => {
+        login: async ({state, dispatch, commit}, userData) => {
             const res = await loginAPI(userData)
             if (res) {
                 setToken(res.id)

@@ -69,7 +69,7 @@ public class HotelController {
 
     @PostMapping("/{hotelId}/deleteHotel")
     public ResponseVO deleteHotel(@PathVariable Integer hotelId) {
-        hotelService.delteHotel(hotelId);
+        hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess(true);
     }
 }

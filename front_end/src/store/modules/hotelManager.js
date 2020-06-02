@@ -15,11 +15,13 @@ import {
 import {
     registerHotelMembershipAPI
 } from "@/api/hotelManager";
+import {
+    getHotelByIdAPI
+} from "../../api/hotel";
 import {message} from 'ant-design-vue'
-
+import getters from "../getters";
 const hotelManager = {
     state: {
-        manageHotelId: 0, // 需要一些新的方法
         orderList: [],
         addRoomParams: {
             roomType: '',
@@ -34,6 +36,7 @@ const hotelManager = {
         activeHotelId: 0,
         couponList: [],
         registerHotelMembershipModalVisible: false,
+        hotelInfo: {},
     },
     mutations: {
         set_managerList: function (state, data) {
@@ -65,7 +68,10 @@ const hotelManager = {
         },
         set_registerHotelMembershipModalVisible: function (state, data) {
             state.registerHotelMembershipModalVisible = data
-        }
+        },
+        set_hotelInfo: function (state, data) {
+            state.hotelInfo = data
+        },
     },
     actions: {
         getHotelOrders: async ({state, commit}) => {
@@ -90,14 +96,6 @@ const hotelManager = {
                 message.error('添加失败')
             }
         },
-        getHotelCoupon: async ({state, commit}) => {
-            const res = await hotelAllCouponsAPI(state.activeHotelId)
-            if (res) {
-                commit('set_couponList', res)
-            } else {
-
-            }
-        },
         addHotelCoupon: async ({commit, dispatch}, data) => {
             let res = null
             console.log(data)
@@ -119,9 +117,8 @@ const hotelManager = {
                     break
             }
             if (res) {
-                dispatch('getHotelCoupon')
+                dispatch('getHotelCoupon', data.hotelId)
                 commit('set_addCouponVisible', false)
-                commit('set_couponVisible', true)
                 message.success('添加策略成功')
             } else {
                 message.error('添加失败')
@@ -136,7 +133,24 @@ const hotelManager = {
             } else {
                 message.error('注册失败')
             }
-        }
+        },
+        getHotelInfo: async ({state, commit}, hotelId) => {
+            const res = await getHotelByIdAPI(hotelId)
+            if (res) {
+                console.log(res)
+                commit('set_hotelInfo', res)
+            } else {
+                message.error('获取失败')
+            }
+        },
+        getHotelCoupon: async ({state, commit}, hotelId) => {
+            const res = await hotelAllCouponsAPI(hotelId)
+            if (res) {
+                commit('set_couponList', res)
+            } else {
+
+            }
+        },
     }
 }
 export default hotelManager

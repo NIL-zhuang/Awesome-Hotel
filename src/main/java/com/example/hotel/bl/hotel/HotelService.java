@@ -21,7 +21,7 @@ public interface HotelService {
      * @param hotelId
      * @throws
      */
-    void delteHotel(Integer hotelId);
+    void deleteHotel(Integer hotelId);
 
     /**
      * 预订酒店修改剩余客房信息

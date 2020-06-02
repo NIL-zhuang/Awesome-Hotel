@@ -1,7 +1,6 @@
 <!-- created by glh  2020-05-21  -->
 <template>
     <div>
-        <h1>TODO: 要先获取当前酒店管理员对应的酒店</h1>
         <div style="width: 100%; text-align: right; margin: 20px 0">
             <a-button type="primary" @click="addCoupon">
                 <a-icon type="plus"/>添加优惠策略
@@ -12,22 +11,24 @@
                 :columns="columns"
                 :dataSource="couponList"
                 bordered
+
         >
-            <a-tag color="red" slot="couponName" slot-scope="text">
+            <template slot="title">
+                <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
+            </template>
+            <a-tag color="purple" slot="couponName" slot-scope="text">
                 {{text}}
             </a-tag>
-
-            <span slot="action" slot-scope="record">
-                <a-popconfirm
-                        title="确定删除该优惠券吗？"
-                        @confirm="deleteCoupon(record)"
-                        okText="确定"
-                        cancelText="取消"
-                >
-                    <a-button type="danger" size="small">删除</a-button>
-                </a-popconfirm>
+            <a-tag color="blue" slot="discount" slot-scope="disc">
+                {{disc===0.00?'暂无':disc}}
+            </a-tag>
+            <a-tag color="pink" slot="discountMoney" slot-scope="money">
+                {{money===0?'暂无':money}}
+            </a-tag>
+            <span slot="action">
+                <a-button size="small" type="primary">查看详情</a-button>
                 <a-divider type="vertical"></a-divider>
-                <a-button type="primary" size="small">修改</a-button>
+                <a-button size="small" type="danger">删除优惠券</a-button>
             </span>
         </a-table>
         <AddCoupon></AddCoupon>
@@ -40,27 +41,28 @@ import AddCoupon from './addCoupon'
 
 const columns = [
     {
-        title: '优惠类型',
+        title: '优惠券名称',
         dataIndex: 'couponName',
         scopedSlots: {customRender: 'couponName'},
     },
     {
         title: '折扣',
         dataIndex: 'discount',
+        scopedSlots: {customRender: 'discount'},
     },
     {
         title: '优惠简介',
         dataIndex: 'description',
     },
     {
-        title: '优惠金额',
+        title: '优惠金额（满减）',
         dataIndex: 'discountMoney',
+        scopedSlots: {customRender: 'discountMoney'},
     },
     {
         title: '操作',
-        dataIndex: 'action',
         scopedSlots: {customRender: 'action'}
-    },
+    }
 ];
 
 export default {
@@ -76,7 +78,11 @@ export default {
     computed: {
         ...mapGetters([
             'couponList',
+            'userInfo',
         ])
+    },
+    mounted() {
+        this.getHotelCoupon(Number(this.userInfo.hotelID))
     },
     methods: {
         ...mapMutations([
@@ -84,7 +90,8 @@ export default {
         ]),
         ...mapActions([
             'getHotelCoupon',
-            'getHotelByManagerId'
+            'getHotelByManagerId',
+            'getHotelCoupon',
         ]),
         addCoupon() {
             this.set_addCouponVisible(true)

@@ -115,6 +115,7 @@
             ...mapGetters([
                 'activeHotelId',
                 'addCouponVisible',
+                'userInfo',
             ])
         },
         beforeCreate() {
@@ -165,7 +166,7 @@
                             endTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[1].format('YYYY-MM-DD'):null,
                             targetMoney: this.form.getFieldValue('targetMoney')?Number(this.form.getFieldValue('targetMoney')):null,
                             discountMoney: this.form.getFieldValue('discountMoney')?Number(this.form.getFieldValue('discountMoney')):null,
-                            hotelId: Number(this.activeHotelId),
+                            hotelId: Number(this.userInfo.hotelID),
                             status: 1,
                         }
                         this.addHotelCoupon(data)

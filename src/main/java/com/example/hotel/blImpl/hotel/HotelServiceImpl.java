@@ -49,7 +49,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void delteHotel(Integer hotelId) {
+    public void deleteHotel(Integer hotelId) {
         hotelMapper.deleteHotel(hotelId);
     }
 
