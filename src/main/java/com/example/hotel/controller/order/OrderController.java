@@ -1,6 +1,7 @@
 package com.example.hotel.controller.order;
 
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,22 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/addOrder")
-    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO){
+    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO) {
         return orderService.addOrder(orderVO);
     }
 
     @GetMapping("/getAllOrders")
-    public ResponseVO retrieveAllOrders(){
+    public ResponseVO retrieveAllOrders() {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
     @GetMapping("/{userid}/getUserOrders")
-    public  ResponseVO retrieveUserOrders(@PathVariable int userid){
+    public ResponseVO retrieveUserOrders(@PathVariable int userid) {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
     @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
+    public ResponseVO annulOrder(@PathVariable int orderid) {
         return orderService.annulOrder(orderid);
     }
 
@@ -43,6 +44,36 @@ public class OrderController {
     @GetMapping("/{hotelId}/allOrders")
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
+    }
+
+    @PostMapping("/addComment")
+    public ResponseVO addComment(@RequestBody CommentVO commentVO) {
+        return orderService.addComment(commentVO);
+    }
+
+    @GetMapping("/{orderId}/annulComment")
+    public ResponseVO annulComment(@PathVariable Integer orderId) {
+        return ResponseVO.buildSuccess(orderService.annulComment(orderId));
+    }
+
+    @GetMapping("/{orderId}/getComment")
+    public ResponseVO getComment(@PathVariable Integer orderId) {
+        return ResponseVO.buildSuccess(orderService.getComment(orderId));
+    }
+
+    @GetMapping("/{hotelId}/getHotelComment")
+    public ResponseVO getHotelComment(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(orderService.getHotelComment(hotelId));
+    }
+
+    @GetMapping("/{userId}/getUserComment")
+    public ResponseVO getUserComment(@PathVariable Integer userId) {
+        return ResponseVO.buildSuccess(orderService.getUserComments(userId));
+    }
+
+    @GetMapping("/{orderId}/finishOrder")
+    public ResponseVO finishOrder(@PathVariable Integer orderId) {
+        return orderService.finishOrder(orderId);
     }
 
 }

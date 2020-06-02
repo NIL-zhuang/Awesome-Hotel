@@ -115,7 +115,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import AddHotelModal from './components/addHotelModal'
+import AddHotelModal from '../admin/components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 import orderDetail from "../order/orderDetail";

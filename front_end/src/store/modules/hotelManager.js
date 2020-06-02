@@ -1,6 +1,5 @@
 import {
     addRoomAPI,
-    addHotelAPI,
 } from '@/api/hotelManager'
 import {
     getHotelOrdersAPI,
@@ -23,17 +22,6 @@ const hotelManager = {
     state: {
         manageHotelId: 0, // 需要一些新的方法
         orderList: [],
-        addHotelParams: {
-            name: '',
-            address: '',
-            bizRegion: 'XiDan',
-            hotelStar: '',
-            rate: 0,
-            description: '',
-            phoneNum: '',
-            managerId: '',
-        },
-        addHotelModalVisible: false,
         addRoomParams: {
             roomType: '',
             hotelId: '',
@@ -54,15 +42,6 @@ const hotelManager = {
         },
         set_orderList: function (state, data) {
             state.orderList = data
-        },
-        set_addHotelModalVisible: function (state, data) {
-            state.addHotelModalVisible = data
-        },
-        set_addHotelParams: function (state, data) {
-            state.addHotelParams = {
-                ...state.addHotelParams,
-                ...data,
-            }
         },
         set_addRoomModalVisible: function (state, data) {
             state.addRoomModalVisible = data
@@ -94,26 +73,6 @@ const hotelManager = {
             let res = await getHotelOrdersAPI(state.manageHotelId)
             if (res) {
                 commit('set_orderList', res)
-            }
-        },
-        addHotel: async ({state, dispatch, commit}) => {
-            const res = await addHotelAPI(state.addHotelParams)
-            if (res) {
-                dispatch('getHotelList')
-                commit('set_addHotelParams', {
-                    name: '',
-                    address: '',
-                    bizRegion: 'XiDan',
-                    hotelStar: '',
-                    rate: 0,
-                    description: '',
-                    phoneNum: '',
-                    managerId: '',
-                })
-                commit('set_addHotelModalVisible', false)
-                message.success('添加成功')
-            } else {
-                message.error('添加失败')
             }
         },
         addRoom: async ({state, dispatch, commit}) => {

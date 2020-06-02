@@ -14,6 +14,8 @@ public interface HotelMapper {
 
     int insertHotel(Hotel hotel);
 
+    int deleteHotel(Integer id);
+
     List<Hotel> selectAllHotel();
 
     Hotel selectById(@Param("id") Integer id);
