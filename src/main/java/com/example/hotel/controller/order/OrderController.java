@@ -71,4 +71,9 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserComments(userId));
     }
 
+    @GetMapping("/{orderId}/finishOrder")
+    public ResponseVO finishOrder(@PathVariable Integer orderId) {
+        return orderService.finishOrder(orderId);
+    }
+
 }

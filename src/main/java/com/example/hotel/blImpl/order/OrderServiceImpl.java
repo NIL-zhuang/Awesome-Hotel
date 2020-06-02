@@ -5,6 +5,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Comment;
+import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.CommentVO;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String FINISH_ORDER = "退房成功";
+    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -43,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
         try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date(System.currentTimeMillis());
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
@@ -76,6 +77,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // added by hx
+    // TODO 这里是不是有点问题？
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
@@ -99,18 +101,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public ResponseVO finishOrder(int orderId) {
+        Order order = orderMapper.getOrderById(orderId);
+        orderMapper.finishOrder(orderId);
+        // 更新酒店房间数量，因为那个就是直接减法了，那我现在就减个负数叭
+        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
+        return ResponseVO.buildSuccess(FINISH_ORDER);
+    }
+
+    @Override
     public CommentVO getComment(int orderId) {
         Comment comment = orderMapper.getComment(orderId);
-        return new CommentVO() {{
-            this.setComment(comment.getComment());
-            this.setEnvironment(comment.getEnvironment());
-            this.setEquipment(comment.getEquipment());
-            this.setOrderId(comment.getOrderId());
-            this.setPoints(comment.getPoints());
-            this.setSanitation(comment.getSanitation());
-            this.setUserId(comment.getUserId());
-            this.setService(comment.getService());
-        }};
+        CommentVO commentVO = new CommentVO();
+        BeanUtils.copyProperties(comment, commentVO);
+        return commentVO;
     }
 
     @Override

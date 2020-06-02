@@ -52,6 +52,8 @@ public interface OrderService {
      */
     ResponseVO annulOrder(int orderid);
 
+    ResponseVO finishOrder(int orderId);
+
     CommentVO getComment(int orderId);
 
     ResponseVO annulComment(int orderId);

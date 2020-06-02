@@ -30,6 +30,13 @@
         where id = #{orderid}
     </update>
 
+    <update id="finishOrder">
+        update orderrlist
+        set orderState = '已完成'
+        where id = #{orderId}
+    </update>
+
+
     <update id="updateComment" parameterType="com.example.hotel.po.Comment">
         update orderlist
         set comments = #{comment}
