@@ -38,6 +38,13 @@ export function registerMembershipAPI(params) {
         params
     })
 }
+export function registerCorporationMembershipAPI(params) {
+    return axios({
+        url: `${api.userPre}/registerCorporationMembership`,
+        method: 'POST',
+        params
+    })
+}
 export function getUserInfoByEmailAPI(params) {
     console.log(params)
     return axios({

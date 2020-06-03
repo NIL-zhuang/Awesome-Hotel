@@ -8,7 +8,8 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
-    registerMembershipAPI
+    registerMembershipAPI,
+    registerCorporationMembershipAPI
 } from '@/api/user'
 
 import {
@@ -28,7 +29,8 @@ const getDefaultState = () => {
         dateRange: [moment(), moment().add(1, 'd')],
         userOrderList: [],
         onceOrderedList: [],
-        registerMembershipModalVisible: false,
+        registerSiteMembershipModalVisible: false,
+        registerCorporationMembershipModalVisible: false,
     }
 }
 const user = {
@@ -65,9 +67,12 @@ const user = {
         set_onceOrderedList: (state, data) => {
             state.onceOrderedList = data
         },
-        set_registerMembershipModalVisible: (state, data) => {
-            state.registerMembershipModalVisible = data
-        }
+        set_registerSiteMembershipModalVisible: (state, data) => {
+            state.registerSiteMembershipModalVisible = data
+        },
+        set_registerCorporationMembershipModalVisible: (state, data) => {
+            state.registerCorporationMembershipModalVisible = data
+        },
     },
 
     actions: {
@@ -167,6 +172,17 @@ const user = {
                 dispatch('getUserInfo')
             }
         },
+        registerCorporationMembership: async ({state, dispatch}, data) => {
+            const params = {
+                id: Number(state.userId),
+                ...data,
+            }
+            const res = await registerCorporationMembershipAPI(params)
+            if (res) {
+                message.success('注册成功')
+                dispatch('getUserInfo')
+            }
+        }
 
     }
 }

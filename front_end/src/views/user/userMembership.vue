@@ -5,7 +5,7 @@
         </div>
         <div style="float: left; margin-left: 5%; text-align: center; width: 270px">
             <a-card style="width: 270px;">
-                <p>VIP会员特权</p>
+                <p>VIP网站会员特权</p>
                 <img
                     alt="example"
                     src="@/assets/membershipLogo.svg"
@@ -20,35 +20,51 @@
                 />
                 <span> 丰富优惠</span>
             </a-card>
-            <a-button type="primary" @click="registerMembership" style="margin-top: 20px"><a-icon type="user" />注册会员</a-button>
-            <register-membership></register-membership>
-        </div>
+            <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册网站会员</a-button>
 
+            <a-card style="width: 270px; margin-top: 20px">
+                <p>VIP企业会员特权</p>
+                <img
+                        alt="example"
+                        src="@/assets/couponLogo.svg"
+                        style="width: 20px; height: 20px"
+                />
+                <span>企业专享优惠</span>
+            </a-card>
+            <a-button type="primary" @click="registerCorporationMembership" style="margin-top: 20px"><a-icon type="user" />注册企业会员</a-button>
+
+
+        </div>
+        <RegisterSiteMembership></RegisterSiteMembership>
+        <RegisterCorporationMembership></RegisterCorporationMembership>
     </div>
 </template>
 
 <script>
 import membershipCoupon from "./components/membershipCoupon";
-import registerMembership from "./components/registerMembership";
+import RegisterSiteMembership from "./components/RegisterSiteMembership";
+import RegisterCorporationMembership from "./components/RegisterCorporationMembership";
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
     name: "usermembership",
     components: {
         membershipCoupon,
-        registerMembership,
+        RegisterSiteMembership,
+        RegisterCorporationMembership
     },
     computed: {
-        ...mapGetters([
-            'registerMembershipModalVisible'
-        ])
     },
     methods: {
         ...mapMutations([
-            'set_registerMembershipModalVisible'
+            'set_registerSiteMembershipModalVisible',
+            'set_registerCorporationMembershipModalVisible',
         ]),
-        registerMembership() {
-            this.set_registerMembershipModalVisible(true);
-        }
+        registerSiteMembership() {
+            this.set_registerSiteMembershipModalVisible(true);
+        },
+        registerCorporationMembership() {
+            this.set_registerCorporationMembershipModalVisible(true)
+        },
     }
 
 }

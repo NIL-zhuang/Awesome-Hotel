@@ -1,7 +1,7 @@
 <template>
     <a-modal
-            :visible="registerMembershipModalVisible"
-            title="注册会员"
+            :visible="registerSiteMembershipModalVisible"
+            title="注册网站会员"
             cancelText="取消"
             okText="注册"
             @cancel="cancelRegister"
@@ -26,7 +26,7 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     const moment = require('moment')
     export default {
-        name: "registerMembership",
+        name: "registerSiteMembership",
         data() {
             return {
                 formItemLayout: {
@@ -44,18 +44,18 @@
         },
         computed: {
             ...mapGetters([
-                'registerMembershipModalVisible'
+                'registerSiteMembershipModalVisible'
             ])
         },
         methods: {
             ...mapMutations([
-                'set_registerMembershipModalVisible'
+                'set_registerSiteMembershipModalVisible'
             ]),
             ...mapActions([
                'registerMembership'
             ]),
             cancelRegister() {
-                this.set_registerMembershipModalVisible(false);
+                this.set_registerSiteMembershipModalVisible(false);
             },
             confirmRegister(e) {
                 // TODO 注册会员的逻辑
@@ -66,7 +66,7 @@
                             birthday: moment(this.form.getFieldValue('birthday')).format('YYYY-MM-DD')
                         }
                         this.registerMembership(data).then(() => {
-                            this.set_registerMembershipModalVisible(false);
+                            this.set_registerSiteMembershipModalVisible(false);
                         })
                     }
                 });
