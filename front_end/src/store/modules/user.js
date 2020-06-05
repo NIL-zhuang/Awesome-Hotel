@@ -119,9 +119,6 @@ const user = {
                 dispatch('getUserInfo')
             }
         },
-        getUserOrdersbyHotelId: async ({state, commit}) => {
-            // 获取用户在指定酒店的订单
-        },
         getUserOrders: async ({state, commit}) => {
             const res = await getUserOrdersAPI(state.userId)
             if (res) {

@@ -24,7 +24,7 @@
     import SalesHomePage from "./components/salesHomePage"
 
     export default {
-        name: "homePage",
+        name: "HomePage",
         components:  {
             AdminHomePage,
             ManagerHomePage,

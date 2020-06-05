@@ -207,6 +207,9 @@ CREATE TABLE `Room`
     `total`    int(11)     DEFAULT NULL,
     `hotel_id` int(11)     DEFAULT NULL,
     `roomType` varchar(50) DEFAULT NULL,
+    `bedType` varchar(50) DEFAULT NULL,
+    `breakfast` varchar(50) DEFAULT NULL,
+    `peopleNum` int(11) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
@@ -221,10 +224,10 @@ BEGIN;
 /*!40000 ALTER TABLE `Room`
     DISABLE KEYS */;
 INSERT INTO `Room`
-VALUES (2, 199, 20, 20, 1, 'BigBed'),
-       (3, 299, 30, 30, 1, 'DoubleBed'),
-       (4, 399, 10, 10, 1, 'Family'),
-       (5, 399, 10, 10, 2, 'Family');
+VALUES (2, 199, 20, 20, 1, 'BigBed', 'BigBed', 'None',1),
+       (3, 299, 30, 30, 1, 'DoubleBed','DoubleBed','None',2),
+       (4, 399, 10, 10, 1, 'Family','Family','Porridge',3),
+       (5, 399, 10, 10, 2, 'Family','Family','Porridge',3);
 /*!40000 ALTER TABLE `Room`
     ENABLE KEYS */;
 COMMIT;
@@ -267,7 +270,7 @@ BEGIN;
 INSERT INTO `User`
 VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL),
        (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL),
-       (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, NULL, NULL),
+       (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, 1, NULL),
        (7, '444@qq.com', 'e10adc3949b', '营销人员1', NULL, NULL, 'SalesPerson', NULL, NULL, 3, NULL, NULL, NULL),
        (8, '555@qq.com', 'e10adc3949b', '管理人员1', NULL, NULL, 'Admin', NULL, NULL, 3, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `User`
@@ -375,10 +378,10 @@ CREATE TABLE `VIP`
 (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `type` varchar(255) DEFAULT NULL,
-    `userId` int(11),
-    `corporationName` varchar(255),
-    `level` int(11) DEFAULT 1,
-    `reduction` double DEFAULT 0.00,
+    `userId` int(11) DEFAULT NULL,
+    `corporationName` varchar(255) DEFAULT NULL,
+    `level` int(11) DEFAULT NULL,
+    `reduction` double DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4

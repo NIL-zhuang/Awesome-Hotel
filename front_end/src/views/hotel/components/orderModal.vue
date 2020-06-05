@@ -37,41 +37,6 @@
                     ]"
                 />
             </a-form-item>
-
-            <a-form-item v-bind="formItemLayout" label="入住人数">
-                <a-select
-                        v-decorator="[
-                        'peopleNum',
-                        { rules: [{ required: true, message: '请选择入住人数' }] },
-                    ]"
-                        placeholder="请选择入住人数"
-                        @change="changePeopleNum"
-                >
-                    <a-select-option :value="1">
-                        1
-                    </a-select-option>
-                    <a-select-option :value="2">
-                        2
-                    </a-select-option>
-                    <a-select-option :value="3">
-                        3
-                    </a-select-option>
-                    <a-select-option :value="4">
-                        4
-                    </a-select-option>
-                </a-select>
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="有无儿童">
-                <a-radio-group
-                        v-decorator="[
-                        'haveChild',
-                        { rules: [{required: true, message: '请选择有无儿童入住', }] }
-                    ]"
-                >
-                    <a-radio :value="1">有</a-radio>
-                    <a-radio :value="0">无</a-radio>
-                </a-radio-group>
-            </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房间数">
                 <a-select
                         v-decorator="[
@@ -91,6 +56,29 @@
                         3
                     </a-select-option>
                 </a-select>
+            </a-form-item>
+            <a-form-item v-bind="formItemLayout" label="入住人数" v-if="this.form.getFieldValue('roomNum')">
+                <a-input
+                        v-decorator="[
+                        'peopleNum',
+                        { rules: [{ required: true, message: '请输入房间能容纳的入住人数' }, { validator : this.handlePeopleNum }],
+                        validateTrigger: 'blur', initialValue: this.currentOrderRoom.peopleNum*Number(this.form.getFieldValue('roomNum'))},
+                    ]"
+                        placeholder="请选择入住人数，不能超过房间容纳人数"
+                >
+                </a-input>
+            </a-form-item>
+            <a-form-item v-bind="formItemLayout" label="有无儿童">
+                <a-radio-group
+                        v-decorator="[
+                        'haveChild',
+                        { rules: [{required: true, message: '请选择有无儿童入住', }, { validator : this.handleChildren}],
+                        initialValue: 0 }
+                    ]"
+                >
+                    <a-radio :value="1">有</a-radio>
+                    <a-radio :value="0">无</a-radio>
+                </a-radio-group>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房间单价">
                 <span>{{ currentOrderRoom.price }}</span>
@@ -124,7 +112,7 @@
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import hotelDetail from '../hotelDetail'
+    import { message } from 'ant-design-vue'
 
     const moment = require('moment')
     const columns = [
@@ -199,9 +187,6 @@
             cancelOrder() {
                 this.set_orderModalVisible(false)
             },
-            changePeopleNum(v) {
-                // room 中没有设置人数上限制
-            },
             confirmOrder(e) {
                 let outer = this
                 this.$confirm({
@@ -223,9 +208,33 @@
                 this.finalPrice = this.totalPrice
                 if (this.checkedList.length > 0) {
                     this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => this.finalPrice = this.finalPrice - item.discountMoney)
-                } else {
-
                 }
+            },
+            handlePhoneNumber(rule, value, callback) {
+                const re = /1\d{10}/;
+                if (re.test(value)) {
+                    callback();
+                } else {
+                    if (value === '') {
+                        callback()
+                    } else {
+                        callback(new Error('请输入有效联系人手机号'));
+                    }
+                }
+                callback()
+            },
+            handlePeopleNum(rule, value, callback) {
+                if (value<=0 || value > this.currentOrderRoom.peopleNum*Number(this.form.getFieldValue('roomNum'))) {
+                    callback(new Error('请输入房间能容纳的入住人数'))
+                }else{
+                    callback()
+                }
+            },
+            handleChildren(rule, value, callback){
+                if ((!this.form.getFieldValue('peopleNum') || Number(this.form.getFieldValue('peopleNum'))===1)
+                    && Number(this.form.getFieldValue('haveChild'))===1)
+                    callback(new Error('未成年人不能单独入住'))
+                else callback()
             },
             handleSubmit(e) {
                 e.preventDefault();
@@ -249,21 +258,9 @@
                         }
                         this.addOrder(data)
                         this.form.resetFields()
+                        this.$router.push('/successOrder')
                     }
                 });
-            },
-            handlePhoneNumber(rule, value, callback) {
-                const re = /1\d{10}/;
-                if (re.test(value)) {
-                    callback();
-                } else {
-                    if (value === '') {
-                        callback()
-                    } else {
-                        callback(new Error('请输入有效联系人手机号'));
-                    }
-                }
-                callback()
             },
         },
         watch: {

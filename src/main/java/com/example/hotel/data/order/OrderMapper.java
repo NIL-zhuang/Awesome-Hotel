@@ -2,7 +2,6 @@ package com.example.hotel.data.order;
 
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,17 +16,17 @@ import java.util.List;
 @Repository
 public interface OrderMapper {
 
-    int addOrder(Order order);
+    void addOrder(Order order);
 
     List<Order> getAllOrders();
 
     List<Order> getUserOrders(@Param("userid") int userid);
 
-    List<Order> getHotelOrders(@Param("hotelId") int hotelId);
+//    List<Order> getHotelOrders(@Param("hotelId") int hotelId); 并不依赖这个方法的实现
 
-    int annulOrder(@Param("orderid") int orderid);
+    void annulOrder(@Param("orderid") int orderid);
 
-    int finishOrder(@Param("orderId") int orderId);
+    void finishOrder(@Param("orderId") int orderId);
 
     Order getOrderById(@Param("orderid") int orderid);
 
@@ -41,6 +40,6 @@ public interface OrderMapper {
 
     List<Comment> getHotelComment(@Param("hotelId") Integer hotelId);
 
-    int annualComment(@Param("orderId") Integer orderId);
+    int annulComment(@Param("orderId") Integer orderId);
 
 }

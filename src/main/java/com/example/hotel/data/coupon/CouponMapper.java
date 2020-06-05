@@ -9,9 +9,10 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CouponMapper {
+
     int insertCoupon(Coupon coupon);
 
     List<Coupon> selectByHotelId(Integer hotelId);
 
-    int annualCoupon(Integer couponId);
+    void annualCoupon(Integer couponId);
 }

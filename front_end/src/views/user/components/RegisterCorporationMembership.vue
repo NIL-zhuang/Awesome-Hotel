@@ -9,17 +9,16 @@
             width="450px"
     >
         <a-form :form="form">
-            <a-form-item v-bind="formItemLayout" label="所属企业">
+            <a-form-item v-bind="formItemLayout" label="企业">
                 <a-input
-                        placeholder="请输入所属企业名"
+                        placeholder="请输入企业名"
                         v-decorator="[
                             'corporation',
-                            { rules: [{ required: true, message: '请输入所属企业' }]},
+                            { rules: [{ required: true, message: '请输入企业' }]},
                         ]"
                 />
             </a-form-item>
         </a-form>
-
     </a-modal>
 </template>
 

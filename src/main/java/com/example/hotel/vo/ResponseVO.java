@@ -23,6 +23,7 @@ public class ResponseVO {
 
     public static ResponseVO buildSuccess(){
         ResponseVO response=new ResponseVO();
+        response.setContent(true); // add by crx
         response.setSuccess(true);
         return response;
     }

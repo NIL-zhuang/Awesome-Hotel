@@ -20,7 +20,7 @@
                 />
                 <span> 丰富优惠</span>
             </a-card>
-            <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册网站会员</a-button>
+            <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册普通会员</a-button>
 
             <a-card style="width: 270px; margin-top: 20px">
                 <p>VIP企业会员特权</p>

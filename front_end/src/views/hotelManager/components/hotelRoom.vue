@@ -29,8 +29,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import addRoomModal from "./addRoomModal";
-import roomList from "../../hotel/components/roomList";
+import AddRoomModal from "./addRoomModal";
 const columns_of_rooms = [
     {
         title: '房型',
@@ -65,18 +64,17 @@ const columns_of_rooms = [
     },
 ];
 export default {
-    name: "hotelRoom",
+    name: "HotelRoom",
     data() {
         return {
             columns_of_rooms,
         }
     },
     components: {
-        addRoomModal,
+        AddRoomModal,
     },
     computed: {
         ...mapGetters([
-            'addRoomsModalVisible',
             'hotelInfo'
         ]),
         roomList() {

@@ -3,7 +3,7 @@
         <div class="top">
             <div class="header">
                 <div>
-                    <!-- <img src="@/assets/logo.svg" class="logo" alt="logo"> -->
+                    <img alt="logo" class="logo" src="@/assets/logo.svg">
                     <span class="title">Awesome Hotel</span>
                 </div>
             </div>
@@ -12,126 +12,131 @@
             </div>
         </div>
         <a-form
-                id="formLogin"
-                class="user-layout-login"
-                ref="formLogin"
                 :form="form"
+                class="user-layout-login"
+                id="formLogin"
+                ref="formLogin"
         >
             <a-tabs
                     :activeKey="customActiveKey"
                     :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
                     @change="handleTabClick"
             >
-                <a-tab-pane key="tab1" tab="账号密码登录">
+                <a-tab-pane key="login" tab="账号密码登录">
                     <!-- 登录邮箱 -->
                     <a-form-item>
                         <a-input
+                                placeholder="邮箱"
                                 size="large"
                                 type="text"
-                                placeholder="邮箱"
                                 v-decorator="[
                 'username',
                 {rules: [{ required: true, message: '请输入邮箱地址' }], validateTrigger: 'blur'}
               ]"
                         >
-                            <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="user"/>
                         </a-input>
                     </a-form-item>
                     <!-- 登录密码 -->
                     <a-form-item>
                         <a-input
-                                size="large"
-                                type="password"
                                 autocomplete="false"
                                 placeholder="密码"
+                                size="large"
+                                type="password"
                                 v-decorator="[
                 'password',
                 {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
               ]"
                         >
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="lock"/>
                         </a-input>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-checkbox style="float: right" v-model="checked">
+                            记住我
+                        </a-checkbox>
                     </a-form-item>
                     <!-- 登陆确认按钮 -->
                     <a-form-item style="margin-top:24px">
                         <a-button
-                                size="large"
-                                type="primary"
-                                class="login-button"
                                 :loading="loginLoading"
                                 @click="handlelogin()"
+                                class="login-button"
+                                size="large"
+                                type="primary"
                         >确定
                         </a-button>
                     </a-form-item>
                 </a-tab-pane>
 
-                <a-tab-pane key="tab2" tab="注册新账号">
+                <a-tab-pane key="register" tab="注册新账号">
                     <!-- 邮箱  -->
                     <a-form-item>
                         <a-input
+                                placeholder="邮箱"
                                 size="large"
                                 type="email"
-                                placeholder="邮箱"
                                 v-decorator="[
               'registerUserMail',
               {rules: [{ required: true, type: 'email', message: '请输入邮箱' }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="mail"/>
                         </a-input>
                     </a-form-item>
                     <!-- 用户名  -->
                     <a-form-item>
                         <a-input
-                                size="large"
                                 placeholder="用户名"
+                                size="large"
                                 v-decorator="[
               'registerUsername',
               {rules: [{ required: true, message: '请输入用户名' }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="user"/>
                         </a-input>
                     </a-form-item>
                     <!-- 手机号  -->
                     <a-form-item>
                         <a-input
-                                size="large"
                                 placeholder="手机号"
+                                size="large"
                                 v-decorator="[
               'registerPhoneNumber',
               {rules: [{ required: true, message: '请输入手机号' }, {validator: this.handlePhoneNumber }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="book" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="book"/>
                         </a-input>
                     </a-form-item>
                     <!-- 密码  -->
                     <a-form-item>
                         <a-input
+                                placeholder="密码"
                                 size="large"
                                 type="password"
-                                placeholder="密码"
                                 v-decorator="[
                 'registerPassword',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="lock"/>
                         </a-input>
                     </a-form-item>
                     <!-- 确认密码 -->
                     <a-form-item>
                         <a-input
+                                placeholder="确认密码"
                                 size="large"
                                 type="password"
-                                placeholder="确认密码"
                                 v-decorator="[
                 'registerPasswordconfirm',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                            <a-icon :style="{ color: 'rgba(0,0,0,.25)' }" slot="prefix" type="lock"/>
                         </a-input>
                     </a-form-item>
                     <!-- 确认按钮 -->
                     <a-form-item style="margin-top:24px">
                         <a-button
-                                size="large"
-                                type="primary"
-                                class="login-button"
                                 :loading="registerLoading"
                                 @click="handleRegister()"
+                                class="login-button"
+                                size="large"
+                                type="primary"
                         >确定
                         </a-button>
                     </a-form-item>
@@ -144,17 +149,18 @@
 
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
-    import { message } from 'ant-design-vue';
+    import {message} from 'ant-design-vue';
 
     export default {
         name: 'login',
         components: {},
         data() {
             return {
-                customActiveKey: 'tab1',
+                customActiveKey: 'login',
                 loginLoading: false,
                 registerLoading: false,
                 form: this.$form.createForm(this),
+                checked: true,
             }
         },
         computed: {
@@ -163,7 +169,7 @@
             ])
         },
         mounted() {
-
+            this.getCookie()
         },
         watch: {
             $route: {
@@ -235,13 +241,18 @@
             },
 
             handlelogin() {
-                const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
+                const validateFieldsKey = this.customActiveKey === 'login' ? ['username', 'password'] : ['registerUsername', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
                 this.form.validateFields(validateFieldsKey, {force: true}, async (err, values) => {
                     if (!err) {
                         this.loginLoading = true
                         const data = {
                             email: this.form.getFieldValue("username"),
                             password: this.form.getFieldValue("password")
+                        }
+                        if (this.checked){
+                            this.setCookie(data.email, data.password,7)
+                        }else {
+                            this.clearCookie();
                         }
                         await this.login(data)
                         this.loginLoading = false
@@ -251,7 +262,7 @@
 
             handleRegister() {
                 const {form: {validateFields}} = this;
-                const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerPhoneNumber', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
+                const validateFieldsKey = this.customActiveKey === 'login' ? ['username', 'password'] : ['registerUsername', 'registerPhoneNumber', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
                 validateFields(validateFieldsKey, {force: true}, async (err, values) => {
                     if (!err) {
                         this.registerLoading = true;
@@ -264,7 +275,7 @@
                             userType: 0
                         }
                         await this.register(data).then(() => {
-                            this.customActiveKey = 'tab1';
+                            this.customActiveKey = 'login';
                             this.form.setFieldsValue({
                                 'username': data.email,
                                 'password': data.password,
@@ -280,7 +291,37 @@
                         message.error("请输入正确的信息")
                     }
                 });
-            }
+            },
+
+            setCookie(name, pwd, days) {
+                var exdate = new Date(); //获取时间
+                exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * days); //保存的天数
+                //字符串拼接cookie
+                window.document.cookie = "username" + "=" + name + ";path=/;expires=" + exdate.toGMTString();
+                window.document.cookie = "password" + "=" + pwd + ";path=/;expires=" + exdate.toGMTString();
+            },
+
+            clearCookie: function() {
+                this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+            },
+
+            getCookie() {
+                if (document.cookie.length > 0) {
+                    const arr = document.cookie.split("; "); //这里显示的格式需要切割一下自己可输出看下
+                    for (let i = 0; i < arr.length; i++) {
+                        const pool = arr[i].split("="); //再次切割
+                        if (pool[0] === "username") {
+                            this.form.setFieldsValue({
+                                'username': pool[1]
+                            }); //保存到保存数据的地方
+                        } else if (pool[0] === "password") {
+                            this.form.setFieldsValue({
+                                'password': pool[1]
+                            })
+                        }
+                    }
+                }
+            },
         }
     }
 </script>

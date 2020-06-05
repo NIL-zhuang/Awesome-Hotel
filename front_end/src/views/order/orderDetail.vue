@@ -60,7 +60,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-    name: "orderDetail",
+    name: "OrderDetail",
     data () {
         return  {
 

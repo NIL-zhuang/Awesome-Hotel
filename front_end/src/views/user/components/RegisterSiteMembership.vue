@@ -1,7 +1,7 @@
 <template>
     <a-modal
             :visible="registerSiteMembershipModalVisible"
-            title="注册网站会员"
+            title="注册普通会员"
             cancelText="取消"
             okText="注册"
             @cancel="cancelRegister"

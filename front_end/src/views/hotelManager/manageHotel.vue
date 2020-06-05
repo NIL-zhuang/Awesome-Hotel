@@ -80,11 +80,10 @@
                 <hotel-room></hotel-room>
             </a-tab-pane>
         </a-tabs>
-
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
-        <orderDetail></orderDetail>
+        <OrderDetail></OrderDetail>
     </div>
 </template>
 <script>
@@ -92,12 +91,13 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddHotelModal from '../admin/components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
-import orderDetail from "../order/orderDetail";
-import modifyHotelInfo from "./components/hotelInfo";
-import hotelRoom from "./components/hotelRoom";
+import OrderDetail from "../order/orderDetail";
+import ModifyHotelInfo from "./components/hotelInfo";
+import HotelCoupon from "./components/hotelCoupon";
+import HotelRoom from "./components/hotelRoom";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
-import HotelCoupon from "./components/hotelCoupon";
+
 const columns_of_hotels = [
     {
         title: '酒店名',
@@ -203,14 +203,13 @@ export default {
         AddHotelModal,
         AddRoomModal,
         Coupon,
-        orderDetail,
-        modifyHotelInfo,
-        hotelRoom,
+        OrderDetail,
+        ModifyHotelInfo,
+        HotelRoom,
     },
     computed: {
         ...mapGetters([
             'userId',
-            'hotelList',
             'orderList',
             'addHotelModalVisible',
             'addRoomModalVisible',
@@ -222,7 +221,8 @@ export default {
         ]),
     },
     async mounted() {
-        await this.getHotelInfo(Number(this.userInfo.hotelID)) // 获取该管理员对应的酒店
+        await this.getUserInfo()
+        await this.getHotelInfo(Number(this.userInfo.hotelID))
     },
     methods: {
         ...mapMutations([
@@ -234,10 +234,10 @@ export default {
             'set_orderInfo',
         ]),
         ...mapActions([
-            'getHotelList',
             'getHotelOrders',
             'getHotelCoupon',
             'execOrder',
+            'getUserInfo',
             'getHotelInfo',
         ]),
         addHotel() {

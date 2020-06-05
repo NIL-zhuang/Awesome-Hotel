@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO annulComment(int orderId) {
-        return ResponseVO.buildSuccess(orderMapper.annualComment(orderId));
+        return ResponseVO.buildSuccess(orderMapper.annulComment(orderId));
     }
 
     @Override

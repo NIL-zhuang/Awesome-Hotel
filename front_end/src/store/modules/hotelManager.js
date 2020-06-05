@@ -21,6 +21,7 @@ import {
 } from "../../api/hotel";
 import {message} from 'ant-design-vue'
 import getters from "../getters";
+import hotelInfo from "../../views/hotelManager/components/hotelInfo";
 const hotelManager = {
     state: {
         orderList: [],
@@ -124,29 +125,28 @@ const hotelManager = {
                 message.error('添加失败')
             }
         },
-        deleteCoupon: async ({commit, dispatch}, data) => {
+        deleteCoupon: async ({state, commit, dispatch}, data) => {
             const res = await deleteCouponAPI(data)
             if (res) {
-                dispatch('getHotelCoupon')
+                dispatch('getHotelCoupon', state.hotelInfo.id)
                 message.success('删除成功')
             }else {
                 message.error('删除失败')
             }
         },
-        registerHotelMembership: async ({state, dispatch, commit}, data) => {
-            const res = await registerHotelMembershipAPI(data)
-            if(res) {
-                dispatch('getHotelById')
-                commit('set_registerHotelMembershipModalVisible', false)
-                message.success('注册成功')
-            } else {
-                message.error('注册失败')
-            }
-        },
+        // registerHotelMembership: async ({state, dispatch, commit}, data) => {
+        //     const res = await registerHotelMembershipAPI(data)
+        //     if(res) {
+        //         dispatch('getHotelById')
+        //         commit('set_registerHotelMembershipModalVisible', false)
+        //         message.success('注册成功')
+        //     } else {
+        //         message.error('注册失败')
+        //     }
+        // },
         getHotelInfo: async ({state, commit}, hotelId) => {
             const res = await getHotelByIdAPI(hotelId)
             if (res) {
-                console.log(res)
                 commit('set_hotelInfo', res)
             } else {
                 message.error('获取失败')

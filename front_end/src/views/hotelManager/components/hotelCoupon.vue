@@ -25,10 +25,10 @@
             <a-tag color="pink" slot="discountMoney" slot-scope="money">
                 {{money===0?'暂无':money}}
             </a-tag>
-            <span slot="action">
-                <a-button size="small" type="primary">查看详情</a-button>
+            <span slot="action" slot-scope="record">
+                <a-button size="small" type="primary" @click="showCouponDetail(record)">查看详情</a-button>
                 <a-divider type="vertical"></a-divider>
-                <a-button size="small" type="danger">删除优惠券</a-button>
+                <a-button size="small" type="danger" @click="deleteHotelCoupon(record.id)">删除优惠券</a-button>
             </span>
         </a-table>
         <AddCoupon></AddCoupon>
@@ -66,7 +66,7 @@ const columns = [
 ];
 
 export default {
-    name: "hotelCoupon",
+    name: "HotelCoupon",
     data() {
         return {
             columns
@@ -87,15 +87,23 @@ export default {
     methods: {
         ...mapMutations([
             'set_addCouponVisible',
+            'set_couponDetailVisible',
+            'set_currentCouponInfo',
         ]),
         ...mapActions([
             'getHotelCoupon',
-            'getHotelByManagerId',
-            'getHotelCoupon',
+            'deleteCoupon',
         ]),
         addCoupon() {
             this.set_addCouponVisible(true)
         },
+        showCouponDetail(record) {
+            this.set_currentCouponInfo(record)
+            this.set_couponDetailVisible(true)
+        },
+        deleteHotelCoupon(couponId){
+            this.deleteCoupon(couponId)
+        }
     }
 }
 </script>

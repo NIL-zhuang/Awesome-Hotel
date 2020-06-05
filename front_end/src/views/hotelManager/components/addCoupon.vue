@@ -152,7 +152,7 @@
                 }
             },
             handleSubmit(e) {
-                e.preventDefault();
+                e.preventDefault()
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         const data = {

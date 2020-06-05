@@ -35,6 +35,11 @@ const routes = [
         component: () => import('@/views/hotel/hotelDetail')
       },
       {
+        path: '/successOrder',
+        name: 'successOrder',
+        component: () => import('@/views/order/successOrder')
+      },
+      {
         path: '/user/info/:userId',
         name: 'userInfo',
         component: () => import('@/views/user/info')
