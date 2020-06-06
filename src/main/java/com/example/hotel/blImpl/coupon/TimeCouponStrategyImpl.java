@@ -22,7 +22,7 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
             LocalDate couponEndTime = coupon.getEndTime();
             LocalDate checkIn = LocalDate.parse(orderVO.getCheckInDate());
             return (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) && // 该酒店适用
-                    coupon.getCouponType() == 4 &&  // 限时优惠
+                    coupon.getCouponType() == TIME_LIMITED &&  // 限时优惠
                     coupon.getStatus() == 1 &&  // 优惠券有效
                     (checkIn.isBefore(couponEndTime)||checkIn.isEqual(couponEndTime))&&
                     (checkIn.isAfter(couponStartTime)||checkIn.isEqual(couponStartTime));
