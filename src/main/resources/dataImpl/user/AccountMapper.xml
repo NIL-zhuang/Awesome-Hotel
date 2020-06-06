@@ -24,12 +24,14 @@
         update user set birthday = #{birthday} where id = #{id}
     </update>
 
+    <update id="registerAsVIP">
+        update user set vipType = #{vipType} where id = #{id}
+    </update>
+
     <update id="annualCorporate">
         update user set corporation = #{corporate}
         where id = #{id}
     </update>
-
-
 
     <update id="updateAnnulTime">
         update user set annulTime = #{time} where id = #{id}
@@ -52,7 +54,7 @@
         <result column="annulTime" property="annulTime"/>
         <result column="jobNumber" property="jobNumber"/>
         <result column="hotelID" property="hotelID"/>
-        <result column="VIPType" property="VIPType"/>
+        <result column="vipType" property="vipType"/>
         <result column="portrait" property="portrait"/>
     </resultMap>
 </mapper>

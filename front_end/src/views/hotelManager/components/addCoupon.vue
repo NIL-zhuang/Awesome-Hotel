@@ -166,7 +166,7 @@
                             targetRoomNum: this.isMultipleCoupon?this.multipleNum:null,
                             targetMoney: this.form.getFieldValue('targetMoney')?Number(this.form.getFieldValue('targetMoney')):null,
                             discountMoney: this.form.getFieldValue('discountMoney')?Number(this.form.getFieldValue('discountMoney')):null,
-                            hotelId: Number(this.userInfo.hotelID),
+                            srcId: Number(this.userInfo.hotelID),
                             status: 1,
                         }
                         this.addHotelCoupon(data)

@@ -2,9 +2,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.VIP.VIPMapper">
 
-    <insert id="registerAsClientVIP" parameterType="com.example.hotel.po.ClientVIP" useGeneratedKeys="true" keyProperty="id">
-        insert into VIP(type,userId,level,reduction)
-        values (#{type},#{userId},#{level},#{reduction})
+    <insert id="registerAsClientVIP" parameterType="com.example.hotel.po.ClientVIP" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into VIP(type, userId, level, reduction)
+        values ('Client', #{userId}, #{level}, #{reduction})
     </insert>
     <resultMap id="VIP" type="com.example.hotel.po.ClientVIP"/>
+
+    <select id="getVIPbyUserId" resultMap="ClientVIP">
+        select *
+        from VIP
+        where userId = #{userId}
+    </select>
+
+    <update id="addVIPClientConsumption">
+        update VIP
+        set consumption = consumption + #{amount}
+        where userId = #{userId}
+    </update>
+
+    <update id="clientLevelUp">
+        update VIP
+        set level = level + 1
+        where userId = #{userId}
+    </update>
+
+    <insert id="registerAsCorpVIP" parameterType="com.example.hotel.po.CorpVIP" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into VIP(type, corporationName, level, consumption, reduction)
+        values ('Corporation', #{corporationName}, #{level}, #{consumption}, #{reduction})
+    </insert>
+
+    <select id="getVIPbyCorpName" resultMap="CorpVIP">
+        select *
+        from VIP
+        where corporationName = #{corporationName}
+    </select>
+
+    <update id="addVIPCorpConsumption">
+        update VIP
+        set consumption = consumption + #{amount}
+        where corporationName = #{corporationName}
+    </update>
+
+    <update id="corpLevelUp">
+        update VIP
+        set level = level + 1
+        where corporationName = #{corporationName}
+    </update>
+
+    <resultMap id="ClientVIP" type="com.example.hotel.po.ClientVIP">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="level" property="level"/>
+        <result column="consumption" property="consumption"/>
+        <result column="reduction" property="reduction"/>
+    </resultMap>
+
+    <resultMap id="CorpVIP" type="com.example.hotel.po.CorpVIP">
+        <id column="id" property="id"/>
+        <result column="corporationName" property="corporationName"/>
+        <result column="level" property="level"/>
+        <result column="consumption" property="consumption"/>
+        <result column="reduction" property="reduction"/>
+    </resultMap>
+
 </mapper>

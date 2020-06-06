@@ -6,7 +6,7 @@ public class CouponVO {
     private Integer status;
     private String name;
     private Integer type;
-    private Integer hotelId;
+    private Integer srcId;
 
     public Integer getId() {
         return id;
@@ -51,11 +51,11 @@ public class CouponVO {
         this.type = type;
     }
 
-    public Integer getHotelId() {
-        return hotelId;
+    public Integer getSrcId() {
+        return srcId;
     }
 
-    public void setHotelId(Integer id) {
-        this.hotelId = id;
+    public void setSrcId(Integer id) {
+        this.srcId = id;
     }
 }

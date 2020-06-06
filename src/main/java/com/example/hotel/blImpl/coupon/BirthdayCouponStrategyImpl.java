@@ -30,7 +30,7 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
             assert birth != null;
             return !birth.before(in) &&
                     !birth.after(out) &&
-                    (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) &&
+                    (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) &&
                     coupon.getStatus() == 1;
         } catch (Exception e) {
             return false;

@@ -1,14 +1,14 @@
 package com.example.hotel.po;
 
-public class ClientVIP {
+public class CorpVIP {
     private int id;
-    private int userId;
+    private String corporationName;
     private int level;
     private int consumption;
     private double reduction;
 
-    public ClientVIP(int userId){
-        this.userId = userId;
+    public CorpVIP(String corporationName){
+        this.corporationName=corporationName;
         level = 1;
         consumption = 0;
         reduction = 0.01;
@@ -22,12 +22,12 @@ public class ClientVIP {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getCorporationName() {
+        return corporationName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setCorporationName(String corporationName) {
+        this.corporationName = corporationName;
     }
 
     public int getLevel() {
@@ -53,5 +53,4 @@ public class ClientVIP {
     public void setReduction(double reduction) {
         this.reduction = reduction;
     }
-
 }

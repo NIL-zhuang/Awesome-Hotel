@@ -4,7 +4,6 @@ import {
     getAllOrdersAPI
 } from "../../api/order";
 import {
-    getUserInfoAPI,
     getUserInfoByEmailAPI,
 } from "../../api/user";
 import {

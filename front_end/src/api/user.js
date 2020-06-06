@@ -31,20 +31,6 @@ export function updateUserInfoAPI(data) {
     })
 }
 // created by glh 2020-05-30
-export function registerMembershipAPI(params) {
-    return axios({
-        url: `${api.userPre}/registerMembership`,
-        method: 'POST',
-        params
-    })
-}
-export function registerCorporationMembershipAPI(params) {
-    return axios({
-        url: `${api.userPre}/registerCorporationMembership`,
-        method: 'POST',
-        params
-    })
-}
 export function getUserInfoByEmailAPI(params) {
     console.log(params)
     return axios({

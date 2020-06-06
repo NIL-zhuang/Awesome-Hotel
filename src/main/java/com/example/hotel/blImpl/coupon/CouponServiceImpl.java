@@ -120,7 +120,7 @@ public class CouponServiceImpl implements CouponService {
         coupon.setCouponName(couponVO.getName());
         coupon.setDescription(couponVO.getDescription());
         coupon.setCouponType(couponVO.getType());
-        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setSrcId(couponVO.getSrcId());
         coupon.setStatus(1);
         return coupon;
     }

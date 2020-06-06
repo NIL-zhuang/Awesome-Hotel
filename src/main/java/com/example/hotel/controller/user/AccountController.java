@@ -6,7 +6,6 @@ import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserInfoVO;
 import com.example.hotel.vo.UserVO;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,15 +46,6 @@ public class AccountController {
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
-    }
-
-    // TODO 用户注册会员
-    @PostMapping("/registerMembership")
-    public ResponseVO registerMembership(@RequestParam Integer id,
-                                         @RequestParam String birthday) {
-        System.out.println(id);
-        System.out.println(birthday);
-        return ResponseVO.buildSuccess(true);
     }
 
     @GetMapping("/getUserInfoByEmail")

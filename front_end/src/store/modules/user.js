@@ -8,8 +8,6 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
-    registerMembershipAPI,
-    registerCorporationMembershipAPI
 } from '@/api/user'
 
 import {
@@ -20,6 +18,12 @@ import {
 import {
     getHotelByIdAPI
 } from "@/api/hotel";
+
+import {
+    registerClientMembershipAPI,
+    registerCorpMembershipAPI,
+} from "@/api/membership"
+
 import moment from "moment";
 
 const getDefaultState = () => {
@@ -163,7 +167,7 @@ const user = {
                 id: Number(state.userId),
                 ...data,
             }
-            const res = await registerMembershipAPI(params)
+            const res = await registerClientMembershipAPI(params)
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
@@ -174,7 +178,7 @@ const user = {
                 id: Number(state.userId),
                 ...data,
             }
-            const res = await registerCorporationMembershipAPI(params)
+            const res = await registerCorpMembershipAPI(params)
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')

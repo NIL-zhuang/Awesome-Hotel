@@ -1,6 +1,7 @@
 package com.example.hotel.bl.VIP;
 
 import com.example.hotel.po.ClientVIP;
+import com.example.hotel.po.CorpVIP;
 import com.example.hotel.vo.ResponseVO;
 
 public interface VIPService {
@@ -9,8 +10,10 @@ public interface VIPService {
 
     ClientVIP getVIPbyUserId(Integer userId);
 
-    ResponseVO registerAsCorporationVIP(String corporationName);
+    ResponseVO registerAsCorpVIP(String corporationName);
+
+    CorpVIP getVIPbyCorpName(String corporationName);
     
-    ResponseVO VIPCorporationCheck(String corporationName);
+    boolean VIPCorpCheck(String corporationName);
 
 }

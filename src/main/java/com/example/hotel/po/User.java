@@ -1,6 +1,7 @@
 package com.example.hotel.po;
 
 import com.example.hotel.enums.UserType;
+import com.example.hotel.enums.VIPType;
 
 public class User {
     private Integer id;
@@ -16,6 +17,7 @@ public class User {
     private String portrait;
     private String jobNumber;
     private Integer hotelID;
+    private VIPType vipType;
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
@@ -119,6 +121,14 @@ public class User {
 
     public void setHotelID(Integer hotelID) {
         this.hotelID = hotelID;
+    }
+
+    public VIPType getVipType() {
+        return vipType;
+    }
+
+    public void setVipType(VIPType vipType) {
+        this.vipType = vipType;
     }
 
 }

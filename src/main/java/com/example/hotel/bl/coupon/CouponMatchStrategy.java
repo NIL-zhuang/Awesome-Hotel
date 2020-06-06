@@ -6,6 +6,8 @@ import com.example.hotel.vo.OrderVO;
 
 public interface CouponMatchStrategy {
 
+    int WEBSITE = 0;
+
     boolean isMatch(OrderVO orderVO, Coupon coupon);
 
 }

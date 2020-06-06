@@ -3,6 +3,7 @@ package com.example.hotel.po;
 import java.time.LocalDate;
 
 public class Coupon {
+    private static final Integer WEBSITE = 0;
     /**
      * 优惠券id
      */
@@ -13,9 +14,10 @@ public class Coupon {
     private String description;
 
     /**
-     * 如果为-1 代表是网站推出的优惠
+     * 优惠券发行方ID
+     * 如果为0 代表是网站推出的优惠
      */
-    private Integer hotelId;
+    private Integer srcId;
 
     /**
      * 优惠券类型 1生日特惠 2多间特惠 3满减优惠 4限时优惠
@@ -51,6 +53,7 @@ public class Coupon {
     /**
      * 优惠券状态 是否已经失效 1可用 0失效
      */
+
     private Integer status;
 
     private String corporateName;
@@ -119,12 +122,12 @@ public class Coupon {
         this.targetRoomNum = targetRoomNum;
     }
 
-    public Integer getHotelId() {
-        return hotelId;
+    public Integer getSrcId() {
+        return srcId;
     }
 
-    public void setHotelId(Integer hotelId) {
-        this.hotelId = hotelId;
+    public void setSrcId(Integer srcId) {
+        this.srcId = srcId;
     }
 
     public Integer getCouponType() {
@@ -159,6 +162,4 @@ public class Coupon {
         this.corporateName = corporateName;
     }
 
-    public Coupon() {
-    }
 }

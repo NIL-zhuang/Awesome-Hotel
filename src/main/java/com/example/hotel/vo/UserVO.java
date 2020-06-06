@@ -20,6 +20,7 @@ public class UserVO {
     private String jobNumber;
     private String hotelID;
     private String portrait;
+    private String vipType;
 
     public Integer getId() {
         return id;
@@ -124,4 +125,13 @@ public class UserVO {
     public void setPortrait(String portrait) {
         this.portrait = portrait;
     }
+
+    public String getVipType() {
+        return vipType;
+    }
+
+    public void setVipType(String vipType) {
+        this.vipType = vipType;
+    }
+
 }

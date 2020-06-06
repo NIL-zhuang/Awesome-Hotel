@@ -2,6 +2,7 @@ package com.example.hotel.bl.user;
 
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,7 +11,6 @@ import java.util.List;
  * @date 2019/3/23
  */
 public interface AccountService {
-
     /**
      * 注册账号
      *
@@ -60,7 +60,11 @@ public interface AccountService {
 
     ResponseVO normalUser(String corporate);
 
-    void updatePortrait(int userId, String url);
+    void updateBirthday(int id, String birthday); // 注册会员时使用
+
+    void registerAsVIP(int id); // 同上
+
+    ResponseVO updatePortrait(int userId, String url);
 
     List<String> getManagerTelephone(int hotelId);
 }

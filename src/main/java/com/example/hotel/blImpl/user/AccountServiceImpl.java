@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
@@ -83,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
         try {
             accountMapper.updateBirthday(id, birthday);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
@@ -95,7 +96,6 @@ public class AccountServiceImpl implements AccountService {
             accountMapper.updateCorporate(id, corporate);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
@@ -107,8 +107,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updatePortrait(int userId, String url) {
-        accountMapper.updatePortrait(userId, url);
+    public void updateBirthday(int id, String birthday){
+        try {
+            accountMapper.updateBirthday(id, birthday);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void registerAsVIP(int id){
+        try {
+            accountMapper.registerAsVIP(id, VIPType.Client);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public ResponseVO updatePortrait(int userId, String url) {
+        try {
+            accountMapper.updatePortrait(userId, url);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess();
     }
 
     @Override

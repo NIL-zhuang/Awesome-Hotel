@@ -13,15 +13,11 @@ import {
     CorporateCouponAPI,
     deleteCouponAPI,
 } from '@/api/coupon'
-import {
-    registerHotelMembershipAPI
-} from "@/api/hotelManager";
+
 import {
     getHotelByIdAPI
 } from "../../api/hotel";
 import {message} from 'ant-design-vue'
-import getters from "../getters";
-import hotelInfo from "../../views/hotelManager/components/hotelInfo";
 const hotelManager = {
     state: {
         orderList: [],
