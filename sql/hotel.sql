@@ -179,7 +179,7 @@ CREATE TABLE `OrderList`
     `equipment`     int(5)         DEFAULT 5,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 14
+  AUTO_INCREMENT = 10
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,6 +192,16 @@ CREATE TABLE `OrderList`
 /*!40000 ALTER TABLE `OrderList`
     ENABLE KEYS */;
 
+BEGIN;
+/*!40000 ALTER TABLE `OrderList`
+    DISABLE KEYS */;
+INSERT INTO `OrderList`
+VALUES (1, 1, 1, '国际会议中心', 12312312312, '2020-06-01', '2020-06-02', 'BigBed', '1', 1, 0, '2020-06-01', 100, 'zzy',
+        '110', '未入住', '你的野区我养猪', 5, 5, 5, 5, 5);
+/*!40000 ALTER TABLE `OrderList`
+    ENABLE KEYS */;
+COMMIT;
+
 --
 -- Table structure for table `Room`
 --
@@ -201,13 +211,13 @@ DROP TABLE IF EXISTS `Room`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Room`
 (
-    `id`       int(11) NOT NULL AUTO_INCREMENT,
-    `price`    double      DEFAULT NULL,
-    `curNum`   int(11)     DEFAULT NULL,
-    `total`    int(11)     DEFAULT NULL,
-    `hotel_id` int(11)     DEFAULT NULL,
-    `roomType` varchar(50) DEFAULT NULL,
-    `bedType` varchar(50) DEFAULT NULL,
+    `id`        int(11) NOT NULL AUTO_INCREMENT,
+    `price`     double      DEFAULT NULL,
+    `curNum`    int(11)     DEFAULT NULL,
+    `total`     int(11)     DEFAULT NULL,
+    `hotel_id`  int(11)     DEFAULT NULL,
+    `roomType`  varchar(50) DEFAULT NULL,
+    `bedType`   varchar(50) DEFAULT NULL,
     `breakfast` varchar(50) DEFAULT NULL,
     `peopleNum` int(11) NOT NULL,
     PRIMARY KEY (`id`)
@@ -224,10 +234,10 @@ BEGIN;
 /*!40000 ALTER TABLE `Room`
     DISABLE KEYS */;
 INSERT INTO `Room`
-VALUES (2, 199, 20, 20, 1, 'BigBed', 'BigBed', 'None',1),
-       (3, 299, 30, 30, 1, 'DoubleBed','DoubleBed','None',2),
-       (4, 399, 10, 10, 1, 'Family','Family','Porridge',3),
-       (5, 399, 10, 10, 2, 'Family','Family','Porridge',3);
+VALUES (2, 199, 20, 20, 1, 'BigBed', 'BigBed', 'None', 1),
+       (3, 299, 30, 30, 1, 'DoubleBed', 'DoubleBed', 'None', 2),
+       (4, 399, 10, 10, 1, 'Family', 'Family', 'Porridge', 3),
+       (5, 399, 10, 10, 2, 'Family', 'Family', 'Porridge', 3);
 /*!40000 ALTER TABLE `Room`
     ENABLE KEYS */;
 COMMIT;
@@ -250,11 +260,11 @@ CREATE TABLE `User`
     `usertype`    varchar(255)   DEFAULT NULL,
     `birthday`    varchar(255)   DEFAULT NULL,
     `corporation` varchar(255)   DEFAULT NULL,
-    `annulTime`  int(5)         DEFAULT 0,
+    `annulTime`   int(5)         DEFAULT 0,
     `jobNumber`   int(11)        DEFAULT NULL,
     `hotelID`     int(11)        DEFAULT NULL,
     `portrait`    varchar(255)   DEFAULT NULL,
-    `vipType`   varchar(255)    DEFAULT 'Normal',
+    `vipType`     varchar(255)   DEFAULT 'Normal',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
@@ -269,8 +279,10 @@ BEGIN;
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
 INSERT INTO `User`
-VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL,'Normal'),
-       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL, 'Normal'),
+VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL,
+        'Normal'),
+       (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL,
+        'Normal'),
        (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, 1, NULL, 'Normal'),
        (7, '444@qq.com', 'e10adc3949b', '营销人员1', NULL, NULL, 'SalesPerson', NULL, NULL, 3, NULL, NULL, NULL, 'Normal'),
        (8, '555@qq.com', 'e10adc3949b', '管理人员1', NULL, NULL, 'Admin', NULL, NULL, 3, NULL, NULL, NULL, 'Normal');
@@ -377,13 +389,13 @@ DROP TABlE IF EXISTS `VIP`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `VIP`
 (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `type` varchar(255) DEFAULT NULL,
-    `userId` int(11) DEFAULT NULL,
+    `id`              int(11) NOT NULL AUTO_INCREMENT,
+    `type`            varchar(255)        DEFAULT NULL,
+    `userId`          int(11)             DEFAULT NULL,
     `corporationName` varchar(255) UNIQUE DEFAULT NULL,
-    `level` int(11) DEFAULT NULL,
-    `consumption` int (11) DEFAULT NULL,
-    `reduction` double DEFAULT NULL,
+    `level`           int(11)             DEFAULT NULL,
+    `consumption`     int(11)             DEFAULT NULL,
+    `reduction`       double              DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -395,8 +407,8 @@ DROP TABlE IF EXISTS `VIPLevel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `VIPLevel`
 (
-    `level` int(11) UNIQUE NOT NULL,
-    `requestConsumption` int(11) NOT NULL,
+    `level`              int(11) UNIQUE NOT NULL,
+    `requestConsumption` int(11)        NOT NULL,
     PRIMARY KEY (`level`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
