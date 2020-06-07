@@ -44,6 +44,30 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
+    public ResponseVO freezeClientVIP(Integer userId) {
+        try {
+            vipMapper.freezeClientVIP(userId);
+            accountService.freezeVIP(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO restoreClientVIP(Integer userId) {
+        try {
+            vipMapper.restoreClientVIP(userId);
+            accountService.registerAsVIP(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
     public ResponseVO getVIPbyUserId(Integer userId){
         try {
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
@@ -90,6 +114,28 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
+    public ResponseVO freezeCorpVIP(String corporationName) {
+        try {
+            vipMapper.freezeCorpVIP(corporationName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO restoreCorpVIP(String corporationName) {
+        try {
+            vipMapper.restoreCorpVIP(corporationName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
     public ResponseVO getVIPbyCorpName(String corporationName){
         try {
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
@@ -130,4 +176,13 @@ public class VIPServiceImpl implements VIPService {
         return vipMapper.getVIPbyCorpName(corporationName) != null;
     }
 
+    @Override
+    public ResponseVO getAllVIPClient() {
+        return ResponseVO.buildSuccess(vipMapper.getAllVIPClient());
+    }
+
+    @Override
+    public ResponseVO getAllVIPCorp() {
+        return ResponseVO.buildSuccess(vipMapper.getAllVIPCorp());
+    }
 }

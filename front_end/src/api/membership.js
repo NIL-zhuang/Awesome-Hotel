@@ -12,6 +12,20 @@ export function registerClientMembershipAPI(params) {
     })
 }
 
+export function freezeClientVIPAPI(id) {
+    return axios({
+        url: `/${api.memberShipPre}/${id}/freezeClientVIP`,
+        method: 'POST'
+    })
+}
+
+export function restoreClientVIPAPI(id) {
+    return axios({
+        url: `/${api.memberShipPre}/${id}/restoreClientVIP`,
+        method: 'POST'
+    })
+}
+
 export function getUserVIPAPI(id) {
     return axios({
         url: `${api.memberShipPre}/${id}/getUserVIP`,
@@ -34,11 +48,24 @@ export function ClientVIPLevelUpAPI(id) {
     })
 } // 每次执行订单增加消费额后判断是否要升级
 
-export function registerCorpMembershipAPI(params) {
+export function registerCorpMembershipAPI(corpName) {
     return axios({
-        url: `${api.memberShipPre}/registerCorpMembership`,
+        url: `${api.memberShipPre}/${corpName}/registerCorpMembership`,
         method: 'POST',
-        params
+    })
+}
+
+export function freezeCorpVIPAPI(corpName) {
+    return axios({
+        url: `${api.memberShipPre}/${corpName}/freezeCorpVIP`,
+        method: 'POST',
+    })
+}
+
+export function restoreCorpVIPAPI(corpName) {
+    return axios({
+        url: `${api.memberShipPre}/${corpName}/restoreCorpVIP`,
+        method: 'POST',
     })
 }
 
@@ -70,6 +97,20 @@ export function VIPCorpCheckAPI(corpName) {
         method: 'GET',
     })
 } // 网站制定企业优惠券时调用
+
+export function getAllClientVIPAPI() {
+    return axios({
+        url: `/${api.memberShipPre}/allClientVIP`,
+        method: 'GET'
+    })
+}
+
+export function getAllCorpVIPAPI() {
+    return axios({
+        url: `/${api.memberShipPre}/allCorpVIP`,
+        method: 'GET'
+    })
+}
 
 export function formulateALevel(params) {
     return axios({

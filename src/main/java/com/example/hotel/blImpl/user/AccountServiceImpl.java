@@ -118,7 +118,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void registerAsVIP(int id){
         try {
-            accountMapper.registerAsVIP(id, VIPType.Client);
+            accountMapper.updateVIPType(id, VIPType.Client);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void freezeVIP(int id) {
+        try{
+            accountMapper.updateVIPType(id, VIPType.Normal);
         }catch (Exception e){
             e.printStackTrace();
         }

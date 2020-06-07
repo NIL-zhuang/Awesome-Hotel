@@ -45,11 +45,11 @@ public interface AccountMapper {
 
     void updateBirthday(@Param("id") int id, @Param("birthday") String birthday);
 
-    void registerAsVIP(@Param("id") int id, @Param("vipType")VIPType vipType);
+    void updateVIPType(@Param("id") int id, @Param("vipType")VIPType vipType);
 
     void updateCorporate(@Param("id") int id, @Param("corporate") String corporate);
 
-    int annualCorporate(@Param("corporate") String corporate);
+    int annulCorporate(@Param("corporate") String corporate);
 
     int updateAnnualTime(@Param("id") int id, @Param("time") int time);
 

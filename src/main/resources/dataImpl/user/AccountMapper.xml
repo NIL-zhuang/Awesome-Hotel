@@ -2,43 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.user.AccountMapper">
     <insert id="createNewAccount" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
-        insert into User(email,password,username,phonenumber,credit,usertype)
-        values(#{email},#{password},#{userName},#{phoneNumber},#{credit},#{userType})
+        insert into User(email, password, username, phonenumber, credit, usertype)
+        values (#{email}, #{password}, #{userName}, #{phoneNumber}, #{credit}, #{userType})
     </insert>
     <select id="getAccountByEmail" resultMap="User">
-        select * from User where email=#{email}
+        select *
+        from User
+        where email = #{email}
     </select>
     <select id="getAccountById" resultMap="User">
-        select * from User where id=#{id}
+        select *
+        from User
+        where id = #{id}
     </select>
     <update id="updateAccount">
-        update User set password=#{password},username=#{userName},phonenumber=#{phoneNumber}
-        where id=#{id}
+        update User
+        set password=#{password},
+            username=#{userName},
+            phonenumber=#{phoneNumber}
+        where id = #{id}
     </update>
     <!--> 修改credit-->
     <update id="updateCredit">
-        update user set credit=#{credit} where id=#{id}
+        update user
+        set credit=#{credit}
+        where id = #{id}
     </update>
 
     <update id="updateBirthday">
-        update user set birthday = #{birthday} where id = #{id}
+        update user
+        set birthday = #{birthday}
+        where id = #{id}
     </update>
 
-    <update id="registerAsVIP">
-        update user set vipType = #{vipType} where id = #{id}
+    <update id="updateVIPType">
+        update user
+        set vipType = #{vipType}
+        where id = #{id}
     </update>
 
-    <update id="annualCorporate">
-        update user set corporation = #{corporate}
+    <update id="annulCorporate">
+        update user
+        set corporation = #{corporate}
         where id = #{id}
     </update>
 
     <update id="updateAnnulTime">
-        update user set annulTime = #{time} where id = #{id}
+        update user
+        set annulTime = #{time}
+        where id = #{id}
     </update>
 
     <update id="updatePortrait">
-        update user set portrait = #{url} where id = #{id}
+        update user
+        set portrait = #{url}
+        where id = #{id}
     </update>
 
     <resultMap id="User" type="com.example.hotel.po.User">
