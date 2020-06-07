@@ -15,6 +15,18 @@
         where userId = #{userId}
     </select>
 
+    <update id="freezeClientVIP">
+        update VIP
+        set type = 'Normal'
+        where userId = #{userId}
+    </update>
+
+    <update id="restoreClientVIP">
+        update VIP
+        set type = 'Client'
+        where userId = #{userId}
+    </update>
+
     <update id="addVIPClientConsumption">
         update VIP
         set consumption = consumption + #{amount}
@@ -39,6 +51,18 @@
         where corporationName = #{corporationName}
     </select>
 
+    <update id="freezeCorpVIP">
+        update VIP
+        set type = 'Normal'
+        where corporationName = #{corporationName}
+    </update>
+
+    <update id="restoreCorpVIP">
+        update VIP
+        set type = 'Corporation'
+        where corporationName = #{corporationName}
+    </update>
+
     <update id="addVIPCorpConsumption">
         update VIP
         set consumption = consumption + #{amount}
@@ -50,6 +74,18 @@
         set level = level + 1
         where corporationName = #{corporationName}
     </update>
+
+    <select id="getAllVIPClient" resultMap="ClientVIP">
+        select *
+        from VIP
+        where type = 'Client'
+    </select>
+
+    <select id="getAllVIPCorp" resultMap="CorpVIP">
+        select *
+        from VIP
+        where type = 'Corporation'
+    </select>
 
     <resultMap id="ClientVIP" type="com.example.hotel.po.ClientVIP">
         <id column="id" property="id"/>

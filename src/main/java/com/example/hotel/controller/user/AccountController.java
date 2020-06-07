@@ -48,6 +48,15 @@ public class AccountController {
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 
+    // TODO 用户注册企业会员
+    @PostMapping("/registerCorporationMembership")
+    public ResponseVO registerCorporationMembership(@RequestParam Integer id,
+                                                    @RequestParam String corporation) {
+        System.out.println(id);
+        System.out.println(corporation);
+        return ResponseVO.buildSuccess(true);
+    }
+
     @GetMapping("/getUserInfoByEmail")
     public ResponseVO getUserInfoByEmail(@RequestParam String email) {
         User user = accountService.getUserInfoByEmail(email);

@@ -32,6 +32,25 @@
                         <span v-else>{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
 
+                    <a-form-item label="VIP等级" v-bind="formItemLayout">
+                        <span v-for="index of 5" :key="index">
+                            <img
+                                v-if="index <= userVIP.level"
+                                alt="example"
+                                src="@/assets/star.svg"
+                                style="width: 20px; height: 20px"
+                            />
+
+                            <img
+                                    v-else
+                                    alt="example"
+                                    src="@/assets/starGray.svg"
+                                    style="width: 20px; height: 20px"
+                            />
+                        </span>
+
+                    </a-form-item>
+
                     <a-form-item label="信用值" v-bind="formItemLayout">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
@@ -267,17 +286,20 @@
             ...mapGetters([
                 'userId',
                 'userInfo',
+                'userVIP',
                 'userOrderList',
                 'orderDetailVisible',
             ])
         },
         async mounted() {
             await this.getUserInfo()
+            await this.getUserVIP(Number(this.userId))
             await this.getUserOrders()
         },
         methods: {
             ...mapActions([
                 'getUserInfo',
+                'getUserVIP',
                 'getUserOrders',
                 'updateUserInfo',
                 'cancelOrder',

@@ -64,6 +64,8 @@ public interface AccountService {
 
     void registerAsVIP(int id); // 同上
 
+    void freezeVIP(int id); // 同上
+
     ResponseVO updatePortrait(int userId, String url);
 
     List<String> getManagerTelephone(int hotelId);

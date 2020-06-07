@@ -5,7 +5,10 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.VIP.VIPMapper;
 import com.example.hotel.po.ClientVIP;
 import com.example.hotel.po.CorpVIP;
+import com.example.hotel.vo.ClientVIPVO;
+import com.example.hotel.vo.CorpVIPVO;
 import com.example.hotel.vo.ResponseVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,9 @@ import org.springframework.stereotype.Service;
 public class VIPServiceImpl implements VIPService {
 
     private final static String CLI_REGISTERED = "当前用户已经是VIP";
-    private final static String CORP_REGISTERED = "该公司已经注册为VIP";
+    private final static String CLI_FAILURE = "当前用户不是VIP";
+    private final static String CORP_REGISTERED = "该企业名已被占用";
+    private final static String CORP_FAILURE = "该企业不是VIP";
 
     @Autowired
     private VIPMapper vipMapper;
@@ -39,8 +44,62 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public ClientVIP getVIPbyUserId(Integer userId){
-        return vipMapper.getVIPbyUserId(userId);
+    public ResponseVO freezeClientVIP(Integer userId) {
+        try {
+            vipMapper.freezeClientVIP(userId);
+            accountService.freezeVIP(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO restoreClientVIP(Integer userId) {
+        try {
+            vipMapper.restoreClientVIP(userId);
+            accountService.registerAsVIP(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO getVIPbyUserId(Integer userId){
+        try {
+            ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
+            ClientVIPVO clientVIPVO = new ClientVIPVO();
+            BeanUtils.copyProperties(clientVIP, clientVIPVO);
+            return ResponseVO.buildSuccess(clientVIPVO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+    }
+
+    @Override
+    public ResponseVO addVIPClientConsumption(Integer userId, Integer amount) {
+        try{
+            vipMapper.addVIPClientConsumption(userId,amount);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO clientLevelUp(Integer userId) {
+        try{
+            vipMapper.clientLevelUp(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CLI_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
     }
 
     @Override
@@ -55,8 +114,61 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public CorpVIP getVIPbyCorpName(String corporationName){
-        return vipMapper.getVIPbyCorpName(corporationName);
+    public ResponseVO freezeCorpVIP(String corporationName) {
+        try {
+            vipMapper.freezeCorpVIP(corporationName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO restoreCorpVIP(String corporationName) {
+        try {
+            vipMapper.restoreCorpVIP(corporationName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO getVIPbyCorpName(String corporationName){
+        try {
+            CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
+            CorpVIPVO corpVIPVO = new CorpVIPVO();
+            BeanUtils.copyProperties(corpVIP,corpVIPVO);
+            return ResponseVO.buildSuccess(corpVIPVO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+
+    }
+
+    @Override
+    public ResponseVO addVIPCorpConsumption(String corporationName, Integer amount) {
+        try{
+            vipMapper.addVIPCorpConsumption(corporationName, amount);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO corpLevelUp(String corporationName) {
+        try{
+            vipMapper.corpLevelUp(corporationName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(CORP_FAILURE);
+        }
+        return ResponseVO.buildSuccess();
     }
 
     @Override
@@ -64,4 +176,13 @@ public class VIPServiceImpl implements VIPService {
         return vipMapper.getVIPbyCorpName(corporationName) != null;
     }
 
+    @Override
+    public ResponseVO getAllVIPClient() {
+        return ResponseVO.buildSuccess(vipMapper.getAllVIPClient());
+    }
+
+    @Override
+    public ResponseVO getAllVIPCorp() {
+        return ResponseVO.buildSuccess(vipMapper.getAllVIPCorp());
+    }
 }
