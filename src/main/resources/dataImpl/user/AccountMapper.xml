@@ -28,7 +28,7 @@
         update user set vipType = #{vipType} where id = #{id}
     </update>
 
-    <update id="annualCorporate">
+    <update id="updateCorporate">
         update user set corporation = #{corporate}
         where id = #{id}
     </update>
@@ -50,7 +50,7 @@
         <result column="credit" property="credit"/>
         <result column="usertype" property="userType"/>
         <result column="birthday" property="birthday"/>
-        <result column="corporation" property="corporation"/>
+        <result column="corporation" property="corporate"/>
         <result column="annulTime" property="annulTime"/>
         <result column="jobNumber" property="jobNumber"/>
         <result column="hotelID" property="hotelID"/>
