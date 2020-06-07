@@ -18,6 +18,11 @@ export function registerCorpMembershipAPI(params) {
         params
     })
 }
-
+export function getUserVIPAPI(id) {
+    return axios({
+        url: `${api.memberShipPre}/${id}/getUserVIP`,
+        method: 'GET',
+    })
+}
 
 

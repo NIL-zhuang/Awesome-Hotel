@@ -22,6 +22,7 @@ import {
 import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
+    getUserVIPAPI,
 } from "@/api/membership"
 
 import moment from "moment";
@@ -30,6 +31,7 @@ const getDefaultState = () => {
     return {
         userId: '',
         userInfo: {},
+        userVIP: {},
         dateRange: [moment(), moment().add(1, 'd')],
         userOrderList: [],
         onceOrderedList: [],
@@ -76,6 +78,12 @@ const user = {
         },
         set_registerCorporationMembershipModalVisible: (state, data) => {
             state.registerCorporationMembershipModalVisible = data
+        },
+        set_userVIP: (state, data) => {
+            state.userVIP = {
+                ...state.userVIP,
+                ...data
+            }
         },
     },
 
@@ -183,7 +191,15 @@ const user = {
                 message.success('注册成功')
                 dispatch('getUserInfo')
             }
-        }
+        },
+        getUserVIP: async ({state, commit}, id) => {
+            const res = await getUserVIPAPI(id)
+            console.log('in getUserVIP')
+            console.log(res)
+            if (res) {
+                commit('set_userVIP', res)
+            }
+        },
 
     }
 }

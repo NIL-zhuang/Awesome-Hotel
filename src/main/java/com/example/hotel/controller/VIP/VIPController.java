@@ -21,8 +21,10 @@ public class VIPController {
     }
 
     @GetMapping("/{id}/getUserVIP")
-    public ClientVIP getUserVIP(@PathVariable int id){
-        return vipService.getVIPbyUserId(id);
+    public ResponseVO getUserVIP(@PathVariable int id){
+        System.out.println(id);
+        ClientVIP clientVIP = vipService.getVIPbyUserId(id);
+        return ResponseVO.buildSuccess(clientVIP);
     }
 
     @PostMapping("/registerCorpMembership")
@@ -31,8 +33,9 @@ public class VIPController {
     }
 
     @GetMapping("/{corpName}/getCorpVIP")
-    public CorpVIP getCorpVIP(@PathVariable String corpName){
-        return vipService.getVIPbyCorpName(corpName);
+    public ResponseVO getCorpVIP(@PathVariable String corpName){
+        CorpVIP corpVIP = vipService.getVIPbyCorpName(corpName);
+        return ResponseVO.buildSuccess(corpVIP);
     }
 
     @GetMapping("/CorpMembershipCheck")
