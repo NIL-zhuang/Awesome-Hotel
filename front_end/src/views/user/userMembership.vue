@@ -45,6 +45,7 @@ import membershipCoupon from "./components/membershipCoupon";
 import RegisterSiteMembership from "./components/RegisterSiteMembership";
 import RegisterCorporationMembership from "./components/RegisterCorporationMembership";
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+
 export default {
     name: "usermembership",
     components: {
@@ -52,12 +53,21 @@ export default {
         RegisterSiteMembership,
         RegisterCorporationMembership
     },
+    mounted() {
+        this.getUserVIP(this.userId) // 测试用
+    },
     computed: {
+        ...mapGetters([
+            'userId'
+        ])
     },
     methods: {
         ...mapMutations([
             'set_registerSiteMembershipModalVisible',
             'set_registerCorporationMembershipModalVisible',
+        ]),
+        ...mapActions([
+            'getUserVIP'
         ]),
         registerSiteMembership() {
             this.set_registerSiteMembershipModalVisible(true);
