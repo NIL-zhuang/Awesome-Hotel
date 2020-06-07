@@ -1,59 +1,102 @@
 package com.example.hotel.bl.hotel;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.*;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
- * @date 2020/5/25 23:08
+ * @date 2020/6/7 10:23
  */
-public class HotelServiceTest extends TestCase {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class HotelServiceTest {
 
-    public void setUp() throws Exception {
-        super.setUp();
+    @Autowired
+    private HotelService hotelService;
+
+    @Test
+    @Transactional
+    public void addHotel() {
     }
 
-    public void tearDown() throws Exception {
+    @Test
+    @Transactional
+    public void deleteHotel() {
     }
 
-    public void testAddHotel() {
+    @Test
+    @Transactional
+    public void updateRoomInfo() {
     }
 
-    public void testUpdateRoomInfo() {
+    @Test
+    @Transactional
+    public void retrieveHotels() {
     }
 
-    public void testRetrieveHotels() {
+    @Test
+    @Transactional
+    public void retrieveHotelDetails() {
     }
 
-    public void testRetrieveHotelDetails() {
+    @Test
+    @Transactional
+    public void getRoomCurNum() {
     }
 
-    public void testGetRoomCurNum() {
+    @Test
+    @Transactional
+    public void retrieveAvailableHotelDetails() {
     }
 
-    public void testRetrieveAvailableHotelDetails() {
+    @Test
+    @Transactional
+    public void checkRoom() {
     }
 
-    public void testAddLike() {
+    @Test
+    @Transactional
+    public void addLike() {
     }
 
-    public void testRemoveLike() {
+    @Test
+    @Transactional
+    public void removeLike() {
     }
 
-    public void testGetLike() {
+    @Test
+    @Transactional
+    public void getLike() {
     }
 
-    public void testAddCollection() {
+    @Test
+    @Transactional
+    public void addCollection() {
     }
 
-    public void testGetCollections() {
+    @Test
+    @Transactional
+    public void getCollections() {
     }
 
-    public void testAddQuestion() {
+    @Test
+    @Transactional
+    public void addQuestion() {
     }
 
-    public void testAnnualQuestion() {
+    @Test
+    @Transactional
+    public void annualQuestion() {
     }
 
-    public void testUpdateHotelPicture() {
+    @Test
+    @Transactional
+    public void updateHotelPicture() {
     }
 }

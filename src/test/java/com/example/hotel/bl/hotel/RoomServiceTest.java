@@ -1,25 +1,47 @@
 package com.example.hotel.bl.hotel;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.*;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
- * @date 2020/5/25 23:10
+ * @date 2020/6/7 10:24
  */
-public class RoomServiceTest extends TestCase {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class RoomServiceTest {
 
-    public void testRetrieveHotelRoomInfo() {
+    @Autowired
+    private RoomService roomService;
+
+    @Test
+    @Transactional
+    public void retrieveHotelRoomInfo() {
     }
 
-    public void testRetrieveHotelRoomInfoByType() {
+    @Test
+    @Transactional
+    public void retrieveHotelRoomInfoByType() {
     }
 
-    public void testInsertRoomInfo() {
+    @Test
+    @Transactional
+    public void insertRoomInfo() {
     }
 
-    public void testUpdateRoomInfo() {
+    @Test
+    @Transactional
+    public void updateRoomInfo() {
     }
 
-    public void testGetRoomCurNum() {
+    @Test
+    @Transactional
+    public void getRoomCurNum() {
     }
 }

@@ -1,34 +1,77 @@
 package com.example.hotel.bl.order;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.*;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
- * @date 2020/5/25 23:09
+ * @date 2020/6/7 10:25
  */
-public class OrderServiceTest extends TestCase {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class OrderServiceTest {
 
-    public void testAddOrder() {
+    @Autowired
+    private OrderService orderService;
+
+    @Test
+    @Transactional
+    public void addOrder() {
     }
 
-    public void testGetAllOrders() {
+    @Test
+    @Transactional
+    public void getAllOrders() {
     }
 
-    public void testGetHotelOrders() {
+    @Test
+    @Transactional
+    public void getHotelOrders() {
     }
 
-    public void testGetUserOrders() {
+    @Test
+    @Transactional
+    public void getUserOrders() {
     }
 
-    public void testAnnulOrder() {
+    @Test
+    @Transactional
+    public void annulOrder() {
     }
 
-    public void testGetComment() {
+    @Test
+    @Transactional
+    public void finishOrder() {
     }
 
-    public void testGetHotelComment() {
+    @Test
+    @Transactional
+    public void getComment() {
     }
 
-    public void testAddComment() {
+    @Test
+    @Transactional
+    public void annulComment() {
+    }
+
+    @Test
+    @Transactional
+    public void getHotelComment() {
+    }
+
+    @Test
+    @Transactional
+    public void addComment() {
+    }
+
+    @Test
+    @Transactional
+    public void getUserComments() {
     }
 }
