@@ -4,6 +4,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.util.List;
 
@@ -70,4 +71,6 @@ public interface OrderService {
     ResponseVO getOrdersInMonthOfHotel(Integer hotelId);
 
     ResponseVO getOrdersInMonthOfAll();
+
+    List<Order> washOrder(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // added by hx
-    // TODO 这里是不是有点问题？
+
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
@@ -88,13 +89,13 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderState("已撤销");//这里暂时不考虑重复撤销的情况
         //扣除信用积分
         String checkInDate = order.getCheckInDate();
-        String now = getSystemDate();
-        int gap = getDays(now, checkInDate);
+
+        int gap = getDays(checkInDate);
         if (gap == 1 || gap == 0) {
             int userID = order.getUserId();
-            UserVO user = accountService.getUserInfo(userID); // ?有点好奇这是为什么，为什么不修改数据库呢 --crx
+            UserVO user = accountService.getUserInfo(userID);
             double price = order.getPrice();
-            double credit = user.getCredit();// 我觉得这里是错的
+            double credit = user.getCredit();
             credit -= price * 0.5;
             accountService.updateCredit(userID, credit);
         }
@@ -195,6 +196,23 @@ public class OrderServiceImpl implements OrderService {
         return responseVO;
     }
 
+    @Override
+    public List<Order> washOrder(List<Order> orders,String beginTime, String endTime) {
+        List<Order> relatedOrder = new ArrayList<>();
+        for(Order order : orders){
+            int gap1 =  getGap(beginTime,order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
+            int gap2 = getGap(endTime,order.getCheckOutDate());         //搜素的退房日期 - 订单中的退房日期
+            int gap3 = getGap(beginTime,order.getCheckOutDate());       //搜索的入住日期 - 订单中的退房日期
+            int gap4 = getGap(endTime,order.getCheckInDate());          //搜索的退房日期 - 订单中的入住日期
+            boolean situation1 = (gap1<=0) && (gap2<=0) && (gap4>=0);
+            boolean situation2 = (gap1>=0) && (gap2<=0);
+            boolean situation3 = (gap1>=0) && (gap2>=0) && (gap3<=0);
+            if(situation1||situation2||situation3)
+                relatedOrder.add(order);
+        }
+        return relatedOrder;
+    }
+
 
     // added by hx
     //获取YYYY-MM-DD格式的当前系统日期
@@ -212,12 +230,23 @@ public class OrderServiceImpl implements OrderService {
      */
     private int getDays(String checkInDate){
         String now = getSystemDate();
-        LocalDate end = LocalDate.of(Integer.parseInt(checkInDate.substring(0,4)),
-                Integer.parseInt(checkInDate.substring(5,7)), Integer.parseInt(checkInDate.substring(8,10)));
-        LocalDate start = LocalDate.of(Integer.parseInt(now.substring(0,4)),
-                Integer.parseInt(now.substring(5,7)), Integer.parseInt(now.substring(8,10)));
-        return (int) (end.toEpochDay() - start.toEpochDay());
+        return getGap(checkInDate,now);
     }
+
+    /**
+     * 返回两个日期之间相差的天数
+     * @param date1
+     * @param date2
+     * @return
+     */
+    private int getGap(String date1,String date2){
+        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0,4)),
+                Integer.parseInt(date1.substring(5,7)), Integer.parseInt(date1.substring(8,10)));
+        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0,4)),
+                Integer.parseInt(date2.substring(5,7)), Integer.parseInt(date2.substring(8,10)));
+        return (int)(Date1.toEpochDay() - Date2.toEpochDay());
+    }
+
     /**
 
      * @param now
@@ -302,7 +331,5 @@ public class OrderServiceImpl implements OrderService {
         int gap = targetYear - year;
         return gap != 1 && gap != 0;      //两个数据的年份之间的间隙可能为0或1
     }
-
-
 
 }
