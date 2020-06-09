@@ -80,13 +80,6 @@ public class AccountMapperTest {
 
     @Test
     @Transactional
-    public void registerAsVIP() {
-        accountMapper.registerAsVIP(4, VIPType.Client);
-        Assert.assertThat(accountMapper.getAccountById(4).getVipType(), is(VIPType.Client));
-    }
-
-    @Test
-    @Transactional
     public void updateCorporate() {
         accountMapper.updateCorporate(4, "Nanjing University");
         Assert.assertThat(accountMapper.getAccountById(4).getCorporate(), is("Nanjing University"));
