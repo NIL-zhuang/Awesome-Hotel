@@ -65,7 +65,7 @@ public interface OrderService {
 
     ResponseVO getUserComments(Integer userId);
 
-    List<Order> getOrdersInMonth(List<Order> orders);
+    List<Order> getOrdersInMonth(List<Order> orders);  //从输入流的订单中找到近30天的并返回
 
     ResponseVO getOrdersInMonthOfHotel(Integer hotelId);
 

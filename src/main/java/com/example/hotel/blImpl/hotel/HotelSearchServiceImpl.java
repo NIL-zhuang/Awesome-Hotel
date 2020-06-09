@@ -81,8 +81,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         List<HotelVO> targetHotels = new ArrayList<>();     //以关联度由高到底排序
 
         for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
-            ResponseVO response = hotelController.getAvailableRoom(hotel.getId(),checkInDate,checkOutDate);
-            hotel = (HotelVO)response.getContent();
+            hotel = hotelService.retrieveAvailableHotelDetails(hotel.getId(),checkInDate,checkOutDate);
 
             //数据锁定的遍历，得到时间和地址都符合的hotel
             List<RoomVO> rooms = hotel.getRooms();
@@ -234,4 +233,25 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         }
     }
 
+
+    public static void main(String[] args){
+        SearchBodyVO searchBody = new SearchBodyVO();
+
+        HotelSearchServiceImpl hotelSearchService = new HotelSearchServiceImpl();
+
+        searchBody.setAddress("");
+        searchBody.setBizRegion("");
+        searchBody.setChechInDate("2020-6-11");
+        searchBody.setCheckOutDate("2020-6-16");
+        searchBody.setHotelStar(new String[]{"三星级", "四星级"});
+        searchBody.setKeyWords(new String[]{"便宜", "早餐"});
+        searchBody.setMaxPrice(500);
+        searchBody.setMinScore(2.5);
+
+        List<HotelVO> hotels = hotelSearchService.searchHotel(searchBody);
+
+        for(HotelVO hotel : hotels){
+            System.out.println(hotel.getName());
+        }
+    }
 }

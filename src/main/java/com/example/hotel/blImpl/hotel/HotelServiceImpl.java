@@ -2,17 +2,22 @@ package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
+import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
+import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +28,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public void addHotel(HotelForm hotelForm) {
@@ -86,7 +94,28 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
-        return retrieveHotelDetails(hotelId); // todo
+        HotelVO hotel = retrieveHotelDetails(hotelId);
+        List<RoomVO> rooms = hotel.getRooms();
+        List<RoomVO> roomVOS = new ArrayList<>();
+        List<Order> orders = orderService.getHotelOrders(hotelId);
+        orders = orderService.getOrdersInMonth(orders);
+        HashMap<String,Integer> roomNum = new HashMap<>();
+
+        for (RoomVO room : rooms) {
+           roomNum.put(room.getRoomType(),room.getTotal());
+        }
+
+        for(Order order : orders){
+            int curNum = roomNum.get(order.getRoomType()) - order.getRoomNum();
+            roomNum.put(order.getRoomType(),curNum);
+        }
+
+        for(RoomVO room : rooms){
+            if(roomNum.get(room.getRoomType())>0)
+                roomVOS.add(room);
+        }
+        hotel.setRooms(roomVOS);
+        return hotel;
     }
 
     @Override
