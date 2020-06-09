@@ -76,4 +76,14 @@ public class OrderController {
         return orderService.finishOrder(orderId);
     }
 
+    @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
+    public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {
+        return orderService.getOrdersInMonthOfHotel(hotelId);
+    }
+
+    @GetMapping("/getOrdersInMonthOfAll")
+    public ResponseVO getOrdersInMonthOfAll() {
+        return orderService.getOrdersInMonthOfAll();
+    }
+
 }

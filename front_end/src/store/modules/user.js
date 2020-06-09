@@ -8,6 +8,7 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    updateUserBirthdayAPI,
 } from '@/api/user'
 
 import {
@@ -128,7 +129,7 @@ const user = {
             const res = await updateUserInfoAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getUserInfo')
+                dispatch('getUserInfo', this.userId)
             }
         },
         getUserOrders: async ({state, commit}) => {
@@ -179,6 +180,9 @@ const user = {
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
+                console.log('in register')
+                console.log(Number(state.userId))
+                dispatch('getUserVIP', Number(state.userId))
             }
         },
         registerCorporationMembership: async ({state, dispatch}, data) => {
@@ -194,12 +198,21 @@ const user = {
         },
         getUserVIP: async ({state, commit}, id) => {
             const res = await getUserVIPAPI(id)
-            console.log('in getUserVIP')
-            console.log(res)
             if (res) {
                 commit('set_userVIP', res)
             }
         },
+        updateUserBirthday: async ({state, dispatch}, data) => {
+            const params = {
+                id: state.userId,
+                birthday: data
+            }
+            const res = await updateUserBirthdayAPI(params)
+            if (res) {
+                message.success('修改成功')
+                dispatch('getUserInfo')
+            }
+        }
 
     }
 }

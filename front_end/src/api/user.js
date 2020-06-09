@@ -32,10 +32,16 @@ export function updateUserInfoAPI(data) {
 }
 // created by glh 2020-05-30
 export function getUserInfoByEmailAPI(params) {
-    console.log(params)
     return axios({
         url: `${api.userPre}/getUserInfoByEmail`,
         method: 'GET',
+        params
+    })
+}
+export function updateUserBirthdayAPI(params) {
+    return axios({
+        url: `${api.userPre}/${params.id}/updateUserBirthday`,
+        method: 'POST',
         params
     })
 }
