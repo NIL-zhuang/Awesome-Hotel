@@ -82,7 +82,7 @@ public class AccountMapperTest {
     @Transactional
     public void updateCorporate() {
         accountMapper.updateCorporate(4, "Nanjing University");
-        Assert.assertThat(accountMapper.getAccountById(4).getCorporate(), is("Nanjing University"));
+        Assert.assertThat(accountMapper.getAccountById(4).getCorporation(), is("Nanjing University"));
     }
 
     @Test
