@@ -64,4 +64,10 @@ public interface OrderService {
     ResponseVO addComment(CommentVO commentVO);
 
     ResponseVO getUserComments(Integer userId);
+
+    List<Order> getOrdersInMonth(List<Order> orders);
+
+    ResponseVO getOrdersInMonthOfHotel(Integer hotelId);
+
+    ResponseVO getOrdersInMonthOfAll();
 }

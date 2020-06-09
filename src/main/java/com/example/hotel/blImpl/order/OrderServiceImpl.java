@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
             double price = order.getPrice();
             double credit = user.getCredit();// 我觉得这里是错的
             credit -= price * 0.5;
-
+            accountService.updateCredit(userID, credit);
         }
         orderMapper.annulOrder(orderid);
         return ResponseVO.buildSuccess(true);
@@ -160,6 +161,41 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(orderMapper.getUserComment(userId));
     }
 
+    @Override
+    public List<Order> getOrdersInMonth(List<Order> orders) {
+        String now = getSystemDate();
+        for(Order order:orders){
+            String createDate = order.getCreateDate();
+            int days = getDays(createDate,now);
+            if(days>30)
+                orders.remove(order);
+        }
+
+        return orders;
+    }
+
+    @Override
+    public ResponseVO getOrdersInMonthOfHotel(Integer hotelId) {
+        List<Order> orders = getHotelOrders(hotelId);
+        orders = getOrdersInMonth(orders);
+        ResponseVO responseVO = new ResponseVO();
+        responseVO.setContent(orders);
+        responseVO.setSuccess(true);
+        return responseVO;
+    }
+
+
+    @Override
+    public ResponseVO getOrdersInMonthOfAll() {
+        List<Order> orders = getAllOrders();
+        orders = getOrdersInMonth(orders);
+        ResponseVO responseVO = new ResponseVO();
+        responseVO.setContent(orders);
+        responseVO.setSuccess(true);
+        return responseVO;
+    }
+
+
     // added by hx
     //获取YYYY-MM-DD格式的当前系统日期
     public static String getSystemDate() {
@@ -168,12 +204,105 @@ public class OrderServiceImpl implements OrderService {
         return sdf.format(date);
     }
 
-    // added by hx
-    //计算当前日期距离入住日期还差多少天
-    public static int getDays(String now, String checkInDate) {
-        int yearGap = Integer.parseInt(checkInDate.substring(0, 4)) - Integer.parseInt(now.substring(0, 4));
-        int monthGap = Integer.parseInt(checkInDate.substring(5, 7)) - Integer.parseInt(now.substring(5, 7));
-        int dayGap = Integer.parseInt(checkInDate.substring(8, 10)) - Integer.parseInt(now.substring(8, 10));
-        return dayGap + 30 * monthGap + 365 * yearGap;
+
+    /**
+     *
+     * @param checkInDate
+     * @return
+     */
+    private int getDays(String checkInDate){
+        String now = getSystemDate();
+        LocalDate end = LocalDate.of(Integer.parseInt(checkInDate.substring(0,4)),
+                Integer.parseInt(checkInDate.substring(5,7)), Integer.parseInt(checkInDate.substring(8,10)));
+        LocalDate start = LocalDate.of(Integer.parseInt(now.substring(0,4)),
+                Integer.parseInt(now.substring(5,7)), Integer.parseInt(now.substring(8,10)));
+        return (int) (end.toEpochDay() - start.toEpochDay());
     }
+    /**
+
+     * @param now
+     * @param checkInDate
+     * @return
+     */
+
+    private int getDays(String now, String checkInDate) {
+        int targetYear = Integer.parseInt(checkInDate.substring(0,4));
+        int year = Integer.parseInt(now.substring(0, 4));
+        if(checkError(year,targetYear))
+            return -1;
+        int month = Integer.parseInt(now.substring(5, 7));
+        int day = Integer.parseInt(now.substring(8, 10));
+        int targetMonth = Integer.parseInt(checkInDate.substring(5,7));
+        int targetDay = Integer.parseInt(checkInDate.substring(8,10));
+
+        int gapNow;
+        gapNow = getDaysInMonth(month,year) - day;
+        if(targetYear>year) {
+            for (int i = month + 1; i < 13; i++)
+                gapNow += getDaysInMonth(i, year);
+            for(int i=1;i<=targetMonth;i++)
+                gapNow += getDaysInMonth(i,targetYear);
+        }else{
+            for(int i=month+1;i<=targetMonth;i++)
+                gapNow += getDaysInMonth(i,year);
+        }
+
+        int gapFuture;
+        gapFuture = getDaysInMonth(targetMonth,targetYear) - targetDay;
+
+        int gap = gapNow - gapFuture;
+        if(gap<=30 && gap>=0)
+            return gap;
+        else
+            return -1;
+    }
+
+
+    /**
+     * 返回相应月份的天数
+     * @param month
+     * @param year
+     * @return
+     */
+    private int getDaysInMonth(int month,int year){
+        switch (month){
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                if(year%100 == 0){
+                    if((year/100) %4 ==0)
+                        return 29;
+
+                    else
+                        return 28;
+
+                }else{
+                    if(year%4 ==0)
+                        return 29;
+                    else
+                        return 28;
+                }
+            default:
+                return -1;
+        }
+    }
+
+    private boolean checkError(int year,int targetYear){
+        int gap = targetYear - year;
+        return gap != 1 && gap != 0;      //两个数据的年份之间的间隙可能为0或1
+    }
+
+
+
 }
