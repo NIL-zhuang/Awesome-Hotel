@@ -6,6 +6,7 @@ public class CorpVIPVO {
     private int level;
     private int consumption;
     private double reduction;
+    private int status;
 
     public int getId() {
         return id;
@@ -45,5 +46,13 @@ public class CorpVIPVO {
 
     public void setReduction(double reduction) {
         this.reduction = reduction;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

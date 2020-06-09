@@ -7,6 +7,7 @@
         insert into VIP(type, userId, level, reduction)
         values ('Client', #{userId}, #{level}, #{reduction})
     </insert>
+
     <resultMap id="VIP" type="com.example.hotel.po.ClientVIP"/>
 
     <select id="getVIPbyUserId" resultMap="ClientVIP">
@@ -93,6 +94,7 @@
         <result column="level" property="level"/>
         <result column="consumption" property="consumption"/>
         <result column="reduction" property="reduction"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <resultMap id="CorpVIP" type="com.example.hotel.po.CorpVIP">
@@ -101,6 +103,7 @@
         <result column="level" property="level"/>
         <result column="consumption" property="consumption"/>
         <result column="reduction" property="reduction"/>
+        <result column="status" property="status"/>
     </resultMap>
 
 </mapper>

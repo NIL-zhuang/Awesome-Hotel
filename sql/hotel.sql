@@ -383,6 +383,7 @@ CREATE TABLE `VIP`
     `corporationName` varchar(255) UNIQUE DEFAULT NULL,
     `level` int(11) DEFAULT NULL,
     `consumption` int (11) DEFAULT NULL,
+    `status` int(11) DEFAULT 1,
     `reduction` double DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

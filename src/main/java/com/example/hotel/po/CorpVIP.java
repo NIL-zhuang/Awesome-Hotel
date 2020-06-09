@@ -6,6 +6,7 @@ public class CorpVIP {
     private int level;
     private int consumption;
     private double reduction;
+    private int status;
 
     public CorpVIP(String corporationName){
         this.corporationName=corporationName;
@@ -52,5 +53,13 @@ public class CorpVIP {
 
     public void setReduction(double reduction) {
         this.reduction = reduction;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

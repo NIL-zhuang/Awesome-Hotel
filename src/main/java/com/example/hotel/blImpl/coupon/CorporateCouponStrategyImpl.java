@@ -23,7 +23,7 @@ public class CorporateCouponStrategyImpl implements CouponMatchStrategy {
             User user = accountMapper.getAccountById(orderVO.getUserId());
             return (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) &&
                     coupon.getStatus() == 1 &&
-                    coupon.getCorporateName().equals(user.getCorporate());
+                    coupon.getCorporateName().equals(user.getCorporation());
         } catch (Exception e) {
             e.printStackTrace();
             return false;

@@ -11,6 +11,7 @@ import com.example.hotel.po.User;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,9 +91,9 @@ public class OrderServiceImpl implements OrderService {
         int gap = getDays(now, checkInDate);
         if (gap == 1 || gap == 0) {
             int userID = order.getUserId();
-            User user = accountService.getUserInfo(userID);
+            UserVO user = accountService.getUserInfo(userID); // ?有点好奇这是为什么，为什么不修改数据库呢 --crx
             double price = order.getPrice();
-            double credit = user.getCredit();
+            double credit = user.getCredit();// 我觉得这里是错的
             credit -= price * 0.5;
 
         }

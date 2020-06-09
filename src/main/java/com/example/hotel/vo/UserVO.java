@@ -1,6 +1,8 @@
 package com.example.hotel.vo;
 
 import com.example.hotel.enums.UserType;
+import com.example.hotel.enums.VIPType;
+import com.example.hotel.po.User;
 
 /**
  * @author fjj
@@ -18,9 +20,10 @@ public class UserVO {
     private String corporation;
     private String annulTime;
     private String jobNumber;
-    private String hotelID;
+    private Integer hotelID;
     private String portrait;
-    private String vipType;
+    private VIPType vipType;
+
 
     public Integer getId() {
         return id;
@@ -110,11 +113,11 @@ public class UserVO {
         this.jobNumber = jobNumber;
     }
 
-    public String getHotelID() {
+    public Integer getHotelID() {
         return hotelID;
     }
 
-    public void setHotelID(String hotelID) {
+    public void setHotelID(Integer hotelID) {
         this.hotelID = hotelID;
     }
 
@@ -126,11 +129,11 @@ public class UserVO {
         this.portrait = portrait;
     }
 
-    public String getVipType() {
+    public VIPType getVipType() {
         return vipType;
     }
 
-    public void setVipType(String vipType) {
+    public void setVipType(VIPType vipType) {
         this.vipType = vipType;
     }
 

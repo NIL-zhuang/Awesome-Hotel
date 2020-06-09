@@ -6,6 +6,7 @@ public class ClientVIPVO {
     private int level;
     private int consumption;
     private double reduction;
+    private int status;
 
     public int getId() {
         return id;
@@ -47,4 +48,11 @@ public class ClientVIPVO {
         this.reduction = reduction;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

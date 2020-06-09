@@ -12,7 +12,7 @@ public class User {
     private double credit;
     private UserType userType;
     private String birthday;
-    private String corporate;
+    private String corporation;
     private Integer annulTime = 3;
     private String portrait;
     private String jobNumber;
@@ -99,12 +99,12 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getCorporate() {
-        return this.corporate;
+    public String getCorporation() {
+        return this.corporation;
     }
 
-    public void setCorporate(String corporate) {
-        this.corporate = corporate;
+    public void setCorporation(String corporation) {
+        this.corporation = corporation;
     }
 
     public Integer getAnnulTime() {

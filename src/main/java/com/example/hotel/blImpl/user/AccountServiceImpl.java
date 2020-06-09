@@ -38,22 +38,30 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public User login(UserForm userForm) {
+    public UserVO login(UserForm userForm) {
         User user = accountMapper.getAccountByEmail(userForm.getEmail());
         if (!user.getPassword().equals(PasswordEncryptHelper.getMD5(userForm.getPassword()))) {
             return null;
         }
-        return user;
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 
     @Override
-    public User getUserInfo(int id) {
-        return accountMapper.getAccountById(id);
+    public UserVO getUserInfo(int id) {
+        User user = accountMapper.getAccountById(id);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 
     @Override
-    public User getUserInfoByEmail(String email) {
-        return accountMapper.getAccountByEmail(email);
+    public UserVO getUserInfoByEmail(String email) {
+        User user = accountMapper.getAccountByEmail(email);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 
     @Override

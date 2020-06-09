@@ -1,7 +1,6 @@
 package com.example.hotel.controller.user;
 
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.po.User;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserInfoVO;
@@ -21,7 +20,7 @@ public class AccountController {
 
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
-        User user = accountService.login(userForm);
+        UserVO user = accountService.login(userForm);
         if (user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
@@ -36,7 +35,7 @@ public class AccountController {
 
     @GetMapping("/{id}/getUserInfo")
     public ResponseVO getUserInfo(@PathVariable int id) {
-        User user = accountService.getUserInfo(id);
+        UserVO user = accountService.getUserInfo(id);
         if(user==null){
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
@@ -59,7 +58,7 @@ public class AccountController {
 
     @GetMapping("/getUserInfoByEmail")
     public ResponseVO getUserInfoByEmail(@RequestParam String email) {
-        User user = accountService.getUserInfoByEmail(email);
+        UserVO user = accountService.getUserInfoByEmail(email);
         if(user==null){
             return ResponseVO.buildFailure(ACCOUNT_NOTFOUND);
         }
