@@ -6,7 +6,7 @@
             useGeneratedKeys="true" keyProperty="id">
         insert into Coupon(description, couponName, target_money, discount_money, start_time, end_time, hotelId,
                            couponType, discount, status, target_room_num, corporate_name)
-        values (#{description}, #{couponName}, #{targetMoney}, #{discountMoney}, #{startTime}, #{endTime}, #{hotelId},
+        values (#{description}, #{couponName}, #{targetMoney}, #{discountMoney}, #{startTime}, #{endTime}, #{srcId},
                 #{couponType}, #{discount}, #{status}, #{targetRoomNum}, #{corporateName})
     </insert>
 
@@ -28,7 +28,7 @@
         <result column="description" property="description"/>
         <result column="id" property="id"/>
         <result column="couponName" property="couponName"/>
-        <result column="hotelId" property="hotelId"/>
+        <result column="hotelId" property="srcId"/>
         <result column="couponType" property="couponType"/>
         <result column="discount" property="discount"/>
         <result column="status" property="status"/>
