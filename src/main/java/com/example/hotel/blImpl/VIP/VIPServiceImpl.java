@@ -146,7 +146,6 @@ public class VIPServiceImpl implements VIPService {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_FAILURE);
         }
-
     }
 
     @Override

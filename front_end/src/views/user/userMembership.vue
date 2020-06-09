@@ -20,45 +20,101 @@
                 />
                 <span> 丰富优惠</span>
             </a-card>
-            <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册普通会员</a-button>
 
-            <a-card style="width: 270px; margin-top: 20px">
-                <p>VIP企业会员特权</p>
-                <img
-                        alt="example"
-                        src="@/assets/couponLogo.svg"
-                        style="width: 20px; height: 20px"
-                />
-                <span>企业专享优惠</span>
-            </a-card>
-            <a-button type="primary" @click="registerCorporationMembership" style="margin-top: 20px"><a-icon type="user" />注册企业会员</a-button>
+            <span v-if="this.userInfo.vipType==='Client'" style="text-align: center;">
+                <div class="membershipInfo">
+                    您的等级：
+                    <span v-for="index of 5" :key="index">
+                        <img
+                                v-if="index <= userVIP.level"
+                                alt="example"
+                                src="@/assets/star.svg"
+                                style="width: 32px; height: 32px"
+                        />
+                        <img
+                                v-else
+                                alt="example"
+                                src="@/assets/starGray.svg"
+                                style="width: 32px; height: 32px"
+                        />
+                    </span>
+                </div>
+            </span>
+            <span v-else-if="JSON.stringify(this.userVIP)!=='{}'">
+                <div class="membershipInfo">
+                    <a-tag color="red">您已被冻结</a-tag>
+                </div>
+            </span>
+            <span v-else>
+                <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册普通会员</a-button>
+            </span>
 
+            <a-form :form="form" style="margin-top: 30px; margin-left: 17px; text-align: left" v-show="this.userInfo.vipType==='Client'">
+                <a-form-item label="您的生日" v-bind="formItemLayout">
+                    <a-date-picker :disabled="!modify"
+                                   v-decorator="['birthday', { rules: [{ required: true, message: '请选择您的生日' }], initialValue: moment(this.userInfo.birthday, dateFormat)}]" />
+                </a-form-item>
 
+                <a-form-item label="" :wrapper-col="{ span: 16, offset: 9 }" v-if="modify">
+                    <a-button type="primary" @click="saveModify">
+                        保存
+                    </a-button>
+                    <a-button type="default" style="margin-left: 10px" @click="cancelModify">
+                        取消
+                    </a-button>
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 16, offset: 9 }" v-else>
+                    <a-button type="primary" @click="modifyInfo">
+                        修改
+                    </a-button>
+                </a-form-item>
+
+            </a-form>
         </div>
         <RegisterSiteMembership></RegisterSiteMembership>
-        <RegisterCorporationMembership></RegisterCorporationMembership>
     </div>
 </template>
 
 <script>
 import membershipCoupon from "./components/membershipCoupon";
 import RegisterSiteMembership from "./components/RegisterSiteMembership";
-import RegisterCorporationMembership from "./components/RegisterCorporationMembership";
+import moment from 'moment';
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-
+import {message} from "ant-design-vue";
 export default {
     name: "usermembership",
+    data() {
+        this.dateFormat = 'YYYY-MM-DD';
+        return {
+            modify: false,
+            formLayout: 'horizontal',
+            formItemLayout: {
+                labelCol: {
+                    span: 8,
+                    offset: 0
+                },
+                wrapperCol: {
+                    span: 14,
+                    offset: 1,
+                },
+
+            },
+            form: this.$form.createForm(this, {name: 'birthday'}),
+        }
+    },
     components: {
         membershipCoupon,
         RegisterSiteMembership,
-        RegisterCorporationMembership
     },
-    mounted() {
-        this.getUserVIP(this.userId) // 测试用
+    async mounted() {
+        await this.getUserInfo()
+        await this.getUserVIP(this.userId)
     },
     computed: {
         ...mapGetters([
-            'userId'
+            'userId',
+            'userInfo',
+            'userVIP',
         ])
     },
     methods: {
@@ -67,19 +123,53 @@ export default {
             'set_registerCorporationMembershipModalVisible',
         ]),
         ...mapActions([
-            'getUserVIP'
+            'getUserVIP',
+            'getUserInfo',
+            'updateUserBirthday',
         ]),
         registerSiteMembership() {
             this.set_registerSiteMembershipModalVisible(true);
         },
-        registerCorporationMembership() {
-            this.set_registerCorporationMembershipModalVisible(true)
+
+        modifyInfo() {
+            setTimeout(() => {
+                this.form.setFieldsValue({
+                    'userName': this.userInfo.userName,
+                    'phoneNumber': this.userInfo.phoneNumber,
+                })
+            }, 0)
+            this.modify = true
         },
+
+        saveModify() {
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    const data = this.form.getFieldValue('birthday').format("YYYY-MM-DD")
+                    this.updateUserBirthday(data).then(() => {
+                        this.modify = false
+                    })
+                } else {
+                    message.error("请输入正确的信息")
+                }
+            })
+        },
+
+        cancelModify() {
+            this.modify = false
+        },
+
+        moment,
     }
 
 }
 </script>
 
 <style scoped>
-
+    .membershipInfo {
+        margin-top: 25px;
+        height: 32px;
+        line-height: 32px;
+        font-size: 14px;
+        text-align: center;
+    }
 </style>
