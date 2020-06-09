@@ -18,13 +18,13 @@
 
     <update id="freezeClientVIP">
         update VIP
-        set type = 'Normal'
+        set status = 0
         where userId = #{userId}
     </update>
 
     <update id="restoreClientVIP">
         update VIP
-        set type = 'Client'
+        set status = 1
         where userId = #{userId}
     </update>
 
@@ -54,13 +54,13 @@
 
     <update id="freezeCorpVIP">
         update VIP
-        set type = 'Normal'
+        set status = 0
         where corporationName = #{corporationName}
     </update>
 
     <update id="restoreCorpVIP">
         update VIP
-        set type = 'Corporation'
+        set status = 1
         where corporationName = #{corporationName}
     </update>
 
