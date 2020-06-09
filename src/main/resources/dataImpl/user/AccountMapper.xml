@@ -24,15 +24,11 @@
     </update>
     <!--> 修改credit-->
     <update id="updateCredit">
-        update user
-        set credit=#{credit}
-        where id = #{id}
+        update user set credit=#{credit} where id=#{id}
     </update>
 
     <update id="updateBirthday">
-        update user
-        set birthday = #{birthday}
-        where id = #{id}
+        update user set birthday = #{birthday} where id = #{id}
     </update>
 
     <update id="updateVIPType">
@@ -41,22 +37,17 @@
         where id = #{id}
     </update>
 
-    <update id="annulCorporate">
-        update user
-        set corporation = #{corporate}
+    <update id="updateCorporate">
+        update user set corporation = #{corporate}
         where id = #{id}
     </update>
 
     <update id="updateAnnulTime">
-        update user
-        set annulTime = #{time}
-        where id = #{id}
+        update user set annulTime = #{time} where id = #{id}
     </update>
 
     <update id="updatePortrait">
-        update user
-        set portrait = #{url}
-        where id = #{id}
+        update user set portrait = #{url} where id = #{id}
     </update>
 
     <resultMap id="User" type="com.example.hotel.po.User">
@@ -68,7 +59,7 @@
         <result column="credit" property="credit"/>
         <result column="usertype" property="userType"/>
         <result column="birthday" property="birthday"/>
-        <result column="corporation" property="corporation"/>
+        <result column="corporation" property="corporate"/>
         <result column="annulTime" property="annulTime"/>
         <result column="jobNumber" property="jobNumber"/>
         <result column="hotelID" property="hotelID"/>
