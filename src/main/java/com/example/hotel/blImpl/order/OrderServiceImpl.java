@@ -162,6 +162,12 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(orderMapper.getUserComment(userId));
     }
 
+
+    /**
+     * 获取输入的订单中，发生在最近一个月的
+     * @param orders
+     * @return
+     */
     @Override
     public List<Order> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
@@ -175,6 +181,11 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    /**
+     * 获取特定酒店近一个月的所有订单
+     * @param hotelId
+     * @return
+     */
     @Override
     public ResponseVO getOrdersInMonthOfHotel(Integer hotelId) {
         List<Order> orders = getHotelOrders(hotelId);
@@ -186,6 +197,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    /**
+     * 获取最近一个月产生的所有订单
+     * @return
+     */
     @Override
     public ResponseVO getOrdersInMonthOfAll() {
         List<Order> orders = getAllOrders();
@@ -196,6 +211,13 @@ public class OrderServiceImpl implements OrderService {
         return responseVO;
     }
 
+    /**
+     * 基于时间进行清洗，返回与输入的时间段发生重叠的订单
+     * @param orders
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
     @Override
     public List<Order> washOrder(List<Order> orders,String beginTime, String endTime) {
         List<Order> relatedOrder = new ArrayList<>();
@@ -214,8 +236,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    // added by hx
+
     //获取YYYY-MM-DD格式的当前系统日期
+
     public static String getSystemDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
