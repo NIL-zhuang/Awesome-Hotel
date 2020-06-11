@@ -10,7 +10,7 @@
         set requestConsumption = #{requestConsumption}
         where level = #{level}
     </update>
-    <select id="getTheRequestOfLevel">
+    <select id="getTheRequestOfLevel" resultType="int">
         select requestConsumption
         from VIPLevel
         where level = #{level}

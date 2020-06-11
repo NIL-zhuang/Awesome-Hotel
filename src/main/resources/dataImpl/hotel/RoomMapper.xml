@@ -3,9 +3,9 @@
 <mapper namespace="com.example.hotel.data.hotel.RoomMapper">
 
     <insert id="insertRoom" parameterType="com.example.hotel.po.HotelRoom"
-    useGeneratedKeys="true" keyProperty="id">
-        insert into Room(roomType,price,curNum,total,hotel_id)
-        values (#{roomType},#{price},#{curNum},#{total},#{hotelId})
+            useGeneratedKeys="true" keyProperty="id">
+        insert into Room(roomType,price,curNum,total,hotel_id,peopleNum)
+        values (#{roomType},#{price},#{curNum},#{total},#{hotelId},#{peopleNum})
     </insert>
 
     <select id="selectRoomsByHotelId" resultMap="room">
@@ -13,7 +13,7 @@
     </select>
 
     <update id="updateRoomInfo">
-        update Room set curNum=curNum-#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
+        update Room set curNum=curNum-#{minNum} where hotel_id=#{hotelId} and roomType=#{roomType}
     </update>
 
     <select id="getRoomCurNum" resultType="int">

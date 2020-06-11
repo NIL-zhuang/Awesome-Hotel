@@ -78,16 +78,9 @@ public class AccountMapperTest {
         Assert.assertThat(accountMapper.getAccountById(4).getBirthday(), is("1989-06-04"));
     }
 
-//    @Test
-//    @Transactional
-//    public void registerAsVIP() {
-//        accountMapper.registerAsVIP(4, VIPType.Client);
-//        Assert.assertThat(accountMapper.getAccountById(4).getVipType(), is(VIPType.Client));
-//    } // 有关VIP的方法现在都在vipMapper中
-
     @Test
     @Transactional
-    public void updateCorporation() {
+    public void updateCorporate() {
         accountMapper.updateCorporate(4, "Nanjing University");
         Assert.assertThat(accountMapper.getAccountById(4).getCorporation(), is("Nanjing University"));
     }

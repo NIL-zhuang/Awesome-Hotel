@@ -26,7 +26,7 @@
         update hotel set commentTime = #{commentTime},
         points = #{points},
         sanitation = #{sanitation},
-        environment = #{envrionment},
+        environment = #{environment},
         service = #{service},
         equipment = #{equipment}
         where id = #{id}

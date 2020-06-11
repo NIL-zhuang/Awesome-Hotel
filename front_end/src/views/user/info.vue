@@ -32,23 +32,42 @@
                         <span v-else>{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
 
-                    <a-form-item label="VIP等级" v-bind="formItemLayout">
-                        <span v-for="index of 5" :key="index">
+                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType==='Client'">
+                        <span>
+                            <span v-for="index of 5" :key="index">
                             <img
                                 v-if="index <= userVIP.level"
                                 alt="example"
                                 src="@/assets/star.svg"
                                 style="width: 20px; height: 20px"
                             />
-
                             <img
-                                    v-else
-                                    alt="example"
-                                    src="@/assets/starGray.svg"
-                                    style="width: 20px; height: 20px"
+                                v-else
+                                alt="example"
+                                src="@/assets/starGray.svg"
+                                style="width: 20px; height: 20px"
                             />
                         </span>
+                        </span>
+                    </a-form-item>
+                    <a-form-item label="VIP" v-bind="formItemLayout" v-else-if="JSON.stringify(this.userVIP) =='{}'">
+                        <span>
+                            <router-link :to="{ name: 'userMembership' }" @click="goToMembership">
+                                尚未成为会员，点击注册
+                            </router-link>
+                        </span>
+                    </a-form-item>
+                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-else>
+                        <a-tag color="red">您已被冻结</a-tag>
+                    </a-form-item>
 
+                    <a-form-item label="所属企业" v-bind="formItemLayout">
+                        <a-input
+                                placeholder="请填写所属企业"
+                                v-decorator="['corporation']"
+                                v-if="modify"
+                        />
+                        <span v-else>{{ userInfo.corporate }}</span>
                     </a-form-item>
 
                     <a-form-item label="信用值" v-bind="formItemLayout">
@@ -92,7 +111,6 @@
 
                 </a-form>
             </a-tab-pane>
-
             <a-tab-pane tab="我的订单" key="2">
                 <a-table
                         :columns="columns_of_orders"
@@ -165,6 +183,8 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
     import {message} from 'ant-design-vue';
+    import userMembership from "./userMembership";
+    import App from "../../App";
 
     const columns_of_orders = [
         {
@@ -293,7 +313,7 @@
         },
         async mounted() {
             await this.getUserInfo()
-            await this.getUserVIP(Number(this.userId))
+            await this.getUserVIP(Number(this.userInfo.id))
             await this.getUserOrders()
         },
         methods: {
@@ -317,11 +337,11 @@
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.form.getFieldValue('password')
+                            password: this.form.getFieldValue('password'),
+                            corporation: this.form.getFieldValue('corporation')
                         }
-                        this.updateUserInfo(data).then(() => {
-                            this.modify = false
-                        })
+                        this.updateUserInfo(data)
+                        this.modify = false
                     } else {
                         message.error("请输入正确的信息")
                     }
@@ -333,6 +353,7 @@
                     this.form.setFieldsValue({
                         'userName': this.userInfo.userName,
                         'phoneNumber': this.userInfo.phoneNumber,
+                        'corporation': this.userInfo.corporate,
                     })
                 }, 0)
                 this.modify = true
@@ -378,15 +399,16 @@
                 }
                 callback()
             },
-
             showOrderDetail(record) {
                 this.set_orderInfo(record)
                 this.set_currentHotelId(record.hotelId)
                 this.getHotelById(record.hotelId)
                 this.set_orderDetailVisible(true)
+            },
+            goToMembership() {
+                // TODO 修改header上面的current
             }
         }
-
     }
 </script>
 
