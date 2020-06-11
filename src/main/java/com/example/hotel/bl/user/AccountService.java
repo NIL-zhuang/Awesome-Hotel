@@ -54,11 +54,11 @@ public interface AccountService {
     //todo
     ResponseVO updateCredit(int id, double credit);
 
-    ResponseVO personalVIP(int id, String birthday);
+//    ResponseVO personalVIP(int id, String birthday);
+//
+//    ResponseVO corporateVIP(int id, String corporate);
 
-    ResponseVO corporateVIP(int id, String corporate);
-
-    ResponseVO normalUser(String corporate);
+//    ResponseVO normalUser(String corporate);
 
     void updateBirthday(int id, String birthday); // 注册会员时使用
 

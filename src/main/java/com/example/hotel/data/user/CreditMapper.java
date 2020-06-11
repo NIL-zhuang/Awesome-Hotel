@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface CreditMapper {
+
     int addCredit(Credit credit);
 
     List<Credit> getUserCredit(@Param("userId") Integer userId);

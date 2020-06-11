@@ -43,11 +43,6 @@ public class VIPController {
         return vipService.addVIPClientConsumption(id,amount);
     }
 
-    @PostMapping("/{id}/ClientVIPLevelUp")
-    public ResponseVO ClientVIPLevelUp(@PathVariable Integer id){
-        return vipService.clientLevelUp(id);
-    }
-
     @PostMapping("/{corpName}/registerCorpMembership")
     public ResponseVO registerCorpMembership(@PathVariable String corpName){
         return vipService.registerAsCorpVIP(corpName);
@@ -72,11 +67,6 @@ public class VIPController {
     public ResponseVO addVIPCorpConsumption(@RequestParam(value = "corpName") String corpName,
                                             @RequestParam(value = "amount")Integer amount){
         return vipService.addVIPCorpConsumption(corpName, amount);
-    }
-
-    @PostMapping("/{corpName}/CorpVIPLevelUp")
-    public ResponseVO CorpVIPLevelUp(@PathVariable String corpName){
-        return vipService.corpLevelUp(corpName);
     }
 
     @GetMapping("/{corpName}/CorpMembershipCheck")

@@ -87,32 +87,32 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
-    @Override
-    public ResponseVO personalVIP(int id, String birthday) {
-        try {
-            accountMapper.updateBirthday(id, birthday);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVO.buildFailure(UPDATE_ERROR);
-        }
-        return ResponseVO.buildSuccess(true);
-    }
+//    @Override
+//    public ResponseVO personalVIP(int id, String birthday) {
+//        try {
+//            accountMapper.updateBirthday(id, birthday);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseVO.buildFailure(UPDATE_ERROR);
+//        }
+//        return ResponseVO.buildSuccess(true);
+//    }
+//
+//    @Override
+//    public ResponseVO corporateVIP(int id, String corporate) {
+//        try {
+//            accountMapper.updateCorporate(id, corporate);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseVO.buildFailure(UPDATE_ERROR);
+//        }
+//        return ResponseVO.buildSuccess(true);
+//    }
 
-    @Override
-    public ResponseVO corporateVIP(int id, String corporate) {
-        try {
-            accountMapper.updateCorporate(id, corporate);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVO.buildFailure(UPDATE_ERROR);
-        }
-        return ResponseVO.buildSuccess(true);
-    }
-
-    @Override
-    public ResponseVO normalUser(String corporate) {
-        return null;
-    }
+//    @Override
+//    public ResponseVO normalUser(String corporate) {
+//        return null;
+//    }
 
     @Override
     public void updateBirthday(int id, String birthday){

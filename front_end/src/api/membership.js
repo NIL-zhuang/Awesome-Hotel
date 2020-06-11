@@ -41,13 +41,6 @@ export function addVIPUserConsumptionAPI(params) {
     })
 } // 执行订单时遇到VIP顾客调用
 
-export function ClientVIPLevelUpAPI(id) {
-    return axios({
-        url: `${api.memberShipPre}/${id}/addVIPUserConsumption`,
-        method: 'POST',
-    })
-} // 每次执行订单增加消费额后判断是否要升级
-
 export function registerCorpMembershipAPI(corpName) {
     return axios({
         url: `${api.memberShipPre}/${corpName}/registerCorpMembership`,
@@ -81,13 +74,6 @@ export function addVIPCorpConsumptionAPI(params) {
         url: `${api.memberShipPre}/addVIPCorpConsumption`,
         method: 'POST',
         params
-    })
-}
-
-export function CorpVIPLevelUpAPI(corpName) {
-    return axios({
-        url: `${api.memberShipPre}/${corpName}/CorpVIPLevelUp`,
-        method: 'POST',
     })
 }
 

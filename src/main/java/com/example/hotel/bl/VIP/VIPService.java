@@ -14,8 +14,6 @@ public interface VIPService {
 
     ResponseVO addVIPClientConsumption(Integer userId, Integer amount);
 
-    ResponseVO clientLevelUp(Integer userId);
-
     ResponseVO registerAsCorpVIP(String corporationName);
 
     ResponseVO freezeCorpVIP(String corporationName);
@@ -25,8 +23,6 @@ public interface VIPService {
     ResponseVO getVIPbyCorpName(String corporationName);
 
     ResponseVO addVIPCorpConsumption(String corporationName, Integer amount);
-
-    ResponseVO corpLevelUp(String corporationName);
     
     boolean VIPCorpCheck(String corporationName);
 
