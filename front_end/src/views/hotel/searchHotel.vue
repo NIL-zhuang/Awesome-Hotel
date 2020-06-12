@@ -86,19 +86,29 @@
             </div>
         </div>
         <div class="searchresult">
-            <h1>这里用来展示搜索结果</h1>
-            <p>计划在这里放一个横向的滚动列表</p>
+            <HotelCard :hotel="item" :key="item.index" @click.native="jumpToDetails(item.id)"
+                       v-for="item in searchList"></HotelCard>
         </div>
     </div>
 </template>
 
 <script>
     import moment from "moment";
+    import {mapActions, mapGetters} from "vuex";
+    import HotelCard from "./components/hotelCard"
 
     const hotelStarOptions = ['三星级', '四星级', '五星级']
     const defaultCheckedList = ['三星级', '四星级', '五星级']
     export default {
         name: "searchHotel",
+        components: {
+            HotelCard,
+        },
+        computed: {
+            ...mapGetters([
+                'searchList'
+            ])
+        },
         data() {
             return {
                 formItemLayout: {
@@ -139,6 +149,9 @@
             this.form = this.$form.createForm(this, {name: 'searchTable'});
         },
         methods: {
+            ...mapActions([
+                'searchHotel'
+            ]),
             handleValueChange(value) {
                 this.value = value
             },
@@ -155,6 +168,9 @@
                     checkAll: e.target.checked,
                 });
             },
+            jumpToDetails(id) {
+                this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
+            },
             search(e) {
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
@@ -164,15 +180,15 @@
                             checkOutDate: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
                             address: this.form.getFieldValue('address')?this.form.getFieldValue('address'):'',
                             bizRegion: this.form.getFieldValue('bizRegion')?this.form.getFieldValue('bizRegion'):'',
-                            tags: this.form.getFieldValue('tags')?this.form.getFieldValue('tags'):[],
+                            keyWords: this.form.getFieldValue('tags')?this.form.getFieldValue('tags'):[],
                             maxPrice: this.value,
-                            minRate: this.rate,
-                            hotelStars: this.form.getFieldValue('stars'),
+                            minScore: this.rate,
+                            hotelStar: this.form.getFieldValue('stars'),
                         }
+                        this.searchHotel(data)
                     }
                 });
-                // this.$message.loading("Searching", , );
-                this.$message.success("搜寻成功");
+                console.log(this.searchList)
             },
         }
     }

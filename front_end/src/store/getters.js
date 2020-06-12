@@ -9,6 +9,7 @@ const getters = {
     onceOrderedList: state => state.user.onceOrderedList,
     hotelListLoading: state => state.hotel.hotelListLoading,
     hotelList: state => state.hotel.hotelList,
+    searchList: state => state.hotel.searchList,
     currentHotelInfo: state => state.hotel.currentHotelInfo,
     currentHotelId: state => state.hotel.currentHotelId,
     confirmModalVisible: state => state.hotel.confirmModalVisible,

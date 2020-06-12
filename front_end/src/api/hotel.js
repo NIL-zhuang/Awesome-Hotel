@@ -15,9 +15,11 @@ export function getHotelByIdAPI(hotelId) {
     })
 }
 export function searchHotelAPI(data) {
+    console.log(data)
     return axios({
         url: `${api.hotelPre}/searchHotel`,
-        method: 'GET'
+        method: 'POST',
+        data
     })
 }
 export function addHotelAPI(data) {

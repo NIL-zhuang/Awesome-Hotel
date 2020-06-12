@@ -3,17 +3,17 @@ package com.example.hotel.vo;
 public class SearchBodyVO {
 
 
-    private String chechInDate = null;
-    private String checkOutDate = null;
-    private String address = null;
-    private String bizRegion = null;
-    private String hotelStar[] = null;  //酒店星级种类为长度为3的bitmap , 类型为String
-    private String keyWords[];
-    private double maxPrice = -1;
-    private double minScore = -1;
+    private String checkInDate;
+    private String checkOutDate;
+    private String address;
+    private String bizRegion;
+    private String[] keyWords;
+    private double maxPrice;
+    private double minScore;
+    private String[] hotelStar;
 
-    public void setChechInDate(String chechInDate) {
-        this.chechInDate = chechInDate;
+    public void setCheckInDate(String checkInDate) {
+        this.checkInDate = checkInDate;
     }
 
     public void setCheckOutDate(String checkOutDate) {
@@ -44,8 +44,8 @@ public class SearchBodyVO {
         this.minScore = minScore;
     }
 
-    public String getChechInDate() {
-        return chechInDate;
+    public String getCheckInDate() {
+        return checkInDate;
     }
 
     public String getCheckOutDate() {

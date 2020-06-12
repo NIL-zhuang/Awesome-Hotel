@@ -49,18 +49,18 @@ public class HotelController {
 
     @GetMapping("/{hotelId}/getAvailableRoom")
     public ResponseVO getAvailableRoom(@PathVariable Integer hotelId,
-                                       @RequestBody String startTime,
-                                       @RequestBody String endTime) {
+                                       @RequestParam(value = "startTime") String startTime,
+                                       @RequestParam(value = "endTime") String endTime) {
         return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
     }
 
 
-    @GetMapping("/searchHotel")
+    @PostMapping("/searchHotel")
     public ResponseVO searchHotel(@RequestBody SearchBodyVO searchBody) {
         return ResponseVO.buildSuccess(hotelSearchService.searchHotel(searchBody));
     }
 
-    // TODO
+    // 准备删除这段代码
     @PostMapping("/{hotelId}/registerHotelMembership")
     public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
         System.out.println(hotelId);

@@ -43,7 +43,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private String checkOutDate = null;
     private String address = null;
     private String bizRegion = null;
-    private String[] hotelStar = null;  //酒店星级种类为长度为3的bitmap , 类型为String
+    private String[] hotelStar = null;
     private String[] keyWords = null;
     private double maxPrice = 999;
     private double minScore = 0;
@@ -60,7 +60,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
 
     private void setInfo(SearchBodyVO searchBodyVO){
-        checkInDate = searchBodyVO.getChechInDate();
+        checkInDate = searchBodyVO.getCheckInDate();
         checkOutDate = searchBodyVO.getCheckOutDate();
         address = searchBodyVO.getAddress();
         bizRegion = searchBodyVO.getBizRegion();
@@ -111,13 +111,13 @@ public class HotelSearchServiceImpl implements HotelSearchService {
                 insertHotel(node);
             }
         }
-
-        Node ptr = head.next;
-        while(ptr!=null) {
-            targetHotels.add(ptr.hotel);
-            ptr = ptr.next;
+        if (head!=null) {
+            Node ptr = head.next;
+            while (ptr != null) {
+                targetHotels.add(ptr.hotel);
+                ptr = ptr.next;
+            }
         }
-
         return targetHotels;
     }
 
@@ -241,7 +241,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
         searchBody.setAddress("");
         searchBody.setBizRegion("");
-        searchBody.setChechInDate("2020-6-11");
+        searchBody.setCheckInDate("2020-6-11");
         searchBody.setCheckOutDate("2020-6-16");
         searchBody.setHotelStar(new String[]{"三星级", "四星级"});
         searchBody.setKeyWords(new String[]{"便宜", "早餐"});
