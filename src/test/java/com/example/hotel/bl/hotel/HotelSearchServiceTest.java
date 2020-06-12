@@ -1,11 +1,19 @@
 package com.example.hotel.bl.hotel;
 
+import com.example.hotel.po.Hotel;
+import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.SearchBodyVO;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -16,8 +24,26 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class HotelSearchServiceTest {
 
+    @Autowired
+    private HotelSearchService hotelSearchService;
+
+    private final SearchBodyVO searchBodyVO = new SearchBodyVO(){{
+        setCheckOutDate("2020-07-11");
+        setCheckOutDate("2020-07-13");
+        setAddress("南京");
+        setBizRegion("西单");
+        setKeyWords(new String[]{"温泉","便宜","早餐"});
+        setMaxPrice(1000);
+        setMinScore(3.0);
+        setHotelStar(new String[]{});
+    }};
+
     @Test
     @Transactional
     public void searchHotel() {
+        //测试星级
+        List<HotelVO> hotelVOS = hotelSearchService.searchHotel(searchBodyVO);
+        List<HotelVO> test = null ;
+        Assert.assertThat(hotelVOS, is(test));
     }
 }
