@@ -107,7 +107,6 @@ public class HotelServiceImpl implements HotelService {
         List<Order> orders = orderService.getHotelOrders(hotelId);
         orders = orderService.getOrdersInMonth(orders);
         orders = orderService.washOrder(orders,beginTime,endTime);
-
         HashMap<String,Integer> roomNum = new HashMap<>();
 
         for (RoomVO room : rooms) {

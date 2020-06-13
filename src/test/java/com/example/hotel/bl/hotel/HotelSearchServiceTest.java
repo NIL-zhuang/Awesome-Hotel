@@ -27,18 +27,16 @@ public class HotelSearchServiceTest {
     @Autowired
     private HotelSearchService hotelSearchService;
 
-    @Autowired
-    private OrderService orderService;
 
     private final SearchBodyVO searchBodyVO = new SearchBodyVO(){{
-        setCheckOutDate("2020-07-11");
+        setCheckInDate("2020-07-11");
         setCheckOutDate("2020-07-13");
         setAddress("南京");
         setBizRegion("西单");
         setKeyWords(new String[]{"温泉","便宜","早餐"});
         setMaxPrice(1000);
         setMinScore(3.0);
-        setHotelStar(new String[]{"三星级","四星级"});
+        setHotelStar(new String[]{"三星级","四星级","五星级"});
     }};
 
     @Test

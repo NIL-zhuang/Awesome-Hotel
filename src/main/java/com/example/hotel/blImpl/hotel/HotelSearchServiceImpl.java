@@ -103,8 +103,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              * 5.酒店评分是否符合要求
              *
              */
-            boolean judge = rooms!=null && !rooms.isEmpty() && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
+            boolean judge = (rooms!=null) && (!rooms.isEmpty()) && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
                     && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
+
             if(judge){
                 int score = 0;
                 score += checkBizRegion(hotel,bizRegion);
@@ -114,12 +115,13 @@ public class HotelSearchServiceImpl implements HotelSearchService {
             }
         }
         if (head!=null) {
-            Node ptr = head.next;
+            Node ptr = head;
             while (ptr != null) {
                 targetHotels.add(ptr.hotel);
                 ptr = ptr.next;
             }
         }
+
         return targetHotels;
     }
 
@@ -141,7 +143,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      *
      */
     private boolean checkAddress(HotelVO hotel,String address){
-        return hotel.getAddress().equals(address);
+        return hotel.getAddress().contains(address);
     }
 
 
@@ -169,8 +171,11 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      */
     private boolean checkHotelStar(HotelVO hotel,String[] hotelStar){
         String star = hotel.getHotelStar();
-
-        return (hotelStar[0].equals(star))||(hotelStar[1].equals(star)) || (hotelStar[2].equals(star));
+        boolean judge = false;
+        for (String s : hotelStar) {
+            judge = judge || s.equals(star);
+        }
+        return judge;
     }
 
 
@@ -216,21 +221,24 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param hotel
      */
     private void insertHotel(Node hotel){
-        Node ptr = head.next;
-        while(true){
-            if(ptr==null) {
-                head.next = hotel;
-                break;
-            }
-            else if(ptr.score < hotel.score){
-                ptr.before.next = hotel;
-                hotel.before = ptr.before;
+        if(head==null){
+            head = hotel;
+        }else {
+            Node ptr = head.next;
+            while (true) {
+                if (ptr == null) {
+                    head.next = hotel;
+                    break;
+                } else if (ptr.score < hotel.score) {
+                    ptr.before.next = hotel;
+                    hotel.before = ptr.before;
 
-                ptr.before = hotel;
-                hotel.next = ptr;
-                break;
-            }else{
-                ptr = ptr.next;
+                    ptr.before = hotel;
+                    hotel.next = ptr;
+                    break;
+                } else {
+                    ptr = ptr.next;
+                }
             }
         }
     }
