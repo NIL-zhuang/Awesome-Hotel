@@ -136,5 +136,4 @@ public class UserVO {
     public void setVipType(VIPType vipType) {
         this.vipType = vipType;
     }
-
 }

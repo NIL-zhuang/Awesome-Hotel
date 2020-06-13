@@ -45,3 +45,9 @@ export function updateUserBirthdayAPI(params) {
         params
     })
 }
+export function getAllUsersAPI() {
+    return axios({
+        url: `${api.userPre}/getAllUsers`,
+        method: 'GET'
+    })
+}

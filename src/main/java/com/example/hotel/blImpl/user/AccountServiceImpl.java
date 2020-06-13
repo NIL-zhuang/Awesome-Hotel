@@ -3,7 +3,9 @@ package com.example.hotel.blImpl.user;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.VIPType;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserVO;
@@ -11,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -157,4 +160,15 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+    @Override
+    public List<UserVO> getAllUsers() {
+        List<User> users = accountMapper.getAllUsers();
+        List<UserVO> userVOs = new ArrayList<>();
+        for (User user : users){
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user,userVO);
+            userVOs.add(userVO);
+        }
+        return userVOs;
+    }
 }

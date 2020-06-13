@@ -69,4 +69,6 @@ public interface AccountService {
     ResponseVO updatePortrait(int userId, String url);
 
     List<String> getManagerTelephone(int hotelId);
+
+    List<UserVO> getAllUsers();
 }
