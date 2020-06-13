@@ -88,6 +88,11 @@ const routes = [
         path: '/salesPerson/manageUserCredit',
         name: 'manageUserCredit',
         component: () => import('@/views/salesPerson/manageUserCredit')
+      },
+      {
+        path: '/salesPerson/manageMembership',
+        name: 'manageMembership',
+        component: () => import('@/views/salesPerson/manageMembership')
       }
 
     ]

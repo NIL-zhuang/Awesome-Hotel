@@ -14,14 +14,14 @@ export function registerClientMembershipAPI(params) {
 
 export function freezeClientVIPAPI(id) {
     return axios({
-        url: `/${api.memberShipPre}/${id}/freezeClientVIP`,
+        url: `${api.memberShipPre}/${id}/freezeClientVIP`,
         method: 'POST'
     })
 }
 
 export function restoreClientVIPAPI(id) {
     return axios({
-        url: `/${api.memberShipPre}/${id}/restoreClientVIP`,
+        url: `${api.memberShipPre}/${id}/restoreClientVIP`,
         method: 'POST'
     })
 }
@@ -86,21 +86,21 @@ export function VIPCorpCheckAPI(corpName) {
 
 export function getAllClientVIPAPI() {
     return axios({
-        url: `/${api.memberShipPre}/allClientVIP`,
+        url: `${api.memberShipPre}/allClientVIP`,
         method: 'GET'
     })
 }
 
 export function getAllCorpVIPAPI() {
     return axios({
-        url: `/${api.memberShipPre}/allCorpVIP`,
+        url: `${api.memberShipPre}/allCorpVIP`,
         method: 'GET'
     })
 }
 
 export function formulateALevel(params) {
     return axios({
-        url: `${api.memberShipPre/formulateALevel}`,
+        url: `${api.memberShipPre}/formulateALevel}`,
         method: 'POST',
         params
     })

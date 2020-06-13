@@ -8,6 +8,7 @@ import com.example.hotel.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController()
@@ -71,5 +72,16 @@ public class AccountController {
         System.out.println(id);
         System.out.println(money);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @GetMapping("/getAllUsers")
+    public ResponseVO getAllUsers() {
+        try {
+            List<UserVO> allUsers = accountService.getAllUsers();
+            return ResponseVO.buildSuccess(allUsers);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("获取所有用户失败");
+        }
     }
 }
