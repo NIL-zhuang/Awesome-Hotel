@@ -72,4 +72,5 @@ public interface OrderService {
     ResponseVO getOrdersInMonthOfAll();
 
     List<Order> washOrder(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
+
 }

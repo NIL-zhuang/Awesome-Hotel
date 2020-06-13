@@ -90,6 +90,15 @@ public class OrderServiceTest {
 
     @Test
     @Transactional
+    public void getOrdersInMonthOfHotel() {
+        ResponseVO responseVO = orderService.getOrdersInMonthOfHotel(1);
+        List<Order> orders = (List<Order>) responseVO.getContent();
+        int num = orders.size();
+        Assert.assertThat(num,is(1));
+    }
+
+    @Test
+    @Transactional
     public void getOrdersInMonthOfAll() {
         ResponseVO responseVO = orderService.getOrdersInMonthOfAll();
         List<Order> orders = (List<Order>) responseVO.getContent();

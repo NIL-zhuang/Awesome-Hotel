@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.controller.hotel.HotelController;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -37,7 +38,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     @Autowired
     private HotelService hotelService;
 
-    private final HotelController hotelController = new HotelController();
+    @Autowired
+    private OrderService orderService;
 
     private String checkInDate = null;
     private String checkOutDate = null;
@@ -234,24 +236,4 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     }
 
 
-    public static void main(String[] args){
-        SearchBodyVO searchBody = new SearchBodyVO();
-
-        HotelSearchServiceImpl hotelSearchService = new HotelSearchServiceImpl();
-
-        searchBody.setAddress("");
-        searchBody.setBizRegion("");
-        searchBody.setCheckInDate("2020-6-11");
-        searchBody.setCheckOutDate("2020-6-16");
-        searchBody.setHotelStar(new String[]{"三星级", "四星级"});
-        searchBody.setKeyWords(new String[]{"便宜", "早餐"});
-        searchBody.setMaxPrice(500);
-        searchBody.setMinScore(2.5);
-
-        List<HotelVO> hotels = hotelSearchService.searchHotel(searchBody);
-
-        for(HotelVO hotel : hotels){
-            System.out.println(hotel.getName());
-        }
-    }
 }

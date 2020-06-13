@@ -1,6 +1,5 @@
 package com.example.hotel.bl.hotel;
 
-import com.example.hotel.po.Hotel;
 import com.example.hotel.vo.HotelVO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.*;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
