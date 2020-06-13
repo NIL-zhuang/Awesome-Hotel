@@ -61,10 +61,22 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserVO getUserInfoByEmail(String email) {
-        User user = accountMapper.getAccountByEmail(email);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
+        User user;
+        try {
+            user = accountMapper.getAccountByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if(user != null) {
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            return userVO;
+        } else {
+            return null;
+        }
+
+
     }
 
     @Override
