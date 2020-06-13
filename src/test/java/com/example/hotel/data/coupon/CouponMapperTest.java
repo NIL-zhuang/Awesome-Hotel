@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
+
 import static org.hamcrest.CoreMatchers.*;
 
 /**
@@ -56,5 +58,15 @@ public class CouponMapperTest {
     public void annualCoupon() {
         couponMapper.annualCoupon(2);
         Assert.assertThat(couponMapper.selectByHotelId(2).size(), is(0));
+    }
+
+    @Test
+    @Transactional
+    public void getWebCoupon() {
+        int val = couponMapper.insertCoupon(coupon);
+        Assert.assertEquals(val, 1);
+        List<Coupon> couponList = couponMapper.getWebCoupon();
+        Assert.assertEquals(couponList.size(), 1);
+        Assert.assertThat(couponList.get(0).getSrcId(), is(0));
     }
 }

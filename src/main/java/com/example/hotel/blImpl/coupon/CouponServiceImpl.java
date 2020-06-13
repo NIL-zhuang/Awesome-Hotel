@@ -111,6 +111,11 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public List<Coupon> getWebsiteCoupon() {
+        return couponMapper.getWebCoupon();
+    }
+
+    @Override
     public void annulCoupon(Integer couponId) {
         couponMapper.annualCoupon(couponId);
     }

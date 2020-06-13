@@ -39,5 +39,7 @@ public interface CouponService {
 
     CouponVO addCorporateCouponVO(CorporateCouponVO couponVO);
 
+    List<Coupon> getWebsiteCoupon();
+
     void annulCoupon(Integer couponId);
 }
