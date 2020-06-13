@@ -40,6 +40,7 @@ const getters = {
     hotelInfo: state => state.hotelManager.hotelInfo,
     //salesPerson
     allOrderList: state => state.salesPerson.allOrderList,
+    siteCouponList: state => state.salesPerson.siteCouponList,
     handleAbnormalOrderVisible: state => state.salesPerson.handleAbnormalOrderVisible,
     addSiteCouponVisible: state => state.salesPerson.addSiteCouponVisible,
     currentUserId: state => state.salesPerson.currentUserId,

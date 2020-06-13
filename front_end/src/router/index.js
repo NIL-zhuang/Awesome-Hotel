@@ -54,11 +54,11 @@ const routes = [
         name: 'userMembership',
         component: () => import('@/views/user/userMembership')
       },
-      {
-        path: '/hotel/membership',
-        name: 'hotelMembership',
-        component: () => import('@/views/hotelManager/hotelMembership')
-      },
+      // {
+      //   path: '/hotel/membership',
+      //   name: 'hotelMembership',
+      //   component: () => import('@/views/hotelManager/hotelMembership')
+      // },
       {
         path: '/hotelManager/manageHotel',
         name: 'manageHotel',

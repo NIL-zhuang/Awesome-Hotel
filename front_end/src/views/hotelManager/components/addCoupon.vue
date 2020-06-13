@@ -52,11 +52,6 @@
                 <a-input-number :min="1" id="inputNumber" v-model="multipleNum"/>
                 <br/>当前值：{{ multipleNum }}
             </a-form-item>
-            <a-form-item label="合作企业" v-bind="formItemLayout" v-if="isCorporatonCoupon">
-                <a-input
-                        v-decorator="['corporation',{ rules: [{ required: true, message: '请输入合作企业名称' }]}]"
-                />
-            </a-form-item>
             <a-form-item label="折扣" v-bind="formItemLayout" v-if="!isReductionCoupon">
                 <a-tooltip>
                     <template slot="title">
@@ -106,7 +101,6 @@
                 isMultipleCoupon: false,
                 isReductionCoupon: false,
                 isTimeLimitedCoupon: false,
-                isCorporatonCoupon: false,
                 multipleNum: 1,
             }
         },
@@ -137,7 +131,6 @@
                 this.isReductionCoupon = false
                 this.isTimeLimitedCoupon = false
                 this.isMultipleCoupon = false
-                this.isCorporatonCoupon = false
             },
             changeType(v) {
                 this.resetAll()
@@ -147,8 +140,6 @@
                     this.isReductionCoupon = true
                 } else if (v === '4') {
                     this.isTimeLimitedCoupon = true
-                } else if (v === '5') {
-                    this.isCorporatonCoupon = true
                 }
             },
             handleSubmit(e) {
@@ -160,7 +151,6 @@
                             description: this.form.getFieldValue('description'),
                             type: Number(this.form.getFieldValue('type')),
                             discount: this.form.getFieldValue('discount')?this.form.getFieldValue('discount') / 100:null,
-                            corporateName: this.isCorporatonCoupon?this.form.getFieldValue('corporation'):null,
                             startTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[0].format('YYYY-MM-DD'):null,
                             endTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[1].format('YYYY-MM-DD'):null,
                             targetRoomNum: this.isMultipleCoupon?this.multipleNum:null,

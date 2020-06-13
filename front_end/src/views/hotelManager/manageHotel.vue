@@ -1,7 +1,7 @@
 <template>
     <div class="manageHotel-wrapper">
         <a-tabs>
-            <a-tab-pane tab="我的酒店" key="1">
+            <a-tab-pane tab="我的酒店" key="1" style="margin-top: 30px">
                 <modifyHotelInfo></modifyHotelInfo>
             </a-tab-pane>
 

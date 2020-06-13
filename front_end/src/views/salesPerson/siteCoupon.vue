@@ -10,7 +10,7 @@
 
         <a-table
                 :columns="columns"
-                dataSource=""
+
                 bordered
         >
             <a-tag color="red" slot="couponName" slot-scope="text">

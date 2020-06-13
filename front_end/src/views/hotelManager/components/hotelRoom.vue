@@ -15,7 +15,7 @@
                 <a-tag color="pink">¥ {{ text }}</a-tag>
             </span>
             <span slot="curNum" slot-scope="text">
-                <a-tag color="purple">剩余房间：{{text}}</a-tag>
+                <a-tag color="purple">房间数：{{text}}</a-tag>
             </span>
             <span slot="action">
                 <a-button type="danger" size="small">删除</a-button>
@@ -54,7 +54,7 @@ const columns_of_rooms = [
         sorter: (a, b) => a.price - b.price,
     },
     {
-        title: '剩余房间',
+        title: '房间数目',
         dataIndex: 'curNum',
         scopedSlots: { customRender: 'curNum'},
     },

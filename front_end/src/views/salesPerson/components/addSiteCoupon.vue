@@ -14,10 +14,9 @@
                 <a-select
                         v-decorator="['type',{rules: [{required: true, message: '请选择类型'}]}]"
                         @change="changeType">
-                    <a-select-option value="1">生日特惠</a-select-option>
-                    <a-select-option value="2">多间特惠</a-select-option>
-                    <a-select-option value="3">满减特惠</a-select-option>
-                    <a-select-option value="4">限时特惠</a-select-option>
+                    <a-select-option value="1">节日优惠</a-select-option>
+                    <a-select-option value="2">VIP指定商圈优惠</a-select-option>
+                    <a-select-option value="3">合作企业优惠</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
@@ -34,17 +33,49 @@
                         v-decorator="['description',{rules: [{required: true, message: '请填写优惠券简介'}]}]"
                 />
             </a-form-item>
-            <a-form-item label="达标金额" v-bind="formItemLayout">
-                <a-input
-                        placeholder="请填写达标金额"
-                        v-decorator="['targetMoney',{rules: [{required: true, message: '请填写达标金额'}]}]"
+            <a-form-item label="使用时间" v-bind="formItemLayout" v-if="isTimeLimitedCoupon">
+                <a-range-picker
+                        format="YYYY-MM-DD"
+                        :placeholder="['开始日期','结束日期']"
+                        v-decorator="[
+                            'date',
+                            { rules: [{ required: true, message: '请选择使用时间' }]},
+                        ]"
                 />
             </a-form-item>
-            <a-form-item label="优惠金额" v-bind="formItemLayout">
+            <a-form-item label="商圈" v-bind="formItemLayout" v-if="isBizRegionCoupon">
                 <a-input
-                        placeholder="请填写优惠金额"
-                        v-decorator="['discountMoney',{rules: [{required: true, message: '请填写优惠金额'}]}]"
-                />
+                        placeholder="请填写指定商圈"
+                        v-decorator="[
+                            'bizRegion',
+                            { rules: [{ required: true, message: '请填写指定商圈' }]},
+                        ]"
+                >
+                </a-input>
+            </a-form-item>
+            <a-form-item label="企业名称" v-bind="formItemLayout" v-if="isCorporatonCoupon">
+                <a-input
+                        placeholder="请填写企业名称"
+                        v-decorator="[
+                            'bizRegion',
+                            { rules: [{ required: true, message: '请填写企业名称' }]},
+                        ]"
+                >
+                </a-input>
+            </a-form-item>
+            <a-form-item label="折扣" v-bind="formItemLayout">
+                <a-tooltip>
+                    <template slot="title">
+                        请输入一个小于100%的折扣
+                    </template>
+                    <a-input-number
+                            :formatter="value => `${value}%`"
+                            :max="99"
+                            :min="0"
+                            :parser="value => value.replace('%', '')"
+                            v-decorator="['discount',{rules: [{required: true, message: '请输入折扣'}], initialValue: 99}]"
+                    />
+                </a-tooltip>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -67,6 +98,9 @@
                         sm: { span: 16 },
                     },
                 },
+                isTimeLimitedCoupon: false,
+                isBizRegionCoupon: false,
+                isCorporatonCoupon: false,
             }
         },
         computed: {
@@ -85,18 +119,42 @@
             cancel() {
                 this.set_addSiteCouponVisible(false)
             },
-            changeType(v){
-                if( v === '3') {
-
-                }else{
-                    this.$message.warning('请实现')
-                }
+            resetAll() {
+                this.isTimeLimitedCoupon = false
+                this.isBizRegionCoupon = false
+            },
+            changeType(v) {
+                this.resetAll()
+                if (v === '1') {
+                    this.isTimeLimitedCoupon = true
+                } else if (v === '2') {
+                    this.isBizRegionCoupon = true
+                } else if (v === '3')
+                    this.isCorporatonCoupon = true
             },
             handleSubmit(e) {
-                this.set_addSiteCouponVisible(false)
+                e.preventDefault()
+                this.form.validateFieldsAndScroll((err, values) => {
+                    if (!err) {
+                        const data = {
+                            name: this.form.getFieldValue('name'),
+                            description: this.form.getFieldValue('description'),
+                            type: Number(this.form.getFieldValue('type')),
+                            corporateName: this.isCorporatonCoupon?this.form.getFieldValue('corporation'):null,
+                            startTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[0].format('YYYY-MM-DD'):null,
+                            endTime: this.isTimeLimitedCoupon?this.form.getFieldValue('date')[1].format('YYYY-MM-DD'):null,
+                            bizRegion: this.isBizRegionCoupon?this.form.getFieldValue('bizRegion'):null,
+                            discount: this.form.getFieldValue('discount')?this.form.getFieldValue('discount') / 100:null,
+                            srcId: 0,
+                            status: 1,
+                        }
+                        this.addHotelCoupon(data) // 要改
+                        this.form.resetFields()
+                    }
+                });
+            },
             },
         }
-    }
 </script>
 
 <style scoped>

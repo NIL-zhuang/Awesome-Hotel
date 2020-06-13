@@ -33,7 +33,7 @@
                 if (this.userInfo.userType === 'HotelManager' || this.userInfo.userType === 'SalesPerson') {
                     const line_div = this.$refs.chart
                     echarts.init(line_div).setOption({
-                        title: {text: '酒店近七日营收'},
+                        title: {text: '酒店近30日营收'},
                         tooltip: {},
                         legend: {
                             data: ['订单', '收入']
@@ -47,8 +47,11 @@
                             }
                         },
                         xAxis: {
-                            name: '时间',
-                            data: ['第一天', '第二天', '第三天', '第四天', '第五天', '第六天', '第七天'],
+                            name: '天',
+                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+                            ],
                             nameTextStyle: {
                                 fontSize: 14,
                                 fontWeight: 'bolder'

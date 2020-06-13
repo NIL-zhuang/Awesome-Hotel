@@ -10,7 +10,6 @@ import {
     hotelBirthdayCouponAPI,
     hotelTimeCouponAPI,
     hotelManyRoomCouponAPI,
-    CorporateCouponAPI,
     deleteCouponAPI,
 } from '@/api/coupon'
 
@@ -21,6 +20,7 @@ import {message} from 'ant-design-vue'
 const hotelManager = {
     state: {
         orderList: [],
+        latestOrderList: [],
         addRoomParams: {
             roomType: '',
             hotelId: '',
@@ -108,9 +108,6 @@ const hotelManager = {
                     break
                 case 4:
                     res = await hotelTimeCouponAPI(data)
-                    break
-                case 5:
-                    res = await CorporateCouponAPI(data)
                     break
             }
             if (res) {

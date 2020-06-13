@@ -9,11 +9,15 @@ import {
 import {
     chargeCreditAPI
 } from "../../api/salesPerson";
+import {
+    CorporateCouponAPI
+} from "../../api/coupon";
 import {message} from "ant-design-vue";
 
 const salesPerson = {
     state: {
         allOrderList: [],
+        siteCouponList: [],
         handleAbnormalOrderVisible: false,
         currentUserEmail: '',
         currentUserInfo: {},
@@ -48,7 +52,7 @@ const salesPerson = {
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
-            let res = await getAllOrdersAPI()
+            const res = await getAllOrdersAPI()
             if (res) {
                 commit('set_allOrderList', res)
             }
@@ -82,7 +86,29 @@ const salesPerson = {
             } else {
                 message.error("充值失败")
             }
-        }
+        },
+        getSiteCoupon: async ({commit}) => {
+            // todo
+        },
+        addSiteCoupon: async ({commit, dispatch}, data) => {
+            let res = null
+            switch (data.type) {
+                case 1:
+                    break
+                case 2:
+                    break
+                case 3:
+                    res = await CorporateCouponAPI(data)
+                    break
+            }
+            if (res) {
+                dispatch('getSiteCoupon')
+                commit('set_addSiteCouponVisible', false)
+                message.success('添加策略成功')
+            } else {
+                message.error('添加失败')
+            }
+        },
     }
 }
 export default salesPerson

@@ -75,15 +75,15 @@
                     </a-form-item>
                 </a-form>
             </div>
-            <div class="presentation">
-                <img class="hotel_img"
-                     alt="example"
-                     src="@/assets/cover.jpeg"
-                     slot="cover"
-                     referrerPolicy="no-referrer"
-                />
-                <h1>这里存放一个表格</h1>
-            </div>
+<!--            <div class="presentation">-->
+<!--                <img class="hotel_img"-->
+<!--                     alt="example"-->
+<!--                     src="@/assets/cover.jpeg"-->
+<!--                     slot="cover"-->
+<!--                     referrerPolicy="no-referrer"-->
+<!--                />-->
+<!--                <h1>这里存放一个表格</h1>-->
+<!--            </div>-->
         </div>
         <div class="searchresult">
             <HotelCard :hotel="item" :key="item.index" @click.native="jumpToDetails(item.id)"
@@ -188,7 +188,7 @@
                         this.searchHotel(data)
                     }
                 });
-                console.log(this.searchList)
+                console.log(this.searchList) // 完成记得删除
             },
         }
     }
@@ -207,11 +207,11 @@
 
     .searchbox {
         margin-top: 80px;
-        width: 50%;
+        width: 100%;
     }
 
     .searchButton {
-        width: 120px;
+        width: 200px;
         text-align: center;
         float: right;
     }

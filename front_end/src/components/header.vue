@@ -37,12 +37,6 @@
                     会员中心
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="registerAsMember" key="7" v-if="userInfo.userType==='HotelManager'">
-                <router-link :to="{ name: 'hotelMembership'}">
-                    <a-icon type="crown"/>
-                    特权酒店
-                </router-link>
-            </a-menu-item>
             <a-menu-item @click="manageUser" key="8" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user"/>
@@ -140,9 +134,7 @@
                 case 'userMembership':
                     this.current = ['6']
                     break
-                case 'hotelMembership':
-                    this.current = ['7']
-                    break
+                // 删除了7 酒店会员页面，这是个错误的需求
                 case 'manageUser':
                     this.current = ['8']
                     break
