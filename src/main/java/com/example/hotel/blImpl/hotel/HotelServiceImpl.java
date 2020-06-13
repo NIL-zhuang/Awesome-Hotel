@@ -67,7 +67,14 @@ public class HotelServiceImpl implements HotelService {
         for (Hotel hotel:hotels){
             hotelVOs.add(new HotelVO(hotel));
         }
+
         return hotelVOs;
+    }
+
+    @Override
+    public List<HotelVO> retrieveHotels(String start,String end){
+        //todo
+        return null;
     }
 
     @Override
@@ -164,5 +171,6 @@ public class HotelServiceImpl implements HotelService {
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
     }
+
 
 }

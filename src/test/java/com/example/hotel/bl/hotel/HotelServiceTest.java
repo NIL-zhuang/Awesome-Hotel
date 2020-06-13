@@ -1,5 +1,8 @@
 package com.example.hotel.bl.hotel;
 
+import com.example.hotel.po.Hotel;
+import com.example.hotel.vo.HotelVO;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;
 
 /**
@@ -38,6 +45,9 @@ public class HotelServiceTest {
     @Test
     @Transactional
     public void retrieveHotels() {
+        List<HotelVO> hotelVOS = hotelService.retrieveHotels();
+        int num = hotelVOS.size();
+        Assert.assertThat(num,is(3));
     }
 
     @Test
@@ -53,6 +63,9 @@ public class HotelServiceTest {
     @Test
     @Transactional
     public void retrieveAvailableHotelDetails() {
+        HotelVO hotel = hotelService.retrieveAvailableHotelDetails(1,"2021-06-07","2021-06-09");
+        int num = hotel.getId();
+        Assert.assertThat(num,is(1));
     }
 
     @Test

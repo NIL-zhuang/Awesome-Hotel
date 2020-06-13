@@ -222,7 +222,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> washOrder(List<Order> orders,String beginTime, String endTime) {
         List<Order> relatedOrder = new ArrayList<>();
         for(Order order : orders){
-            int gap1 =  getGap(beginTime,order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
+            int gap1 = getGap(beginTime,order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
             int gap2 = getGap(endTime,order.getCheckOutDate());         //搜素的退房日期 - 订单中的退房日期
             int gap3 = getGap(beginTime,order.getCheckOutDate());       //搜索的入住日期 - 订单中的退房日期
             int gap4 = getGap(endTime,order.getCheckInDate());          //搜索的退房日期 - 订单中的入住日期
@@ -262,7 +262,8 @@ public class OrderServiceImpl implements OrderService {
      * @param date2
      * @return
      */
-    private int getGap(String date1,String date2){
+
+    private int getGap(String date1, String date2){
         LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0,4)),
                 Integer.parseInt(date1.substring(5,7)), Integer.parseInt(date1.substring(8,10)));
         LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0,4)),
