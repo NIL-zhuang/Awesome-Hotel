@@ -50,7 +50,7 @@
                         </span>
                         </span>
                     </a-form-item>
-                    <a-form-item label="VIP" v-bind="formItemLayout" v-else-if="JSON.stringify(this.userVIP) =='{}'">
+                    <a-form-item label="VIP" v-bind="formItemLayout" v-else-if="JSON.stringify(this.userVIP) ==='{}'">
                         <span>
                             <router-link :to="{ name: 'userMembership' }" @click="goToMembership">
                                 尚未成为会员，点击注册
@@ -238,15 +238,15 @@
     ];
     const columns_of_credit = [
         {
-            title: '日期',
+            title: '变更日期',
             dataIndex: 'date',
         },
         {
-            title: '变更',
+            title: '变更数额',
             dataIndex: 'change',
         },
         {
-            title: '变更后结果',
+            title: '变更后信用',
             dataIndex: 'now',
         },
         {
@@ -290,8 +290,9 @@
         },
         async mounted() {
             await this.getUserInfo()
-            await this.getUserVIP(Number(this.userInfo.id))
-            await this.getUserOrders()
+            if (this.userInfo.vipType !== 'Normal')
+                this.getUserVIP(Number(this.userInfo.id))
+            this.getUserOrders()
             this.getUserCredits(this.userId)
         },
         methods: {

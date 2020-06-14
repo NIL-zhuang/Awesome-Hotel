@@ -106,9 +106,10 @@ export default {
         membershipCoupon,
         RegisterSiteMembership,
     },
-    async mounted() {
-        await this.getUserInfo()
-        await this.getUserVIP(this.userId)
+    mounted() {
+        this.getUserInfo()
+        if (this.userInfo.vipType !== 'Normal')
+            this.getUserVIP(Number(this.userInfo.id))
     },
     computed: {
         ...mapGetters([

@@ -128,10 +128,9 @@ const salesPerson = {
                 message.error('添加失败')
             }
         },
-        },
         getAllUsers: async ({state, commit}) => {
             const res = await getAllUsersAPI()
-            if(res) {
+            if (res) {
                 commit('set_allUserList', res)
             }
         },
@@ -175,5 +174,6 @@ const salesPerson = {
                 dispatch('getAllCorpVIP')
             }
         },
+    },
 }
 export default salesPerson
