@@ -6,9 +6,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Comment;
-import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
-import com.example.hotel.po.User;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -182,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
         String now = getSystemDate();
         for (Order order : orders) {
             String createDate = order.getCreateDate();
-            int days = getDays(createDate, now);
+            int days = getGap(now,createDate);
             if (days > 30)
                 orders.remove(order);
         }
@@ -237,14 +235,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    //获取YYYY-MM-DD格式的当前系统日期
-
-    public static String getSystemDate() {
+    /**
+     * 获取YYYY-MM-DD格式的当前系统日期
+     * @return
+     */
+    private static String getSystemDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return sdf.format(date);
     }
 
+    /**
+     * 当前日期到订单中入住日期的时间差
+     * @param checkInDate
+     * @return
+     */
     private int getDays(String checkInDate) {
         String now = getSystemDate();
         return getGap(checkInDate, now);
@@ -253,88 +258,12 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 返回两个日期之间相差的天数
      */
-
     private int getGap(String date1, String date2) {
         LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
                 Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
         LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
                 Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
         return (int) (Date1.toEpochDay() - Date2.toEpochDay());
-    }
-
-    private int getDays(String now, String checkInDate) {
-        int targetYear = Integer.parseInt(checkInDate.substring(0, 4));
-        int year = Integer.parseInt(now.substring(0, 4));
-        if (checkError(year, targetYear))
-            return -1;
-        int month = Integer.parseInt(now.substring(5, 7));
-        int day = Integer.parseInt(now.substring(8, 10));
-        int targetMonth = Integer.parseInt(checkInDate.substring(5, 7));
-        int targetDay = Integer.parseInt(checkInDate.substring(8, 10));
-
-        int gapNow;
-        gapNow = getDaysInMonth(month, year) - day;
-        if (targetYear > year) {
-            for (int i = month + 1; i < 13; i++)
-                gapNow += getDaysInMonth(i, year);
-            for (int i = 1; i <= targetMonth; i++)
-                gapNow += getDaysInMonth(i, targetYear);
-        } else {
-            for (int i = month + 1; i <= targetMonth; i++)
-                gapNow += getDaysInMonth(i, year);
-        }
-
-        int gapFuture;
-        gapFuture = getDaysInMonth(targetMonth, targetYear) - targetDay;
-
-        int gap = gapNow - gapFuture;
-        if (gap <= 30 && gap >= 0)
-            return gap;
-        else
-            return -1;
-    }
-
-
-    /**
-     * 返回相应月份的天数
-     */
-    private int getDaysInMonth(int month, int year) {
-        switch (month) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                return 31;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-            case 2:
-                if (year % 100 == 0) {
-                    if ((year / 100) % 4 == 0)
-                        return 29;
-
-                    else
-                        return 28;
-
-                } else {
-                    if (year % 4 == 0)
-                        return 29;
-                    else
-                        return 28;
-                }
-            default:
-                return -1;
-        }
-    }
-
-    private boolean checkError(int year, int targetYear) {
-        int gap = targetYear - year;
-        return gap != 1 && gap != 0;      //两个数据的年份之间的间隙可能为0或1
     }
 
 }
