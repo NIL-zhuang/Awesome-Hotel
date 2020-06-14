@@ -6,6 +6,7 @@ import com.example.hotel.data.user.CreditMapper;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.CreditVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserVO;
@@ -13,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
+    private final static String USER_NOTEXIST = "用户不存在";
 
     @Autowired
     private AccountMapper accountMapper;
@@ -154,7 +157,7 @@ public class AccountServiceImpl implements AccountService {
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess();
-    }
+    } // 不出意外这个方法被废弃了
 
     @Override
     public List<String> getManagerTelephone(int hotelId) {
@@ -162,15 +165,34 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO chargeCredit(int userId, int change) {
+    public ResponseVO chargeCredit(int userId, int change, String reason) {
         try{
             accountMapper.chargeCredit(userId, change);
             User user = accountMapper.getAccountById(userId);
-            creditMapper.addCredit(new Credit(userId, change, user.getCredit()));
+            creditMapper.addCredit(new Credit(userId, change, user.getCredit(), reason));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO getUserCreditChanges(int userId) {
+        List<CreditVO> res = new ArrayList<>();
+        try {
+            List<Credit> src = creditMapper.getUserCredit(userId);
+            for (Credit credit: src){
+                CreditVO creditVO = new CreditVO();
+                BeanUtils.copyProperties(credit, creditVO);
+                res.add(creditVO);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(USER_NOTEXIST);
+        }
+
+        return ResponseVO.buildSuccess(res);
     }
 }

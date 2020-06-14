@@ -113,7 +113,7 @@
                         }
                     })
                 } else {
-                    message.error('请先进行搜索')
+                    message.error('请先搜索充值用户邮箱')
                 }
                 this.form.setFieldsValue({
                     chargeMoney: '',

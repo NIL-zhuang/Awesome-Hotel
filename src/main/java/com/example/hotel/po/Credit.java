@@ -13,11 +13,13 @@ public class Credit {
     String date;
     Integer change;
     double now;
+    String reason;
 
-    public Credit(int userId, int change, double now){
+    public Credit(int userId, int change, double now, String reason){
         this.userId = userId;
         this.change = change;
         this.now = now;
+        this.reason = reason;
         Date cur = new Date(System.currentTimeMillis());
         date = new SimpleDateFormat("yyyy-MM-dd").format(cur);
     }
@@ -62,4 +64,11 @@ public class Credit {
         this.date = date;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 }

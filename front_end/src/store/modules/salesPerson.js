@@ -73,6 +73,7 @@ const salesPerson = {
             const params = {
                 id: state.currentUserInfo.id,
                 change: 100 * money,
+                reason: '充值',
             }
             const res = await chargeCreditAPI(params)
             if (res) {

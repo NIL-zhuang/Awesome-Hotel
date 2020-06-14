@@ -32,7 +32,7 @@
                     浏览酒店
                 </a-layout-header>
                 <a-table
-                        :columns="columns"
+                        :columns="hotelColumns"
                         :dataSource="hotelList"
                         bordered
                 >
@@ -68,12 +68,9 @@
                             slot-scope="filtered"
                             type="search"
                     />
-                    <span slot="onceOrdered">
-                                <a-tag color="blue">未预定</a-tag>
-                            </span>
                     <span slot="action" slot-scope="record">
-                                <a-button @click="jumpToDetails(record.id)" size="small" type="primary">进入酒店</a-button>
-                            </span>
+                        <a-button @click="jumpToDetails(record.id)" size="small" type="primary">进入酒店</a-button>
+                    </span>
                     <template slot="customRender" slot-scope="text, record, index, column">
                         <span v-if="searchText && searchedColumn === column.dataIndex">
                             <template
@@ -101,25 +98,16 @@
                     <a-icon type="carry-out"/>
                     历史预定
                 </a-layout-header>
-                <a-list
-                        :data-source="onceOrderedList"
+                <a-table
+                        :columns="hotelColumns"
+                        :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
-                        item-layout="horizontal">
-                    <a-list-item slot="renderItem" slot-scope="item">
-                        <a-button @click="jumpToDetails(item.id)" size="small" slot="actions">
-                            再次光顾
-                        </a-button>
-                        <a-list-item-meta
-                                :description="item.description"
-                        >
-                            <a href="https://www.antdv.com/" slot="title">{{ item.name }}</a>
-                            <a-avatar
-                                    slot="avatar"
-                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                            />
-                        </a-list-item-meta>
-                    </a-list-item>
-                </a-list>
+                        bordered
+                >
+                    <span slot="action" slot-scope="record">
+                        <a-button @click="jumpToDetails(record.id)" size="small">再次光临</a-button>
+                    </span>
+                </a-table>
             </a-layout>
         </div>
     </div>
@@ -141,7 +129,7 @@
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
-                columns: [
+                hotelColumns: [
                     {
                         title: '名称',
                         dataIndex: 'name',

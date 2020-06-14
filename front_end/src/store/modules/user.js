@@ -9,6 +9,7 @@ import {
     getUserInfoAPI,
     updateUserInfoAPI,
     updateUserBirthdayAPI,
+    getUserCreditAPI,
 } from '@/api/user'
 
 import {
@@ -36,19 +37,23 @@ const getDefaultState = () => {
         dateRange: [moment(), moment().add(1, 'd')],
         userOrderList: [],
         onceOrderedList: [],
+        creditChangeList: [],
         registerSiteMembershipModalVisible: false,
         registerCorporationMembershipModalVisible: false,
     }
 }
 const user = {
     state: getDefaultState(),
-
     mutations: {
         reset_state: function (state) {
             state.token = ''
             state.userId = ''
             state.userInfo = {}
             state.userOrderList = []
+            state.onceOrderedList = []
+            state.creditChangeList = []
+            state.registerSiteMembershipModalVisible = false
+            state.registerCorporationMembershipModalVisible = false
         },
         set_token: function (state, token) {
             state.token = token
@@ -73,6 +78,9 @@ const user = {
         },
         set_onceOrderedList: (state, data) => {
             state.onceOrderedList = data
+        },
+        set_creditChangeList: (state, data) => {
+            state.creditChangeList = data
         },
         set_registerSiteMembershipModalVisible: (state, data) => {
             state.registerSiteMembershipModalVisible = data
@@ -140,13 +148,14 @@ const user = {
         },
         getOnceOrderedList: async ({state, commit}) => {
             const data = await getUserOrdersAPI(state.userId)
-            let res = []
+            data.reverse()
+            let res = new Map()
             for (const item of data) {
                 const hotel = await getHotelByIdAPI(item.hotelId)
-                res=[...res, hotel]
+                if (!res.has(hotel.id)) res.set(hotel.id, hotel)
             }
             if (res) {
-                commit('set_onceOrderedList', res)
+                commit('set_onceOrderedList', [...res.values()])
             }
         },
         cancelOrder: async ({state, dispatch}, orderId) => {
@@ -211,6 +220,12 @@ const user = {
             if (res) {
                 message.success('修改成功')
                 dispatch('getUserInfo')
+            }
+        },
+        getUserCredits: async ({state, commit}, id) => {
+            const res = await getUserCreditAPI(id)
+            if (res) {
+                commit('set_creditChangeList', res)
             }
         }
 

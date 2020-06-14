@@ -1,12 +1,12 @@
 <template>
     <div class="info-wrapper">
         <a-tabs>
-            <a-tab-pane tab="我的信息" key="1">
+            <a-tab-pane key="1" tab="我的信息">
                 <a-form :form="form" style="margin-top: 30px">
 
                     <a-form-item label="头像" v-bind="formItemLayout">
                         <a-avatar src="./defaultAvatar.png"></a-avatar>
-<!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
+                        <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
                     </a-form-item>
 
                     <a-form-item label="用户名" v-bind="formItemLayout">
@@ -34,18 +34,18 @@
 
                     <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType==='Client'">
                         <span>
-                            <span v-for="index of 5" :key="index">
+                            <span :key="index" v-for="index of 5">
                             <img
-                                v-if="index <= userVIP.level"
-                                alt="example"
-                                src="@/assets/star.svg"
-                                style="width: 20px; height: 20px"
+                                    alt="example"
+                                    src="@/assets/star.svg"
+                                    style="width: 20px; height: 20px"
+                                    v-if="index <= userVIP.level"
                             />
                             <img
-                                v-else
-                                alt="example"
-                                src="@/assets/starGray.svg"
-                                style="width: 20px; height: 20px"
+                                    alt="example"
+                                    src="@/assets/starGray.svg"
+                                    style="width: 20px; height: 20px"
+                                    v-else
                             />
                         </span>
                         </span>
@@ -76,8 +76,8 @@
 
                     <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
                         <a-input
-                                type="password"
                                 placeholder="请输入新密码"
+                                type="password"
                                 v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' },
                                 { validator: this.handlePassword }], validateTrigger: 'blur' }]"
                                 v-if="modify"
@@ -86,8 +86,8 @@
 
                     <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify">
                         <a-input
-                                type="password"
                                 placeholder="请再次输入密码"
+                                type="password"
                                 v-decorator="['passwordConfirm',
                                 {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
                                 validateTrigger: 'blur'}]">
@@ -96,31 +96,31 @@
                     </a-form-item>
 
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button type="primary" @click="saveModify">
+                        <a-button @click="saveModify" type="primary">
                             保存
                         </a-button>
-                        <a-button type="default" style="margin-left: 30px" @click="cancelModify">
+                        <a-button @click="cancelModify" style="margin-left: 30px" type="default">
                             取消
                         </a-button>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button type="primary" @click="modifyInfo">
+                        <a-button @click="modifyInfo" type="primary">
                             修改信息
                         </a-button>
                     </a-form-item>
 
                 </a-form>
             </a-tab-pane>
-            <a-tab-pane tab="我的订单" key="2">
+            <a-tab-pane key="2" tab="我的订单">
                 <a-table
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
                         bordered
                 >
-                    <a-tag slot="createDate" color="red" slot-scope="text">
+                    <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
                     </a-tag>
-                    <a-tag slot="hotelName" color="orange" slot-scope="text">
+                    <a-tag color="orange" slot="hotelName" slot-scope="text">
                         {{text}}
                     </a-tag>
                     <span slot="roomType" slot-scope="text">
@@ -128,51 +128,47 @@
                         <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
                         <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
                     </span>
-                    <a-tag slot="checkInDate" color="red" slot-scope="text">
+                    <a-tag color="red" slot="checkInDate" slot-scope="text">
                         {{text}}
                     </a-tag>
-                    <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                    <a-tag color="red" slot="checkOutDate" slot-scope="text">
                         {{text}}
                     </a-tag>
                     <span slot="price" slot-scope="text">
                         <a-tag color="pink">￥ {{ text }}</a-tag>
                     </span>
-                    <a-tag slot="orderState" color="blue" slot-scope="text">
+                    <a-tag color="blue" slot="orderState" slot-scope="text">
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看</a-button>
+                        <a-button @click="showOrderDetail(record)" size="small" type="primary">查看</a-button>
 
                         <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
                         <a-popconfirm
-                                title="你确定撤销该笔订单吗？"
-                                @confirm="confirmCancelOrder(record.id)"
                                 @cancel="cancelCancelOrder"
-                                okText="确定"
+                                @confirm="confirmCancelOrder(record.id)"
                                 cancelText="取消"
+                                okText="确定"
+                                title="你确定撤销该笔订单吗？"
                                 v-if="record.orderState === '已预订'"
                         >
-                            <a-button type="danger" size="small">撤销</a-button>
+                            <a-button size="small" type="danger">撤销</a-button>
                         </a-popconfirm>
                         <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
-                        <a-button type="default" size="small" v-if="record.orderState === '异常订单'">申诉</a-button>
+                        <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
-                        <a-button type="default" size="small" v-if="record.orderState === '已完成'">评价</a-button>
+                        <a-button size="small" type="default" v-if="record.orderState === '已完成'">评价</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane tab="信用记录" key="3">
-                <a-list
-                        item-layout="horizontal"
-                        :data-source="userOrderList">
-                    <a-list-item slot="renderItem" slot-scope="item">
-                        <a-list-item-meta
-                                :description="item.hotelName"
-                        >
-                            <a slot="title">{{ item.id }}</a>
-                        </a-list-item-meta>
-                    </a-list-item>
-                </a-list>
+            <a-tab-pane key="3" tab="信用记录">
+                <a-table
+                        :columns="columns_of_credit"
+                        :dataSource="creditChangeList"
+                        :locale="{emptyText: '暂时没有信用变更记录'}"
+                        bordered
+                >
+                </a-table>
             </a-tab-pane>
         </a-tabs>
 
@@ -242,40 +238,21 @@
     ];
     const columns_of_credit = [
         {
-            title: '订单号',
-            dataIndex: 'id',
+            title: '日期',
+            dataIndex: 'date',
         },
         {
-            title: '酒店名',
-            dataIndex: 'hotelName',
+            title: '变更',
+            dataIndex: 'change',
         },
         {
-            title: '房型',
-            dataIndex: 'roomType',
-            scopedSlots: {customRender: 'roomType'}
+            title: '变更后结果',
+            dataIndex: 'now',
         },
         {
-            title: '入住人数',
-            dataIndex: 'peopleNum',
-        },
-        {
-            title: '订单价格',
-            dataIndex: 'price',
-        },
-        {
-            title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
-                {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
-            onFilter: (value, record) => record.orderState.includes(value),
-            dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'}
-
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: {customRender: 'action'},
-        },
-
+            title: '变更原因',
+            dataIndex: 'reason',
+        }
     ];
     export default {
         name: 'info',
@@ -295,7 +272,6 @@
                 pagination: {},
                 columns_of_orders,
                 columns_of_credit,
-                data: [],
                 form: this.$form.createForm(this, {name: 'coordinated'}),
             }
         },
@@ -308,6 +284,7 @@
                 'userInfo',
                 'userVIP',
                 'userOrderList',
+                'creditChangeList',
                 'orderDetailVisible',
             ])
         },
@@ -315,6 +292,7 @@
             await this.getUserInfo()
             await this.getUserVIP(Number(this.userInfo.id))
             await this.getUserOrders()
+            this.getUserCredits(this.userId)
         },
         methods: {
             ...mapActions([
@@ -324,6 +302,7 @@
                 'updateUserInfo',
                 'cancelOrder',
                 'getHotelById',
+                'getUserCredits',
             ]),
             ...mapMutations([
                 'set_orderDetailVisible',
@@ -412,7 +391,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
     .info-wrapper {
         padding: 50px;
 

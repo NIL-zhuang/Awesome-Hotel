@@ -375,10 +375,11 @@ DROP TABLE IF EXISTS `Credits`;
 CREATE TABLE `Credits`
 (
     `id`     int(11) NOT NULL AUTO_INCREMENT,
-    `userID` int(11) NOT NULL,
+    `userId` int(11) NOT NULL,
     `date`   varchar(255) DEFAULT NULL,
     `change` int(11) DEFAULT 0,
     `now`    double(255, 0) DEFAULT NULL,
+    `reason` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4

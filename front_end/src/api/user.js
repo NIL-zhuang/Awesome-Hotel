@@ -45,3 +45,9 @@ export function updateUserBirthdayAPI(params) {
         params
     })
 }
+export function getUserCreditAPI(id) {
+    return axios({
+        url: `${api.userPre}/${id}/getUserCreditChanges`,
+        method: 'GET',
+    })
+}

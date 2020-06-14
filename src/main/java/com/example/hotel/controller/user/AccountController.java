@@ -66,7 +66,13 @@ public class AccountController {
     }
 
     @PostMapping("/{id}/chargeCredit")
-    public ResponseVO chargeCredit(@PathVariable Integer id, @RequestParam Integer change) {
-        return accountService.chargeCredit(id, change);
+    public ResponseVO chargeCredit(@PathVariable Integer id,
+                                   @RequestParam(value = "change") Integer change, @RequestParam(value = "reason")String reason) {
+        return accountService.chargeCredit(id, change, reason);
+    }
+
+    @GetMapping("/{id}/getUserCreditChanges")
+    public ResponseVO getUserCreditChanges(@PathVariable Integer id){
+        return accountService.getUserCreditChanges(id);
     }
 }

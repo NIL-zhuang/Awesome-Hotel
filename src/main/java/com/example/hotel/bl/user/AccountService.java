@@ -1,5 +1,6 @@
 package com.example.hotel.bl.user;
 
+import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.apache.ibatis.annotations.Param;
@@ -68,7 +69,9 @@ public interface AccountService {
 
     ResponseVO updatePortrait(int userId, String url);
 
-    List<String> getManagerTelephone(int hotelId);
+    List<String> getManagerTelephone(int hotelId); // ?
 
-    ResponseVO chargeCredit(int money, int userId);
+    ResponseVO chargeCredit(int money, int userId, String reason);
+
+    ResponseVO getUserCreditChanges(int userId);
 }
