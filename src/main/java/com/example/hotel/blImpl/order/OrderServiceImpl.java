@@ -222,19 +222,16 @@ public class OrderServiceImpl implements OrderService {
      * 要改的话可以用两种情况取反，会快一点
      */
     @Override
-    public List<Order> washOrder(List<Order> orders, String beginTime, String endTime) {
-        // TODO 订单应该是只有有效订单才可以，应该去掉无效订单等内容，修改实现
+    public List<Order> filterOrders(List<Order> orders, String beginTime, String endTime) {
         List<Order> relatedOrder = new ArrayList<>();
         for (Order order : orders) {
-            int gap1 = getGap(beginTime, order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
-            int gap2 = getGap(endTime, order.getCheckOutDate());         //搜素的退房日期 - 订单中的退房日期
-            int gap3 = getGap(beginTime, order.getCheckOutDate());       //搜索的入住日期 - 订单中的退房日期
-            int gap4 = getGap(endTime, order.getCheckInDate());          //搜索的退房日期 - 订单中的入住日期
-            boolean situation1 = (gap1 <= 0) && (gap2 <= 0) && (gap4 >= 0);
-            boolean situation2 = (gap1 >= 0) && (gap2 <= 0);
-            boolean situation3 = (gap1 >= 0) && (gap2 >= 0) && (gap3 <= 0);
-            if (situation1 || situation2 || situation3)
-                relatedOrder.add(order);
+            int gap1 = getGap(order.getCheckOutDate(), beginTime);       //订单中的退房日期 - 搜索中的入住日期
+            int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期
+
+            if (!((gap1<0)||(gap2<0))) {
+                if(order.getOrderState().equals("未入住"))           //确保订单为未入住的有效订单
+                    relatedOrder.add(order);
+            }
         }
         return relatedOrder;
     }
