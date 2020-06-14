@@ -81,8 +81,6 @@ const salesPerson = {
                 email: state.currentUserEmail
             }
             let res = await getUserInfoByEmailAPI(params)
-            console.log("in getCurrent")
-            console.log(res)
             if (res) {
                 commit('set_currentUserInfo', res)
                 commit('set_searchSuccess', true)
