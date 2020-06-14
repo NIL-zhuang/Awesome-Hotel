@@ -229,7 +229,7 @@ public class OrderServiceImpl implements OrderService {
             int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期
 
             if (!((gap1<0)||(gap2<0))) {
-                if(order.getOrderState().equals("未入住"))           //确保订单为未入住的有效订单
+                if(order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住"))           //确保订单为未入住的有效订单
                     relatedOrder.add(order);
             }
         }
