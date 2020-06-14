@@ -7,15 +7,14 @@ import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * @Author: chenyizong
- * @Date: 2020-03-04
+ * @author chenyizong
+ * @date 2020-03-04
  */
 @Service
 public class AdminServiceImpl implements AdminService {

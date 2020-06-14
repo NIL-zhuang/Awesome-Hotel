@@ -157,16 +157,6 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseVO addQuestion(QuestionVO questionVO) {
-        return null;
-    }
-
-    @Override
-    public ResponseVO annualQuestion(Integer questionId) {
-        return null;
-    }
-
-    @Override
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
     }

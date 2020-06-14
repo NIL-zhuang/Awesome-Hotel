@@ -8,49 +8,37 @@ import com.example.hotel.vo.ResponseVO;
 import java.util.List;
 
 /**
- * @Author: chenyizong
- * @Date: 2020-03-04
+ * @author chenyizong
+ * @date 2020-03-04
  */
 public interface OrderService {
 
     /**
      * 预订酒店
-     *
-     * @param orderVO
-     * @return
      */
     ResponseVO addOrder(OrderVO orderVO);
 
     /**
      * 获得所有订单信息
-     *
-     * @return
      */
     List<Order> getAllOrders();
 
     /**
      * 查看酒店的所有订单
-     *
-     * @param hotelId
-     * @return
      */
     List<Order> getHotelOrders(Integer hotelId);
 
     /**
      * 获得指定用户的所有订单信息
-     *
-     * @param userid
-     * @return
      */
-    List<Order> getUserOrders(int userid);
+    List<Order> getUserOrders(int userId);
 
     /**
      * 撤销订单
-     *
-     * @param orderid
-     * @return
      */
-    ResponseVO annulOrder(int orderid);
+    ResponseVO annulOrder(int orderId);
+
+    ResponseVO checkIn(int orderId);
 
     ResponseVO finishOrder(int orderId);
 

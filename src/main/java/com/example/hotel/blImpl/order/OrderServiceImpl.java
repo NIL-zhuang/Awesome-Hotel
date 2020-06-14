@@ -1,6 +1,7 @@
 package com.example.hotel.blImpl.order;
 
 import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
@@ -24,8 +25,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Author: chenyizong
- * @Date: 2020-03-04
+ * @author chenyizong
+ * @date 2020-03-04
  */
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,16 +35,20 @@ public class OrderServiceImpl implements OrderService {
     private final static String FINISH_ORDER = "退房成功";
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
-    OrderMapper orderMapper;
+    private OrderMapper orderMapper;
     @Autowired
-    HotelService hotelService;
+    private HotelService hotelService;
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
+    @Autowired
+    private RoomService roomService;
 
+    // TODO 时间有误，注意下面那个时间；然后updateRoomInfo是在退房部份才修改curNum
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
+//        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -75,16 +80,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(int userid) {
-        return orderMapper.getUserOrders(userid);
+    public List<Order> getUserOrders(int userId) {
+        return orderMapper.getUserOrders(userId);
     }
 
     // added by hx
 
     @Override
-    public ResponseVO annulOrder(int orderid) {
+    public ResponseVO annulOrder(int orderId) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
-        Order order = orderMapper.getOrderById(orderid);
+        Order order = orderMapper.getOrderById(orderId);
         //String orderState = order.getOrderState();
         order.setOrderState("已撤销");//这里暂时不考虑重复撤销的情况
         //扣除信用积分
@@ -99,8 +104,14 @@ public class OrderServiceImpl implements OrderService {
             credit -= price * 0.5;
             accountService.updateCredit(userID, credit);
         }
-        orderMapper.annulOrder(orderid);
+        orderMapper.annulOrder(orderId);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO checkIn(int orderId) {
+        // TODO: 2020/6/14  
+        return null;
     }
 
     @Override
@@ -165,16 +176,14 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
-     * @param orders
-     * @return
      */
     @Override
     public List<Order> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
-        for(Order order:orders){
+        for (Order order : orders) {
             String createDate = order.getCreateDate();
-            int days = getDays(createDate,now);
-            if(days>30)
+            int days = getDays(createDate, now);
+            if (days > 30)
                 orders.remove(order);
         }
 
@@ -183,8 +192,6 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取特定酒店近一个月的所有订单
-     * @param hotelId
-     * @return
      */
     @Override
     public ResponseVO getOrdersInMonthOfHotel(Integer hotelId) {
@@ -199,7 +206,6 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取最近一个月产生的所有订单
-     * @return
      */
     @Override
     public ResponseVO getOrdersInMonthOfAll() {
@@ -213,28 +219,25 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 基于时间进行清洗，返回与输入的时间段发生重叠的订单
-     * @param orders
-     * @param beginTime
-     * @param endTime
-     * @return
+     * 要改的话可以用两种情况取反，会快一点
      */
     @Override
-    public List<Order> washOrder(List<Order> orders,String beginTime, String endTime) {
+    public List<Order> washOrder(List<Order> orders, String beginTime, String endTime) {
+        // TODO 订单应该是只有有效订单才可以，应该去掉无效订单等内容，修改实现
         List<Order> relatedOrder = new ArrayList<>();
-        for(Order order : orders){
-            int gap1 = getGap(beginTime,order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
-            int gap2 = getGap(endTime,order.getCheckOutDate());         //搜素的退房日期 - 订单中的退房日期
-            int gap3 = getGap(beginTime,order.getCheckOutDate());       //搜索的入住日期 - 订单中的退房日期
-            int gap4 = getGap(endTime,order.getCheckInDate());          //搜索的退房日期 - 订单中的入住日期
-            boolean situation1 = (gap1<=0) && (gap2<=0) && (gap4>=0);
-            boolean situation2 = (gap1>=0) && (gap2<=0);
-            boolean situation3 = (gap1>=0) && (gap2>=0) && (gap3<=0);
-            if(situation1||situation2||situation3)
+        for (Order order : orders) {
+            int gap1 = getGap(beginTime, order.getCheckInDate());       //搜索的入住日期 - 订单中入住日期
+            int gap2 = getGap(endTime, order.getCheckOutDate());         //搜素的退房日期 - 订单中的退房日期
+            int gap3 = getGap(beginTime, order.getCheckOutDate());       //搜索的入住日期 - 订单中的退房日期
+            int gap4 = getGap(endTime, order.getCheckInDate());          //搜索的退房日期 - 订单中的入住日期
+            boolean situation1 = (gap1 <= 0) && (gap2 <= 0) && (gap4 >= 0);
+            boolean situation2 = (gap1 >= 0) && (gap2 <= 0);
+            boolean situation3 = (gap1 >= 0) && (gap2 >= 0) && (gap3 <= 0);
+            if (situation1 || situation2 || situation3)
                 relatedOrder.add(order);
         }
         return relatedOrder;
     }
-
 
 
     //获取YYYY-MM-DD格式的当前系统日期
@@ -245,66 +248,50 @@ public class OrderServiceImpl implements OrderService {
         return sdf.format(date);
     }
 
-
-    /**
-     *
-     * @param checkInDate
-     * @return
-     */
-    private int getDays(String checkInDate){
+    private int getDays(String checkInDate) {
         String now = getSystemDate();
-        return getGap(checkInDate,now);
+        return getGap(checkInDate, now);
     }
 
     /**
      * 返回两个日期之间相差的天数
-     * @param date1
-     * @param date2
-     * @return
      */
 
-    private int getGap(String date1, String date2){
-        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0,4)),
-                Integer.parseInt(date1.substring(5,7)), Integer.parseInt(date1.substring(8,10)));
-        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0,4)),
-                Integer.parseInt(date2.substring(5,7)), Integer.parseInt(date2.substring(8,10)));
-        return (int)(Date1.toEpochDay() - Date2.toEpochDay());
+    private int getGap(String date1, String date2) {
+        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
+                Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
+        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
+                Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
+        return (int) (Date1.toEpochDay() - Date2.toEpochDay());
     }
 
-    /**
-
-     * @param now
-     * @param checkInDate
-     * @return
-     */
-
     private int getDays(String now, String checkInDate) {
-        int targetYear = Integer.parseInt(checkInDate.substring(0,4));
+        int targetYear = Integer.parseInt(checkInDate.substring(0, 4));
         int year = Integer.parseInt(now.substring(0, 4));
-        if(checkError(year,targetYear))
+        if (checkError(year, targetYear))
             return -1;
         int month = Integer.parseInt(now.substring(5, 7));
         int day = Integer.parseInt(now.substring(8, 10));
-        int targetMonth = Integer.parseInt(checkInDate.substring(5,7));
-        int targetDay = Integer.parseInt(checkInDate.substring(8,10));
+        int targetMonth = Integer.parseInt(checkInDate.substring(5, 7));
+        int targetDay = Integer.parseInt(checkInDate.substring(8, 10));
 
         int gapNow;
-        gapNow = getDaysInMonth(month,year) - day;
-        if(targetYear>year) {
+        gapNow = getDaysInMonth(month, year) - day;
+        if (targetYear > year) {
             for (int i = month + 1; i < 13; i++)
                 gapNow += getDaysInMonth(i, year);
-            for(int i=1;i<=targetMonth;i++)
-                gapNow += getDaysInMonth(i,targetYear);
-        }else{
-            for(int i=month+1;i<=targetMonth;i++)
-                gapNow += getDaysInMonth(i,year);
+            for (int i = 1; i <= targetMonth; i++)
+                gapNow += getDaysInMonth(i, targetYear);
+        } else {
+            for (int i = month + 1; i <= targetMonth; i++)
+                gapNow += getDaysInMonth(i, year);
         }
 
         int gapFuture;
-        gapFuture = getDaysInMonth(targetMonth,targetYear) - targetDay;
+        gapFuture = getDaysInMonth(targetMonth, targetYear) - targetDay;
 
         int gap = gapNow - gapFuture;
-        if(gap<=30 && gap>=0)
+        if (gap <= 30 && gap >= 0)
             return gap;
         else
             return -1;
@@ -313,12 +300,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 返回相应月份的天数
-     * @param month
-     * @param year
-     * @return
      */
-    private int getDaysInMonth(int month,int year){
-        switch (month){
+    private int getDaysInMonth(int month, int year) {
+        switch (month) {
             case 1:
             case 3:
             case 5:
@@ -333,15 +317,15 @@ public class OrderServiceImpl implements OrderService {
             case 11:
                 return 30;
             case 2:
-                if(year%100 == 0){
-                    if((year/100) %4 ==0)
+                if (year % 100 == 0) {
+                    if ((year / 100) % 4 == 0)
                         return 29;
 
                     else
                         return 28;
 
-                }else{
-                    if(year%4 ==0)
+                } else {
+                    if (year % 4 == 0)
                         return 29;
                     else
                         return 28;
@@ -351,7 +335,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private boolean checkError(int year,int targetYear){
+    private boolean checkError(int year, int targetYear) {
         int gap = targetYear - year;
         return gap != 1 && gap != 0;      //两个数据的年份之间的间隙可能为0或1
     }
