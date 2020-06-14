@@ -65,10 +65,21 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserVO getUserInfoByEmail(String email) {
-        User user = accountMapper.getAccountByEmail(email);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
+        User user;
+        try {
+            user = accountMapper.getAccountByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if(user != null) {
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            return userVO;
+        } else {
+            return null;
+        }
+        //最好修改成ResponseVO，方便前端查看警告信息
     }
 
     @Override
@@ -194,5 +205,16 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return ResponseVO.buildSuccess(res);
+    }
+    @Override
+    public List<UserVO> getAllUsers() {
+        List<User> users = accountMapper.getAllUsers();
+        List<UserVO> userVOs = new ArrayList<>();
+        for (User user : users){
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user,userVO);
+            userVOs.add(userVO);
+        }
+        return userVOs;
     }
 }

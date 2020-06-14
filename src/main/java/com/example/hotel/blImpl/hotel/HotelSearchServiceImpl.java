@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.controller.hotel.HotelController;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -37,7 +38,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     @Autowired
     private HotelService hotelService;
 
-    private final HotelController hotelController = new HotelController();
+    @Autowired
+    private OrderService orderService;
 
     private String checkInDate = null;
     private String checkOutDate = null;
@@ -101,8 +103,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              * 5.酒店评分是否符合要求
              *
              */
-            boolean judge = rooms!=null && !rooms.isEmpty() && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
+            boolean judge = (rooms!=null) && (!rooms.isEmpty()) && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
                     && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
+
             if(judge){
                 int score = 0;
                 score += checkBizRegion(hotel,bizRegion);
@@ -112,12 +115,13 @@ public class HotelSearchServiceImpl implements HotelSearchService {
             }
         }
         if (head!=null) {
-            Node ptr = head.next;
+            Node ptr = head;
             while (ptr != null) {
                 targetHotels.add(ptr.hotel);
                 ptr = ptr.next;
             }
         }
+
         return targetHotels;
     }
 
@@ -139,7 +143,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      *
      */
     private boolean checkAddress(HotelVO hotel,String address){
-        return hotel.getAddress().equals(address);
+        return hotel.getAddress().contains(address);
     }
 
 
@@ -167,8 +171,11 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      */
     private boolean checkHotelStar(HotelVO hotel,String[] hotelStar){
         String star = hotel.getHotelStar();
-
-        return (hotelStar[0].equals(star))||(hotelStar[1].equals(star)) || (hotelStar[2].equals(star));
+        boolean judge = false;
+        for (String s : hotelStar) {
+            judge = judge || s.equals(star);
+        }
+        return judge;
     }
 
 
@@ -214,44 +221,27 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @param hotel
      */
     private void insertHotel(Node hotel){
-        Node ptr = head.next;
-        while(true){
-            if(ptr==null) {
-                head.next = hotel;
-                break;
-            }
-            else if(ptr.score < hotel.score){
-                ptr.before.next = hotel;
-                hotel.before = ptr.before;
+        if(head==null){
+            head = hotel;
+        }else {
+            Node ptr = head.next;
+            while (true) {
+                if (ptr == null) {
+                    head.next = hotel;
+                    break;
+                } else if (ptr.score < hotel.score) {
+                    ptr.before.next = hotel;
+                    hotel.before = ptr.before;
 
-                ptr.before = hotel;
-                hotel.next = ptr;
-                break;
-            }else{
-                ptr = ptr.next;
+                    ptr.before = hotel;
+                    hotel.next = ptr;
+                    break;
+                } else {
+                    ptr = ptr.next;
+                }
             }
         }
     }
 
 
-    public static void main(String[] args){
-        SearchBodyVO searchBody = new SearchBodyVO();
-
-        HotelSearchServiceImpl hotelSearchService = new HotelSearchServiceImpl();
-
-        searchBody.setAddress("");
-        searchBody.setBizRegion("");
-        searchBody.setCheckInDate("2020-6-11");
-        searchBody.setCheckOutDate("2020-6-16");
-        searchBody.setHotelStar(new String[]{"三星级", "四星级"});
-        searchBody.setKeyWords(new String[]{"便宜", "早餐"});
-        searchBody.setMaxPrice(500);
-        searchBody.setMinScore(2.5);
-
-        List<HotelVO> hotels = hotelSearchService.searchHotel(searchBody);
-
-        for(HotelVO hotel : hotels){
-            System.out.println(hotel.getName());
-        }
-    }
 }

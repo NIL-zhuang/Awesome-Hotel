@@ -5,6 +5,7 @@ import com.example.hotel.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 
 @Mapper
@@ -42,4 +43,5 @@ public interface AccountMapper {
 
     void chargeCredit(@Param("id")Integer id, @Param("change")Integer change);
 
+    List<User> getAllUsers();
 }

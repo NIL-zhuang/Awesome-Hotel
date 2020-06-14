@@ -61,10 +61,10 @@
                     优惠策略
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="jumpToManageUserCredit" key="12" v-if="userInfo.userType==='SalesPerson'">
-                <router-link :to="{ name: 'manageUserCredit'}">
+            <a-menu-item @click="jumpToManageMembership" key="12" v-if="userInfo.userType==='SalesPerson'">
+                <router-link :to="{ name: 'manageMembership'}">
                     <a-icon type="user"/>
-                    信用管理
+                    会员管理
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -195,8 +195,8 @@
             manageOrders() {
                 this.$router.push('/salesPerson/manageOrders')
             },
-            jumpToManageUserCredit() {
-                this.$router.push('/salesPerson/manageUserCredit')
+            jumpToManageMembership() {
+                this.$router.push('/salesPerson/manageMembership')
             },
             manageAdminInfo() {
 

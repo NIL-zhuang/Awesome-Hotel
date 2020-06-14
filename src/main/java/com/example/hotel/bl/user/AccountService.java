@@ -1,9 +1,6 @@
 package com.example.hotel.bl.user;
 
-import com.example.hotel.po.Credit;
-import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,40 +12,27 @@ public interface AccountService {
     /**
      * 注册账号
      *
-     * @return
+     * @return 登录成功 or 失败
      */
     ResponseVO registerAccount(UserVO userVO);
 
     /**
      * 用户登录，登录成功会将用户信息保存再session中
-     *
-     * @return
      */
     UserVO login(UserForm userForm);
 
     /**
      * 获取用户个人信息
-     *
-     * @param id
-     * @return
      */
     UserVO getUserInfo(int id);
 
     /**
      * 获取用户个人信息
-     * @param email
-     * @return
      */
     UserVO getUserInfoByEmail(String email);
 
     /**
      * 更新用户个人信息
-     *
-     * @param id
-     * @param password
-     * @param username
-     * @param phonenumber
-     * @return
      */
     ResponseVO updateUserInfo(int id, String password, String username, String phonenumber);
 
@@ -74,4 +58,6 @@ public interface AccountService {
     ResponseVO chargeCredit(int money, int userId, String reason);
 
     ResponseVO getUserCreditChanges(int userId);
+
+    List<UserVO> getAllUsers();
 }

@@ -36,6 +36,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Integer getRoomCurNumByTime(Integer hotelId, String beginTime, String endTime, String type) {
+        // TODO
+        return 0;
+    }
+
+    @Override
     public List<HotelRoom> retrieveHotelRoomInfoByType(Integer hotelId, RoomType type) {
         return null;
     }

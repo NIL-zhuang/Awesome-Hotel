@@ -8,6 +8,7 @@ import com.example.hotel.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController()
@@ -74,5 +75,16 @@ public class AccountController {
     @GetMapping("/{id}/getUserCreditChanges")
     public ResponseVO getUserCreditChanges(@PathVariable Integer id){
         return accountService.getUserCreditChanges(id);
+    }
+
+    @GetMapping("/getAllUsers")
+    public ResponseVO getAllUsers() {
+        try {
+            List<UserVO> allUsers = accountService.getAllUsers();
+            return ResponseVO.buildSuccess(allUsers);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure("获取所有用户失败");
+        }
     }
 }

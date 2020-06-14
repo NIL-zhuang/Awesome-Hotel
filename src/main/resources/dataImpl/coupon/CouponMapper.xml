@@ -17,6 +17,12 @@
           and status = 1
     </select>
 
+    <select id="getWebCoupon" resultMap="Coupon">
+        select *
+        from Coupon
+        where status = 1 and hotelId = 0
+    </select>
+
     <delete id="annualCoupon">
         delete
         from Coupon

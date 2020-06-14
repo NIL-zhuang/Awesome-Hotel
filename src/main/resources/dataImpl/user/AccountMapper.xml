@@ -15,6 +15,9 @@
         from User
         where id = #{id}
     </select>
+    <select id="getAllUsers" resultMap="User">
+        select * from User
+    </select>
     <update id="updateAccount">
         update User
         set password=#{password},

@@ -15,4 +15,6 @@ public interface CouponMapper {
     List<Coupon> selectByHotelId(Integer hotelId);
 
     void annualCoupon(Integer couponId);
+
+    List<Coupon> getWebCoupon();
 }

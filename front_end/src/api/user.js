@@ -51,3 +51,9 @@ export function getUserCreditAPI(id) {
         method: 'GET',
     })
 }
+export function getAllUsersAPI() {
+    return axios({
+        url: `${api.userPre}/getAllUsers`,
+        method: 'GET'
+    })
+}

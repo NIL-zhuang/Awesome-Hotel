@@ -47,6 +47,9 @@ const getters = {
     currentUserId: state => state.salesPerson.currentUserId,
     currentUserInfo: state => state.salesPerson.currentUserInfo,
     searchSuccess:state => state.salesPerson.searchSuccess,
+    allUserList: state => state.salesPerson.allUserList,
+    allClientVIPList: state => state.salesPerson.allClientVIPList,
+    allCorpVIPList: state => state.salesPerson.allCorpVIPList,
     //order
     orderDetailVisible: state => state.order.orderDetailVisible,
     orderInfo: state => state.order.orderInfo,

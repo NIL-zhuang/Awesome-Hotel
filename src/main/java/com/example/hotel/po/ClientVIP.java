@@ -5,10 +5,10 @@ public class ClientVIP {
     private int userId;
     private int level;
     private int consumption;
-    private double reduction;
     private int status;
+    private double reduction;
 
-    public ClientVIP(int userId){
+    public ClientVIP(int userId) {
         this.userId = userId;
         level = 1;
         consumption = 0;

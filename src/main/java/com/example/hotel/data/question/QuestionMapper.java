@@ -19,7 +19,7 @@ public interface QuestionMapper {
     /**
      * 只改available属性，不改question值
      */
-    int annualQuestion(@Param("id") int questionId);
+    int annulQuestion(@Param("id") int questionId);
 
     List<Question> getHotelQuestion(@Param("hotelId") int hotelId);
 

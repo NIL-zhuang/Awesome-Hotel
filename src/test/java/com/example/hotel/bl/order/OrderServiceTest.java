@@ -1,5 +1,8 @@
 package com.example.hotel.bl.order;
 
+import com.example.hotel.po.Order;
+import com.example.hotel.vo.ResponseVO;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -28,16 +34,23 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        int num = orders.size();
+        Assert.assertThat(num,is(1));
     }
 
     @Test
     @Transactional
     public void getHotelOrders() {
+        List<Order> orders = orderService.getHotelOrders(2);
+        int num = orders.size();
+        Assert.assertThat(num,is(0));
     }
 
     @Test
     @Transactional
     public void getUserOrders() {
+
     }
 
     @Test
@@ -73,5 +86,23 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void getUserComments() {
+    }
+
+    @Test
+    @Transactional
+    public void getOrdersInMonthOfHotel() {
+        ResponseVO responseVO = orderService.getOrdersInMonthOfHotel(1);
+        List<Order> orders = (List<Order>) responseVO.getContent();
+        int num = orders.size();
+        Assert.assertThat(num,is(1));
+    }
+
+    @Test
+    @Transactional
+    public void getOrdersInMonthOfAll() {
+        ResponseVO responseVO = orderService.getOrdersInMonthOfAll();
+        List<Order> orders = (List<Order>) responseVO.getContent();
+        int num = orders.size();
+        Assert.assertThat(num,is(1));
     }
 }

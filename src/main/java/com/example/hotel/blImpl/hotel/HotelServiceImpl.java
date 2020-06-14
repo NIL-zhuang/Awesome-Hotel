@@ -67,7 +67,14 @@ public class HotelServiceImpl implements HotelService {
         for (Hotel hotel:hotels){
             hotelVOs.add(new HotelVO(hotel));
         }
+
         return hotelVOs;
+    }
+
+    @Override
+    public List<HotelVO> retrieveHotels(String start,String end){
+        //todo
+        return null;
     }
 
     @Override
@@ -100,7 +107,6 @@ public class HotelServiceImpl implements HotelService {
         List<Order> orders = orderService.getHotelOrders(hotelId);
         orders = orderService.getOrdersInMonth(orders);
         orders = orderService.washOrder(orders,beginTime,endTime);
-
         HashMap<String,Integer> roomNum = new HashMap<>();
 
         for (RoomVO room : rooms) {
@@ -151,18 +157,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseVO addQuestion(QuestionVO questionVO) {
-        return null;
-    }
-
-    @Override
-    public ResponseVO annualQuestion(Integer questionId) {
-        return null;
-    }
-
-    @Override
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
     }
+
 
 }

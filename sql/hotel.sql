@@ -396,7 +396,7 @@ CREATE TABLE `VIP`
     `userId`          int(11)             DEFAULT NULL,
     `corporationName` varchar(255) UNIQUE DEFAULT NULL,
     `level`           int(11) DEFAULT NULL,
-    `consumption`     int (11) DEFAULT NULL,
+    `consumption`     int (11) DEFAULT 0,
     `status`          int(11) DEFAULT 1,
     `reduction`       double DEFAULT NULL,
     PRIMARY KEY (`id`)
