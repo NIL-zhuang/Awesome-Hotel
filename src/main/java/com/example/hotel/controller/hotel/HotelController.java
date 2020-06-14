@@ -3,12 +3,12 @@ package com.example.hotel.controller.hotel;
 import com.example.hotel.bl.hotel.HotelSearchService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
+import com.example.hotel.bl.question.AnswerService;
+import com.example.hotel.bl.question.QuestionService;
 import com.example.hotel.po.HotelRoom;
+import com.example.hotel.po.Question;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.HotelForm;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.SearchBodyVO;
+import com.example.hotel.vo.*;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +23,10 @@ public class HotelController {
     private RoomService roomService;
     @Autowired
     private HotelSearchService hotelSearchService;
+    @Autowired
+    private QuestionService questionService;
+    @Autowired
+    private AnswerService answerService;
 
 
     @PostMapping("/addHotel")
@@ -71,5 +75,45 @@ public class HotelController {
     public ResponseVO deleteHotel(@PathVariable Integer hotelId) {
         hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @PostMapping("/addQuestion")
+    public ResponseVO addQuestion(@RequestBody QuestionVO questionVO) {
+        return questionService.addQuestion(questionVO);
+    }
+
+    @PostMapping("/{questionId}/annulQuestion")
+    public ResponseVO annulQuestion(@PathVariable Integer questionId) {
+        return questionService.annulQuestion(questionId);
+    }
+
+    @GetMapping("/{hotelId}/getHotelQuestion")
+    public ResponseVO getHotelQuestion(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(questionService.getHotelQuestion(hotelId));
+    }
+
+    @GetMapping("/{userId}/getUserQuestion")
+    public ResponseVO getUserQuestion(@PathVariable Integer userId) {
+        return ResponseVO.buildSuccess(questionService.getUserQuestion(userId));
+    }
+
+    @PostMapping("/addAnswer")
+    public ResponseVO addAnswer(@RequestBody AnswerVO answerVO) {
+        return answerService.addAnswer(answerVO);
+    }
+
+    @PostMapping("/{answerId}/annulAnswer")
+    public ResponseVO annulAnswer(@PathVariable Integer answerId) {
+        return answerService.annulAnswer(answerId);
+    }
+
+    @GetMapping("/getAllAnswers")
+    public ResponseVO getAllAnswers() {
+        return ResponseVO.buildSuccess(answerService.getAllAnswers());
+    }
+
+    @GetMapping("/{questionId}/getQuestionAnswers")
+    public ResponseVO getQuestionAnswer(@PathVariable Integer questionId) {
+        return ResponseVO.buildSuccess(answerService.getQuestionAnswers(questionId));
     }
 }

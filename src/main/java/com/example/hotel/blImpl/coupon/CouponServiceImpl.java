@@ -111,6 +111,12 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public CouponVO addBizRegionCouponVO(BizRegionCouponVO couponVO) {
+        // todo 可能需要修改Coupon的数据库底层，等待商讨
+        return null;
+    }
+
+    @Override
     public List<Coupon> getWebsiteCoupon() {
         return couponMapper.getWebCoupon();
     }

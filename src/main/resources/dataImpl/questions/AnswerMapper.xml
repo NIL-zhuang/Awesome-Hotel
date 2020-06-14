@@ -16,7 +16,7 @@
         where questionId = #{questionId}
     </select>
 
-    <delete id="annualAnswer">
+    <delete id="annulAnswer">
         delete from Answers
         where id = #{answerId}
     </delete>

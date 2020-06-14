@@ -1,7 +1,6 @@
 package com.example.hotel.controller.coupon;
 
 import com.example.hotel.bl.coupon.CouponService;
-import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.coupon.*;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -45,6 +44,12 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponVO);
     }
 
+    @PostMapping("/bizRegion")
+    public ResponseVO addBizRegionCoupon(@RequestBody BizRegionCouponVO bizRegionCouponVO) {
+        CouponVO couponVO = couponService.addBizRegionCouponVO(bizRegionCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
+
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
@@ -74,7 +79,7 @@ public class CouponController {
     }
 
     @GetMapping("/websiteCoupons")
-    public ResponseVO getWebsiteCoupons(){
+    public ResponseVO getWebsiteCoupons() {
         return ResponseVO.buildSuccess(couponService.getWebsiteCoupon());
     }
 

@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.coupon;
 
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -30,6 +31,7 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
             assert birth != null;
             return !birth.before(in) &&
                     !birth.after(out) &&
+                    user.getVipType() == VIPType.Client &&
                     (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) &&
                     coupon.getStatus() == 1;
         } catch (Exception e) {
