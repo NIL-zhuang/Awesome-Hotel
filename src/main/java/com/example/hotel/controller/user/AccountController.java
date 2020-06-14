@@ -65,11 +65,8 @@ public class AccountController {
         return ResponseVO.buildSuccess(user);
     }
 
-    // TODO 按照充值金额给用户充值信誉积分
     @PostMapping("/{id}/chargeCredit")
-    public ResponseVO chargeCredit(@RequestParam Integer money, @PathVariable Integer id) {
-        System.out.println(id);
-        System.out.println(money);
-        return ResponseVO.buildSuccess(true);
+    public ResponseVO chargeCredit(@PathVariable Integer id, @RequestParam Integer change) {
+        return accountService.chargeCredit(id, change);
     }
 }

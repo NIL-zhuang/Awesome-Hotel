@@ -62,27 +62,22 @@ const salesPerson = {
                 email: state.currentUserEmail
             }
             let res = await getUserInfoByEmailAPI(params)
-            console.log("in getCurrent")
-            console.log(res)
             if (res) {
                 commit('set_currentUserInfo', res)
                 commit('set_searchSuccess', true)
-                message.success("查询成功")
             } else {
                 commit('set_searchSuccess', false)
             }
         },
         chargeCredit: async ({state, commit, dispatch}, money) => {
-            console.log("in chargeCredit")
-            console.log(money)
             const params = {
                 id: state.currentUserInfo.id,
-                money: money,
+                change: 100 * money,
             }
             const res = await chargeCreditAPI(params)
-            if(res) {
+            if (res) {
                 message.success("充值成功")
-                dispatch(this.getCurrentUserInfoByEmail())
+                dispatch('getCurrentUserInfoByEmail')
             } else {
                 message.error("充值失败")
             }

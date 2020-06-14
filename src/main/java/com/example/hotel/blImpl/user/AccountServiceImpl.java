@@ -2,7 +2,9 @@ package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.data.user.CreditMapper;
 import com.example.hotel.enums.VIPType;
+import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
@@ -21,6 +23,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private CreditMapper creditMapper;
 
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
@@ -157,4 +161,16 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+    @Override
+    public ResponseVO chargeCredit(int userId, int change) {
+        try{
+            accountMapper.chargeCredit(userId, change);
+            User user = accountMapper.getAccountById(userId);
+            creditMapper.addCredit(new Credit(userId, change, user.getCredit()));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess();
+    }
 }

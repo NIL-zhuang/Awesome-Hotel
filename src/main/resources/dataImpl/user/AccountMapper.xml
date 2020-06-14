@@ -50,6 +50,10 @@
         update user set portrait = #{url} where id = #{id}
     </update>
 
+    <update id="chargeCredit">
+        update user set credit = credit + #{change} where id = #{id}
+    </update>
+
     <resultMap id="User" type="com.example.hotel.po.User">
         <id column="id" property="id"/>
         <result column="email" property="email"/>

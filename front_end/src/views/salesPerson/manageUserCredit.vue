@@ -5,13 +5,13 @@
         <div class="info-card">
             <a-card style="width: 220px">
                 <img
-                    slot="cover"
-                    alt="example"
-                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                        alt="example"
+                        slot="cover"
+                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                 />
                 <a-card-meta :title=this.userName>
                     <template slot="description">
-                        phone: {{ this.userPhoneNumber }}
+                        {{ this.userPhoneNumber }}
                     </template>
                 </a-card-meta>
             </a-card>
@@ -19,11 +19,11 @@
         <div class="charge-card">
             <a-form :form="form" style="margin-top: 30px; text-align: left; padding: 5px; border: 1px solid #83c2f8;">
 
-                <a-form-item label="当前信用值" :label-col="{ span: 7 }" :wrapper-col="{ span: 8, offset: 2 }">
+                <a-form-item :label-col="{ span: 7 }" :wrapper-col="{ span: 8, offset: 2 }" label="当前信用值">
                     <span>{{ this.currentUserInfo.credit }}</span>
                 </a-form-item>
 
-                <a-form-item label="充值金额" :label-col="{ span: 7 }" :wrapper-col="{ span: 12, offset: 2 }">
+                <a-form-item :label-col="{ span: 7 }" :wrapper-col="{ span: 12, offset: 2 }" label="充值金额">
                     <a-input
                             placeholder="请输入充值金额"
                             v-decorator="['chargeMoney', { rules: [{ required: true, message: ' ' },
@@ -32,7 +32,7 @@
                 </a-form-item>
 
                 <a-form-item :wrapper-col="{ span: 8, offset: 9 }">
-                    <a-button type="primary" @click="charge">
+                    <a-button @click="charge" type="primary">
                         确认充值
                     </a-button>
                 </a-form-item>
@@ -41,19 +41,20 @@
             <br/><br/><br/>
             <span style="width: 150px">请输入用户邮箱</span>
             <br/>
-            <a-input-search placeholder="请输入用户邮箱" enter-button @search="onSearch" id="searchEmail"/>
+            <a-input-search @search="onSearch" enter-button id="searchEmail" placeholder="请输入用户邮箱"/>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters, mapMutations, mapActions } from 'vuex'
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {message} from "ant-design-vue";
+
     export default {
         name: "manageUserCredit",
         data() {
             return {
-                form: this.$form.createForm(this, { name: 'chargeMoney' }),
+                form: this.$form.createForm(this, {name: 'chargeMoney'}),
             }
         },
         computed: {
@@ -64,14 +65,14 @@
             ]),
             userName() {
                 if (this.searchSuccess) {
-                    return "用户："  + this.currentUserInfo.userName
+                    return "用户：" + this.currentUserInfo.userName
                 } else {
                     return '请输入用户ID'
                 }
             },
             userPhoneNumber() {
                 if (this.searchSuccess) {
-                    return this.currentUserInfo.phoneNumber
+                    return '联系电话：' + this.currentUserInfo.phoneNumber
                 } else {
                     return ''
                 }
@@ -99,7 +100,7 @@
                 }
             },
             charge() {
-                if(this.searchSuccess) {
+                if (this.searchSuccess) {
                     this.form.validateFields((err, values) => {
                         if (!err) {
                             const data = {
@@ -122,14 +123,16 @@
     }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
     .info-wrapper {
         padding: 50px;
         text-align: center;
     }
+
     .info-card {
         display: inline-block;
     }
+
     .charge-card {
         margin-left: 80px;
         width: 300px;

@@ -40,4 +40,6 @@ public interface AccountMapper {
 
     void updatePortrait(@Param("id") Integer id, @Param("url") String url);
 
+    void chargeCredit(@Param("id")Integer id, @Param("change")Integer change);
+
 }

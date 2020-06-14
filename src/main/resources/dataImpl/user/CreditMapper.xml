@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.hotel.data.question.AnswerMapper">
+<mapper namespace="com.example.hotel.data.user.CreditMapper">
     <insert id="addCredit" parameterType="com.example.hotel.po.Credit" useGeneratedKeys="true" keyProperty="id">
-        insert into Credits(userID, change, now)
-        values(#{userId}, #{change}, #{now})
+        insert into Credits(userID, `change`, date, now)
+        values(#{userId}, #{change}, #{date}, #{now})
     </insert>
 
     <select id="getUserCredit" resultMap="Credit">

@@ -1,5 +1,8 @@
 package com.example.hotel.po;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
  * @date 2020/5/24 15:52
@@ -7,8 +10,17 @@ package com.example.hotel.po;
 public class Credit {
     Integer id;
     Integer userId;
+    String date;
     Integer change;
-    Integer now;
+    double now;
+
+    public Credit(int userId, int change, double now){
+        this.userId = userId;
+        this.change = change;
+        this.now = now;
+        Date cur = new Date(System.currentTimeMillis());
+        date = new SimpleDateFormat("yyyy-MM-dd").format(cur);
+    }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -34,11 +46,20 @@ public class Credit {
         return userId;
     }
 
-    public Integer getNow() {
+    public double getNow() {
         return now;
     }
 
-    public void setNow(Integer now) {
+    public void setNow(double now) {
         this.now = now;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 }

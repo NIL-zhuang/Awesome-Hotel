@@ -376,8 +376,9 @@ CREATE TABLE `Credits`
 (
     `id`     int(11) NOT NULL AUTO_INCREMENT,
     `userID` int(11) NOT NULL,
+    `date`   varchar(255) DEFAULT NULL,
     `change` int(11) DEFAULT 0,
-    `now`    int(11) DEFAULT NULL,
+    `now`    double(255, 0) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
