@@ -1,5 +1,6 @@
 package com.example.hotel.bl.question;
 
+import com.example.hotel.vo.QuestionForm;
 import com.example.hotel.vo.QuestionVO;
 import com.example.hotel.vo.ResponseVO;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface QuestionService {
 
-    ResponseVO addQuestion(QuestionVO questionVO);
+    ResponseVO addQuestion(QuestionForm questionForm);
 
     ResponseVO annulQuestion(Integer questionId);
 

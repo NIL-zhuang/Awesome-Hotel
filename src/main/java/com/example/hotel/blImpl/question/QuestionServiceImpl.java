@@ -4,6 +4,7 @@ import com.example.hotel.bl.question.AnswerService;
 import com.example.hotel.bl.question.QuestionService;
 import com.example.hotel.data.question.QuestionMapper;
 import com.example.hotel.po.Question;
+import com.example.hotel.vo.QuestionForm;
 import com.example.hotel.vo.QuestionVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -27,9 +28,12 @@ public class QuestionServiceImpl implements QuestionService {
     private AnswerService answerService;
 
     @Override
-    public ResponseVO addQuestion(QuestionVO questionVO) {
-        Question question = new Question();
-        BeanUtils.copyProperties(questionVO, question);
+    public ResponseVO addQuestion(QuestionForm questionForm) {
+        Question question = new Question() {{
+            setUserId(questionForm.getUserId());
+            setHotelId(questionForm.getHotelId());
+            setQuestion(questionForm.getQuestion());
+        }};
         questionMapper.addQuestion(question);
         return ResponseVO.buildSuccess(true);
     }
