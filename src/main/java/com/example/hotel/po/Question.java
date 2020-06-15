@@ -6,20 +6,20 @@ package com.example.hotel.po;
  */
 public class Question {
     Integer id;
-    Integer userId;
-    Integer hotelId;
+    Integer userID;
+    Integer hotelID;
     String question;
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public Integer getHotelId() {
-        return hotelId;
+    public Integer getHotelID() {
+        return hotelID;
     }
 
     public String getQuestion() {
@@ -30,12 +30,12 @@ public class Question {
         this.id = id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
-    public void setHotelId(Integer hotelId) {
-        this.hotelId = hotelId;
+    public void setHotelID(Integer hotelID) {
+        this.hotelID = hotelID;
     }
 
     public void setQuestion(String question) {

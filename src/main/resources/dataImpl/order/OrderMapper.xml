@@ -30,6 +30,12 @@
         where id = #{orderid}
     </update>
 
+    <update id="checkIn">
+        update orderlist
+        set orderState = '已入住'
+        where id = #{orderId}
+    </update>
+
     <update id="finishOrder">
         update orderlist
         set orderState = '已完成'

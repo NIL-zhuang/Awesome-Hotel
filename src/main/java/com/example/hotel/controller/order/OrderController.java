@@ -71,7 +71,12 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserComments(userId));
     }
 
-    @GetMapping("/{orderId}/finishOrder")
+    @PostMapping("{orderId}/checkIn")
+    public ResponseVO checkIn(@PathVariable Integer orderId){
+        return orderService.checkIn(orderId);
+    }
+
+    @PostMapping("/{orderId}/finishOrder")
     public ResponseVO finishOrder(@PathVariable Integer orderId) {
         return orderService.finishOrder(orderId);
     }

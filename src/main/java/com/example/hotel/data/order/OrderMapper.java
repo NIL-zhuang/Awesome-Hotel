@@ -25,7 +25,9 @@ public interface OrderMapper {
 
     void annulOrder(@Param("orderid") int orderid);
 
-    void finishOrder(@Param("orderId") int orderId);
+    int checkIn(@Param("orderId") int orderId);
+
+    int finishOrder(@Param("orderId") int orderId);
 
     Order getOrderById(@Param("orderid") int orderid);
 
