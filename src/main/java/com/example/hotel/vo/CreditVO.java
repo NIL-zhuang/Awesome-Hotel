@@ -9,7 +9,7 @@ import com.example.hotel.po.Credit;
 public class CreditVO {
     Integer id;
     Integer userId;
-    String date;
+    String changeDate;
     Integer change;
     double now;
     String reason;
@@ -38,12 +38,12 @@ public class CreditVO {
         return userId;
     }
 
-    public String getDate() {
-        return date;
+    public String getChangeDate() {
+        return changeDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setChangeDate(String date) {
+        this.changeDate = date;
     }
 
     public double getNow() {

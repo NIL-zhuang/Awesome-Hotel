@@ -22,6 +22,8 @@ public class HotelVO {
     private double equipment;
     private String url;
 
+    public HotelVO(){}
+
     public HotelVO(Hotel hotel){
         id=hotel.getId();
         name=hotel.getHotelName();

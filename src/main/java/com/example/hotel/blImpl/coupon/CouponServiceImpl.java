@@ -25,7 +25,7 @@ public class CouponServiceImpl implements CouponService {
 
     private final CouponMapper couponMapper;
 
-    private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
+    private static final List<CouponMatchStrategy> strategyList = new ArrayList<>();
 
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,

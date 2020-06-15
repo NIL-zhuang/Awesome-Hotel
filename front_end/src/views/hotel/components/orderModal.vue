@@ -16,7 +16,7 @@
                         format="YYYY-MM-DD"
                         v-decorator="[
                             'date',
-                            { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange},
+                            { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange },
                         ]"
                         :disabled="true"
                 />

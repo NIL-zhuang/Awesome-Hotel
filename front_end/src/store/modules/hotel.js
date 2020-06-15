@@ -4,6 +4,8 @@ import {
     getHotelsAPI,
     getHotelByIdAPI,
     searchHotelAPI,
+    addQuestionAPI,
+    getHotelQuestionAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -25,7 +27,8 @@ const hotel = {
         currentHotelInfo: {},
         orderModalVisible: false,
         currentOrderRoom: {},
-        orderMatchCouponList: []
+        orderMatchCouponList: [],
+        hotelQuestion: [],
     },
     mutations: {
         set_hotelList: function (state, data) {
@@ -63,9 +66,11 @@ const hotel = {
         },
         set_orderMatchCouponList: function (state, data) {
             state.orderMatchCouponList = data
+        },
+        set_hotelQuestion: function (state, data) {
+            state.hotelQuestion = data
         }
     },
-
     actions: {
         getHotelList: async ({commit, state}) => {
             const res = await getHotelsAPI()
@@ -97,6 +102,18 @@ const hotel = {
             const res = await searchHotelAPI(data)
             if (res) {
                 commit('set_searchList', res)
+            }
+        },
+        getHotelQuestion: async ({state, commit}, data) => {
+            const res = await getHotelQuestionAPI(data)
+            if (res) {
+                commit('set_hotelQuestion', res)
+            }
+        },
+        addQuestion: async ({state, dispatch}, data) => {
+            const res = await addQuestionAPI(data)
+            if (res) {
+                dispatch('getHotelQuestion')
             }
         }
     }

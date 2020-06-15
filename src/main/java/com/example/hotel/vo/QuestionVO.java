@@ -1,7 +1,5 @@
 package com.example.hotel.vo;
 
-import com.example.hotel.po.Answer;
-
 import java.util.List;
 
 /**
@@ -9,19 +7,12 @@ import java.util.List;
  * @date 2020/5/24 15:53
  */
 public class QuestionVO {
+
     Integer id;
     Integer userId;
     Integer hotelId;
     String question;
     List<AnswerVO> answers;
-
-    public List<AnswerVO> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<AnswerVO> answers) {
-        this.answers = answers;
-    }
 
     public Integer getId() {
         return id;
@@ -39,6 +30,10 @@ public class QuestionVO {
         return question;
     }
 
+    public List<AnswerVO> getAnswers() {
+        return answers;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -54,4 +49,9 @@ public class QuestionVO {
     public void setQuestion(String question) {
         this.question = question;
     }
+
+    public void setAnswers(List<AnswerVO> answers) {
+        this.answers = answers;
+    }
+
 }

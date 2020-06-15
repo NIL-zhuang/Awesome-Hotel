@@ -8,6 +8,8 @@ public class ClientVIP {
     private int status;
     private double reduction;
 
+    public ClientVIP(){}
+
     public ClientVIP(int userId) {
         this.userId = userId;
         level = 1;

@@ -15,7 +15,6 @@ export function getHotelByIdAPI(hotelId) {
     })
 }
 export function searchHotelAPI(data) {
-    console.log(data)
     return axios({
         url: `${api.hotelPre}/searchHotel`,
         method: 'POST',
@@ -30,9 +29,22 @@ export function addHotelAPI(data) {
     })
 }
 export function deleteHotelAPI(hotelId) {
-    console.log('in api: ' + hotelId)
     return axios({
         url: `${api.hotelPre}/${hotelId}/deleteHotel`,
         method: 'POST'
+    })
+}
+export function addQuestionAPI(params) {
+    console.log(params)
+    return axios({
+        url: `${api.hotelPre}/addQuestion`,
+        method: 'POST',
+        params,
+    })
+}
+export function getHotelQuestionAPI(hotelId) {
+    return axios({
+        url: `${api.hotelPre}/${hotelId}/getHotelQuestion`,
+        method: 'GET',
     })
 }

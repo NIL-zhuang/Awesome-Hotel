@@ -256,7 +256,7 @@ CREATE TABLE `User`
     `password`    varchar(11) NOT NULL,
     `username`    varchar(255)   DEFAULT NULL,
     `phonenumber` varchar(255)   DEFAULT NULL,
-    `credit`      double(255, 0) DEFAULT NULL,
+    `credit`      double DEFAULT NULL,
     `usertype`    varchar(255)   DEFAULT NULL,
     `birthday`    varchar(255)   DEFAULT NULL,
     `corporation` varchar(255)   DEFAULT NULL,
@@ -376,9 +376,9 @@ CREATE TABLE `Credits`
 (
     `id`     int(11) NOT NULL AUTO_INCREMENT,
     `userId` int(11) NOT NULL,
-    `date`   varchar(255) DEFAULT NULL,
+    `changeDate` varchar(255) DEFAULT NULL,
     `change` int(11) DEFAULT 0,
-    `now`    double(255, 0) DEFAULT NULL,
+    `now`    double DEFAULT NULL,
     `reason` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

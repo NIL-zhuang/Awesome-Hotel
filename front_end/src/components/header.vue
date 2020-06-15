@@ -95,13 +95,12 @@
         </div>
 
     </div>
-
 </template>
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
 
     export default {
-        name: '',
+        name: 'Header',
         data() {
             return {
                 current: ['1']
@@ -152,6 +151,11 @@
                     break
             }
         },
+        mutations: {
+            set_current: (data) => {
+                this.current = data
+            }
+        },
         methods: {
             ...mapMutations([]),
             ...mapActions([
@@ -172,6 +176,7 @@
                 this.$router.push({name: 'managerInfo', params: {userId: this.userId}})
             },
             jumpToHome() {
+                this.current = ['1']
                 this.$router.push('/homePage')
             },
             searchHotel() {

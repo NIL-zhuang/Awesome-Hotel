@@ -10,6 +10,7 @@ import java.util.List;
  * @date 2020/6/14 15:54
  */
 public interface QuestionService {
+
     ResponseVO addQuestion(QuestionVO questionVO);
 
     ResponseVO annulQuestion(Integer questionId);

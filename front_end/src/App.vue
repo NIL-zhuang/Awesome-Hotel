@@ -5,6 +5,7 @@
     </transition>
   </div>
 </template>
+
 <script>
 import { loginAPI } from "./api/user";
 import { message } from 'ant-design-vue'

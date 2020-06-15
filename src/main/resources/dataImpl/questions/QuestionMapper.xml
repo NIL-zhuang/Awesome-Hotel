@@ -3,12 +3,12 @@
 <mapper namespace="com.example.hotel.data.question.AnswerMapper">
 
     <insert id="addQuestion" parameterType="com.example.hotel.po.Question" useGeneratedKeys="true" keyProperty="id">
-        insert into Questions(userID, hotelID, question, available)
-        values(#{userID}, #{hotelID}, #{question}, #{available})
+        insert into Questions(userID, hotelID, question)
+        values(#{userID}, #{hotelID}, #{question})
     </insert>
 
     <update id="annualQuestion">
-        update question
+        update Questions
         set available = false
         where id = #{id}
     </update>

@@ -10,10 +10,12 @@ import java.util.Date;
 public class Credit {
     Integer id;
     Integer userId;
-    String date;
+    String changeDate;
     Integer change;
     double now;
     String reason;
+
+    public Credit(){}
 
     public Credit(int userId, int change, double now, String reason){
         this.userId = userId;
@@ -21,15 +23,7 @@ public class Credit {
         this.now = now;
         this.reason = reason;
         Date cur = new Date(System.currentTimeMillis());
-        date = new SimpleDateFormat("yyyy-MM-dd").format(cur);
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public void setChange(Integer change) {
-        this.change = change;
+        changeDate = new SimpleDateFormat("yyyy-MM-dd").format(cur);
     }
 
     public void setId(Integer id) {
@@ -40,12 +34,28 @@ public class Credit {
         return this.id;
     }
 
-    public Integer getChange() {
-        return change;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getUserId() {
         return userId;
+    }
+
+    public void setChange(Integer change) {
+        this.change = change;
+    }
+
+    public Integer getChange() {
+        return change;
+    }
+
+    public String getChangeDate() {
+        return changeDate;
+    }
+
+    public void setChangeDate(String changeDate) {
+        this.changeDate = changeDate;
     }
 
     public double getNow() {
@@ -54,14 +64,6 @@ public class Credit {
 
     public void setNow(double now) {
         this.now = now;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getReason() {

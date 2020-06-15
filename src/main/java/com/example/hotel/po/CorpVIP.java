@@ -8,6 +8,8 @@ public class CorpVIP {
     private double reduction;
     private int status;
 
+    public CorpVIP(){}
+
     public CorpVIP(String corporationName){
         this.corporationName=corporationName;
         level = 1;

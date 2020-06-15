@@ -142,6 +142,7 @@ const user = {
         },
         getUserOrders: async ({state, commit}) => {
             const res = await getUserOrdersAPI(state.userId)
+            res.reverse()
             if (res) {
                 commit('set_userOrderList', res)
             }
@@ -223,7 +224,8 @@ const user = {
             }
         },
         getUserCredits: async ({state, commit}, id) => {
-            const res = await getUserCreditAPI(id)
+            let res = await getUserCreditAPI(id)
+            res.reverse()
             if (res) {
                 commit('set_creditChangeList', res)
             }

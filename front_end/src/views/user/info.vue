@@ -168,6 +168,10 @@
                         :locale="{emptyText: '暂时没有信用变更记录'}"
                         bordered
                 >
+                    <span slot="type" slot-scope="record">
+                        <a-icon type="plus-circle" theme="twoTone" v-if="record.change>0"/>
+                        <a-icon type="minus-circle" theme="twoTone" two-tone-color="red" v-else/>
+                    </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
@@ -179,13 +183,12 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
     import {message} from 'ant-design-vue';
-    import userMembership from "./userMembership";
-    import App from "../../App";
 
     const columns_of_orders = [
         {
             title: '订单号',
             dataIndex: 'id',
+            sorter: (a, b) => a.id - b.id,
         },
         {
             title: '下单时间',
@@ -238,8 +241,12 @@
     ];
     const columns_of_credit = [
         {
+            title: '变更类型',
+            scopedSlots: {customRender: 'type'},
+        },
+        {
             title: '变更日期',
-            dataIndex: 'date',
+            dataIndex: 'changeDate',
         },
         {
             title: '变更数额',

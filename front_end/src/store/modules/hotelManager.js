@@ -73,7 +73,7 @@ const hotelManager = {
     },
     actions: {
         getHotelOrders: async ({state, commit}) => {
-            let res = await getHotelOrdersAPI(state.manageHotelId)
+            const res = await getHotelOrdersAPI(state.manageHotelId)
             if (res) {
                 commit('set_orderList', res)
             }

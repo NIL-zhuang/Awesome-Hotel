@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface QuestionMapper {
+
     int addQuestion(Question question);
 
     /**

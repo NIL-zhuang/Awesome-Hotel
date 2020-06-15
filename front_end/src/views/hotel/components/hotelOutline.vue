@@ -1,39 +1,45 @@
 <template>
     <div>
         <a-tabs>
-            <a-tab-pane tab="酒店点评" key="1">
+            <a-tab-pane key="1" tab="酒店点评">
                 <div style="font-size: large;padding: 10px">
-                    <a-icon type="crown" class="eval"/>
+                    <a-icon class="eval" type="crown"/>
                     评分
                     <a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button icon="like" @click="like" class="eval"/>
+                    <a-button @click="like" class="eval" icon="like"/>
                     点赞
                     <a-tag color="pink">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button icon="star" @click="star" class="eval"/>
+                    <a-button @click="star" class="eval" icon="star"/>
                     收藏
                     <a-tag color="blue">{{this.currentHotelInfo.rate}}</a-tag>
                 </div>
             </a-tab-pane>
-            <a-tab-pane tab="常见问题" key="2">
+            <a-tab-pane key="2" tab="常见问题">
                 <a-comment>
                     <a-avatar
+                            alt="Han Solo"
                             slot="avatar"
                             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                            alt="Han Solo"
                     />
                     <div slot="content">
-                        <a-form-item>
-                            <a-textarea :rows="4" :placeholder="hint" @change="handleChange" />
-                        </a-form-item>
-                        <a-form-item>
-                            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-                                我要提问
-                            </a-button>
-                        </a-form-item>
+                        <a-form :form="form">
+                            <a-form-item>
+                                <a-textarea :placeholder="hint" :rows="4"
+                                            v-decorator="[
+                                            'question', { rules: [{ required: true, message: '请输入您的问题' }]}
+                                        ]"
+                                />
+                            </a-form-item>
+                            <a-form-item>
+                                <a-button :loading="submitting" @click="handleSubmit" html-type="submit" type="primary">
+                                    我要提问
+                                </a-button>
+                            </a-form-item>
+                        </a-form>
                     </div>
                 </a-comment>
             </a-tab-pane>
-            <a-tab-pane tab="酒店优惠" key="3">
+            <a-tab-pane key="3" tab="酒店优惠">
                 <a-table
                         :columns="columns"
                         :dataSource="couponList"
@@ -102,15 +108,20 @@
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
+                'userId',
                 'couponList',
             ])
         },
         mounted() {
-            this.getHotelCoupon()
+            this.getHotelCoupon(this.currentHotelInfo.id)
+        },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'question'});
         },
         methods: {
             ...mapActions([
-                'getHotelCoupon'
+                'getHotelCoupon',
+                'addQuestion',
             ]),
             like() {
                 console.log('点赞')
@@ -118,11 +129,19 @@
             star() {
                 console.log('收藏')
             },
-            handleChange() {
-
-            },
-            handleSubmit() {
-
+            handleSubmit(e) {
+                e.preventDefault();
+                this.form.validateFieldsAndScroll((err, values) => {
+                    if (!err) {
+                        const data = {
+                            userId: this.userId,
+                            hotelId: this.currentHotelInfo.id,
+                            question: this.form.getFieldValue('question'),
+                        }
+                        this.addQuestion(data)
+                        this.form.resetFields()
+                    }
+                });
             },
         }
     }
