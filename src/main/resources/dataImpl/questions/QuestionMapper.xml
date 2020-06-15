@@ -16,13 +16,13 @@
     <select id="getHotelQuestion" resultMap="Question">
         select *
         from Questions
-        where hotelID = #{hotelID}
+        where hotelID = #{hotelId}
     </select>
 
     <select id="getUserQuestion" resultMap="Question">
         select *
         from Questions
-        where userID = #{userID}
+        where userID = #{userId}
     </select>
 
     <resultMap id="Question" type="com.example.hotel.po.Question">

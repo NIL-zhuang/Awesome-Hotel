@@ -104,8 +104,8 @@ const hotel = {
                 commit('set_searchList', res)
             }
         },
-        getHotelQuestion: async ({state, commit}, data) => {
-            const res = await getHotelQuestionAPI(data)
+        getHotelQuestion: async ({state, commit}) => {
+            const res = await getHotelQuestionAPI(state.currentHotelId)
             if (res) {
                 commit('set_hotelQuestion', res)
             }
