@@ -9,7 +9,6 @@ import com.example.hotel.vo.QuestionVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,8 +29,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public ResponseVO addQuestion(QuestionForm questionForm) {
         Question question = new Question() {{
-            setUserId(questionForm.getUserId());
-            setHotelId(questionForm.getHotelId());
+            setUserID(questionForm.getUserId());
+            setHotelID(questionForm.getHotelId());
             setQuestion(questionForm.getQuestion());
         }};
         questionMapper.addQuestion(question);

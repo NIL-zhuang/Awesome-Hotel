@@ -108,8 +108,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO checkIn(int orderId) {
-        // TODO: 2020/6/14  
-        return null;
+        return ResponseVO.buildSuccess(orderMapper.checkIn(orderId));
     }
 
     @Override
