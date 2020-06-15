@@ -6,10 +6,8 @@ import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.question.AnswerService;
 import com.example.hotel.bl.question.QuestionService;
 import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Question;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
