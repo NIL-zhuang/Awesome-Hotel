@@ -378,7 +378,7 @@ CREATE TABLE `Credits`
     `userId` int(11) NOT NULL,
     `date`   varchar(255) DEFAULT NULL,
     `change` int(11) DEFAULT 0,
-    `now`    double(255, 0) DEFAULT NULL,
+    `now`    double DEFAULT NULL,
     `reason` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

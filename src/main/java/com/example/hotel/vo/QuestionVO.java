@@ -1,7 +1,5 @@
 package com.example.hotel.vo;
 
-import com.example.hotel.po.Answer;
-
 import java.util.List;
 
 /**

@@ -78,8 +78,8 @@ public class HotelController {
     }
 
     @PostMapping("/addQuestion")
-    public ResponseVO addQuestion(@RequestBody QuestionVO questionVO) {
-        return questionService.addQuestion(questionVO);
+    public ResponseVO addQuestion(@RequestBody QuestionForm questionForm) {
+        return questionService.addQuestion(questionForm);
     }
 
     @PostMapping("/{questionId}/annulQuestion")

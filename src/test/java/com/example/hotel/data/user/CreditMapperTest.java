@@ -1,9 +1,15 @@
 package com.example.hotel.data.user;
 
+import com.example.hotel.po.Credit;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -15,15 +21,26 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class CreditMapperTest {
 
+    @Autowired
+    private CreditMapper creditMapper;
+
+    private final Credit credit = new Credit(1, 5, 2.2, "test");
+
     @Test
-    public void addCredit() {
+    public void testAddCredit() {
     }
 
     @Test
-    public void getUserCredit() {
+    @Transactional
+    public void testGetUserCredit() {
+        int val = creditMapper.addCredit(credit);
+        Assert.assertEquals(val, 1);
+        List<Credit> creditList = creditMapper.getUserCredit(1);
+        Assert.assertEquals(creditList.size(), 1);
+        Assert.assertEquals(creditList.get(0).getNow(), 2.2, 0.1);
     }
 
     @Test
-    public void getAllCredit() {
+    public void testGetAllCredit() {
     }
 }
