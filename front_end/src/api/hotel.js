@@ -34,12 +34,11 @@ export function deleteHotelAPI(hotelId) {
         method: 'POST'
     })
 }
-export function addQuestionAPI(params) {
-    console.log(params)
+export function addQuestionAPI(data) {
     return axios({
         url: `${api.hotelPre}/addQuestion`,
         method: 'POST',
-        params,
+        data,
     })
 }
 export function getHotelQuestionAPI(hotelId) {
