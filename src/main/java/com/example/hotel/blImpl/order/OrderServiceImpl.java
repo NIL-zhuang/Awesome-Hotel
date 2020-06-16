@@ -111,6 +111,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public ResponseVO abnormalOrder(int orderId, double minCreditRatio) {
+        Order order = orderMapper.getOrderById(orderId);
+        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * minCreditRatio), "异常订单");
+        return null;
+    }
+
+    @Override
     public ResponseVO finishOrder(int orderId) {
         Order order = orderMapper.getOrderById(orderId);
         orderMapper.finishOrder(orderId);
@@ -178,7 +185,7 @@ public class OrderServiceImpl implements OrderService {
         String now = getSystemDate();
         for (Order order : orders) {
             String createDate = order.getCreateDate();
-            int days = getGap(now,createDate);
+            int days = getGap(now, createDate);
             if (days > 30)
                 orders.remove(order);
         }
@@ -220,16 +227,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> filterOrders(List<Order> orders, String beginTime, String endTime) {
         List<Order> relatedOrder = new ArrayList<>();
-        if(beginTime==null || endTime==null)
+        if (beginTime == null || endTime == null)
             return relatedOrder;
-        if(getGap(beginTime,endTime)<=0)
+        if (getGap(beginTime, endTime) <= 0)
             return relatedOrder;
         for (Order order : orders) {
             int gap1 = getGap(order.getCheckOutDate(), beginTime);       //订单中的退房日期 - 搜索中的入住日期
             int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期
 
-            if (!((gap1<0)||(gap2<0))) {
-                if(order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住"))           //确保订单为未入住的有效订单
+            if (!((gap1 < 0) || (gap2 < 0))) {
+                if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住"))           //确保订单为未入住的有效订单
                     relatedOrder.add(order);
             }
         }
@@ -239,6 +246,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取YYYY-MM-DD格式的当前系统日期
+     *
      * @return
      */
     private static String getSystemDate() {
@@ -249,6 +257,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 当前日期到订单中入住日期的时间差
+     *
      * @param checkInDate
      * @return
      */

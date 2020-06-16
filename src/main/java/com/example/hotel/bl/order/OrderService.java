@@ -40,6 +40,8 @@ public interface OrderService {
 
     ResponseVO checkIn(int orderId);
 
+    ResponseVO abnormalOrder(int orderId, double minCreditRatio);
+
     ResponseVO finishOrder(int orderId);
 
     CommentVO getComment(int orderId);
