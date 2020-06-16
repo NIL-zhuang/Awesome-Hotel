@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.blImpl.coupon.TimeFormatHelper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Order;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,6 +110,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO checkIn(int orderId) {
         return ResponseVO.buildSuccess(orderMapper.checkIn(orderId));
+    }
+
+    @Override
+    public List<Order> probableAbnormalOrder(Integer hotelId) {
+        List<Order> orders = getHotelOrders(hotelId);
+        List<Order> abnormal = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (Order order : orders) {
+            LocalDate beginDateTime = LocalDate.parse(order.getCheckInDate(), formatter);
+            if (date.isBefore(beginDateTime) && order.getOrderState().equals("已预订")) {
+                abnormal.add(order);
+            }
+        }
+        return abnormal;
     }
 
     @Override
@@ -236,7 +253,7 @@ public class OrderServiceImpl implements OrderService {
             int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期
 
             if (!((gap1 < 0) || (gap2 < 0))) {
-                if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住"))           //确保订单为未入住的有效订单
+                if (order.getOrderState().equals("已预订") || order.getOrderState().equals("已入住"))           //确保订单为未入住的有效订单
                     relatedOrder.add(order);
             }
         }
