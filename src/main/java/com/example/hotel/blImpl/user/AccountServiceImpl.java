@@ -116,16 +116,16 @@ public class AccountServiceImpl implements AccountService {
 //        return ResponseVO.buildSuccess(true);
 //    }
 //
-//    @Override
-//    public ResponseVO corporateVIP(int id, String corporate) {
-//        try {
-//            accountMapper.updateCorporate(id, corporate);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseVO.buildFailure(UPDATE_ERROR);
-//        }
-//        return ResponseVO.buildSuccess(true);
-//    }
+    @Override
+    public ResponseVO corporateVIP(int id, String corporate) {
+        try {
+            accountMapper.updateCorporate(id, corporate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
 
 //    @Override
 //    public ResponseVO normalUser(String corporate) {
@@ -160,6 +160,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Deprecated
     public ResponseVO updatePortrait(int userId, String url) {
         try {
             accountMapper.updatePortrait(userId, url);
@@ -168,7 +169,7 @@ public class AccountServiceImpl implements AccountService {
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess();
-    } // 不出意外这个方法被废弃了
+    }
 
     @Override
     public List<String> getManagerTelephone(int hotelId) {

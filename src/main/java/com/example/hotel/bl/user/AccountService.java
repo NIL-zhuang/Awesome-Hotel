@@ -36,12 +36,11 @@ public interface AccountService {
      */
     ResponseVO updateUserInfo(int id, String password, String username, String phonenumber);
 
-    //todo
     ResponseVO updateCredit(int id, double credit);
 
 //    ResponseVO personalVIP(int id, String birthday);
 //
-//    ResponseVO corporateVIP(int id, String corporate);
+    ResponseVO corporateVIP(int id, String corporate);
 
 //    ResponseVO normalUser(String corporate);
 
@@ -55,7 +54,7 @@ public interface AccountService {
 
     List<String> getManagerTelephone(int hotelId); // ?
 
-    ResponseVO chargeCredit(int money, int userId, String reason);
+    ResponseVO chargeCredit(int userId, int change, String reason);
 
     ResponseVO getUserCreditChanges(int userId);
 

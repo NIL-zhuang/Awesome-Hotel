@@ -115,7 +115,6 @@ public class Hotel {
     }
 
     public BizRegion getBizRegion() {
-        // TODO change here
         return bizRegion;
     }
 
@@ -124,7 +123,6 @@ public class Hotel {
     }
 
     public HotelStar getHotelStar() {
-        // todo CHANGE HERE
         return hotelStar;
     }
 

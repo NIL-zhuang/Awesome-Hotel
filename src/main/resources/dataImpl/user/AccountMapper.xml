@@ -41,7 +41,7 @@
     </update>
 
     <update id="updateCorporate">
-        update user set corporation = #{corporate}
+        update user set corporation = #{corporate}, vipType = 'Corporation'
         where id = #{id}
     </update>
 

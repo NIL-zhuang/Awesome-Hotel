@@ -72,7 +72,7 @@ public class OrderController {
     }
 
     @PostMapping("{orderId}/checkIn")
-    public ResponseVO checkIn(@PathVariable Integer orderId){
+    public ResponseVO checkIn(@PathVariable Integer orderId) {
         return orderService.checkIn(orderId);
     }
 
@@ -81,9 +81,14 @@ public class OrderController {
         return orderService.finishOrder(orderId);
     }
 
-    @PostMapping("{orderId}/checkIn")
-    public ResponseVO markAbnormalOrders(@PathVariable Integer orderId){
-        return orderService.markAbnormalOrders(orderId);
+    @PostMapping("/{orderId}/abnormalOrder")
+    public ResponseVO abnormalOrder(@PathVariable Integer orderId, @RequestParam double ratio) {
+        return orderService.abnormalOrder(orderId, ratio);
+    }
+
+    @GetMapping("/{hotelId}/probableAbnormalOrder")
+    public ResponseVO probableAbnormalOrder(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(orderService.probableAbnormalOrder(hotelId));
     }
 
     @GetMapping("/{hotelId}/getOrdersInMonthOfAll")

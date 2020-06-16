@@ -1,5 +1,6 @@
 package com.example.hotel.controller.user;
 
+import com.example.hotel.bl.VIP.VIPService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.bl.user.CollectionService;
 import com.example.hotel.vo.*;
@@ -19,6 +20,8 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private CollectionService collectionService;
+    @Autowired
+    private VIPService vipService;
 
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
@@ -50,18 +53,15 @@ public class AccountController {
     }
 
     @PostMapping("/{id}/updateUserBirthday")
-    public ResponseVO updateUserBIrthday(@PathVariable Integer id, @RequestParam String birthday) {
+    public ResponseVO updateUserBirthday(@PathVariable Integer id, @RequestParam String birthday) {
         accountService.updateBirthday(id, birthday);
         return ResponseVO.buildSuccess(true);
     }
 
-    // TODO 用户注册企业会员
     @PostMapping("/registerCorporationMembership")
     public ResponseVO registerCorporationMembership(@RequestParam Integer id,
                                                     @RequestParam String corporation) {
-        System.out.println(id);
-        System.out.println(corporation);
-        return ResponseVO.buildSuccess(true);
+        return accountService.corporateVIP(id, corporation);
     }
 
     @GetMapping("/getUserInfoByEmail")
