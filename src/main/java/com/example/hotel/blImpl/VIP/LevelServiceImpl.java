@@ -17,7 +17,7 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public ResponseVO formulateVIPLevel(Integer level, Integer requestConsumption) {
         Integer request = levelMapper.getTheRequestOfLevel(level);
-        if (request!=null) { // 这里需要验证一下，我不十分确定 --crx
+        if (request==null) { // 这里需要验证一下，我不十分确定 --crx //GLH验证成功
             levelMapper.formulateVIPLevel(level, requestConsumption);
         }else{
             levelMapper.changeLevelRequest(level, requestConsumption);

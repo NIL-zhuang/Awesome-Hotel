@@ -9,14 +9,14 @@
                 <img
                     alt="example"
                     src="@/assets/membershipLogo.svg"
-                    style="width: 20px; height: 20px"
+                    class="logo"
                 />
                 <span> 尊贵标识</span>
                 <a-divider type="vertical"></a-divider>
                 <img
                     alt="example"
                     src="@/assets/couponLogo.svg"
-                    style="width: 20px; height: 20px"
+                    class="logo"
                 />
                 <span> 丰富优惠</span>
             </a-card>
@@ -106,10 +106,10 @@ export default {
         membershipCoupon,
         RegisterSiteMembership,
     },
-    mounted() {
-        this.getUserInfo()
+    async mounted() {
+        await this.getUserInfo()
         if (this.userInfo.vipType !== 'Normal')
-            this.getUserVIP(Number(this.userInfo.id))
+            await this.getUserVIP(Number(this.userInfo.id))
     },
     computed: {
         ...mapGetters([
@@ -133,12 +133,6 @@ export default {
         },
 
         modifyInfo() {
-            setTimeout(() => {
-                this.form.setFieldsValue({
-                    'userName': this.userInfo.userName,
-                    'phoneNumber': this.userInfo.phoneNumber,
-                })
-            }, 0)
             this.modify = true
         },
 
@@ -172,5 +166,9 @@ export default {
         line-height: 32px;
         font-size: 14px;
         text-align: center;
+    }
+    .logo {
+        width: 20px;
+        height: 20px;
     }
 </style>

@@ -19,7 +19,9 @@ import {
     restoreClientVIPAPI,
     getAllCorpVIPAPI,
     freezeCorpVIPAPI,
-    restoreCorpVIPAPI
+    restoreCorpVIPAPI,
+    getTheRequestOfLevelAPI,
+    formulateALevelAPI,
 } from "../../api/membership";
 import {message} from "ant-design-vue";
 
@@ -36,7 +38,10 @@ const salesPerson = {
         allUserList: [],
         allClientVIPList: [],
         allCorpVIPList: [],
-
+        //会员等级相关
+        levelConsumption: [],
+        levelModifyModalVisible: false,
+        currentLevel: '',
     },
     mutations: {
         set_allOrderList: function (state, data) {
@@ -71,7 +76,13 @@ const salesPerson = {
         },
         set_allCorpVIPList: function (state, data) {
             state.allCorpVIPList = data
-        }
+        },
+        set_levelModifyModalVisible: function (state, data) {
+            state.levelModifyModalVisible = data
+        },
+        set_currentLevel: function (state, data) {
+            state.currentLevel = data
+        },
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
@@ -86,8 +97,13 @@ const salesPerson = {
             }
             let res = await getUserInfoByEmailAPI(params)
             if (res) {
-                commit('set_currentUserInfo', res)
-                commit('set_searchSuccess', true)
+                if(res.userType === 'Client') {
+                    commit('set_currentUserInfo', res)
+                    commit('set_searchSuccess', true)
+                    message.success('搜索成功')
+                } else {
+                    message.error('非客户账号')
+                }
             } else {
                 commit('set_searchSuccess', false)
             }
@@ -174,6 +190,26 @@ const salesPerson = {
                 dispatch('getAllCorpVIP')
             }
         },
+        getTheRequestOfLevel: async ({state}) => {
+            state.levelConsumption = []
+            for (var i = 1; i <= 5; i++) {
+                const res = await getTheRequestOfLevelAPI(i)
+                let test = {}
+                test.level = i
+                test.consumption = res
+                state.levelConsumption.push(test)
+            }
+        },
+        formulateALevel: async ({state, dispatch, commit}, params) => {
+            const res = await formulateALevelAPI(params)
+            if (res) {
+                message.success('修改成功')
+                dispatch('getTheRequestOfLevel')
+                commit('set_levelModifyModalVisible', false)
+            } else {
+                message.error('修改失败')
+            }
+        }
     },
 }
 export default salesPerson

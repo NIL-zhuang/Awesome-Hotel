@@ -3,6 +3,7 @@ package com.example.hotel.controller.user;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.bl.user.CollectionService;
 import com.example.hotel.vo.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,12 @@ public class AccountController {
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
         return accountService.updateUserInfo(id, userInfoVO.getPassword(), userInfoVO.getUserName(), userInfoVO.getPhoneNumber());
+    }
+
+    @PostMapping("/{id}/updateUserBirthday")
+    public ResponseVO updateUserBIrthday(@PathVariable Integer id, @RequestParam String birthday) {
+        accountService.updateBirthday(id, birthday);
+        return ResponseVO.buildSuccess(true);
     }
 
     // TODO 用户注册企业会员

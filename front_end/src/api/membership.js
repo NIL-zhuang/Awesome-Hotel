@@ -98,15 +98,15 @@ export function getAllCorpVIPAPI() {
     })
 }
 
-export function formulateALevel(params) {
+export function formulateALevelAPI(params) {
     return axios({
-        url: `${api.memberShipPre}/formulateALevel}`,
+        url: `${api.memberShipPre}/formulateALevel`,
         method: 'POST',
         params
     })
 } // 一次只能制定一条
 
-export function getTheRequestOfLevel(level) {
+export function getTheRequestOfLevelAPI(level) {
     return axios({
         url: `${api.memberShipPre}/${level}/getTheRequestOfLevel`,
         method: 'GET'
