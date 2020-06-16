@@ -30,14 +30,14 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
-    @GetMapping("/{userid}/getUserOrders")
-    public ResponseVO retrieveUserOrders(@PathVariable int userid) {
-        return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
+    @GetMapping("/{userId}/getUserOrders")
+    public ResponseVO retrieveUserOrders(@PathVariable int userId) {
+        return ResponseVO.buildSuccess(orderService.getUserOrders(userId));
     }
 
-    @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid) {
-        return orderService.annulOrder(orderid);
+    @GetMapping("/{orderId}/annulOrder")
+    public ResponseVO annulOrder(@PathVariable int orderId) {
+        return orderService.annulOrder(orderId);
     }
 
 
@@ -80,6 +80,7 @@ public class OrderController {
     public ResponseVO finishOrder(@PathVariable Integer orderId) {
         return orderService.finishOrder(orderId);
     }
+
 
     @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
     public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {

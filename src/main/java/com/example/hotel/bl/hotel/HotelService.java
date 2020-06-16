@@ -28,7 +28,7 @@ public interface HotelService {
      */
     List<HotelVO> retrieveHotels();
 
-    List<HotelVO> retrieveHotels(String start, String end);
+    List<HotelVO> retrieveHotels(int start, int end);
 
     /**
      * 获取某家酒店详细信息
