@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.enums.BizRegion;
+import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 
@@ -43,6 +44,8 @@ public interface HotelService {
     HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
 
     List<RoomVO> checkRoom(List<RoomVO> rooms, String beginTime,String endTime);
+
+    List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders);
 
     ResponseVO addLike(LikeVO likeVO);
 

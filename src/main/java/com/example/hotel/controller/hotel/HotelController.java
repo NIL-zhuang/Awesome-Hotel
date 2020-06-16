@@ -46,8 +46,8 @@ public class HotelController {
         return ResponseVO.buildSuccess(true);
     }
 
-    //这个方法中，start从 0 开始
-    //如果出现空列，可能是end过大导致查找出错
+    //这个方法中，start从 1 开始
+    //如果end超过当前酒店数量，则返回从start到最后一个酒店
     @GetMapping("/{start}/{end}/retrieveHotels")
     public ResponseVO retrieveHotels(@PathVariable Integer start, @PathVariable Integer end){   //左闭右开,返回区间内的hotel组成的list
         return ResponseVO.buildSuccess(hotelService.retrieveHotels(start,end));

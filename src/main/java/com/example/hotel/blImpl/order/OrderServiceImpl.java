@@ -82,7 +82,6 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getUserOrders(userId);
     }
 
-    // added by hx
 
     @Override
     public ResponseVO annulOrder(int orderId) {
@@ -221,6 +220,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> filterOrders(List<Order> orders, String beginTime, String endTime) {
         List<Order> relatedOrder = new ArrayList<>();
+        if(beginTime==null || endTime==null)
+            return relatedOrder;
+        if(getGap(beginTime,endTime)<=0)
+            return relatedOrder;
         for (Order order : orders) {
             int gap1 = getGap(order.getCheckOutDate(), beginTime);       //订单中的退房日期 - 搜索中的入住日期
             int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期
