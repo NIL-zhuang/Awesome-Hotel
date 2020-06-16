@@ -5,6 +5,7 @@ import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserInfoVO;
 import com.example.hotel.vo.UserVO;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,17 @@ public class AccountController {
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
     }
 
-    // TODO 用户注册企业会员
+    @PostMapping("/{id}/updateUserBirthday")
+    public ResponseVO updateBirthday(@RequestParam Integer id, @RequestParam String birthday) {
+        try {
+            accountService.updateBirthday(id, birthday);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseVO.buildFailure(ACCOUNT_NOTFOUND);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
     @PostMapping("/registerCorporationMembership")
     public ResponseVO registerCorporationMembership(@RequestParam Integer id,
                                                     @RequestParam String corporation) {
