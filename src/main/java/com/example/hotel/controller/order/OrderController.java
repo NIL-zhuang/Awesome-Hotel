@@ -81,6 +81,10 @@ public class OrderController {
         return orderService.finishOrder(orderId);
     }
 
+    @PostMapping("{orderId}/checkIn")
+    public ResponseVO markAbnormalOrders(@PathVariable Integer orderId){
+        return orderService.markAbnormalOrders(orderId);
+    }
 
     @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
     public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {

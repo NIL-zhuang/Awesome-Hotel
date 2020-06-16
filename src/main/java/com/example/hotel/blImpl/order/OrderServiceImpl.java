@@ -31,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
     private final static String FINISH_ORDER = "退房成功";
+    private final static String ABNORMAL_ORDER = "已设定为异常订单";
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private OrderMapper orderMapper;
@@ -234,6 +235,12 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return relatedOrder;
+    }
+
+    @Override
+    public ResponseVO markAbnormalOrders(Integer orderId) {
+        //todo
+        return ResponseVO.buildSuccess(ABNORMAL_ORDER);
     }
 
 
