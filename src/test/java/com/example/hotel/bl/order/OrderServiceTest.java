@@ -5,6 +5,7 @@ import com.example.hotel.vo.ResponseVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -104,5 +105,18 @@ public class OrderServiceTest {
         List<Order> orders = (List<Order>) responseVO.getContent();
         int num = orders.size();
         Assert.assertThat(num,is(1));
+    }
+
+    @Test
+    @Transactional
+    public void filterOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        List<Order> ordersOf1 = orderService.getHotelOrders(1);
+        String beginTime = "2020-06-01";
+        String endTime = "2020-06-03";
+        orders= orderService.filterOrders(orders,beginTime,endTime);
+        ordersOf1 = orderService.filterOrders(ordersOf1,beginTime,endTime);
+        Assert.assertThat(1,is(orders.size()));
+        Assert.assertThat(1,is(ordersOf1.size()));
     }
 }

@@ -65,6 +65,5 @@ public interface OrderService {
 
     List<Order> filterOrders(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 
-    ResponseVO markAbnormalOrders(Integer orderId);
 
 }

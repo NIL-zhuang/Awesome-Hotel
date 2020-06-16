@@ -120,18 +120,18 @@ public class HotelServiceImpl implements HotelService {
         HotelVO hotel = retrieveHotelDetails(hotelId);
         List<RoomVO> rooms = hotel.getRooms();
         List<RoomVO> roomVOS;
-        roomVOS = checkRoom(rooms, beginTime, endTime);
+        roomVOS = checkRoom(hotelId, rooms, beginTime, endTime);
         hotel.setRooms(roomVOS);
         return hotel;
     }
 
     @Override
-    public List<RoomVO> checkRoom(List<RoomVO> rooms, String beginTime, String endTime) {
+    public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
         List<RoomVO> roomVOS = new ArrayList<>();
 
         //确保输入的房间情况不为空
         if(!rooms.isEmpty()){
-            List<Order> orders = orderService.getHotelOrders(rooms.get(0).getId());
+            List<Order> orders = orderService.getHotelOrders(hotelId);
             orders = orderService.filterOrders(orders,beginTime,endTime);
             roomVOS = checkRoom(rooms,orders);
         }
@@ -146,8 +146,10 @@ public class HotelServiceImpl implements HotelService {
             Type2Num.put(room.getRoomType(),room.getTotal());
         }
         for(Order order : orders){
-            int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
-            Type2Num.put(order.getRoomType(),curNum);
+            if(Type2Num.containsKey(order.getRoomType())){
+                int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
+                Type2Num.put(order.getRoomType(),curNum);
+            }
         }
 
         List<RoomVO> roomVOS = new ArrayList<>();
