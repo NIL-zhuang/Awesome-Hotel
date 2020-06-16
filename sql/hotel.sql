@@ -416,3 +416,20 @@ CREATE TABLE `VIPLevel`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `viplevel`
+--
+
+BEGIN;
+/*!40000 ALTER TABLE `VIPLevel`
+    DISABLE KEYS */;
+INSERT INTO `VIPLevel`
+VALUES (1, 500),
+       (2, 1000),
+       (3, 1500),
+       (4, 2000),
+       (5, 2500);
+/*!40000 ALTER TABLE `VIPLevel`
+    ENABLE KEYS */;
+COMMIT;

@@ -1,6 +1,9 @@
 <template>
     <a-carousel autoplay>
-        <div><h3>展示属于会员的优惠券</h3></div>
+        <div>
+            haha<br/>
+            ohno
+        </div>
         <div><h3>2</h3></div>
         <div><h3>3</h3></div>
         <div><h3>4</h3></div>
@@ -22,7 +25,7 @@
     .ant-carousel >>> .slick-slide {
         text-align: center;
         height: 340px;
-        line-height: 340px;
+
         background: #83c2f8;
         overflow: hidden;
     }
