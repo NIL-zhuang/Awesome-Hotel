@@ -46,12 +46,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RoomService roomService;
 
-    // TODO 时间有误，注意下面那个时间；然后updateRoomInfo是在退房部份才修改curNum
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
-//        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
+        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }

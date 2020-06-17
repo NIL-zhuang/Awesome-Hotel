@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @RequestMapping("/api/admin")
 public class AdminController {
+    public AdminService getAdminService() {
+        return adminService;
+    }
+
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
     @Autowired
     AdminService adminService;
 
