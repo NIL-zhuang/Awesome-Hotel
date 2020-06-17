@@ -61,9 +61,6 @@
                     </a-row>
                 </a-form-item>
                 <a-form-item label="酒店星级" v-bind="formItemLayout">
-                    <a-checkbox :checked="checkAll" :indeterminate="indeterminate" @change="onCheckAllChange">
-                        全选
-                    </a-checkbox>
                     <a-checkbox-group :options="hotelStarOptions" @change="onChange"
                                       v-decorator="['stars',{initialValue: defaultCheckedList}]"
                     />
@@ -117,7 +114,6 @@
                 keyword: '',
                 value: 1000,
                 rate: 3.0,
-                checkAll: true,
                 indeterminate: false,
                 hotelStarOptions,
                 defaultCheckedList,
@@ -159,13 +155,6 @@
             },
             onChange(checkedList) {
                 this.indeterminate = !!checkedList.length && checkedList.length < hotelStarOptions.length;
-                this.checkAll = checkedList.length === hotelStarOptions.length;
-            },
-            onCheckAllChange(e) {
-                Object.assign(this, {
-                    indeterminate: false,
-                    checkAll: e.target.checked,
-                });
             },
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
