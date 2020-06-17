@@ -35,7 +35,12 @@ public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
     private final static String FINISH_ORDER = "退房成功";
-    private final static String ABNORMAL_ORDER = "已设定为异常订单";
+    private final static String WRONG_TIME = "预订时间错误";
+    private final static String REPEAT_ANNUL = "不可重复撤销订单";
+    private final static String COMPLETED_ORDER = "已经入住过的订单不可撤销";
+    private final static String ABNORMAL_ORDER = "异常订单不可撤销";
+    private final static String LABEL_ABNORMAL = "已标记为异常订单";
+    private final static String CHECK_IN = "办理入住成功";
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private OrderMapper orderMapper;
@@ -52,6 +57,11 @@ public class OrderServiceImpl implements OrderService {
         int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
+        }
+        String now = getSystemDate();
+        int gap = getGap(orderVO.getCheckInDate(),now);
+        if(gap < 0){
+            return ResponseVO.buildFailure(WRONG_TIME);
         }
         try {
             Date date = new Date(System.currentTimeMillis());
@@ -90,13 +100,21 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO annulOrder(int orderId) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         Order order = orderMapper.getOrderById(orderId);
-        //String orderState = order.getOrderState();
-        order.setOrderState("已撤销");//这里暂时不考虑重复撤销的情况
+        switch (order.getOrderState()) {
+            case "已撤销":
+                return ResponseVO.buildFailure(REPEAT_ANNUL);
+            case "已入住":
+            case "已退房":
+                return ResponseVO.buildFailure(COMPLETED_ORDER);
+            case "异常订单":
+                return ResponseVO.buildFailure(ABNORMAL_ORDER);
+        }
+        order.setOrderState("已撤销");
+
         //扣除信用积分
         String checkInDate = order.getCheckInDate();
-
         int gap = getDays(checkInDate);
-        if (gap == 1 || gap == 0) {
+        if (gap == 0) {
             int userID = order.getUserId();
             UserVO user = accountService.getUserInfo(userID);
             double price = order.getPrice();
@@ -111,7 +129,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO checkIn(int orderId) {
-        return ResponseVO.buildSuccess(orderMapper.checkIn(orderId));
+        orderMapper.checkIn(orderId);
+        return ResponseVO.buildSuccess(CHECK_IN);
     }
 
     @Override
@@ -122,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (Order order : orders) {
             LocalDate beginDateTime = LocalDate.parse(order.getCheckInDate(), formatter);
-            if (date.isBefore(beginDateTime) && order.getOrderState().equals("已预订")) {
+            if (date.isAfter(beginDateTime) && order.getOrderState().equals("未入住")) {
                 abnormal.add(order);
             }
         }
@@ -133,7 +152,8 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO abnormalOrder(int orderId, double minCreditRatio) {
         Order order = orderMapper.getOrderById(orderId);
         accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * minCreditRatio), "异常订单");
-        return null;
+        orderMapper.abnormalOrder(orderId);
+        return ResponseVO.buildSuccess(LABEL_ABNORMAL);
     }
 
     @Override
