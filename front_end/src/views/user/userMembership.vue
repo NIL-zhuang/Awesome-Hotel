@@ -46,7 +46,7 @@
                 </div>
             </span>
             <span v-else>
-                <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册普通会员</a-button>
+                <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册会员</a-button>
             </span>
 
             <a-form :form="form" style="margin-top: 30px; margin-left: 17px; text-align: left" v-show="this.userInfo.vipType==='Client'">

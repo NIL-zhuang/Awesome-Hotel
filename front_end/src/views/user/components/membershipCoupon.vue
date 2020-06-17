@@ -1,18 +1,36 @@
 <template>
     <a-carousel autoplay>
-        <div>
-            haha<br/>
-            ohno
+        <div class="privilege">
+            <h3 v-for="item in this.levelConsumption" :key="item.level">
+                LV{{ item.level }}: 累计消费{{ item.consumption }} 减免{{ item.level }}% <br/>
+            </h3>
         </div>
-        <div><h3>2</h3></div>
-        <div><h3>3</h3></div>
-        <div><h3>4</h3></div>
+        <!--  这里可以再补充优惠券的部分，暂时还没想好怎么展示   -->
     </a-carousel>
 </template>
 
 <script>
+    import { mapGetters, mapMutations, mapActions } from 'vuex'
     export default {
-        name: "membershipCoupon"
+        name: "membershipCoupon",
+        data() {
+            return {
+
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'levelConsumption',
+            ]),
+        },
+        methods: {
+            ...mapActions([
+                'getTheRequestOfLevel'
+            ]),
+        },
+        async mounted() {
+            await this.getTheRequestOfLevel()
+        },
     }
 </script>
 
@@ -32,5 +50,9 @@
 
     .ant-carousel >>> .slick-slide h3 {
         color: #fff;
+    }
+
+    .privilege {
+        margin-top: 90px;
     }
 </style>

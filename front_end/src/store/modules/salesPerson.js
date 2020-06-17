@@ -98,9 +98,11 @@ const salesPerson = {
             let res = await getUserInfoByEmailAPI(params)
             if (res) {
                 if(res.userType === 'Client') {
+                    if(!state.searchSuccess) {
+                        message.success('搜索成功')
+                    }
                     commit('set_currentUserInfo', res)
                     commit('set_searchSuccess', true)
-                    message.success('搜索成功')
                 } else {
                     message.error('非客户账号')
                 }
