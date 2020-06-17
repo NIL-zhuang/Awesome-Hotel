@@ -198,18 +198,19 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
+     * 此方法获取的订单均为
      */
     @Override
     public List<Order> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
+        List<Order> temp = new ArrayList<>();
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
-            if (days > 30)
-                orders.remove(order);
+            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已退房")))
+                temp.add(order);
         }
-
-        return orders;
+        return temp;
     }
 
     /**
