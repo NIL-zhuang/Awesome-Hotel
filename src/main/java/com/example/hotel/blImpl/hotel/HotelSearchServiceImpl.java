@@ -121,7 +121,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
                 ptr = ptr.next;
             }
         }
-
+        head = null;
         return targetHotels;
     }
 
@@ -175,6 +175,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         for (String s : hotelStar) {
             judge = judge || s.equals(star);
         }
+
         return judge;
     }
 
