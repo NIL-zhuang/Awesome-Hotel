@@ -14,5 +14,28 @@
     <select id="getAllCredit" resultMap="Credit">
         select * from Credits
     </select>
+
+    <select id="getCredit" resultMap="Credit">
+        select * from Credits
+        where id = #{id}
+    </select>
+
+    <update id="argueCredit">
+        update Credits
+        set status = 1, argue = #{argue}
+        where id = #{id}
+    </update>
+
+    <update id="handleArgue">
+        update Credits
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <select id="getArgueCredits" resultMap="Credit">
+        select *
+        from Credits
+        where status = 1
+    </select>
     <resultMap id="Credit" type="com.example.hotel.po.Credit"/>
 </mapper>

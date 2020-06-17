@@ -1,7 +1,5 @@
 package com.example.hotel.vo;
 
-import com.example.hotel.po.Credit;
-
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
  * @date 2020/5/24 10:58
@@ -13,6 +11,8 @@ public class CreditVO {
     Integer change;
     double now;
     String reason;
+    int status;
+    String argue;
 
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -60,5 +60,21 @@ public class CreditVO {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getArgue() {
+        return argue;
+    }
+
+    public void setArgue(String argue) {
+        this.argue = argue;
     }
 }

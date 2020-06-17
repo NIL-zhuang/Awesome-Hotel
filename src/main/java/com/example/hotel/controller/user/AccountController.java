@@ -119,4 +119,19 @@ public class AccountController {
     public ResponseVO userCollection(@RequestParam Integer userId, @RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(collectionService.userCollection(userId, hotelId));
     }
+
+    @PostMapping("/{creditId}/argueCredit")
+    public ResponseVO argueCredit(@PathVariable Integer creditId,@RequestParam String argue) {
+        return accountService.argueCredit(creditId, argue);
+    }
+
+    @PostMapping("/{creditId}/handleArgue")
+    public ResponseVO handleArgue(@PathVariable Integer creditId, @RequestParam boolean accept) {
+        return accountService.handleArgue(creditId, accept);
+    }
+
+    @GetMapping("/getArgueCredit")
+    public ResponseVO getArgueCredit() {
+        return ResponseVO.buildSuccess(accountService.getArgueCredits());
+    }
 }

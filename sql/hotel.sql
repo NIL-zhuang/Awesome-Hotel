@@ -340,7 +340,8 @@ CREATE TABLE `Collections`
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `Questions`;a
+DROP TABLE IF EXISTS `Questions`;
+a
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Questions`
@@ -362,11 +363,11 @@ DROP TABLE IF EXISTS `Answers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Answers`
 (
-    `answerId`         int(11) NOT NULL AUTO_INCREMENT,
+    `answerId`   int(11) NOT NULL AUTO_INCREMENT,
     `userId`     int(11) NOT NULL,
     `userName`   varchar(255) DEFAULT NULL,
     `questionId` int(11) NOT NULL,
-    `answer`    varchar(255) DEFAULT NULL,
+    `answer`     varchar(255) DEFAULT NULL,
     PRIMARY KEY (`answerId`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -384,6 +385,8 @@ CREATE TABLE `Credits`
     `change`     int(11)      DEFAULT 0,
     `now`        double       DEFAULT NULL,
     `reason`     varchar(255) DEFAULT NULL,
+    `status`     int(5)       DEFAULT 0,
+    `argue`      varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4

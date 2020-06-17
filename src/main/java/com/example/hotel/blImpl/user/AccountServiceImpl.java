@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
             e.printStackTrace();
             return null;
         }
-        if(user != null) {
+        if (user != null) {
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
             return userVO;
@@ -105,7 +105,35 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
-//    @Override
+    @Override
+    public ResponseVO argueCredit(int creditId, String argue) {
+        Credit credit = creditMapper.getCredit(creditId);
+        if (credit.getStatus() != 0) {
+            return ResponseVO.buildFailure("无法申诉");
+        }
+        creditMapper.argueCredit(creditId, argue);
+        return ResponseVO.buildSuccess("申诉成功");
+    }
+
+    @Override
+    public List<CreditVO> getArgueCredits() {
+        List<Credit> credits = creditMapper.getArgueCredits();
+        List<CreditVO> creditVOS = new ArrayList<>();
+        for (Credit credit : credits) {
+            CreditVO creditVO = new CreditVO();
+            BeanUtils.copyProperties(credit, creditVO);
+            creditVOS.add(creditVO);
+        }
+        return creditVOS;
+    }
+
+    @Override
+    public ResponseVO handleArgue(Integer creditId, boolean accept) {
+        int status = accept ? 2 : -1;
+        return ResponseVO.buildSuccess(creditMapper.handleArgue(creditId, status));
+    }
+
+    //    @Override
 //    public ResponseVO personalVIP(int id, String birthday) {
 //        try {
 //            accountMapper.updateBirthday(id, birthday);
@@ -133,28 +161,28 @@ public class AccountServiceImpl implements AccountService {
 //    }
 
     @Override
-    public void updateBirthday(int id, String birthday){
+    public void updateBirthday(int id, String birthday) {
         try {
             accountMapper.updateBirthday(id, birthday);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void registerAsVIP(int id){
+    public void registerAsVIP(int id) {
         try {
             accountMapper.updateVIPType(id, VIPType.Client);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void freezeVIP(int id) {
-        try{
+        try {
             accountMapper.updateVIPType(id, VIPType.Normal);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -164,7 +192,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO updatePortrait(int userId, String url) {
         try {
             accountMapper.updatePortrait(userId, url);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
@@ -178,11 +206,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseVO chargeCredit(int userId, int change, String reason) {
-        try{
+        try {
             accountMapper.chargeCredit(userId, change);
             User user = accountMapper.getAccountById(userId);
             creditMapper.addCredit(new Credit(userId, change, user.getCredit(), reason));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
@@ -194,26 +222,27 @@ public class AccountServiceImpl implements AccountService {
         List<CreditVO> res = new ArrayList<>();
         try {
             List<Credit> src = creditMapper.getUserCredit(userId);
-            for (Credit credit: src){
+            for (Credit credit : src) {
                 CreditVO creditVO = new CreditVO();
                 BeanUtils.copyProperties(credit, creditVO);
                 res.add(creditVO);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(USER_NOTEXIST);
         }
 
         return ResponseVO.buildSuccess(res);
     }
+
     @Override
     public List<UserVO> getAllUsers() {
         List<User> users = accountMapper.getAllUsers();
         List<UserVO> userVOs = new ArrayList<>();
-        for (User user : users){
+        for (User user : users) {
             UserVO userVO = new UserVO();
-            BeanUtils.copyProperties(user,userVO);
+            BeanUtils.copyProperties(user, userVO);
             userVOs.add(userVO);
         }
         return userVOs;

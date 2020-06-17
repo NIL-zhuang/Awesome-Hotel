@@ -38,6 +38,12 @@ public interface AccountService {
 
     ResponseVO updateCredit(int id, double credit);
 
+    ResponseVO argueCredit(int creditId, String argue);
+
+    List<CreditVO> getArgueCredits();
+
+    ResponseVO handleArgue(Integer creditId, boolean accept);
+
 //    ResponseVO personalVIP(int id, String birthday);
 //
     ResponseVO corporateVIP(int id, String corporate);

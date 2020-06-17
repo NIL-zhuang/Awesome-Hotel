@@ -15,9 +15,15 @@ public class Credit {
     double now;
     String reason;
 
-    public Credit(){}
+    // 申诉内容
+    String argue;
+    // 0表示正常，1表示正在申诉，2表示申诉成功，-1表示申诉失败
+    int status;
 
-    public Credit(int userId, int change, double now, String reason){
+    public Credit() {
+    }
+
+    public Credit(int userId, int change, double now, String reason) {
         this.userId = userId;
         this.change = change;
         this.now = now;
@@ -72,5 +78,21 @@ public class Credit {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getArgue() {
+        return argue;
+    }
+
+    public void setArgue(String argue) {
+        this.argue = argue;
     }
 }
