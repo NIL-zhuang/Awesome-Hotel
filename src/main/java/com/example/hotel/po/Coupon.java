@@ -58,6 +58,10 @@ public class Coupon {
 
     private String corporateName;
 
+    private String bizRegion;
+
+    private Integer vipLevel;
+
     public LocalDate getStartTime() {
         return startTime;
     }
@@ -162,4 +166,23 @@ public class Coupon {
         this.corporateName = corporateName;
     }
 
+    public static Integer getWEBSITE() {
+        return WEBSITE;
+    }
+
+    public String getBizRegion() {
+        return bizRegion;
+    }
+
+    public void setBizRegion(String bizRegion) {
+        this.bizRegion = bizRegion;
+    }
+
+    public Integer getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
+    }
 }

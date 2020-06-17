@@ -17,4 +17,6 @@ public interface CouponMapper {
     void annualCoupon(Integer couponId);
 
     List<Coupon> getWebCoupon();
+
+    List<Coupon> getBizRegionCoupon(String bizRegion);
 }

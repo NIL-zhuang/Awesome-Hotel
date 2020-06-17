@@ -23,7 +23,7 @@
         from OrderList
         where id = #{orderid}
     </select>
-    <!--取消订单的数据库操作 todo-->
+
     <update id="annulOrder">
         update orderlist
         set orderState='已撤销'
@@ -39,6 +39,12 @@
     <update id="finishOrder">
         update orderlist
         set orderState = '已完成'
+        where id = #{orderId}
+    </update>
+
+    <update id="abnormalOrder">
+        update orderlist
+        set orderState = '异常订单'
         where id = #{orderId}
     </update>
 

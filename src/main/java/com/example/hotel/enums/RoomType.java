@@ -15,4 +15,6 @@ public enum RoomType {
     public String toString() {
         return value;
     }
+
+
 }

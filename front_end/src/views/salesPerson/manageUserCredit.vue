@@ -116,7 +116,6 @@
                                 chargeMoney: this.form.getFieldValue('chargeMoney'),
                             }
                             this.chargeCredit(Number(data.chargeMoney))
-
                         } else {
                             message.error("请输入有效金额")
                         }

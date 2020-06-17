@@ -35,6 +35,8 @@ public class CouponMapperTest {
         setDescription("test coupon");
         setEndTime(LocalDate.now());
         setStartTime(LocalDate.parse("2020-06-01"));
+        setBizRegion("nanjing");
+        setVipLevel(7);
         setStatus(1);
     }};
 
@@ -66,6 +68,16 @@ public class CouponMapperTest {
         int val = couponMapper.insertCoupon(coupon);
         Assert.assertEquals(val, 1);
         List<Coupon> couponList = couponMapper.getWebCoupon();
+        Assert.assertEquals(couponList.size(), 1);
+        Assert.assertThat(couponList.get(0).getSrcId(), is(0));
+    }
+
+    @Test
+    @Transactional
+    public void getBizRegionCoupon() {
+        int val = couponMapper.insertCoupon(coupon);
+        Assert.assertEquals(val, 1);
+        List<Coupon> couponList = couponMapper.getBizRegionCoupon("nanjing");
         Assert.assertEquals(couponList.size(), 1);
         Assert.assertThat(couponList.get(0).getSrcId(), is(0));
     }

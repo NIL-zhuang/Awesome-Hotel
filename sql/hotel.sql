@@ -39,6 +39,8 @@ CREATE TABLE `Coupon`
     `end_time`        datetime     DEFAULT NULL,
     `discount_money`  int(11)      DEFAULT NULL,
     `corporate_name`  varchar(255) DEFAULT NULL,
+    `bizRegion`       varchar(255) DEFAULT NULL,
+    `vipLevel`        int(11)      DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
@@ -52,7 +54,7 @@ BEGIN;
 /*!40000 ALTER TABLE `Coupon`
     DISABLE KEYS */;
 INSERT INTO `Coupon`
-VALUES (2, '满500-100优惠', 2, 3, '满减优惠券', 500, NULL, 0, 1, NULL, NULL, 100, NULL);
+VALUES (2, '满500-100优惠', 2, 3, '满减优惠券', 500, NULL, 0, 1, NULL, NULL, 100, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `Coupon`
     ENABLE KEYS */;
 COMMIT;
@@ -252,19 +254,19 @@ DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User`
 (
     `id`          int(11)     NOT NULL AUTO_INCREMENT,
-    `email`       varchar(255)   DEFAULT NULL,
+    `email`       varchar(255) DEFAULT NULL,
     `password`    varchar(11) NOT NULL,
-    `username`    varchar(255)   DEFAULT NULL,
-    `phonenumber` varchar(255)   DEFAULT NULL,
-    `credit`      double DEFAULT NULL,
-    `usertype`    varchar(255)   DEFAULT NULL,
-    `birthday`    varchar(255)   DEFAULT NULL,
-    `corporation` varchar(255)   DEFAULT NULL,
-    `annulTime`   int(5)         DEFAULT 0,
-    `jobNumber`   int(11)        DEFAULT NULL,
-    `hotelID`     int(11)        DEFAULT NULL,
-    `portrait`    varchar(255)   DEFAULT NULL,
-    `vipType`     varchar(255)   DEFAULT 'Normal',
+    `username`    varchar(255) DEFAULT NULL,
+    `phonenumber` varchar(255) DEFAULT NULL,
+    `credit`      double       DEFAULT NULL,
+    `usertype`    varchar(255) DEFAULT NULL,
+    `birthday`    varchar(255) DEFAULT NULL,
+    `corporation` varchar(255) DEFAULT NULL,
+    `annulTime`   int(5)       DEFAULT 0,
+    `jobNumber`   int(11)      DEFAULT NULL,
+    `hotelID`     int(11)      DEFAULT NULL,
+    `portrait`    varchar(255) DEFAULT NULL,
+    `vipType`     varchar(255) DEFAULT 'Normal',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
@@ -376,12 +378,12 @@ DROP TABLE IF EXISTS `Credits`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Credits`
 (
-    `id`     int(11) NOT NULL AUTO_INCREMENT,
-    `userId` int(11) NOT NULL,
+    `id`         int(11) NOT NULL AUTO_INCREMENT,
+    `userId`     int(11) NOT NULL,
     `changeDate` varchar(255) DEFAULT NULL,
-    `change` int(11) DEFAULT 0,
-    `now`    double DEFAULT NULL,
-    `reason` varchar(255) DEFAULT NULL,
+    `change`     int(11)      DEFAULT 0,
+    `now`        double       DEFAULT NULL,
+    `reason`     varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -397,10 +399,10 @@ CREATE TABLE `VIP`
     `type`            varchar(255)        DEFAULT NULL,
     `userId`          int(11)             DEFAULT NULL,
     `corporationName` varchar(255) UNIQUE DEFAULT NULL,
-    `level`           int(11) DEFAULT NULL,
-    `consumption`     int (11) DEFAULT 0,
-    `status`          int(11) DEFAULT 1,
-    `reduction`       double DEFAULT NULL,
+    `level`           int(11)             DEFAULT NULL,
+    `consumption`     int(11)             DEFAULT 0,
+    `status`          int(11)             DEFAULT 1,
+    `reduction`       double              DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -418,3 +420,20 @@ CREATE TABLE `VIPLevel`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `viplevel`
+--
+
+BEGIN;
+/*!40000 ALTER TABLE `VIPLevel`
+    DISABLE KEYS */;
+INSERT INTO `VIPLevel`
+VALUES (1, 500),
+       (2, 1000),
+       (3, 1500),
+       (4, 2000),
+       (5, 2500);
+/*!40000 ALTER TABLE `VIPLevel`
+    ENABLE KEYS */;
+COMMIT;

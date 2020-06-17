@@ -30,14 +30,14 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
-    @GetMapping("/{userid}/getUserOrders")
-    public ResponseVO retrieveUserOrders(@PathVariable int userid) {
-        return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
+    @GetMapping("/{userId}/getUserOrders")
+    public ResponseVO retrieveUserOrders(@PathVariable int userId) {
+        return ResponseVO.buildSuccess(orderService.getUserOrders(userId));
     }
 
-    @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid) {
-        return orderService.annulOrder(orderid);
+    @GetMapping("/{orderId}/annulOrder")
+    public ResponseVO annulOrder(@PathVariable int orderId) {
+        return orderService.annulOrder(orderId);
     }
 
 
@@ -71,7 +71,7 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserComments(userId));
     }
 
-    @PostMapping("{orderId}/checkIn")
+    @PostMapping("/{orderId}/checkIn")
     public ResponseVO checkIn(@PathVariable Integer orderId){
         return orderService.checkIn(orderId);
     }
@@ -79,6 +79,16 @@ public class OrderController {
     @PostMapping("/{orderId}/finishOrder")
     public ResponseVO finishOrder(@PathVariable Integer orderId) {
         return orderService.finishOrder(orderId);
+    }
+
+    @PostMapping("/{orderId}/abnormalOrder")
+    public ResponseVO abnormalOrder(@PathVariable Integer orderId, @RequestParam double ratio) {
+        return orderService.abnormalOrder(orderId, ratio);
+    }
+
+    @GetMapping("/{hotelId}/probableAbnormalOrder")
+    public ResponseVO probableAbnormalOrder(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(orderService.probableAbnormalOrder(hotelId));
     }
 
     @GetMapping("/{hotelId}/getOrdersInMonthOfAll")

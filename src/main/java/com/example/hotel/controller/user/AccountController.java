@@ -1,8 +1,10 @@
 package com.example.hotel.controller.user;
 
+import com.example.hotel.bl.VIP.VIPService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.bl.user.CollectionService;
 import com.example.hotel.vo.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private CollectionService collectionService;
+    @Autowired
+    private VIPService vipService;
 
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
@@ -48,13 +52,16 @@ public class AccountController {
         return accountService.updateUserInfo(id, userInfoVO.getPassword(), userInfoVO.getUserName(), userInfoVO.getPhoneNumber());
     }
 
-    // TODO 用户注册企业会员
+    @PostMapping("/{id}/updateUserBirthday")
+    public ResponseVO updateUserBirthday(@PathVariable Integer id, @RequestParam String birthday) {
+        accountService.updateBirthday(id, birthday);
+        return ResponseVO.buildSuccess(true);
+    }
+
     @PostMapping("/registerCorporationMembership")
     public ResponseVO registerCorporationMembership(@RequestParam Integer id,
                                                     @RequestParam String corporation) {
-        System.out.println(id);
-        System.out.println(corporation);
-        return ResponseVO.buildSuccess(true);
+        return accountService.corporateVIP(id, corporation);
     }
 
     @GetMapping("/getUserInfoByEmail")

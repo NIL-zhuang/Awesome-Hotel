@@ -40,6 +40,10 @@ public interface OrderService {
 
     ResponseVO checkIn(int orderId);
 
+    List<Order>probableAbnormalOrder(Integer hotelId);
+
+    ResponseVO abnormalOrder(int orderId, double minCreditRatio);
+
     ResponseVO finishOrder(int orderId);
 
     CommentVO getComment(int orderId);
@@ -60,5 +64,6 @@ public interface OrderService {
     ResponseVO getOrdersInMonthOfAll();
 
     List<Order> filterOrders(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
+
 
 }

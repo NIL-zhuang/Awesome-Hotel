@@ -137,7 +137,7 @@ const user = {
             const res = await updateUserInfoAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getUserInfo', this.userId)
+                dispatch('getUserInfo')
             }
         },
         getUserOrders: async ({state, commit}) => {

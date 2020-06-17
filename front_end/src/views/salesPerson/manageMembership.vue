@@ -14,6 +14,9 @@
                     <manage-corp-membership></manage-corp-membership>
                 </a-tab-pane>
 
+                <a-tab-pane tab="会员等级管理" key="4">
+                    <manage-level></manage-level>
+                </a-tab-pane>
             </a-tabs>
 
         </div>
@@ -25,13 +28,16 @@
     import manageUserCredit from "./manageUserCredit";
     import ManageClientMembership from "./components/ManageClientMembership";
     import ManageCorpMembership from "./components/ManageCorpMembership";
+    import ManageLevel from "./components/ManageLevel";
     export default {
         name: "manageMembership",
         data() {
-            return {}
+            return {
 
+            }
         },
         components: {
+            ManageLevel,
             manageUserCredit,
             ManageClientMembership,
             ManageCorpMembership,

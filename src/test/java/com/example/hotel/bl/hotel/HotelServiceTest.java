@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.RoomVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,9 +61,11 @@ public class HotelServiceTest {
     @Test
     @Transactional
     public void retrieveAvailableHotelDetails() {
-        HotelVO hotel = hotelService.retrieveAvailableHotelDetails(1,"2021-06-07","2021-06-09");
+        HotelVO hotel = hotelService.retrieveAvailableHotelDetails(1,"2020-06-01","2020-06-03");
         int num = hotel.getId();
+        List<RoomVO> rooms = hotel.getRooms();
         Assert.assertThat(num,is(1));
+        Assert.assertThat(rooms.get(0).getCurNum(),is(19));
     }
 
     @Test

@@ -13,6 +13,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private OrderService orderService;
+
 
     @Override
     public void addHotel(HotelForm hotelForm) {
@@ -72,9 +74,23 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotels(String start,String end){
-        //todo
-        return null;
+    public List<HotelVO> retrieveHotels(int start,int end){   //左闭右开,返回区间内的hotel组成的list
+        //查询单个酒店在某段时间里的可用房间数
+        List<HotelVO> targetHotels = new ArrayList<>();
+        List<HotelVO> hotelVOS = retrieveHotels();
+        int l = hotelVOS.size();
+
+        if(start>=0 && start<end && end<l) {
+            for (int i = start-1; i < end-1; i++) {
+                targetHotels.add(hotelVOS.get(i));
+            }
+        }else if(end>=l){
+            for (int i = start-1; i < l-1; i++) {
+                targetHotels.add(hotelVOS.get(i));
+            }
+        }
+
+        return targetHotels;
     }
 
     @Override
@@ -103,32 +119,47 @@ public class HotelServiceImpl implements HotelService {
     public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
         HotelVO hotel = retrieveHotelDetails(hotelId);
         List<RoomVO> rooms = hotel.getRooms();
-        List<RoomVO> roomVOS = new ArrayList<>();
-        List<Order> orders = orderService.getHotelOrders(hotelId);
-        //orders = orderService.getOrdersInMonth(orders);
-        orders = orderService.filterOrders(orders,beginTime,endTime);
-        HashMap<String,Integer> roomNum = new HashMap<>();
-
-        for (RoomVO room : rooms) {
-           roomNum.put(room.getRoomType(),room.getTotal());
-        }
-
-        for(Order order : orders){
-            int curNum = roomNum.get(order.getRoomType()) - order.getRoomNum();
-            roomNum.put(order.getRoomType(),curNum);
-        }
-
-        for(RoomVO room : rooms){
-            if(roomNum.get(room.getRoomType())>0)
-                roomVOS.add(room);
-        }
+        List<RoomVO> roomVOS;
+        roomVOS = checkRoom(hotelId, rooms, beginTime, endTime);
         hotel.setRooms(roomVOS);
         return hotel;
     }
 
     @Override
-    public List<RoomVO> checkRoom(List<RoomVO> rooms, String beginTime, String endTime) {
-        return null;
+    public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
+        List<RoomVO> roomVOS = new ArrayList<>();
+
+        //确保输入的房间情况不为空
+        if(!rooms.isEmpty()){
+            List<Order> orders = orderService.getHotelOrders(hotelId);
+            orders = orderService.filterOrders(orders,beginTime,endTime);
+            roomVOS = checkRoom(rooms,orders);
+        }
+
+        return roomVOS;
+    }
+
+    @Override
+    public List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders){
+        HashMap<String,Integer> Type2Num = new HashMap<>();
+        for (RoomVO room : rooms) {
+            Type2Num.put(room.getRoomType(),room.getTotal());
+        }
+        for(Order order : orders){
+            if(Type2Num.containsKey(order.getRoomType())){
+                int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
+                Type2Num.put(order.getRoomType(),curNum);
+            }
+        }
+
+        List<RoomVO> roomVOS = new ArrayList<>();
+
+        for(RoomVO room : rooms){
+            if(Type2Num.get(room.getRoomType())>0)
+                room.setCurNum(Type2Num.get(room.getRoomType()));
+                roomVOS.add(room);
+        }
+        return roomVOS;
     }
 
     @Override

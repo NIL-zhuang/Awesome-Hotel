@@ -11,6 +11,8 @@ import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/hotel")
 public class HotelController {
@@ -42,6 +44,13 @@ public class HotelController {
     public ResponseVO addRoomInfo(@RequestParam HotelRoom hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);
         return ResponseVO.buildSuccess(true);
+    }
+
+    //这个方法中，start从 1 开始
+    //如果end超过当前酒店数量，则返回从start到最后一个酒店
+    @GetMapping("/{start}/{end}/retrieveHotels")
+    public ResponseVO retrieveHotels(@PathVariable Integer start, @PathVariable Integer end){   //左闭右开,返回区间内的hotel组成的list
+        return ResponseVO.buildSuccess(hotelService.retrieveHotels(start,end));
     }
 
     @GetMapping("/{hotelId}/detail")
