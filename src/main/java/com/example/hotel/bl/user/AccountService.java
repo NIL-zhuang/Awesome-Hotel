@@ -55,7 +55,7 @@ public interface AccountService {
 
     List<String> getManagerTelephone(int hotelId); // ?
 
-    ResponseVO chargeCredit(int money, int userId, String reason);
+    ResponseVO chargeCredit(int userId, int change, String reason);
 
     ResponseVO getUserCreditChanges(int userId);
 

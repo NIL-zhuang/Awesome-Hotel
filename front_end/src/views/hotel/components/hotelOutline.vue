@@ -22,7 +22,7 @@
                             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                     />
                     <div slot="content">
-                        <a-form :form="form">
+                        <a-form :form="this.form">
                             <a-form-item>
                                 <a-textarea :placeholder="hint" :rows="4"
                                             v-decorator="[
@@ -31,13 +31,75 @@
                                 />
                             </a-form-item>
                             <a-form-item>
-                                <a-button :loading="submitting" @click="handleSubmit" html-type="submit" type="primary">
+                                <a-button :loading="submitting" @click="handleSubmit" html-type="submit"
+                                          icon="question-circle"
+                                          type="primary">
                                     我要提问
                                 </a-button>
                             </a-form-item>
                         </a-form>
                     </div>
                 </a-comment>
+                <a-list
+                        :data-source="hotelQuestion"
+                        :header="`当前共${hotelQuestion.length}个提问`"
+                        :locale="{emptyText: '暂时没有问题'}"
+                        class="comment-list"
+                        item-layout="horizontal"
+                        style="background-color: white; font-size: larger"
+                >
+                    <a-list-item slot="renderItem" slot-scope="item" style="display: inline">
+                        <a-tag color="blue" v-if="item.userId===userId">您的提问</a-tag>
+                        <a-comment :author="item.userName">
+                            <p slot="content" style="font-size: large;">
+                                {{ item.question }}
+                            </p>
+                            <a-button :icon="answersVisible.get(item.id)?'up-circle':'down-circle'"
+                                      @click="showOrHideAnswers(item.id)" size="small"
+                                      type="primary">
+                                {{answersVisible.get(item.id)?'收起回答':'展开回答'}}
+                            </a-button>
+                            <a-button @click="answerAquestion(item.id)" icon="edit" size="small"
+                                      style="margin-left: 30px" v-if="userId!==item.userId">
+                                回答问题
+                            </a-button>
+                            <a-list
+                                    :data-source="item.answers"
+                                    :header="`${item.answers.length}个回答`"
+                                    :locale="{emptyText: '该问题暂时没有回答'}"
+                                    class="comment-list"
+                                    item-layout="horizontal"
+                                    v-if="answersVisible.get(item.id)"
+                            >
+                                <a-list-item slot="renderItem" slot-scope="item" style="display: inline">
+                                    <a-tag color="orange" v-if="userId===item.userId">您的回答</a-tag>
+                                    <a-comment :author="item.userName">
+                                        <p slot="content">
+                                            {{ item.answer }}
+                                        </p>
+                                    </a-comment>
+                                </a-list-item>
+                            </a-list>
+                        </a-comment>
+                    </a-list-item>
+                </a-list>
+                <a-drawer
+                        :visible="answerFormVisible"
+                        @close="answerFormClose"
+                        title="回答问题"
+                >
+                    <a-form :form="this.answerForm">
+                        <a-form-item>
+                            <a-textarea
+                                    :rows="4"
+                                    v-decorator="['answer', { rules: [{ required: true, message: '请输入您的回答' }]}]"
+                            />
+                        </a-form-item>
+                        <a-form-item>
+                            <a-button @click="submitAnswer" icon="check-circle" type="primary">提交回答</a-button>
+                        </a-form-item>
+                    </a-form>
+                </a-drawer>
             </a-tab-pane>
             <a-tab-pane key="3" tab="酒店优惠">
                 <a-table
@@ -68,7 +130,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
 
     const columns = [
         {
@@ -103,31 +165,48 @@
                 hint: '输入您的问题',
                 submitting: false,
                 columns,
+                answerFormVisible: false,
+                activeQuestionId: 0
             }
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
                 'userId',
+                'userInfo',
                 'couponList',
+                'hotelQuestion',
+                'answersVisible',
             ])
         },
-        mounted() {
+        async mounted() {
             this.getHotelCoupon(this.currentHotelInfo.id)
+            this.getHotelQuestion()
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'question'});
+            this.answerForm = this.$form.createForm(this, {name: 'answer'});
         },
         methods: {
             ...mapActions([
                 'getHotelCoupon',
                 'addQuestion',
+                'addAnswer',
+                'getHotelQuestion',
+            ]),
+            ...mapMutations([
+                'set_answersVisible',
             ]),
             like() {
                 console.log('点赞')
             },
             star() {
                 console.log('收藏')
+            },
+            showOrHideAnswers(id) {
+                this.answersVisible.set(id, !this.answersVisible.get(id))
+                const data = new Map(this.answersVisible)
+                this.set_answersVisible(data)
             },
             handleSubmit(e) {
                 e.preventDefault();
@@ -136,13 +215,37 @@
                         const data = {
                             userId: this.userId,
                             hotelId: this.currentHotelInfo.id,
-                            question: this.form.getFieldValue('question'),
+                            userName: this.userInfo.userName,
+                            question: this.form.getFieldValue('question')
                         }
                         this.addQuestion(data)
                         this.form.resetFields()
                     }
                 });
             },
+            answerAquestion(id) {
+                this.activeQuestionId = id
+                this.answerFormVisible = true
+            },
+            answerFormClose() {
+                this.answerFormVisible = false
+            },
+            submitAnswer(e){
+                e.preventDefault();
+                this.answerForm.validateFieldsAndScroll((err, values) => {
+                    if (!err) {
+                        const data = {
+                            userId: this.userId,
+                            userName: this.userInfo.userName,
+                            questionId: this.activeQuestionId,
+                            answer: this.answerForm.getFieldValue('answer')
+                        }
+                        this.addAnswer(data)
+                        this.answerForm.resetFields()
+                    }
+                })
+                this.answerFormVisible = false
+            }
         }
     }
 </script>

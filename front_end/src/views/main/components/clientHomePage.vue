@@ -102,6 +102,7 @@
                         :columns="hotelColumns"
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
+                        style="background-color: white"
                         bordered
                 >
                     <span slot="action" slot-scope="record">

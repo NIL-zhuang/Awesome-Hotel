@@ -94,7 +94,7 @@ const hotelManager = {
                 message.error('添加失败')
             }
         },
-        addHotelCoupon: async ({commit, dispatch}, data) => {
+        addHotelCoupon: async ({state, commit, dispatch}, data) => {
             let res = null
             switch (data.type) {
                 case 1:
@@ -111,7 +111,7 @@ const hotelManager = {
                     break
             }
             if (res) {
-                dispatch('getHotelCoupon', data.hotelId)
+                dispatch('getHotelCoupon', data.srcId)
                 commit('set_addCouponVisible', false)
                 message.success('添加策略成功')
             } else {
@@ -121,7 +121,8 @@ const hotelManager = {
         deleteCoupon: async ({state, commit, dispatch}, data) => {
             const res = await deleteCouponAPI(data)
             if (res) {
-                dispatch('getHotelCoupon', state.hotelInfo.id)
+                console.log()
+                dispatch('getHotelCoupon', state.hotelInfo.hotelId)
                 message.success('删除成功')
             }else {
                 message.error('删除失败')
@@ -149,8 +150,6 @@ const hotelManager = {
             const res = await hotelAllCouponsAPI(hotelId)
             if (res) {
                 commit('set_couponList', res)
-            } else {
-
             }
         },
     }

@@ -12,6 +12,7 @@ public class QuestionVO {
     Integer userId;
     Integer hotelId;
     String question;
+    String userName;
     List<AnswerVO> answers;
 
     public Integer getId() {
@@ -28,6 +29,10 @@ public class QuestionVO {
 
     public String getQuestion() {
         return question;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public List<AnswerVO> getAnswers() {
@@ -50,8 +55,13 @@ public class QuestionVO {
         this.question = question;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setAnswers(List<AnswerVO> answers) {
         this.answers = answers;
     }
+
 
 }

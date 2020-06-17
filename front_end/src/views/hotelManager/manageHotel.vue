@@ -247,11 +247,11 @@ export default {
             this.set_activeHotelId(record.id)
             this.set_addRoomModalVisible(true)
         },
-        showCoupon(record) {
-            this.set_activeHotelId(record.id)
-            this.set_couponVisible(true)
-            this.getHotelCoupon()
-        },
+        // showCoupon(record) {
+        //     this.set_activeHotelId(record.id)
+        //     this.set_couponVisible(true)
+        //     this.getHotelCoupon()
+        // },
         deleteHotel(){
 
         },

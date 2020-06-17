@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.question.AnswerMapper">
 
-    <insert id="addAnswer" parameterType="com.example.hotel.po.Answer" useGeneratedKeys="true" keyProperty="id">
-        insert into Answers(userId, questionId, answers)
+    <insert id="addAnswer" parameterType="com.example.hotel.po.Answer" useGeneratedKeys="true" keyProperty="answerId">
+        insert into Answers(userId, questionId, answer)
         values(#{userId}, #{questionId}, #{answer})
     </insert>
 
@@ -18,9 +18,8 @@
 
     <delete id="annulAnswer">
         delete from Answers
-        where id = #{answerId}
+        where answerId = #{answerId}
     </delete>
 
-    <resultMap id="Answer" type="com.example.hotel.po.Answer">
-    </resultMap>
+    <resultMap id="Answer" type="com.example.hotel.po.Answer"/>
 </mapper>

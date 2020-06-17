@@ -32,6 +32,7 @@ public class QuestionServiceImpl implements QuestionService {
             setUserID(questionForm.getUserId());
             setHotelID(questionForm.getHotelId());
             setQuestion(questionForm.getQuestion());
+            setUserName(questionForm.getUserName());
         }};
         questionMapper.addQuestion(question);
         return ResponseVO.buildSuccess(true);
@@ -63,6 +64,8 @@ public class QuestionServiceImpl implements QuestionService {
         for (Question question : questions) {
             QuestionVO questionVO = new QuestionVO();
             BeanUtils.copyProperties(question, questionVO);
+            questionVO.setHotelId(question.getHotelID());
+            questionVO.setUserId(question.getUserID()); // po的名称和vo不一致，遗漏了这两个属性，为避免更大的麻烦，这里手动加上
             questionVO.setAnswers(answerService.getQuestionAnswers(question.getId()));
             questionVOS.add(questionVO);
         }

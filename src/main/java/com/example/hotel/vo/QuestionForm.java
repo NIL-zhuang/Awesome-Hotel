@@ -8,6 +8,7 @@ public class QuestionForm {
     Integer userId;
     Integer hotelId;
     String question;
+    String userName;
 
     public Integer getUserId() {
         return userId;
@@ -31,5 +32,13 @@ public class QuestionForm {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -55,7 +55,9 @@ export function hotelAllCouponsAPI(hotelId) {
     return axios({
         url: `${api.couponPre}/hotelAllCoupons`,
         method: 'GET',
-        params: {hotelId: hotelId},
+        params: {
+            hotelId: hotelId
+        },
     })
 }
 

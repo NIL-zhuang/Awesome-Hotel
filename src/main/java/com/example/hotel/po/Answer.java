@@ -7,6 +7,7 @@ package com.example.hotel.po;
 public class Answer {
     Integer answerId;
     Integer userId;
+    String userName;
     Integer questionId;
     String answer;
 
@@ -24,6 +25,14 @@ public class Answer {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getQuestionId() {

@@ -9,6 +9,7 @@ public class Question {
     Integer userID;
     Integer hotelID;
     String question;
+    String userName;
 
     public Integer getId() {
         return id;
@@ -26,6 +27,10 @@ public class Question {
         return question;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -40,5 +45,9 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

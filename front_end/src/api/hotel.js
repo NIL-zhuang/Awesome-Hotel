@@ -47,3 +47,10 @@ export function getHotelQuestionAPI(hotelId) {
         method: 'GET',
     })
 }
+export function addAnswerAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/addAnswer`,
+        method: 'POST',
+        data
+    })
+}

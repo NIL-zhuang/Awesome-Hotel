@@ -345,6 +345,7 @@ CREATE TABLE `Questions`
 (
     `id`        int(11) NOT NULL AUTO_INCREMENT,
     `userID`    int(11) NOT NULL,
+    `userName`  varchar(255) DEFAULT NULL,
     `hotelID`   int(11) NOT NULL,
     `question`  varchar(255) DEFAULT NULL,
     `available` bool         DEFAULT TRUE,
@@ -359,11 +360,12 @@ DROP TABLE IF EXISTS `Answers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Answers`
 (
-    `id`         int(11) NOT NULL AUTO_INCREMENT,
+    `answerId`         int(11) NOT NULL AUTO_INCREMENT,
     `userId`     int(11) NOT NULL,
+    `userName`   varchar(255) DEFAULT NULL,
     `questionId` int(11) NOT NULL,
-    `answers`    varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    `answer`    varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`answerId`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8;

@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.question.QuestionMapper">
 
     <insert id="addQuestion" parameterType="com.example.hotel.po.Question" useGeneratedKeys="true" keyProperty="id">
-        insert into Questions(userID, hotelID, question)
-        values(#{userID}, #{hotelID}, #{question})
+        insert into Questions(userID, hotelID, question, userName)
+        values(#{userID}, #{hotelID}, #{question}, #{userName})
     </insert>
 
     <update id="annualQuestion">
@@ -16,13 +16,13 @@
     <select id="getHotelQuestion" resultMap="Question">
         select *
         from Questions
-        where hotelID = #{hotelId}
+        where hotelID = #{hotelId} and available = true
     </select>
 
     <select id="getUserQuestion" resultMap="Question">
         select *
         from Questions
-        where userID = #{userId}
+        where userID = #{userId} and available = true
     </select>
 
     <resultMap id="Question" type="com.example.hotel.po.Question">
