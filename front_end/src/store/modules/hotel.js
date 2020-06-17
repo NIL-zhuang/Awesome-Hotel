@@ -18,10 +18,11 @@ import {
 const hotel = {
     state: {
         hotelList: [],
+        limitedHotelList: [],
         searchList: [],
         hotelListParams: {
             pageNo: 0,
-            pageSize: 12
+            pageSize: 20,
         },
         hotelListLoading: true,
         currentHotelId: '',
@@ -35,6 +36,9 @@ const hotel = {
     mutations: {
         set_hotelList: function (state, data) {
             state.hotelList = data
+        },
+        set_limitedHotelList: function (state, data) {
+            state.limitedHotelList = data
         },
         set_searchList: function (state, data) {
             state.searchList = data
@@ -81,6 +85,18 @@ const hotel = {
             const res = await getHotelsAPI()
             if (res) {
                 commit('set_hotelList', res)
+                commit('set_hotelListLoading', false)
+            }
+        },
+        getLimitedHotelList: async ({state, commit}) => {
+            let res = []
+            const start = state.hotelListParams.pageNo * state.hotelListParams.pageSize
+            const end = Math.min(start + state.hotelListParams.pageSize, state.hotelList.length)
+            for (let i = start; i < end; i++) {
+                res = [...res, state.hotelList[i]]
+            }
+            if (res) {
+                commit('set_limitedHotelList', res)
                 commit('set_hotelListLoading', false)
             }
         },

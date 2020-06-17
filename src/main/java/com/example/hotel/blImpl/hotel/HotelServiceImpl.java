@@ -74,18 +74,17 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotels(int start,int end){   //左闭右开,返回区间内的hotel组成的list
-        //查询单个酒店在某段时间里的可用房间数
+    public List<HotelVO> retrieveHotels(int start, int end){   //左闭右开,返回区间内的hotel组成的list
+        //返回某个区间内的酒店
         List<HotelVO> targetHotels = new ArrayList<>();
         List<HotelVO> hotelVOS = retrieveHotels();
         int l = hotelVOS.size();
-
         if(start>=0 && start<end && end<l) {
-            for (int i = start-1; i < end-1; i++) {
+            for (int i = start; i < end; i++) {
                 targetHotels.add(hotelVOS.get(i));
             }
         }else if(end>=l){
-            for (int i = start-1; i < l-1; i++) {
+            for (int i = start; i < l; i++) {
                 targetHotels.add(hotelVOS.get(i));
             }
         }

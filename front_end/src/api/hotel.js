@@ -8,6 +8,13 @@ export function getHotelsAPI() {
         method: 'GET',
     })
 }
+export function getLimitedHotelsAPI(params) {
+    return axios({
+        url: `${api.hotelPre}/retrieveHotels`,
+        method: 'GET',
+        params,
+    })
+}
 export function getHotelByIdAPI(hotelId) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/detail`,

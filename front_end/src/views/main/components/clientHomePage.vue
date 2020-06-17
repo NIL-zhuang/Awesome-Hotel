@@ -6,30 +6,28 @@
                     <a-spin :spinning="hotelListLoading">
                         <div class="card-wrapper">
                             <HotelCard :hotel="item" :key="item.index" @click.native="jumpToDetails(item.id)"
-                                       v-for="item in hotelList"></HotelCard>
-                            <div :key="item.name" class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3"
-                                 v-for="item in emptyBox"></div>
-                            <a-config-provider :locale="locale">
-                                <a-pagination
-                                        :defaultCurrent="1"
-                                        :page-size.sync="pageSize"
-                                        :total="hotelList.length"
-                                        @change="pageChange"
-                                        show-less-items
-                                        show-quick-jumper
-                                        show-size-changer>
-                                </a-pagination>
-                            </a-config-provider>
+                                       v-for="item in limitedHotelList"></HotelCard>
                         </div>
+                        <a-config-provider :locale="locale">
+                            <a-pagination
+                                    :defaultCurrent="1"
+                                    :page-size.sync="pageSize"
+                                    :total="hotelList.length"
+                                    @change="pageChange"
+                                    show-less-items
+                                    show-quick-jumper
+                                    show-size-changer>
+                            </a-pagination>
+                        </a-config-provider>
                     </a-spin>
                 </a-layout-content>
             </a-layout>
         </div>
-        <div class="browselist">
+        <div class="browseList">
             <a-layout>
                 <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white;">
                     <a-icon type="eye"/>
-                    浏览酒店
+                    浏览全部酒店
                 </a-layout-header>
                 <a-table
                         :columns="hotelColumns"
@@ -126,7 +124,6 @@
         },
         data() {
             return {
-                emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
@@ -214,12 +211,14 @@
         },
         async mounted() {
             await this.getHotelList()
-            await this.getOnceOrderedList()
+            this.getLimitedHotelList()
+            this.getOnceOrderedList()
         },
         computed: {
             ...mapGetters([
                 'userInfo',
                 'hotelList',
+                'limitedHotelList',
                 'hotelListLoading',
                 'onceOrderedList',
             ])
@@ -231,15 +230,17 @@
             ]),
             ...mapActions([
                 'getHotelList',
+                'getLimitedHotelList',
                 'getOnceOrderedList',
             ]),
-            pageChange(page, pageSize) {
+            pageChange(page, pageNum) {
                 const data = {
-                    pageNo: page - 1
+                    pageNo: page - 1,
+                    pageSize: pageNum,
                 }
                 this.set_hotelListParams(data)
                 this.set_hotelListLoading(true)
-                this.getHotelList() // 这里需要改，不然每次翻页都是重新获取所有酒店
+                this.getLimitedHotelList()
             },
             handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();
@@ -263,28 +264,17 @@
     .hotelList {
         text-align: center;
         padding: 50px 0;
-
-        .emptyBox {
-            height: 0;
-            margin: 10px 10px
-        }
+        width: 100%;
 
         .card-wrapper {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-start;
             flex-wrap: wrap;
-            flex-grow: 3;
-            min-height: 500px
-        }
-
-        .card-wrapper .card-item {
-            margin: 30px;
-            position: relative;
-            height: 188px;
+            min-height: 500px;
         }
     }
 
-    .browselist {
+    .browseList {
 
         .info {
             width: 400px;
