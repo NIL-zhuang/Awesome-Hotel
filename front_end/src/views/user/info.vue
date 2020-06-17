@@ -161,7 +161,8 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane key="3" tab="信用记录">
+            <a-tab-pane key="3" tab="我的收藏"></a-tab-pane>
+            <a-tab-pane key="4" tab="信用记录">
                 <a-table
                         :columns="columns_of_credit"
                         :dataSource="creditChangeList"

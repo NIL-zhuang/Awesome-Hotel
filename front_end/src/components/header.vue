@@ -25,7 +25,7 @@
                 <a-icon type="user"/>
                 工作人员
             </a-menu-item>
-            <a-menu-item @click="searchHotel" key="5" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="5" v-if="userInfo.userType==='Client'">
                 <router-link :to="{ name: 'searchHotel'}">
                     <a-icon type="search"/>
                     搜索酒店
@@ -178,9 +178,6 @@
             jumpToHome() {
                 this.current = ['1']
                 this.$router.push('/homePage')
-            },
-            searchHotel() {
-                this.$router.push('/hotel/searchHotel')
             },
             registerAsMember() {
                 if (this.userInfo.userType === 'Client')

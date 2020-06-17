@@ -13,6 +13,7 @@ const getters = {
     //hotel
     hotelListLoading: state => state.hotel.hotelListLoading,
     hotelList: state => state.hotel.hotelList,
+    limitedHotelList: state => state.hotel.limitedHotelList,
     searchList: state => state.hotel.searchList,
     currentHotelInfo: state => state.hotel.currentHotelInfo,
     currentHotelId: state => state.hotel.currentHotelId,
