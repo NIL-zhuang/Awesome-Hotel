@@ -46,12 +46,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RoomService roomService;
 
-    // TODO 时间有误，注意下面那个时间；然后updateRoomInfo是在退房部份才修改curNum
+
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
-//        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
+        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -200,18 +199,19 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
+     * 此方法获取的订单均为
      */
     @Override
     public List<Order> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
+        List<Order> temp = new ArrayList<>();
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
-            if (days > 30)
-                orders.remove(order);
+            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已退房")))
+                temp.add(order);
         }
-
-        return orders;
+        return temp;
     }
 
     /**
