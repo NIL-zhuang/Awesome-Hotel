@@ -8,13 +8,13 @@ public class AliyunOSSConfigConstant {
     private AliyunOSSConfigConstant(){}
 
     //仓库名称
-    public static final String BUCKE_NAME = "njuse-zzy";
+    public static final String BUCKE_NAME = "";
     //地域节点
-    public static final String END_POINT = "oss-cn-beijing.aliyuncs.com";
+    public static final String END_POINT = "";
     //AccessKey ID
-    public static final String AccessKey_ID = "LTAI4FfFeajHErrX9D8vTEQ5";
+    public static final String AccessKey_ID = "";
     //Access Key Secret
-    public static final String AccessKey_Secret = "JpYxIri64MSKj5siXcd69Y8psgavcx";
+    public static final String AccessKey_Secret = "";
     //仓库中的某个文件夹
-    public static final String FILE_HOST = "se-img";
+    public static final String FILE_HOST = "";
 }
