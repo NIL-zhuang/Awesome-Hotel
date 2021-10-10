@@ -1,0 +1,72 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CollectionMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.user</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CollectionMapper (com.example.hotel.data.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CollectionMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.user;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Collection;
+<i>4</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>6</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * @author ׯ��Ԫ 181830266@smail.nju.edu.cn
+<i>12</i>&nbsp; * @date 2020/5/24 10:57
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@Repository
+<i>16</i>&nbsp;@Mapper
+<i>17</i>&nbsp;public interface CollectionMapper {
+<i>18</i>&nbsp;    int addCollection(Collection collection);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    int annualCollection(@Param(&quot;id&quot;) int id);
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    List&lt;Collection&gt; getUserCollection(@Param(&quot;userId&quot;) int userId);
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    List&lt;Collection&gt; getHotelCollection(@Param(&quot;hotelId&quot;) int hotelId);
+<i>25</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

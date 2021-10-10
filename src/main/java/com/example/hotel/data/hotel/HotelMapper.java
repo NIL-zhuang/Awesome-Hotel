@@ -1,5 +1,7 @@
 package com.example.hotel.data.hotel;
 
+import com.example.hotel.enums.BizRegion;
+import com.example.hotel.enums.HotelStar;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.vo.HotelVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,6 +15,20 @@ import java.util.List;
 public interface HotelMapper {
 
     int insertHotel(Hotel hotel);
+
+    int updateHotelName(@Param("id") Integer id, @Param("hotelName") String hotelName);
+
+    int updateHotelBizRegion(@Param("id")Integer id, @Param("bizRegion")BizRegion bizRegion);
+
+    int updateHotelAddress(@Param("id") Integer id, @Param("address") String hotelAddress);
+
+    String getHotelAddress(@Param("id")Integer id);
+
+    int updateHotelDescription(@Param("id") Integer id, @Param("description") String hotelDescription);
+
+    int updateHotelPhoneNum(@Param("id")Integer id, @Param("phoneNum")String phoneNum);
+
+    int updateHotelStar(@Param("id")Integer id, @Param("hotelStar") HotelStar hotelStar);
 
     int deleteHotel(Integer id);
 

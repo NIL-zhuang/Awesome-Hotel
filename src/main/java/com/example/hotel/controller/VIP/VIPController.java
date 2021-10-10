@@ -85,14 +85,15 @@ public class VIPController {
     }
 
     @PostMapping("/formulateALevel")
-    public ResponseVO formulateALevel(@RequestParam(value = "level")Integer level,
-                                      @RequestParam(value = "requestConsumption")Integer requestConsumption) {
-        return levelService.formulateVIPLevel(level, requestConsumption);
+    public ResponseVO formulateALevel(@RequestParam(value = "level")Integer level, @RequestParam(value = "type")String type,
+                                      @RequestParam(value = "requestConsumption")Integer requestConsumption,
+                                      @RequestParam(value = "reduction")double reduction) {
+        return levelService.formulateVIPLevel(level, type,requestConsumption, reduction);
     }
 
-    @GetMapping("/{level}/getTheRequestOfLevel")
-    public ResponseVO getTheRequestOfLevel(@PathVariable Integer level){
-        return levelService.getTheRequestOfLevel(level);
+    @GetMapping("/{level}/{type}/getTheRequestOfLevel")
+    public ResponseVO getTheRequestOfLevel(@PathVariable Integer level, @PathVariable String type){
+        return levelService.getTheRequestOfLevel(level, type);
     }
 
 }

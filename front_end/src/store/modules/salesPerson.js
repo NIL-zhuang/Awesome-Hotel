@@ -1,17 +1,23 @@
 // created by glh 2020-05-23
 // 网站营销人员
 import {
-    getAllOrdersAPI
+    getAllOrdersAPI,
+    getOrdersInMonthAPI,
 } from "../../api/order";
 import {
     getUserInfoByEmailAPI,
     getAllUsersAPI,
 } from "../../api/user";
 import {
-    chargeCreditAPI
+    chargeCreditAPI,
+    getAllSalesmanTelAPI,
 } from "../../api/salesPerson";
 import {
-    CorporateCouponAPI
+    BizRegionCouponAPI,
+    CorporateCouponAPI,
+    TimeCouponAPI,
+    getSiteCouponsAPI,
+    deleteCouponAPI,
 } from "../../api/coupon";
 import {
     getAllClientVIPAPI,
@@ -22,12 +28,16 @@ import {
     restoreCorpVIPAPI,
     getTheRequestOfLevelAPI,
     formulateALevelAPI,
+    VIPCorpCheckAPI,
 } from "../../api/membership";
 import {message} from "ant-design-vue";
 
 const salesPerson = {
     state: {
         allOrderList: [],
+        allOrderInMonth: [],
+        allOrderNumInMonth: [],
+        allOrderValueInMonth: [],
         siteCouponList: [],
         handleAbnormalOrderVisible: false,
         currentUserEmail: '',
@@ -39,13 +49,28 @@ const salesPerson = {
         allClientVIPList: [],
         allCorpVIPList: [],
         //会员等级相关
-        levelConsumption: [],
+        levels: [],
+        corpLevels: [],
         levelModifyModalVisible: false,
-        currentLevel: '',
+        currentLevel: {},
+        //
+        salesPersonTel: []
     },
     mutations: {
         set_allOrderList: function (state, data) {
             state.allOrderList = data
+        },
+        set_allOrderInMonth: function (state, data){
+            state.allOrderInMonth = data
+        },
+        set_allOrderNumInMonth: function (state, data){
+            state.allOrderNumInMonth = data
+        },
+        set_allOrderValueInMonth: function (state, data){
+            state.allOrderValueInMonth = data
+        },
+        set_siteCouponList: function(state, data){
+            state.siteCouponList = data
         },
         set_handleAbnormalOrderVisible: function (state, data) {
             state.handleAbnormalOrderVisible = data
@@ -83,6 +108,9 @@ const salesPerson = {
         set_currentLevel: function (state, data) {
             state.currentLevel = data
         },
+        set_salesPersonTel: function (state, data) {
+            state.salesPersonTel = data
+        }
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
@@ -91,14 +119,33 @@ const salesPerson = {
                 commit('set_allOrderList', res)
             }
         },
+        getAllOrdersInMonth: async ({state, commit}) => {
+            const res = await getOrdersInMonthAPI()
+            if (res) {
+                let num = []
+                let value = []
+                commit('set_allOrderInMonth', res)
+                for (let orders of res) {
+                    let n = 0, v = 0.00
+                    for (const order of orders){
+                        n++
+                        v+=order.price
+                    }
+                    num = [...num, n]
+                    value = [...value, v]
+                }
+                commit('set_allOrderNumInMonth', num)
+                commit('set_allOrderValueInMonth', value)
+            }
+        },
         getCurrentUserInfoByEmail: async ({state, commit}) => {
             const params = {
                 email: state.currentUserEmail
             }
             let res = await getUserInfoByEmailAPI(params)
             if (res) {
-                if(res.userType === 'Client') {
-                    if(!state.searchSuccess) {
+                if (res.userType === 'Client') {
+                    if (!state.searchSuccess) {
                         message.success('搜索成功')
                     }
                     commit('set_currentUserInfo', res)
@@ -124,18 +171,28 @@ const salesPerson = {
                 message.error("充值失败")
             }
         },
-        getSiteCoupon: async ({commit}) => {
-            // todo
+        getSiteCoupon: async ({ state, commit}) => {
+            const res = await getSiteCouponsAPI()
+            if (res) {
+                commit('set_siteCouponList', res)
+            }
         },
         addSiteCoupon: async ({commit, dispatch}, data) => {
             let res = null
+            let check = false
             switch (data.type) {
                 case 1:
+                    res = await TimeCouponAPI(data)
                     break
                 case 2:
+                    res = await BizRegionCouponAPI(data)
                     break
                 case 3:
-                    res = await CorporateCouponAPI(data)
+                    check =await VIPCorpCheckAPI(data.corporateName)
+                    if (check)
+                        res = await CorporateCouponAPI(data)
+                    else
+                        message.error('该企业未注册为VIP！')
                     break
             }
             if (res) {
@@ -144,6 +201,15 @@ const salesPerson = {
                 message.success('添加策略成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        deleteSiteCoupon: async ({state, commit, dispatch}, data) => {
+            const res = await deleteCouponAPI(data)
+            if (res) {
+                dispatch('getSiteCoupon')
+                message.success('删除成功')
+            }else {
+                message.error('删除失败')
             }
         },
         getAllUsers: async ({state, commit}) => {
@@ -192,26 +258,40 @@ const salesPerson = {
                 dispatch('getAllCorpVIP')
             }
         },
-        getTheRequestOfLevel: async ({state}) => {
-            state.levelConsumption = []
-            for (var i = 1; i <= 5; i++) {
-                const res = await getTheRequestOfLevelAPI(i)
-                let test = {}
-                test.level = i
-                test.consumption = res
-                state.levelConsumption.push(test)
+        getClientLevel: async ({state}) => {
+            state.levels = []
+            for (let i = 1; i <= 5; i++) {
+                const res = await getTheRequestOfLevelAPI(i, "Client")
+                state.levels.push(res)
+            }
+        },
+        getCorpLevel: async ({state}) => {
+            state.corpLevels = []
+            for (let i = 1; i <= 3; i++) {
+                const res = await getTheRequestOfLevelAPI(i, "Corporation")
+                state.corpLevels.push(res)
             }
         },
         formulateALevel: async ({state, dispatch, commit}, params) => {
             const res = await formulateALevelAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getTheRequestOfLevel')
+                if (params.type === 'Client'){
+                    dispatch('getClientLevel')
+                }else{
+                    dispatch('getCorpLevel')
+                }
                 commit('set_levelModifyModalVisible', false)
             } else {
                 message.error('修改失败')
             }
-        }
+        },
+        getAllSalesmanTel: async ({state, commit}) => {
+            const res = await getAllSalesmanTelAPI()
+            if (res) {
+                commit('set_salesPersonTel', res)
+            }
+        },
     },
 }
 export default salesPerson

@@ -31,7 +31,7 @@ public class HotelMapperTest {
         setHotelStar(HotelStar.Five);
         setDescription("test");
         setPhoneNum("110");
-        setRate(1.1);
+        setPoints(5);
     }};
 
     @Test

@@ -2,131 +2,58 @@
     <div class="info-wrapper">
         <a-tabs>
             <a-tab-pane key="1" tab="我的信息">
-                <a-form :form="form" style="margin-top: 30px">
-
-                    <a-form-item label="头像" v-bind="formItemLayout">
-                        <a-avatar src="./defaultAvatar.png"></a-avatar>
-                        <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
-                    </a-form-item>
-
-                    <a-form-item label="用户名" v-bind="formItemLayout">
-                        <a-input
-                                placeholder="请填写用户名"
-                                v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.userName }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="邮箱" v-bind="formItemLayout">
-                        <span>{{ userInfo.email }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="手机号" v-bind="formItemLayout">
-                        <a-input
-                                placeholder="请填写手机号"
-                                v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' },
-                            { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.phoneNumber}}</span>
-                    </a-form-item>
-
-                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType==='Client'">
-                        <span>
-                            <span :key="index" v-for="index of 5">
-                            <img
-                                    alt="example"
-                                    src="@/assets/star.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-if="index <= userVIP.level"
-                            />
-                            <img
-                                    alt="example"
-                                    src="@/assets/starGray.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-else
-                            />
-                        </span>
-                        </span>
-                    </a-form-item>
-                    <a-form-item label="VIP" v-bind="formItemLayout" v-else-if="JSON.stringify(this.userVIP) ==='{}'">
-                        <span>
-                            <router-link :to="{ name: 'userMembership' }" @click="goToMembership">
-                                尚未成为会员，点击注册
-                            </router-link>
-                        </span>
-                    </a-form-item>
-                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-else>
-                        <a-tag color="red">您已被冻结</a-tag>
-                    </a-form-item>
-
-                    <a-form-item label="所属企业" v-bind="formItemLayout">
-                        <a-input
-                                placeholder="请填写所属企业"
-                                v-decorator="['corporation']"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.corporate }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="信用值" v-bind="formItemLayout">
-                        <span>{{ userInfo.credit }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
-                        <a-input
-                                placeholder="请输入新密码"
-                                type="password"
-                                v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' },
-                                { validator: this.handlePassword }], validateTrigger: 'blur' }]"
-                                v-if="modify"
-                        />
-                    </a-form-item>
-
-                    <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify">
-                        <a-input
-                                placeholder="请再次输入密码"
-                                type="password"
-                                v-decorator="['passwordConfirm',
-                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
-                                validateTrigger: 'blur'}]">
-                            v-if="modify"
-                        </a-input>
-                    </a-form-item>
-
-                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button @click="saveModify" type="primary">
-                            保存
-                        </a-button>
-                        <a-button @click="cancelModify" style="margin-left: 30px" type="default">
-                            取消
-                        </a-button>
-                    </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button @click="modifyInfo" type="primary">
-                            修改信息
-                        </a-button>
-                    </a-form-item>
-
-                </a-form>
+                <InfoForm></InfoForm>
             </a-tab-pane>
             <a-tab-pane key="2" tab="我的订单">
                 <a-table
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
+                        :locale="{emptyText: '您还没有订单'}"
+                        :rowKey="record => record.id"
                         bordered
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
+                    <div
+                            slot="filterDropdown"
+                            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                            style="padding: 8px"
+                    >
+                        <a-input
+                                :placeholder="`查询${column.title}`"
+                                :value="selectedKeys[0]"
+                                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                style="width: 188px; margin-bottom: 8px; display: block;"
+                                v-ant-ref="c => (searchInput = c)"
+                        />
+                        <a-button
+                                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                icon="search"
+                                size="small"
+                                style="width: 90px; margin-right: 8px"
+                                type="primary"
+                        >
+                            查询
+                        </a-button>
+                        <a-button @click="() => handleReset(clearFilters)" size="small" style="width: 90px">
+                            重置
+                        </a-button>
+                    </div>
+                    <a-icon
+                            :style="{ color: filtered ? '#108ee9' : undefined }"
+                            slot="filterIcon"
+                            slot-scope="filtered"
+                            type="search"
+                    />
+
                     <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
                     </a-tag>
-                    <a-tag color="orange" slot="hotelName" slot-scope="text">
-                        {{text}}
-                    </a-tag>
+
                     <span slot="roomType" slot-scope="text">
-                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
-                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
-                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                        <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'Family'">家庭房</a-tag>
                     </span>
                     <a-tag color="red" slot="checkInDate" slot-scope="text">
                         {{text}}
@@ -143,46 +70,138 @@
                     <span slot="action" slot-scope="record">
                         <a-button @click="showOrderDetail(record)" size="small" type="primary">查看</a-button>
 
-                        <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
                         <a-popconfirm
-                                @cancel="cancelCancelOrder"
                                 @confirm="confirmCancelOrder(record.id)"
                                 cancelText="取消"
                                 okText="确定"
                                 title="你确定撤销该笔订单吗？"
-                                v-if="record.orderState === '已预订'"
+                                v-if="record.orderState === '未入住'"
                         >
                             <a-button size="small" type="danger">撤销</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '已完成'">评价</a-button>
+                        <a-button @click="commentOrder(record)" size="small" type="default"
+                                  v-if="record.orderState === '已完成'">评价</a-button>
+
+                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
+                        <a-button @click="argueOrder(record)" size="small" type="default"
+                                  v-if="record.orderState === '异常订单'">申诉</a-button>
                     </span>
+                    <template slot="customRender" slot-scope="text, record, index, column">
+                        <span v-if="searchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        class="highlight"
+                                        v-if="fragment === searchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </template>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane key="3" tab="我的收藏"></a-tab-pane>
+            <a-tab-pane key="3" tab="我的收藏">
+                <a-table
+                        :columns="columns_of_collections"
+                        :dataSource="userCollections"
+                        :locale="{emptyText: '您还没有收藏任何酒店'}"
+                        :rowKey="record => record.id"
+                        bordered
+                        style="background-color: white; padding: 10px; border-radius: 20px"
+                >
+                    <div
+                            slot="filterDropdown"
+                            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                            style="padding: 8px"
+                    >
+                        <a-input
+                                :placeholder="`查询${column.title}`"
+                                :value="selectedKeys[0]"
+                                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                style="width: 188px; margin-bottom: 8px; display: block;"
+                        />
+                        <a-button
+                                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                icon="search"
+                                size="small"
+                                style="width: 90px; margin-right: 8px"
+                                type="primary"
+                        >
+                            查询
+                        </a-button>
+                        <a-button @click="() => handleReset(clearFilters)" size="small" style="width: 90px">
+                            重置
+                        </a-button>
+                    </div>
+                    <a-icon
+                            :style="{ color: filtered ? '#108ee9' : undefined }"
+                            slot="filterIcon"
+                            slot-scope="filtered"
+                            type="search"
+                    />
+                    <span slot="action" slot-scope="record">
+                        <a-button @click="jumpToDetails(record.hotelID)" size="small" type="primary">进入酒店</a-button>
+                    </span>
+                    <template slot="customRender" slot-scope="text, record, index, column">
+                        <span v-if="searchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        class="highlight"
+                                        v-if="fragment === searchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </template>
+                </a-table>
+            </a-tab-pane>
             <a-tab-pane key="4" tab="信用记录">
                 <a-table
                         :columns="columns_of_credit"
                         :dataSource="creditChangeList"
                         :locale="{emptyText: '暂时没有信用变更记录'}"
+                        :rowKey="record => record.id"
                         bordered
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <span slot="type" slot-scope="record">
-                        <a-icon type="plus-circle" theme="twoTone" v-if="record.change>0"/>
-                        <a-icon type="minus-circle" theme="twoTone" two-tone-color="red" v-else/>
+                        <a-icon theme="twoTone" type="plus-circle" v-if="record.change>0"/>
+                        <a-icon theme="twoTone" two-tone-color="red" type="minus-circle" v-else/>
                     </span>
                 </a-table>
             </a-tab-pane>
+            <a-tab-pane key="5" tab="密码更改">
+                <password-form></password-form>
+            </a-tab-pane>
         </a-tabs>
-
         <orderDetail></orderDetail>
+        <comment-order></comment-order>
+        <argue-abnormal-order-modal></argue-abnormal-order-modal>
     </div>
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
+    import commentOrder from "../order/commentOrder";
+    import InfoForm from './components/infoForm';
+    import passwordForm from "./components/passwordForm";
+    import argueAbnormalOrderModal from "../order/argueAbnormalOrderModal";
     import {message} from 'ant-design-vue';
 
     const columns_of_orders = [
@@ -190,7 +209,7 @@
             title: '订单号',
             dataIndex: 'id',
             sorter: (a, b) => a.id - b.id,
-        },
+    },
         {
             title: '下单时间',
             dataIndex: 'createDate',
@@ -199,7 +218,12 @@
         {
             title: '酒店名',
             dataIndex: 'hotelName',
-            scopedSlots: {customRender: 'hotelName'}
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.hotelName.includes(value),
         },
         {
             title: '房型',
@@ -209,12 +233,34 @@
         {
             title: '入住时间',
             dataIndex: 'checkInDate',
-            scopedSlots: {customRender: 'checkInDate'}
+            scopedSlots: {customRender: 'checkInDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '离店时间',
             dataIndex: 'checkOutDate',
-            scopedSlots: {customRender: 'checkOutDate'}
+            scopedSlots: {customRender: 'checkOutDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '入住人数',
@@ -227,11 +273,11 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
+            filters: [{text: '未入住', value: '未入住'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
                 {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'},
-            filterMultiple: false,
+            filterMultiple: true,
         },
         {
             title: '操作',
@@ -239,6 +285,58 @@
             scopedSlots: {customRender: 'action'},
         },
 
+    ];
+    const columns_of_collections = [
+        {
+            title: '酒店名称',
+            dataIndex: 'hotelName',
+            align: 'center',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.hotelName.includes(value),
+        },
+        {
+            title: '星级',
+            dataIndex: 'hotelStar',
+            filters: [{text: '三星级', value: '三星级'}, {text: '四星级', value: '四星级'},
+                {text: '五星级', value: '五星级'}],
+            onFilter: (value, record) => record.hotelStar.includes(value),
+            align: 'center',
+        },
+        {
+            title: '评分',
+            dataIndex: 'rate',
+            sorter: (a, b) => a.rate - b.rate,
+            align: 'center',
+        },
+        {
+            title: '商圈',
+            dataIndex: 'bizRegion',
+            align: 'center',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.bizRegion.includes(value),
+        },
+        {
+            title: '地址',
+            dataIndex: 'address',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.address.includes(value),
+        },
+        {
+            title: '操作',
+            scopedSlots: {customRender: 'action'},
+        },
     ];
     const columns_of_credit = [
         {
@@ -279,12 +377,19 @@
                 },
                 pagination: {},
                 columns_of_orders,
+                columns_of_collections,
                 columns_of_credit,
-                form: this.$form.createForm(this, {name: 'coordinated'}),
+                searchText: '',
+                searchInput: '',
+                searchedColumn: '',
             }
         },
         components: {
-            orderDetail
+            orderDetail,
+            commentOrder,
+            InfoForm,
+            passwordForm,
+            argueAbnormalOrderModal,
         },
         computed: {
             ...mapGetters([
@@ -294,128 +399,101 @@
                 'userOrderList',
                 'creditChangeList',
                 'orderDetailVisible',
-            ])
+                'userCollections',
+                'currentOrderComment',
+            ]),
         },
+
         async mounted() {
             await this.getUserInfo()
-            if (this.userInfo.vipType !== 'Normal')
-                this.getUserVIP(Number(this.userInfo.id))
             this.getUserOrders()
             this.getUserCredits(this.userId)
+            this.getUserCollections(this.userId)
         },
         methods: {
             ...mapActions([
                 'getUserInfo',
                 'getUserVIP',
                 'getUserOrders',
-                'updateUserInfo',
                 'cancelOrder',
                 'getHotelById',
                 'getUserCredits',
+                'getOrderComment',
+                'getUserCollections',
             ]),
             ...mapMutations([
                 'set_orderDetailVisible',
-                'set_orderInfo',
                 'set_currentHotelId',
+                'set_commentOrderModalVisible',
+                'set_orderInfo',
+                'set_argueAbnormalOrderModalVisible',
+                'set_argumentModify',
             ]),
-
-            saveModify() {
-                this.form.validateFields((err, values) => {
-                    if (!err) {
-                        const data = {
-                            userName: this.form.getFieldValue('userName'),
-                            phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.form.getFieldValue('password'),
-                            corporation: this.form.getFieldValue('corporation')
-                        }
-                        this.updateUserInfo(data)
-                        this.modify = false
-                    } else {
-                        message.error("请输入正确的信息")
-                    }
-                })
-            },
-
-            modifyInfo() {
-                setTimeout(() => {
-                    this.form.setFieldsValue({
-                        'userName': this.userInfo.userName,
-                        'phoneNumber': this.userInfo.phoneNumber,
-                        'corporation': this.userInfo.corporate,
-                    })
-                }, 0)
-                this.modify = true
-            },
-
-            cancelModify() {
-                this.modify = false
-            },
 
             confirmCancelOrder(orderId) {
                 this.cancelOrder(orderId)
             },
 
-            cancelCancelOrder() {
-
-            },
-
-            handlePhoneNumber(rule, value, callback) {
-                const re = /1\d{10}/;
-                if (re.test(value)) {
-                    callback();
-                } else {
-                    callback(new Error('请输入有效手机号'));
-                }
-                callback()
-            },
-
-            handlePassword(rule, value, callback) {
-                if (value.length < 6) {
-                    callback(new Error('密码长度至少6位'))
-                }
-                callback()
-            },
-
-            handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('registerPassword')
-                console.log(password)
-                if (value === undefined) {
-                    callback(new Error('请输入密码'))
-                }
-                if (value && password && value.trim() !== password.trim()) {
-                    callback(new Error('两次密码不一致'))
-                }
-                callback()
-            },
             showOrderDetail(record) {
                 this.set_orderInfo(record)
                 this.set_currentHotelId(record.hotelId)
                 this.getHotelById(record.hotelId)
                 this.set_orderDetailVisible(true)
             },
-            goToMembership() {
-                // TODO 修改header上面的current
-            }
+            commentOrder(record) {
+                this.getOrderComment(Number(record.id)).then(() => {
+                    this.set_commentOrderModalVisible(true)
+                    this.set_orderInfo(record)
+                })
+            },
+            jumpToDetails(id) {
+                this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
+            },
+            handleSearch(selectedKeys, confirm, dataIndex) {
+                confirm();
+                this.searchText = selectedKeys[0];
+                this.searchedColumn = dataIndex;
+            },
+
+            handleReset(clearFilters) {
+                clearFilters();
+                this.searchText = '';
+            },
+
+            argueOrder(record) {
+                this.getOrderComment(Number(record.id)).then(() => {
+                    if(this.currentOrderComment.comment === null) {
+                        this.set_argumentModify(true)
+                    } else {
+                        this.set_argumentModify(false)
+                    }
+                    this.set_orderInfo(record)
+                    this.set_argueAbnormalOrderModalVisible(true)
+                })
+            },
+
         }
     }
 </script>
 
 <style lang="less" scoped>
     .info-wrapper {
-        padding: 50px;
+        height: 1500px;
+        padding: 30px;
 
         .chart {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 20px
+
         }
-    }
-</style>
-<style lang="less">
-    .info-wrapper {
         .ant-tabs-bar {
             padding-left: 30px
+        }
+        .highlight {
+            background-color: rgb(255, 192, 105);
+            padding: 0;
         }
     }
 </style>

@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UserVO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.vo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UserVO (com.example.hotel.vo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserVO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/ 29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (45/ 45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.vo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.enums.UserType;
+<i>4</i>&nbsp;import com.example.hotel.enums.VIPType;
+<i>5</i>&nbsp;import com.example.hotel.po.User;
+<i>6</i>&nbsp;
+<b class="fc"><i>7</i>&nbsp;public class UserVO {</b>
+<i>8</i>&nbsp;    private Integer id;
+<i>9</i>&nbsp;    private String email;
+<i>10</i>&nbsp;    private String password;
+<i>11</i>&nbsp;    private String userName;
+<i>12</i>&nbsp;    private String phoneNumber;
+<b class="fc"><i>13</i>&nbsp;    private double credit = 100.0;</b>
+<i>14</i>&nbsp;    private UserType userType;
+<i>15</i>&nbsp;    private String birthday;
+<i>16</i>&nbsp;    private String corporation;
+<b class="fc"><i>17</i>&nbsp;    private Integer annulTime = 3;</b>
+<i>18</i>&nbsp;    private String jobNumber;
+<i>19</i>&nbsp;    private Integer hotelID;
+<i>20</i>&nbsp;    private String portrait;
+<i>21</i>&nbsp;    private VIPType vipType;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public Integer getId() {
+<b class="fc"><i>25</i>&nbsp;        return id;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public void setId(Integer id) {
+<b class="fc"><i>29</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public String getUserName() {
+<b class="fc"><i>33</i>&nbsp;        return userName;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void setUserName(String userName) {
+<b class="fc"><i>37</i>&nbsp;        this.userName = userName;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public String getPhoneNumber() {
+<b class="fc"><i>41</i>&nbsp;        return phoneNumber;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public void setPhoneNumber(String phoneNumber) {
+<b class="fc"><i>45</i>&nbsp;        this.phoneNumber = phoneNumber;</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public double getCredit() {
+<b class="fc"><i>49</i>&nbsp;        return credit;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setCredit(double credit) {
+<b class="fc"><i>53</i>&nbsp;        this.credit = credit;</b>
+<b class="fc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public String getEmail() {
+<b class="fc"><i>57</i>&nbsp;        return email;</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void setEmail(String email) {
+<b class="fc"><i>61</i>&nbsp;        this.email = email;</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public String getPassword() {
+<b class="fc"><i>65</i>&nbsp;        return password;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public void setPassword(String password) {
+<b class="fc"><i>69</i>&nbsp;        this.password = password;</b>
+<b class="fc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public UserType getUserType() {
+<b class="fc"><i>73</i>&nbsp;        return userType;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public void setUserType(UserType userType) {
+<b class="fc"><i>77</i>&nbsp;        this.userType = userType;</b>
+<b class="fc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public String getBirthday() {
+<b class="fc"><i>81</i>&nbsp;        return birthday;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public void setBirthday(String birthday) {
+<b class="fc"><i>85</i>&nbsp;        this.birthday = birthday;</b>
+<b class="fc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public String getCorporation() {
+<b class="fc"><i>89</i>&nbsp;        return corporation;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public void setCorporation(String corporation) {
+<b class="fc"><i>93</i>&nbsp;        this.corporation = corporation;</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public Integer getAnnulTime() {
+<b class="fc"><i>97</i>&nbsp;        return annulTime;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public void setAnnulTime(Integer annulTime) {
+<b class="fc"><i>101</i>&nbsp;        this.annulTime = annulTime;</b>
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    public String getJobNumber() {
+<b class="fc"><i>105</i>&nbsp;        return jobNumber;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public void setJobNumber(String jobNumber) {
+<b class="fc"><i>109</i>&nbsp;        this.jobNumber = jobNumber;</b>
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public Integer getHotelID() {
+<b class="fc"><i>113</i>&nbsp;        return hotelID;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    public void setHotelID(Integer hotelID) {
+<b class="fc"><i>117</i>&nbsp;        this.hotelID = hotelID;</b>
+<b class="fc"><i>118</i>&nbsp;    }</b>
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    public String getPortrait() {
+<b class="fc"><i>121</i>&nbsp;        return portrait;</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    public void setPortrait(String portrait) {
+<b class="fc"><i>125</i>&nbsp;        this.portrait = portrait;</b>
+<b class="fc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    public VIPType getVipType() {
+<b class="fc"><i>129</i>&nbsp;        return vipType;</b>
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    public void setVipType(VIPType vipType) {
+<b class="fc"><i>133</i>&nbsp;        this.vipType = vipType;</b>
+<b class="fc"><i>134</i>&nbsp;    }</b>
+<i>135</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

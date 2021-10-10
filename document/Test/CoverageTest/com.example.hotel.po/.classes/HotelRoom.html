@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HotelRoom</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.po</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HotelRoom (com.example.hotel.po)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HotelRoom</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.po;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.enums.BedType;
+<i>4</i>&nbsp;import com.example.hotel.enums.BreakFast;
+<i>5</i>&nbsp;import com.example.hotel.enums.RoomType;
+<i>6</i>&nbsp;import com.example.hotel.vo.RoomVO;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class HotelRoom {
+<i>9</i>&nbsp;    private Integer id;
+<i>10</i>&nbsp;    private RoomType roomType;
+<i>11</i>&nbsp;    private BedType bedType;
+<i>12</i>&nbsp;    private BreakFast breakfast;
+<i>13</i>&nbsp;    private Integer hotelId;
+<i>14</i>&nbsp;    private double price;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * 当前剩余可预定房间数
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    private int curNum;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * 某类型房间总数
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    private int total;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    private Integer peopleNum;
+<i>25</i>&nbsp;
+<b class="fc"><i>26</i>&nbsp;    public HotelRoom(){}</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;    public HotelRoom(RoomVO room){</b>
+<b class="fc"><i>29</i>&nbsp;        this.roomType = RoomType.valueOf(room.getRoomType());</b>
+<b class="fc"><i>30</i>&nbsp;        this.bedType = BedType.valueOf(room.getBedType());</b>
+<b class="fc"><i>31</i>&nbsp;        this.breakfast = BreakFast.valueOf(room.getBreakfast());</b>
+<b class="fc"><i>32</i>&nbsp;        this.hotelId = room.getId();</b>
+<b class="fc"><i>33</i>&nbsp;        this.price = room.getPrice();</b>
+<b class="fc"><i>34</i>&nbsp;        this.curNum = room.getCurNum();</b>
+<b class="fc"><i>35</i>&nbsp;        this.peopleNum = room.getPeopleNum();</b>
+<b class="fc"><i>36</i>&nbsp;        this.total = room.getTotal();</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public Integer getId() {
+<b class="fc"><i>40</i>&nbsp;        return id;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public void setId(Integer id) {
+<b class="fc"><i>44</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public RoomType getRoomType() {
+<b class="fc"><i>48</i>&nbsp;        return roomType;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public void setRoomType(RoomType roomType) {
+<b class="fc"><i>52</i>&nbsp;        this.roomType = roomType;</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public BedType getBedType() {
+<b class="fc"><i>56</i>&nbsp;        return bedType;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public void setBedType(BedType bedType) {
+<b class="fc"><i>60</i>&nbsp;        this.bedType = bedType;</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public BreakFast getBreakfast() {
+<b class="fc"><i>64</i>&nbsp;        return breakfast;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public void setBreakfast(BreakFast breakfast) {
+<b class="fc"><i>68</i>&nbsp;        this.breakfast = breakfast;</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public Integer getHotelId() {
+<b class="fc"><i>72</i>&nbsp;        return hotelId;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public void setHotelId(Integer hotelId) {
+<b class="fc"><i>76</i>&nbsp;        this.hotelId = hotelId;</b>
+<b class="fc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public double getPrice() {
+<b class="fc"><i>80</i>&nbsp;        return price;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public void setPrice(double price) {
+<b class="fc"><i>84</i>&nbsp;        this.price = price;</b>
+<b class="fc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;    public Integer getPeopleNum() { return peopleNum; }</b>
+<i>88</i>&nbsp;
+<b class="fc"><i>89</i>&nbsp;    public void setPeopleNum(Integer peopleNum) { this.peopleNum = peopleNum; }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public int getCurNum() {
+<b class="fc"><i>92</i>&nbsp;        return curNum;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public void setCurNum(int curNum) {
+<b class="fc"><i>96</i>&nbsp;        this.curNum = curNum;</b>
+<b class="fc"><i>97</i>&nbsp;    }</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public int getTotal() {
+<b class="fc"><i>100</i>&nbsp;        return total;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public void setTotal(int total) {
+<b class="fc"><i>104</i>&nbsp;        this.total = total;</b>
+<b class="fc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

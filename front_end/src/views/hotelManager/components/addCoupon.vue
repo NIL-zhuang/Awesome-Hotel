@@ -75,7 +75,8 @@
             <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="isReductionCoupon">
                 <a-input
                         placeholder="请填写优惠金额"
-                        v-decorator="['discountMoney',{rules: [{required: true, message: '请填写优惠金额'}]}]"
+                        v-decorator="['discountMoney',{rules: [{required: true, message: '请填写优惠金额'}, {
+                            validator: this.handleDiscountMoney }]}]"
                 />
             </a-form-item>
         </a-form>
@@ -141,6 +142,11 @@
                 } else if (v === '4') {
                     this.isTimeLimitedCoupon = true
                 }
+            },
+            handleDiscountMoney(rule, value, callback){
+                const targeMoney = this.form.getFieldValue('targetMoney')
+                if (value < targeMoney) callback()
+                else callback(new Error('减免金额不能超过达标金额'))
             },
             handleSubmit(e) {
                 e.preventDefault()

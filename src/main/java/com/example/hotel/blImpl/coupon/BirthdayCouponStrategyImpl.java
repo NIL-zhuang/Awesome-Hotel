@@ -9,6 +9,7 @@ import com.example.hotel.vo.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,19 +22,19 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
     @Autowired
     private AccountMapper accountMapper;
 
+    private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        // 下单当天生日
         try {
             User user = accountMapper.getAccountById(orderVO.getUserId());
-            Date in = TimeFormatHelper.string2Date(orderVO.getCheckInDate());
-            Date out = TimeFormatHelper.string2Date(orderVO.getCheckOutDate());
-            Date birth = TimeFormatHelper.string2Date(user.getBirthday());
-            assert birth != null;
-            return !birth.before(in) &&
-                    !birth.after(out) &&
+            Date date = new Date(System.currentTimeMillis());
+            String curdate = sf.format(date);
+            return coupon.getCouponType() == BIRTHDAY &&
+                    curdate.equals(user.getBirthday()) &&
                     user.getVipType() == VIPType.Client &&
-                    (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) &&
-                    coupon.getStatus() == 1;
+                    coupon.getSrcId().equals(orderVO.getHotelId());
         } catch (Exception e) {
             return false;
         }

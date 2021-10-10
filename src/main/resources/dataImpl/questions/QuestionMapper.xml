@@ -7,7 +7,7 @@
         values(#{userID}, #{hotelID}, #{question}, #{userName})
     </insert>
 
-    <update id="annualQuestion">
+    <update id="annulQuestion">
         update Questions
         set available = false
         where id = #{id}

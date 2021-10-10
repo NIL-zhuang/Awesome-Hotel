@@ -9,16 +9,19 @@
         <a-table
                 :columns="columns_of_rooms"
                 :dataSource="roomList"
+                :rowKey="record=>record.id"
+                style="background-color: white; padding: 10px; border-radius: 20px"
+                :locale="{emptyText: '暂时没有客房信息'}"
                 bordered
         >
             <span slot="price" slot-scope="text">
                 <a-tag color="pink">¥ {{ text }}</a-tag>
             </span>
-            <span slot="curNum" slot-scope="text">
+            <span slot="total" slot-scope="text">
                 <a-tag color="purple">房间数：{{text}}</a-tag>
             </span>
-            <span slot="action">
-                <a-button type="danger" size="small">删除</a-button>
+            <span slot="action" slot-scope="record">
+                <a-button @click="deleteHotelRoom(record.bedType)" icon="close-circle" type="danger" size="small">删除</a-button>
             </span>
         </a-table>
 
@@ -29,7 +32,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import AddRoomModal from "./addRoomModal";
+import addRoomModal from "./addRoomModal";
 const columns_of_rooms = [
     {
         title: '房型',
@@ -55,8 +58,8 @@ const columns_of_rooms = [
     },
     {
         title: '房间数目',
-        dataIndex: 'curNum',
-        scopedSlots: { customRender: 'curNum'},
+        dataIndex: 'total',
+        scopedSlots: { customRender: 'total'},
     },
     {
         title: '操作',
@@ -71,24 +74,35 @@ export default {
         }
     },
     components: {
-        AddRoomModal,
+        addRoomModal,
     },
     computed: {
         ...mapGetters([
-            'hotelInfo'
+            'hotelInfo',
+            'userInfo'
         ]),
         roomList() {
             return this.hotelInfo.rooms
         }
     },
     methods: {
+        ...mapActions([
+            'deleteRoom'
+        ]),
         ...mapMutations([
             'set_addRoomModalVisible'
         ]),
 
         addRoom() {
             this.set_addRoomModalVisible(true)
-        }
+        },
+        deleteHotelRoom(t){
+            const params = {
+                hotelId: this.userInfo.hotelID,
+                roomType: t==='单人床'?'BigBed':t==='双人床'?'DoubleBed':t==='三人床'?'Family':'Luxury'
+            }
+            this.deleteRoom(params)
+        },
     }
 
 }

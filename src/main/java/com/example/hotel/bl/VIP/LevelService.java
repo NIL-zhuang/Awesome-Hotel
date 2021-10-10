@@ -4,8 +4,8 @@ import com.example.hotel.vo.ResponseVO;
 
 public interface LevelService {
 
-    ResponseVO formulateVIPLevel(Integer level, Integer requestConsumption);
+    ResponseVO formulateVIPLevel(Integer level, String type, Integer requestConsumption, double reduction);
 
-    ResponseVO getTheRequestOfLevel(Integer level);
+    ResponseVO getTheRequestOfLevel(Integer level, String type);
 
 }

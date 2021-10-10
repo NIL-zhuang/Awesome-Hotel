@@ -8,6 +8,7 @@ public class UserInfoVO {
     private String password;
     private String userName;
     private String phoneNumber;
+    private String corporation;
 
 
     public String getPassword() {
@@ -32,5 +33,13 @@ public class UserInfoVO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCorporation() {
+        return corporation;
+    }
+
+    public void setCorporation(String corporation) {
+        this.corporation = corporation;
     }
 }

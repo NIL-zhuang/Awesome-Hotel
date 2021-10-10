@@ -1,21 +1,20 @@
 package com.example.hotel.vo.coupon;
 
-import com.example.hotel.enums.BizRegion;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
  * @date 2020/6/13 22:18
  */
 public class BizRegionCouponVO extends CouponVO {
-    private BizRegion region;
+    private String region;
     private Integer vipLevel;
     private double discount;
 
     public String getRegion() {
-        return region.toString();
+        return region;
     }
 
-    public void setRegion(BizRegion region) {
+    public void setRegion(String region) {
         this.region = region;
     }
 
@@ -25,5 +24,13 @@ public class BizRegionCouponVO extends CouponVO {
 
     public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

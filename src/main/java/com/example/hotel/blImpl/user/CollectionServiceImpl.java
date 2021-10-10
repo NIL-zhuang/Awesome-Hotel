@@ -1,7 +1,8 @@
 package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.CollectionService;
-import com.example.hotel.data.collection.CollectionMapper;
+import com.example.hotel.data.user.CollectionMapper;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Collection;
 import com.example.hotel.vo.CollectionVO;
 import com.example.hotel.vo.ResponseVO;
@@ -25,6 +26,8 @@ public class CollectionServiceImpl implements CollectionService {
     private static final String ANNUL_FAIL = "撤销失败";
     @Autowired
     private CollectionMapper collectionMapper;
+    @Autowired
+    private HotelMapper hotelMapper;
 
     @Override
     public ResponseVO addCollection(CollectionVO collectionVO) {
@@ -61,6 +64,7 @@ public class CollectionServiceImpl implements CollectionService {
         for (Collection collection : collections) {
             CollectionVO collectionVO = new CollectionVO();
             BeanUtils.copyProperties(collection, collectionVO);
+            collectionVO.setHotelInfo(hotelMapper.selectById(collection.getHotelID()));
             collectionVOS.add(collectionVO);
         }
         return collectionVOS;
@@ -81,5 +85,27 @@ public class CollectionServiceImpl implements CollectionService {
             }
         }
         return false;
+    }
+
+    @Override
+    public ResponseVO addCollectionByUserId(Integer hotelId, Integer userId) {
+        Collection collection = new Collection() {{
+            setHotelID(hotelId);
+            setUserID(userId);
+        }};
+        collectionMapper.addCollection(collection);
+        return ResponseVO.buildSuccess("添加收藏成功");
+    }
+
+    @Override
+    public ResponseVO annulCollectionByUserId(Integer hotelId, Integer userId) {
+        List<Collection> collections = collectionMapper.getUserCollection(userId);
+        for (Collection collection : collections) {
+            if (collection.getHotelID().equals(hotelId)) {
+                collectionMapper.annualCollection(collection.getId());
+                return ResponseVO.buildSuccess("取消收藏成功");
+            }
+        }
+        return ResponseVO.buildFailure("没有收藏这个酒店");
     }
 }

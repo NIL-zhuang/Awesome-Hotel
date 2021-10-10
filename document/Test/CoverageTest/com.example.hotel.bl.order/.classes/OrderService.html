@@ -1,0 +1,122 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: OrderService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.order</a> ]
+</div>
+
+<h1>Coverage Summary for Class: OrderService (com.example.hotel.bl.order)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">OrderService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.order;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Order;
+<i>4</i>&nbsp;import com.example.hotel.vo.*;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * @author chenyizong
+<i>10</i>&nbsp; * @date 2020-03-04
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public interface OrderService {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * 预订酒店
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    ResponseVO addOrder(OrderVO orderVO);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * 获得所有订单信息
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    List&lt;Order&gt; getAllOrders();
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * 查看酒店的所有订单
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    List&lt;Order&gt; getHotelOrders(Integer hotelId);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * 获得指定用户的所有订单信息
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    List&lt;Order&gt; getUserOrders(int userId);
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * 撤销订单
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    ResponseVO annulOrder(int orderId);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    ResponseVO checkIn(int orderId);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    List&lt;Order&gt; probableAbnormalOrder(Integer hotelId);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    ResponseVO abnormalOrder(int orderId);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    ResponseVO handleAbnormal(int orderId, double ratio);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    ResponseVO finishOrder(int orderId);
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    CommentVO getComment(int orderId);
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    ResponseVO annulComment(int orderId);
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    // 根据酒店Id获取所有对应的评价
+<i>54</i>&nbsp;    List&lt;CommentVO&gt; getHotelComment(int hotelId);
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    ResponseVO addComment(CommentVO commentVO);
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    ResponseVO getUserComments(Integer userId);
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    List&lt;List&lt;Order&gt;&gt; getOrdersInMonth(List&lt;Order&gt; orders);  //从输入流的订单中找到近30天的并返回
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    List&lt;List&lt;Order&gt;&gt; getOrdersInMonthOfHotel(Integer hotelId);
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    List&lt;List&lt;Order&gt;&gt; getOrdersInMonthOfAll();
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    List&lt;Order&gt; filterOrders(List&lt;Order&gt; orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime);  //对特定的酒店，返回可预订的房间的信息
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    List&lt;RoomVO&gt; checkRoomByOrder(List&lt;RoomVO&gt; rooms, List&lt;Order&gt; orders); //通过房间信息和对应的订单信息，检查酒店房间情况
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type); //通过订单查找酒店特定房间的可用房间数，用于addOrder时的检验
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    ResponseVO argueAbnormalOrder(Integer orderId, String reason);
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

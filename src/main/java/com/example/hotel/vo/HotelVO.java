@@ -13,28 +13,33 @@ public class HotelVO {
     private Double rate;
     private String description;
     private String phoneNum;
-    private Integer managerId;
     private Integer commentTime;
-    private double points;
     private double sanitation;
     private double environment;
     private double service;
     private double equipment;
     private String url;
 
-    public HotelVO(){}
+    public HotelVO() {
+    }
 
-    public HotelVO(Hotel hotel){
-        id=hotel.getId();
-        name=hotel.getHotelName();
-        address=hotel.getAddress();
-        bizRegion = hotel.getBizRegion().toString();
-        hotelStar = hotel.getHotelStar().toString();
-        rate = hotel.getRate();
-        description=hotel.getDescription();
-        phoneNum=hotel.getPhoneNum();
-        managerId=hotel.getManagerId();
-        //如果需要还可以再加
+    public HotelVO(Hotel hotel) {
+        if (hotel != null) {
+            id = hotel.getId();
+            name = hotel.getHotelName();
+            address = hotel.getAddress();
+            bizRegion = hotel.getBizRegion().toString();
+            hotelStar = hotel.getHotelStar().toString();
+            rate = hotel.getPoints();
+            description = hotel.getDescription();
+            phoneNum = hotel.getPhoneNum();
+            commentTime = hotel.getCommentTime();
+            sanitation = hotel.getSanitation();
+            environment = hotel.getEnvironment();
+            service = hotel.getService();
+            equipment = hotel.getEquipment();
+            //如果需要还可以再加
+        }
     }
 
     private List<RoomVO> rooms;
@@ -111,14 +116,6 @@ public class HotelVO {
         this.rooms = rooms;
     }
 
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -133,14 +130,6 @@ public class HotelVO {
 
     public void setCommentTime(Integer commentTime) {
         this.commentTime = commentTime;
-    }
-
-    public double getPoints() {
-        return points;
-    }
-
-    public void setPoints(double points) {
-        this.points = points;
     }
 
     public double getSanitation() {
@@ -179,6 +168,9 @@ public class HotelVO {
         List<RoomVO> rooms = getRooms();
         try {
             double minPrice = Double.MAX_VALUE;
+            if (rooms == null || rooms.size() == 0) {
+                return Double.MAX_VALUE;
+            }
             for (RoomVO roomVO : rooms) {
                 minPrice = Math.min(minPrice, roomVO.getPrice());
             }

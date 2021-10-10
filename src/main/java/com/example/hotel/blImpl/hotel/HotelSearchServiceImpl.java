@@ -26,10 +26,11 @@ class Node{
     Node before = null;
     Node next = null;
 
-    public Node(HotelVO hotel,int score){
+    Node(HotelVO hotel, int score){
         this.hotel = hotel;
         this.score = score;
     }
+
 }
 
 @Service
@@ -37,9 +38,6 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
     @Autowired
     private HotelService hotelService;
-
-    @Autowired
-    private OrderService orderService;
 
     private String checkInDate = null;
     private String checkOutDate = null;
@@ -50,7 +48,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private double maxPrice = 999;
     private double minScore = 0;
 
-    Node head;
+    private Node head;
 
 
     @Override
@@ -83,10 +81,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         List<HotelVO> targetHotels = new ArrayList<>();     //以关联度由高到底排序
 
         for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
-            hotel = hotelService.retrieveAvailableHotelDetails(hotel.getId(),checkInDate,checkOutDate);
+            hotel = hotelService.retrieveHotelDetails(hotel.getId());
 
-            //数据锁定的遍历，得到时间和地址都符合的hotel
-            List<RoomVO> rooms = hotel.getRooms();
 
 
             /*
@@ -96,19 +92,16 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              * 候选池中酒店信息以双链表方式存储
              *
              * 检验内容包括：
-             * 1.酒店是否有符合时间条件的空房间
-             * 2.酒店地址是否符合
-             * 3.酒店价格是否在可接受区间内
-             * 4。酒店星级是否符合要求
-             * 5.酒店评分是否符合要求
+             * 1.酒店地址是否符合
+             * 2.酒店价格是否在可接受区间内
+             * 3。酒店星级是否符合要求
+             * 4.酒店评分是否符合要求
              *
              */
-            boolean judge = (rooms!=null) && (!rooms.isEmpty()) && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
-                    && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
-
+            boolean judge = checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
+                    && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore)&&checkBizRegion(hotel, bizRegion);
             if(judge){
                 int score = 0;
-                score += checkBizRegion(hotel,bizRegion);
                 score += checkKeyWords(hotel,keyWords);
                 Node node = new Node(hotel,score);
                 insertHotel(node);
@@ -121,10 +114,17 @@ public class HotelSearchServiceImpl implements HotelSearchService {
                 ptr = ptr.next;
             }
         }
+
         head = null;
+        //if(targetHotels.size()==0){
+            //targetHotels = secondarySearch();
+       // }
         return targetHotels;
     }
 
+//    private List<HotelVO> secondarySearch(){
+//        return null;
+//    }
 
 
     /**
@@ -134,7 +134,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      */
     private boolean checkPrice(HotelVO hotel, double maxPrice){
         double hotelPrice = hotel.getMinPrice();
-        return maxPrice > hotelPrice;
+        return maxPrice >= hotelPrice;
     }
 
     /**
@@ -157,7 +157,6 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private boolean checkHotelScore(HotelVO hotel, double minScore){
         double hotelScore = hotel.getRate();
         return hotelScore >= minScore;
-
     }
 
 
@@ -181,14 +180,11 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
 
     /**
-     * 非刚性条件
+     * 刚性条件
      * 检查商圈是否符合要求，如果符合
      */
-    private int checkBizRegion(HotelVO hotel,String bizRegion){
-        if(bizRegion.equals(hotel.getBizRegion()))
-            return 5;
-        else
-            return 0;
+    private boolean checkBizRegion(HotelVO hotel,String bizRegion){
+        return bizRegion.equals(hotel.getBizRegion());
     }
 
 
@@ -201,14 +197,14 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @return
      */
     private int checkKeyWords(HotelVO hotel,String[] keyWords){
-        if(keyWords==null)
+        if(keyWords.length==0)
             return 0;
         else{
             String description = hotel.getDescription();
             int l = keyWords.length;
             int score = 0;
-            for(int i=0;i<l;i++){
-                if(description.contains(keyWords[i]))
+            for (String keyWord : keyWords) {
+                if (description.contains(keyWord))
                     score += 2;
             }
             return score;
@@ -225,19 +221,26 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         if(head==null){
             head = hotel;
         }else {
-            Node ptr = head.next;
+            Node ptr = head;
             while (true) {
-                if (ptr == null) {
-                    head.next = hotel;
-                    break;
-                } else if (ptr.score < hotel.score) {
-                    ptr.before.next = hotel;
-                    hotel.before = ptr.before;
+                if(ptr.score < hotel.score){
+                    if(ptr==head){
+                        hotel.next = ptr;
+                        ptr.before = hotel;
+                        head = hotel;
+                        break;
+                    }else{
+                        ptr.before.next = hotel;
+                        hotel.before = ptr.before;
 
-                    ptr.before = hotel;
-                    hotel.next = ptr;
+                        ptr.before = hotel;
+                        hotel.next = ptr;
+                        break;
+                    }
+                }else if(ptr.next==null){
+                    ptr.next = hotel;
                     break;
-                } else {
+                }else{
                     ptr = ptr.next;
                 }
             }

@@ -2,7 +2,9 @@ package com.example.hotel.blImpl.question;
 
 import com.example.hotel.bl.question.AnswerService;
 import com.example.hotel.bl.question.QuestionService;
+import com.example.hotel.data.question.AnswerMapper;
 import com.example.hotel.data.question.QuestionMapper;
+import com.example.hotel.po.Answer;
 import com.example.hotel.po.Question;
 import com.example.hotel.vo.QuestionForm;
 import com.example.hotel.vo.QuestionVO;
@@ -24,6 +26,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
     @Autowired
+    private AnswerMapper answerMapper;
+    @Autowired
     private AnswerService answerService;
 
     @Override
@@ -41,6 +45,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public ResponseVO annulQuestion(Integer questionId) {
         questionMapper.annulQuestion(questionId);
+        List<Answer> answers = answerMapper.getQuestionAnswers(questionId);
+        for (Answer answer : answers) {
+            answerMapper.annulAnswer(answer.getAnswerId());
+        }
         return ResponseVO.buildSuccess(true);
     }
 

@@ -74,9 +74,9 @@
             ]),
             cancelModify() {
                 this.set_modifyInfoModalVisible(false)
+                this.form.resetFields()
             },
             confirmModify(e) {
-                e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         const data = {
@@ -86,7 +86,7 @@
                             password: this.form.getFieldValue('password'),
                         }
                         this.adminUpdateUserInfo(data)
-
+                        this.form.resetFields()
                     }
                 })
             },

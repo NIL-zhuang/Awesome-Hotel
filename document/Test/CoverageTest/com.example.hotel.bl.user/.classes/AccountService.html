@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AccountService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.user</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AccountService (com.example.hotel.bl.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AccountService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.user;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.vo.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * @author huwen
+<i>9</i>&nbsp; * @date 2019/3/23
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public interface AccountService {
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * 注册账号
+<i>14</i>&nbsp;     *
+<i>15</i>&nbsp;     * @return 登录成功 or 失败
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    ResponseVO registerAccount(UserVO userVO);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * 用户登录，登录成功会将用户信息保存再session中
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    UserVO login(UserForm userForm);
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * 获取用户个人信息
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    UserVO getUserInfo(int id);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * 获取用户个人信息
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    UserVO getUserInfoByEmail(String email);
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * 更新用户个人信息
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    ResponseVO updateUserInfo(int id, String username, String phoneNumber, String corporation);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    ResponseVO updatePassword(int id, String password);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    ResponseVO argueCredit(int creditId, String argue);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    List&lt;CreditVO&gt; getArgueCredits();
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    ResponseVO handleArgue(Integer creditId, boolean accept);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;//    ResponseVO personalVIP(int id, String birthday);
+<i>48</i>&nbsp;//
+<i>49</i>&nbsp;    ResponseVO updateCorporation(int id, String corporate);
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;//    ResponseVO normalUser(String corporate);
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    void updateBirthday(int id, String birthday); // 注册会员时使用
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    void registerAsVIP(int id); // 同上
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    void freezeVIP(int id); // 同上
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    ResponseVO updatePortrait(int userId, String url);
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    ResponseVO chargeCredit(int userId, int change, String reason);
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    ResponseVO getUserCreditChanges(int userId);
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    List&lt;UserVO&gt; getAllUsers();
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    List&lt;String&gt; getAllPhoneNumOfSalesPerson();
+<i>68</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

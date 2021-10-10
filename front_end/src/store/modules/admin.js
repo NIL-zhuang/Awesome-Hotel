@@ -5,14 +5,16 @@ import {
     addSalesPersonAPI,
     deleteHotelManagerAPI,
     deleteSalesPersonAPI,
-} from '@/api/admin'
+} from '../../api/admin'
 import {
-    updateUserInfoAPI
-} from "@/api/user";
+    updateUserInfoAPI,
+    updateUserPasswordAPI,
+} from "../../api/user";
 import {
     addHotelAPI,
-    deleteHotelAPI
-} from "@/api/hotel";
+    deleteHotelAPI,
+    updateHotelInfoAPI,
+} from "../../api/hotel";
 
 import { message } from 'ant-design-vue'
 
@@ -55,6 +57,9 @@ const admin = {
             phoneNum: '',
         },
         addHotelModalVisible: false,
+        // 修改酒店
+        modifyHotelModalVisible: false,
+        modifyHotelInfo: {},
     },
     mutations: {
         // 管理酒店工作人员相关
@@ -86,7 +91,6 @@ const admin = {
         // 修改酒店工作人员或者网站营销人员的基本信息(用户名、手机号、密码)
         set_modifyUserInfo: function (state, data) {
             state.modifyUserInfo = data
-            console.log(state.modifyUserInfo)
         },
         set_modifyInfoModalVisible: function (state, data) {
             state.modifyInfoModalVisible = data
@@ -100,7 +104,14 @@ const admin = {
         },
         set_addHotelModalVisible: function (state, data) {
             state.addHotelModalVisible = data
-        }
+        },
+        // 修改酒店信息
+        set_modifyHotelModalVisible: function (state, data) {
+            state.modifyHotelModalVisible = data
+        },
+        set_modifyHotelInfo: function (state, data) {
+            state.modifyHotelInfo = data
+        },
     },
     actions: {
         // 管理酒店工作人员
@@ -166,7 +177,8 @@ const admin = {
         },
         // 修改人员信息
         adminUpdateUserInfo: async({ state, commit, dispatch }, data) => {
-            const res = await updateUserInfoAPI(data)
+            await updateUserInfoAPI(data)
+            const res = await updateUserPasswordAPI(data)
             if (res) {
                 dispatch('getSalesPersonList')
                 dispatch('getManagerList')
@@ -199,13 +211,21 @@ const admin = {
         },
         // 删除酒店
         deleteHotel: async ({state, dispatch, commit}, id) => {
-            console.log('in deleteHotel: ' + id)
             const res = await deleteHotelAPI(id)
             if(res) {
                 dispatch('getHotelList')
                 message.success('删除成功')
             } else {
                 message.error('删除失败')
+            }
+        },
+        // 修改酒店信息
+        updateHotel: async ({state, dispatch, commit}, data) => {
+            const res = await updateHotelInfoAPI(state.modifyHotelInfo.id, data)
+            if (res) {
+                dispatch('getHotelList')
+                commit('set_modifyHotelModalVisible', false)
+                message.success('修改成功')
             }
         }
     }

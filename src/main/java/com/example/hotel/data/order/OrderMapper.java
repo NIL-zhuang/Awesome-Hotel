@@ -45,4 +45,5 @@ public interface OrderMapper {
 
     int annulComment(@Param("orderId") Integer orderId);
 
+    int argueAbnormalOrder(@Param("orderId") Integer orderId, @Param("reason") String reason);
 }

@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LevelMapper {
 
-    int formulateVIPLevel(@Param("level")Integer level, @Param("requestConsumption")Integer requestConsumption);
+    void formulateVIPLevel(@Param("level")Integer level, @Param("type")String type,
+                          @Param("requestConsumption")Integer requestConsumption, @Param("reduction")double reduction);
 
-    int changeLevelRequest(@Param("level")Integer level, @Param("requestConsumption")Integer requestConsumption);
+    void changeLevel(@Param("level")Integer level, @Param("type")String type,
+                    @Param("requestConsumption")Integer requestConsumption, @Param("reduction")double reduction);
 
-    Integer getTheRequestOfLevel(@Param("level")Integer level);
+    Integer getTheRequestOfLevel(@Param("level")Integer level, @Param("type")String type);
+
+    double getTheReduOfLevel(@Param("level")Integer level, @Param("type")String type);
 
 }

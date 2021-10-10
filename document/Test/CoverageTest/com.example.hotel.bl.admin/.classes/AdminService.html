@@ -1,0 +1,91 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AdminService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.admin</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AdminService (com.example.hotel.bl.admin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AdminService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.admin;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.User;
+<i>4</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>5</i>&nbsp;import com.example.hotel.vo.UserForm;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * @author chenyizong
+<i>11</i>&nbsp; * @date 2020-03-04
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public interface AdminService {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * 添加酒店管理人员账号
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    ResponseVO addManager(UserForm userForm);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * 添加网站营销人员账号
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    ResponseVO addSalesPerson(UserForm userForm);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * 获得所有酒店管理人员信息
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    List&lt;User&gt; getAllManagers();
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * 获得所有网站营销人员人员信息
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    List&lt;User&gt; getAllSalesPerson();
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * 删除酒店工作人员
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    ResponseVO deleteManager(Integer id);
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * 删除网站营销人员
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    ResponseVO deleteSalesPerson(Integer id);
+<i>44</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

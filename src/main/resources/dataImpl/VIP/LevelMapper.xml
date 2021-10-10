@@ -2,17 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.VIP.LevelMapper">
     <insert id="formulateVIPLevel">
-        insert into VIPLevel(level, requestConsumption)
-        values (#{level}, #{requestConsumption})
+        insert into VIPLevel(level, type, requestConsumption, reduction)
+        values (#{level}, #{type}, #{requestConsumption}, #{reduction})
     </insert>
-    <update id="changeLevelRequest">
+    <update id="changeLevel">
         update VIPLevel
-        set requestConsumption = #{requestConsumption}
-        where level = #{level}
+        set requestConsumption = #{requestConsumption},
+            reduction = #{reduction}
+        where level = #{level} and type = #{type}
     </update>
     <select id="getTheRequestOfLevel" resultType="int">
         select requestConsumption
         from VIPLevel
-        where level = #{level}
+        where level = #{level} and type = #{type}
+    </select>
+    <select id="getTheReduOfLevel" resultType="double">
+        select reduction
+        from VIPLevel
+        where level = #{level} and type = #{type}
     </select>
 </mapper>

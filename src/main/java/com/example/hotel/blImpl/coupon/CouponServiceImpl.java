@@ -4,7 +4,6 @@ import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.data.coupon.CouponMapper;
-import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.coupon.*;
@@ -14,19 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
 public class CouponServiceImpl implements CouponService {
 
-
-    private final TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
-    private final TimeCouponStrategyImpl timeCouponStrategy;
-    private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
-    private final ManyRoomCouponStrategyImpl manyRoomCouponStrategy;
-    private final CorporateCouponStrategyImpl corporateCouponStrategy;
-    private final BizRegionCouponStrategyImpl bizRegionCouponStrategy;
 
     @Autowired
     private final CouponMapper couponMapper;
@@ -44,13 +38,7 @@ public class CouponServiceImpl implements CouponService {
                              CorporateCouponStrategyImpl corporateCouponStrategy,
                              BizRegionCouponStrategyImpl bizRegionCouponStrategy,
                              CouponMapper couponMapper) {
-        this.birthdayCouponStrategy = birthdayCouponStrategy;
-        this.manyRoomCouponStrategy = manyRoomCouponStrategy;
-        this.corporateCouponStrategy = corporateCouponStrategy;
         this.couponMapper = couponMapper;
-        this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
-        this.timeCouponStrategy = timeCouponStrategy;
-        this.bizRegionCouponStrategy = bizRegionCouponStrategy;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
         strategyList.add(birthdayCouponStrategy);
@@ -64,23 +52,24 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
         List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
         List<Coupon> webCoupons = getWebsiteCoupon();
-        List<Coupon> bizCoupon = getHotelBizRegionCoupon(orderVO.getHotelId());
         hotelCoupons.addAll(webCoupons);
-        hotelCoupons.addAll(bizCoupon);
         List<Coupon> availAbleCoupons = new ArrayList<>();
-        for (Coupon hotelCoupon : hotelCoupons) {
-            for (CouponMatchStrategy strategy : strategyList) {
+        for (CouponMatchStrategy strategy : strategyList) {
+            for (Coupon hotelCoupon : hotelCoupons) {
                 if (strategy.isMatch(orderVO, hotelCoupon)) {
                     availAbleCoupons.add(hotelCoupon);
                 }
             }
         }
+        Set<Coupon> couponSet = new LinkedHashSet<>(availAbleCoupons);
+        availAbleCoupons.clear();
+        availAbleCoupons.addAll(couponSet);
         return availAbleCoupons;
     }
 
     @Override
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
-        return couponMapper.selectByHotelId(hotelId); // 需要修改
+        return couponMapper.selectByHotelId(hotelId);
     }
 
     @Override
@@ -133,7 +122,7 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = iniCoupon(couponVO);
         coupon.setVipLevel(couponVO.getVipLevel());
         coupon.setBizRegion(couponVO.getRegion());
-        coupon.setSrcId(-1);
+        coupon.setDiscount(couponVO.getDiscount());
         couponVO.setId(addCoupon(coupon));
         return couponVO;
     }
@@ -162,8 +151,8 @@ public class CouponServiceImpl implements CouponService {
         return couponMapper.insertCoupon(coupon);
     }
 
-    private List<Coupon> getHotelBizRegionCoupon(Integer hotelId) {
-        String bizRegion = hotelService.retrieveHotelDetails(hotelId).getBizRegion();
-        return couponMapper.getBizRegionCoupon(bizRegion);
-    }
+//    private List<Coupon> getHotelBizRegionCoupon(Integer hotelId) {
+//        String bizRegion = hotelService.retrieveHotelDetails(hotelId).getBizRegion();
+//        return couponMapper.getBizRegionCoupon(bizRegion);
+//    }
 }

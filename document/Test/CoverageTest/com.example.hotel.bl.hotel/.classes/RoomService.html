@@ -1,0 +1,84 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RoomService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.hotel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RoomService (com.example.hotel.bl.hotel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">RoomService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.hotel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.enums.RoomType;
+<i>4</i>&nbsp;import com.example.hotel.po.HotelRoom;
+<i>5</i>&nbsp;import com.example.hotel.vo.RoomVO;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public interface RoomService {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * 获取某个酒店的全部房间信息
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    List&lt;HotelRoom&gt; retrieveHotelRoomInfo(Integer hotelId);
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    List&lt;HotelRoom&gt; retrieveHotelRoomInfoByType(Integer hotelId, RoomType type);
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * 添加酒店客房信息
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    void insertRoomInfo(RoomVO hotelRoom);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     *
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    void deleteRoom(Integer hotelId, String roomType);
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * 预订酒店后更新客房房间数量
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    void updateRoomInfo(Integer hotelId, String roomType, Integer rooms);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * 获取酒店指定房间剩余数量
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    int getRoomCurNum(Integer hotelId, String roomType);
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

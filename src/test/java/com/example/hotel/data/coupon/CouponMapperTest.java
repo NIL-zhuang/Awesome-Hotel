@@ -36,6 +36,7 @@ public class CouponMapperTest {
         setEndTime(LocalDate.now());
         setStartTime(LocalDate.parse("2020-06-01"));
         setBizRegion("nanjing");
+        setCorporateName("NJU");
         setVipLevel(7);
         setStatus(1);
     }};
@@ -44,6 +45,8 @@ public class CouponMapperTest {
     @Transactional
     public void insertCoupon() {
         int val = couponMapper.insertCoupon(coupon);
+        Coupon coupon = couponMapper.getWebCoupon().get(0);
+        Assert.assertThat(coupon.getCorporateName(), is("NJU"));
         Assert.assertThat(val, is(1));
     }
 
@@ -53,6 +56,7 @@ public class CouponMapperTest {
         List<Coupon> couponList = couponMapper.selectByHotelId(2);
         Assert.assertThat(couponList.size(), is(1));
         Assert.assertThat(couponList.get(0).getCouponName(), is("满减优惠券"));
+
     }
 
     @Test

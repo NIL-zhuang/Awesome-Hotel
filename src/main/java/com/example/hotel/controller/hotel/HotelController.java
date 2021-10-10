@@ -29,8 +29,12 @@ public class HotelController {
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelForm hotelForm) throws ServiceException {
-        hotelService.addHotel(hotelForm);
-        return ResponseVO.buildSuccess(true);
+        return hotelService.addHotel(hotelForm);
+    }
+
+    @PostMapping("/{hotelId}/updateHotel")
+    public ResponseVO updateHotelInfo(@PathVariable Integer hotelId, @RequestBody HotelForm hotelForm) throws ServiceException {
+        return hotelService.updateHotelInfo(hotelId, hotelForm);
     }
 
     @GetMapping("/all")
@@ -39,8 +43,14 @@ public class HotelController {
     }
 
     @PostMapping("/roomInfo")
-    public ResponseVO addRoomInfo(@RequestParam HotelRoom hotelRoom) {
+    public ResponseVO addRoomInfo(@RequestBody RoomVO hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @PostMapping("/deleteRoom")
+    public ResponseVO deleteRoom(@RequestParam(value = "hotelId") Integer hotelId, @RequestParam(value = "roomType") String roomType) {
+        roomService.deleteRoom(hotelId,roomType);
         return ResponseVO.buildSuccess(true);
     }
 
@@ -54,14 +64,6 @@ public class HotelController {
     public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
-
-    @GetMapping("/{hotelId}/getAvailableRoom")
-    public ResponseVO getAvailableRoom(@PathVariable Integer hotelId,
-                                       @RequestParam(value = "startTime") String startTime,
-                                       @RequestParam(value = "endTime") String endTime) {
-        return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
-    }
-
 
     @PostMapping("/searchHotel")
     public ResponseVO searchHotel(@RequestBody SearchBodyVO searchBody) {
@@ -120,4 +122,5 @@ public class HotelController {
     public ResponseVO getQuestionAnswer(@PathVariable Integer questionId) {
         return ResponseVO.buildSuccess(answerService.getQuestionAnswers(questionId));
     }
+
 }

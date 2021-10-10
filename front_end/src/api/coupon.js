@@ -10,7 +10,7 @@ export function hotelBirthdayCouponAPI(data){
     })
 }
 
-export function hotelTimeCouponAPI(data) {
+export function TimeCouponAPI(data) {
     return axios({
         url: `${api.couponPre}/time`,
         method: 'POST',
@@ -26,6 +26,14 @@ export function hotelManyRoomCouponAPI(data) {
     })
 }
 
+export function hotelTargetMoneyAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelTargetMoney`,
+        method: 'POST',
+        data,
+    })
+}
+
 export function CorporateCouponAPI(data) {
     return axios({
         url: `${api.couponPre}/corporation`,
@@ -34,9 +42,9 @@ export function CorporateCouponAPI(data) {
     })
 }
 
-export function hotelTargetMoneyAPI(data) {
+export function BizRegionCouponAPI(data) {
     return axios({
-        url: `${api.couponPre}/hotelTargetMoney`,
+        url: `${api.couponPre}/bizRegion`,
         method: 'POST',
         data,
     })
@@ -58,6 +66,13 @@ export function hotelAllCouponsAPI(hotelId) {
         params: {
             hotelId: hotelId
         },
+    })
+}
+
+export function getSiteCouponsAPI() {
+    return axios({
+        url: `${api.couponPre}/websiteCoupons`,
+        method: 'GET',
     })
 }
 

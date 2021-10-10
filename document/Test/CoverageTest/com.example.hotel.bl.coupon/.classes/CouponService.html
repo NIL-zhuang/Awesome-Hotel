@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CouponService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.coupon</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CouponService (com.example.hotel.bl.coupon)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CouponService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.coupon;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Coupon;
+<i>4</i>&nbsp;import com.example.hotel.vo.coupon.*;
+<i>5</i>&nbsp;import com.example.hotel.vo.OrderVO;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public interface CouponService {
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * 返回某一订单可用的优惠策略列表
+<i>12</i>&nbsp;     */
+<i>13</i>&nbsp;    List&lt;Coupon&gt; getMatchOrderCoupon(OrderVO orderVO);
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * 查看某个酒店提供的所有优惠策略（不包括失效的）
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    List&lt;Coupon&gt; getHotelAllCoupon(Integer hotelId);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * 添加酒店满减优惠策略
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    CouponVO addBirthdayCouponVO(BirthdayCouponVO couponVO);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    CouponVO addManyRoomCoupon(ManyRoomCouponVO couponVO);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    CouponVO addTimeCouponVO(TimeCouponVO couponVO);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    CouponVO addCorporateCouponVO(CorporateCouponVO couponVO);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    CouponVO addBizRegionCouponVO(BizRegionCouponVO couponVO);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    List&lt;Coupon&gt; getWebsiteCoupon();
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    void annulCoupon(Integer couponId);
+<i>38</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

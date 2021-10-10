@@ -22,7 +22,7 @@ public class TargetMoneyCouponStrategyImpl implements CouponMatchStrategy {
             return coupon.getCouponType() == TARGET_MONEY &&
                     coupon.getStatus() == 1 &&
                     orderVO.getPrice() >= coupon.getTargetMoney() &&
-                    (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));
+                    coupon.getSrcId().equals(orderVO.getHotelId());
         } catch (Exception e) {
             return false;
         }

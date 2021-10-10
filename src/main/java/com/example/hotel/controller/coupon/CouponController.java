@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/coupon")
 public class CouponController {
+    private static final int SITE = 0;
 
     @Autowired
     private CouponService couponService;

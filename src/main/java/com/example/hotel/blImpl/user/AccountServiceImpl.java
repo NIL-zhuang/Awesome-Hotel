@@ -3,13 +3,12 @@ package com.example.hotel.blImpl.user;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.data.user.CreditMapper;
+import com.example.hotel.enums.UserType;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
-import com.example.hotel.vo.CreditVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.util.PasswordEncryptHelper;
+import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,7 @@ import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+    private final static String REGISTRATION_SUCCESS = "注册成功";
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
     private final static String USER_NOTEXIST = "用户不存在";
@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);
         }
-        return ResponseVO.buildSuccess();
+        return ResponseVO.buildSuccess(REGISTRATION_SUCCESS);
     }
 
     @Override
@@ -83,9 +83,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updateUserInfo(int id, String password, String username, String phoneNumber) {
+    public ResponseVO updateUserInfo(int id, String username, String phoneNumber, String corporation) {
         try {
-            accountMapper.updateAccount(id, PasswordEncryptHelper.getMD5(password), username, phoneNumber);
+            User user = accountMapper.getAccountById(id);
+            username = username == null ? user.getUserName() : username;
+            phoneNumber = phoneNumber == null ? user.getPhoneNumber() : phoneNumber;
+            corporation = corporation == null ? user.getCorporation() : corporation;
+            accountMapper.updateAccount(id, username, phoneNumber, corporation);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -93,16 +97,11 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
-
     @Override
-    public ResponseVO updateCredit(int id, double credit) {
-        try {
-            accountMapper.updateCredit(id, credit);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseVO.buildFailure(UPDATE_ERROR);
-        }
-        return ResponseVO.buildSuccess(true);
+    public ResponseVO updatePassword(int id, String password) {
+        String n_pass = PasswordEncryptHelper.getMD5(password);
+        accountMapper.updatePassword(id, n_pass);
+        return ResponseVO.buildSuccess();
     }
 
     @Override
@@ -133,19 +132,8 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(creditMapper.handleArgue(creditId, status));
     }
 
-    //    @Override
-//    public ResponseVO personalVIP(int id, String birthday) {
-//        try {
-//            accountMapper.updateBirthday(id, birthday);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseVO.buildFailure(UPDATE_ERROR);
-//        }
-//        return ResponseVO.buildSuccess(true);
-//    }
-//
     @Override
-    public ResponseVO corporateVIP(int id, String corporate) {
+    public ResponseVO updateCorporation(int id, String corporate) {
         try {
             accountMapper.updateCorporate(id, corporate);
         } catch (Exception e) {
@@ -154,11 +142,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return ResponseVO.buildSuccess(true);
     }
-
-//    @Override
-//    public ResponseVO normalUser(String corporate) {
-//        return null;
-//    }
 
     @Override
     public void updateBirthday(int id, String birthday) {
@@ -199,17 +182,19 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess();
     }
 
-    @Override
-    public List<String> getManagerTelephone(int hotelId) {
-        return null;
-    }
 
     @Override
     public ResponseVO chargeCredit(int userId, int change, String reason) {
         try {
-            accountMapper.chargeCredit(userId, change);
             User user = accountMapper.getAccountById(userId);
-            creditMapper.addCredit(new Credit(userId, change, user.getCredit(), reason));
+            if (change < 0 && user.getAnnulTime() > 0) {
+                accountMapper.minAnnulTime(userId);
+                creditMapper.addCredit(new Credit(userId, 0, user.getCredit(),
+                        reason + "，已使用新手抵消，目前剩余" + (user.getAnnulTime() - 1) + "次"));
+                return ResponseVO.buildSuccess();
+            }
+            accountMapper.chargeCredit(userId, change);
+            creditMapper.addCredit(new Credit(userId, change, user.getCredit() + change, reason));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -246,5 +231,16 @@ public class AccountServiceImpl implements AccountService {
             userVOs.add(userVO);
         }
         return userVOs;
+    }
+
+    @Override
+    public List<String> getAllPhoneNumOfSalesPerson() {
+        List<UserVO> userVOS = getAllUsers();
+        List<String> phoneNum = new ArrayList<>();
+        for (UserVO userVO : userVOS) {
+            if (userVO.getUserType().equals(UserType.SalesPerson))
+                phoneNum.add(userVO.getPhoneNumber());
+        }
+        return phoneNum;
     }
 }

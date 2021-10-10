@@ -1,0 +1,79 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CreditMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.user</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CreditMapper (com.example.hotel.data.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CreditMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.user;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Credit;
+<i>4</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>6</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>7</i>&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * @author ×¯×ÓÔª 181830266@smail.nju.edu.cn
+<i>13</i>&nbsp; * @date 2020/5/24 17:24
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;@Repository
+<i>16</i>&nbsp;@Mapper
+<i>17</i>&nbsp;public interface CreditMapper {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    Credit getCredit(@Param(&quot;id&quot;) Integer id);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    int addCredit(Credit credit);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    List&lt;Credit&gt; getUserCredit(@Param(&quot;userId&quot;) Integer userId);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    List&lt;Credit&gt; getAllCredit();
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    int argueCredit(@Param(&quot;id&quot;) Integer id, @Param(&quot;argue&quot;) String argue);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    int handleArgue(@Param(&quot;id&quot;) Integer id, @Param(&quot;status&quot;) Integer statues);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    List&lt;Credit&gt; getArgueCredits();
+<i>32</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>
