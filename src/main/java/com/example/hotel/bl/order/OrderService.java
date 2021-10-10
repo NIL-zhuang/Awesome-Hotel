@@ -1,9 +1,7 @@
 package com.example.hotel.bl.order;
 
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.*;
 
 import java.util.List;
 
@@ -42,7 +40,9 @@ public interface OrderService {
 
     List<Order> probableAbnormalOrder(Integer hotelId);
 
-    ResponseVO abnormalOrder(int orderId, double minCreditRatio);
+    ResponseVO abnormalOrder(int orderId);
+
+    ResponseVO handleAbnormal(int orderId, double ratio);
 
     ResponseVO finishOrder(int orderId);
 
@@ -57,13 +57,19 @@ public interface OrderService {
 
     ResponseVO getUserComments(Integer userId);
 
-    List<Order> getOrdersInMonth(List<Order> orders);  //从输入流的订单中找到近30天的并返回
+    List<List<Order>> getOrdersInMonth(List<Order> orders);  //从输入流的订单中找到近30天的并返回
 
-    ResponseVO getOrdersInMonthOfHotel(Integer hotelId);
+    List<List<Order>> getOrdersInMonthOfHotel(Integer hotelId);
 
-    ResponseVO getOrdersInMonthOfAll();
+    List<List<Order>> getOrdersInMonthOfAll();
 
     List<Order> filterOrders(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 
+    HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime);  //对特定的酒店，返回可预订的房间的信息
 
+    List<RoomVO> checkRoomByOrder(List<RoomVO> rooms, List<Order> orders); //通过房间信息和对应的订单信息，检查酒店房间情况
+
+    Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type); //通过订单查找酒店特定房间的可用房间数，用于addOrder时的检验
+
+    ResponseVO argueAbnormalOrder(Integer orderId, String reason);
 }

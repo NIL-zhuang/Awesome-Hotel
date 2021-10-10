@@ -7,6 +7,9 @@
             <a-table
                 :columns="columns"
                 :dataSource="rooms"
+                :rowKey="record => record.id"
+                style="background-color: white; padding: 10px; margin-top: 20px; border-radius: 20px; "
+                bordered
             >
                 <span slot="price" slot-scope="text">
                     <a-tag color="pink">¥ {{ text }}</a-tag>
@@ -15,7 +18,7 @@
                     <a-tag color="purple">剩余房间：{{text}}</a-tag>
                 </span>
                 <span slot="action" slot-scope="record">
-                    <a-button type="primary" @click="order(record)">预定</a-button>
+                    <a-button icon="plus-circle" type="primary" @click="order(record)">预定</a-button>
                 </span>
             </a-table>
         </div>
@@ -84,13 +87,15 @@ export default {
     methods: {
         ...mapMutations([
             'set_orderModalVisible',
-            'set_currentOrderRoom'
+            'set_currentOrderRoom',
+            'set_orderSuccess'
         ]),
         ...mapActions([
 
         ]),
         order(record) {
             this.set_currentOrderRoom(record)
+            this.set_orderSuccess(false)
             this.set_orderModalVisible(true)
         }
     }

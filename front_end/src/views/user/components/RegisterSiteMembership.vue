@@ -58,7 +58,6 @@
                 this.set_registerSiteMembershipModalVisible(false);
             },
             confirmRegister(e) {
-                // TODO 注册会员的逻辑
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {

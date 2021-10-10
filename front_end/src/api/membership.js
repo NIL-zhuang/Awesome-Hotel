@@ -106,9 +106,9 @@ export function formulateALevelAPI(params) {
     })
 } // 一次只能制定一条
 
-export function getTheRequestOfLevelAPI(level) {
+export function getTheRequestOfLevelAPI(level, type) {
     return axios({
-        url: `${api.memberShipPre}/${level}/getTheRequestOfLevel`,
+        url: `${api.memberShipPre}/${level}/${type}/getTheRequestOfLevel`,
         method: 'GET'
     })
 }

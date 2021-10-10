@@ -42,8 +42,8 @@ public class Order {
         this.equipment = equipment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Integer getPoints() {
@@ -66,8 +66,8 @@ public class Order {
         return equipment;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComments() {
+        return comments;
     }
 
     /**
@@ -78,7 +78,7 @@ public class Order {
     private Integer environment;
     private Integer service;
     private Integer equipment;
-    private String comment;
+    private String comments;
 
     public Integer getId() {
         return id;

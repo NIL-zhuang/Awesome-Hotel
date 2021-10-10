@@ -1,0 +1,75 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: QuestionMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.question</a> ]
+</div>
+
+<h1>Coverage Summary for Class: QuestionMapper (com.example.hotel.data.question)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">QuestionMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.question;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Question;
+<i>4</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>6</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * @author 庄子元 181830266@smail.nju.edu.cn
+<i>12</i>&nbsp; * @date 2020/5/24 10:49
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;@Mapper
+<i>15</i>&nbsp;@Repository
+<i>16</i>&nbsp;public interface QuestionMapper {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    int addQuestion(Question question);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * 只改available属性，不改question值
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    int annulQuestion(@Param(&quot;id&quot;) int questionId);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    List&lt;Question&gt; getHotelQuestion(@Param(&quot;hotelId&quot;) int hotelId);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    List&lt;Question&gt; getUserQuestion(@Param(&quot;userId&quot;) int userId);
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

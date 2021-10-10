@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.question.AnswerMapper">
 
     <insert id="addAnswer" parameterType="com.example.hotel.po.Answer" useGeneratedKeys="true" keyProperty="answerId">
-        insert into Answers(userId, questionId, answer)
-        values(#{userId}, #{questionId}, #{answer})
+        insert into Answers(userId, questionId, answer, userName)
+        values(#{userId}, #{questionId}, #{answer}, #{userName})
     </insert>
 
     <select id="getAllAnswers" resultMap="Answer">

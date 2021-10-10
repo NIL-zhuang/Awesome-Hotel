@@ -19,6 +19,17 @@
                   <a-select-option value="Family">家庭房</a-select-option>
                 </a-select>
             </a-form-item>
+            <a-form-item label="早餐" v-bind="formItemLayout">
+                <a-select
+                        v-decorator="[
+                    'breakfast',
+                    { rules: [{ required: true, message: '请选择早餐' }] }]"
+                >
+                    <a-select-option value="None">无</a-select-option>
+                    <a-select-option value="Porridge">粥</a-select-option>
+                    <a-select-option value="Noodles">面条</a-select-option>
+                </a-select>
+            </a-form-item>
             <a-form-item label="房间数量" v-bind="formItemLayout">
                 <a-input
                     placeholder="请填写房间数量"
@@ -31,13 +42,19 @@
                     v-decorator="['price', { rules: [{ required: true, message: '请输入原始价格' }] }]"
                 />
             </a-form-item>
+            <a-form-item label="入住人数" v-bind="formItemLayout">
+                <a-input
+                        placeholder="请输入入住人数"
+                        v-decorator="['peopleNum', { rules: [{ required: true, message: '请输入入住人数' }] }]"
+                />
+            </a-form-item>
         </a-form>
     </a-modal>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-    name: 'AddRoomModal',
+    name: 'addRoomModal',
     data() {
         return {
             formItemLayout: {
@@ -55,7 +72,7 @@ export default {
     computed: {
         ...mapGetters([
             'addRoomModalVisible',
-            'activeHotelId'
+            'userInfo',
         ])
     },
     beforeCreate() {
@@ -81,11 +98,15 @@ export default {
                 if (!err) {
                     const data = {
                         roomType: this.form.getFieldValue('roomType'),
+                        bedType: this.form.getFieldValue('roomType'),
+                        breakfast: this.form.getFieldValue('breakfast'),
                         price: Number(this.form.getFieldValue('price')),
                         total: Number(this.form.getFieldValue('roomNum')),
                         curNum: Number(this.form.getFieldValue('roomNum')),
-                        hotelId: this.activeHotelId,
+                        peopleNum: Number(this.form.getFieldValue('peopleNum')),
+                        id: this.userInfo.hotelID,
                     }
+                    console.log(data)
                     this.set_addRoomParams(data)
                     this.addRoom()
                 }

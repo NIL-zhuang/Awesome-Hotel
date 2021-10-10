@@ -1,25 +1,30 @@
 import {
     addRoomAPI,
-} from '@/api/hotelManager'
+    deleteRoomAPI,
+} from '../../api/hotelManager'
 import {
     getHotelOrdersAPI,
-} from '@/api/order'
+    getHotelOrdersInMonthAPI,
+} from "../../api/order";
 import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
     hotelBirthdayCouponAPI,
-    hotelTimeCouponAPI,
+    TimeCouponAPI,
     hotelManyRoomCouponAPI,
     deleteCouponAPI,
-} from '@/api/coupon'
-
+} from '../../api/coupon'
 import {
+    updateHotelInfoAPI,
     getHotelByIdAPI
 } from "../../api/hotel";
 import {message} from 'ant-design-vue'
 const hotelManager = {
     state: {
         orderList: [],
+        orderInMonth: [],
+        orderNumInMonth: [],
+        orderValueInMonth: [],
         latestOrderList: [],
         addRoomParams: {
             roomType: '',
@@ -31,7 +36,6 @@ const hotelManager = {
         addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
-        activeHotelId: 0,
         couponList: [],
         registerHotelMembershipModalVisible: false,
         hotelInfo: {},
@@ -42,6 +46,15 @@ const hotelManager = {
         },
         set_orderList: function (state, data) {
             state.orderList = data
+        },
+        set_orderInMonth: function (state, data) {
+            state.orderInMonth = data
+        },
+        set_orderNumInMonth: function (state, data) {
+            state.orderNumInMonth = data
+        },
+        set_orderValueInMonth: function (state, data){
+            state.orderValueInMonth = data
         },
         set_addRoomModalVisible: function (state, data) {
             state.addRoomModalVisible = data
@@ -72,10 +85,30 @@ const hotelManager = {
         },
     },
     actions: {
-        getHotelOrders: async ({state, commit}) => {
-            const res = await getHotelOrdersAPI(state.manageHotelId)
+        getHotelOrders: async ({state, commit}, id) => {
+            const res = await getHotelOrdersAPI(id)
+            res.reverse()
             if (res) {
                 commit('set_orderList', res)
+            }
+        },
+        getHotelOrdersInMonth: async ({state, commit}, id) => {
+            const res = await getHotelOrdersInMonthAPI(id)
+            if (res) {
+                let num = []
+                let value = []
+                commit('set_orderInMonth', res)
+                for (let orders of res) {
+                    let n = 0, v = 0.00
+                    for (const order of orders){
+                        n++
+                        v+=order.price
+                    }
+                    num = [...num, n]
+                    value = [...value, v]
+                }
+                commit('set_orderNumInMonth', num)
+                commit('set_orderValueInMonth', value)
             }
         },
         addRoom: async ({state, dispatch, commit}) => {
@@ -89,9 +122,17 @@ const hotelManager = {
                     total: 0,
                     curNum: 0,
                 })
+                dispatch('getHotelInfo', state.addRoomParams.id)
                 message.success('添加成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        deleteRoom: async ({state, dispatch}, params) => {
+            const res = await deleteRoomAPI(params)
+            if (res) {
+                dispatch('getHotelInfo', params.hotelId)
+                message.success('删除成功')
             }
         },
         addHotelCoupon: async ({state, commit, dispatch}, data) => {
@@ -107,7 +148,7 @@ const hotelManager = {
                     res = await hotelTargetMoneyAPI(data)
                     break
                 case 4:
-                    res = await hotelTimeCouponAPI(data)
+                    res = await TimeCouponAPI(data)
                     break
             }
             if (res) {
@@ -119,25 +160,14 @@ const hotelManager = {
             }
         },
         deleteCoupon: async ({state, commit, dispatch}, data) => {
-            const res = await deleteCouponAPI(data)
+            const res = await deleteCouponAPI(data.couponId)
             if (res) {
-                console.log()
-                dispatch('getHotelCoupon', state.hotelInfo.hotelId)
+                dispatch('getHotelCoupon', data.hotelId)
                 message.success('删除成功')
             }else {
                 message.error('删除失败')
             }
         },
-        // registerHotelMembership: async ({state, dispatch, commit}, data) => {
-        //     const res = await registerHotelMembershipAPI(data)
-        //     if(res) {
-        //         dispatch('getHotelById')
-        //         commit('set_registerHotelMembershipModalVisible', false)
-        //         message.success('注册成功')
-        //     } else {
-        //         message.error('注册失败')
-        //     }
-        // },
         getHotelInfo: async ({state, commit}, hotelId) => {
             const res = await getHotelByIdAPI(hotelId)
             if (res) {
@@ -152,6 +182,13 @@ const hotelManager = {
                 commit('set_couponList', res)
             }
         },
+        updateHotelInfo: async ({state, dispatch}, data) => {
+            const res = await updateHotelInfoAPI(state.hotelInfo.id, data)
+            if (res) {
+                message.success('修改成功')
+                dispatch('getHotelInfo', state.hotelInfo.id)
+            }
+        }
     }
 }
 

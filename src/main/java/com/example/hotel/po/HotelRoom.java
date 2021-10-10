@@ -3,6 +3,7 @@ package com.example.hotel.po;
 import com.example.hotel.enums.BedType;
 import com.example.hotel.enums.BreakFast;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.vo.RoomVO;
 
 public class HotelRoom {
     private Integer id;
@@ -21,6 +22,19 @@ public class HotelRoom {
     private int total;
 
     private Integer peopleNum;
+
+    public HotelRoom(){}
+
+    public HotelRoom(RoomVO room){
+        this.roomType = RoomType.valueOf(room.getRoomType());
+        this.bedType = BedType.valueOf(room.getBedType());
+        this.breakfast = BreakFast.valueOf(room.getBreakfast());
+        this.hotelId = room.getId();
+        this.price = room.getPrice();
+        this.curNum = room.getCurNum();
+        this.peopleNum = room.getPeopleNum();
+        this.total = room.getTotal();
+    }
 
     public Integer getId() {
         return id;

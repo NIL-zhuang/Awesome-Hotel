@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CollectionServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.blImpl.user</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CollectionServiceImpl (com.example.hotel.blImpl.user)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CollectionServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (1/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.4%
+  </span>
+  <span class="absValue">
+    (1/ 41)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CollectionServiceImpl$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    10%
+  </span>
+  <span class="absValue">
+    (1/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.2%
+  </span>
+  <span class="absValue">
+    (1/ 45)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.blImpl.user;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.bl.user.CollectionService;
+<i>4</i>&nbsp;import com.example.hotel.data.user.CollectionMapper;
+<i>5</i>&nbsp;import com.example.hotel.data.hotel.HotelMapper;
+<i>6</i>&nbsp;import com.example.hotel.po.Collection;
+<i>7</i>&nbsp;import com.example.hotel.vo.CollectionVO;
+<i>8</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>9</i>&nbsp;import org.springframework.beans.BeanUtils;
+<i>10</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>11</i>&nbsp;import org.springframework.stereotype.Service;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.util.ArrayList;
+<i>14</i>&nbsp;import java.util.List;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * @author 庄子元 181830266@smail.nju.edu.cn
+<i>18</i>&nbsp; * @date 2020/6/15 21:52
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;@Service
+<b class="fc"><i>21</i>&nbsp;public class CollectionServiceImpl implements CollectionService {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    private static final String ADD_COLLECTION_SUCCESS = &quot;收藏成功&quot;;
+<i>24</i>&nbsp;    private static final String ADD_COLLECTION_FAIL = &quot;收藏失败&quot;;
+<i>25</i>&nbsp;    private static final String ANNUL_SUCCESS = &quot;撤销成功&quot;;
+<i>26</i>&nbsp;    private static final String ANNUL_FAIL = &quot;撤销失败&quot;;
+<i>27</i>&nbsp;    @Autowired
+<i>28</i>&nbsp;    private CollectionMapper collectionMapper;
+<i>29</i>&nbsp;    @Autowired
+<i>30</i>&nbsp;    private HotelMapper hotelMapper;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public ResponseVO addCollection(CollectionVO collectionVO) {
+<i>34</i>&nbsp;        try {
+<b class="nc"><i>35</i>&nbsp;            Collection collection = new Collection();</b>
+<b class="nc"><i>36</i>&nbsp;            BeanUtils.copyProperties(collectionVO, collection);</b>
+<b class="nc"><i>37</i>&nbsp;            collectionMapper.addCollection(collection);</b>
+<b class="nc"><i>38</i>&nbsp;            return ResponseVO.buildSuccess(ADD_COLLECTION_SUCCESS);</b>
+<b class="nc"><i>39</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>40</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>41</i>&nbsp;            return ResponseVO.buildFailure(ADD_COLLECTION_FAIL);</b>
+<i>42</i>&nbsp;        }
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Override
+<i>46</i>&nbsp;    public ResponseVO annulCollection(Integer collectionId) {
+<i>47</i>&nbsp;        try {
+<b class="nc"><i>48</i>&nbsp;            collectionMapper.annualCollection(collectionId);</b>
+<b class="nc"><i>49</i>&nbsp;            return ResponseVO.buildSuccess(ANNUL_SUCCESS);</b>
+<b class="nc"><i>50</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>51</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>52</i>&nbsp;            return ResponseVO.buildFailure(ANNUL_FAIL);</b>
+<i>53</i>&nbsp;        }
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @Override
+<i>57</i>&nbsp;    public List&lt;CollectionVO&gt; getUserCollection(Integer userId) {
+<b class="nc"><i>58</i>&nbsp;        List&lt;Collection&gt; collections = collectionMapper.getUserCollection(userId);</b>
+<b class="nc"><i>59</i>&nbsp;        return getCollectionVOS(collections);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    private List&lt;CollectionVO&gt; getCollectionVOS(List&lt;Collection&gt; collections) {
+<b class="nc"><i>63</i>&nbsp;        List&lt;CollectionVO&gt; collectionVOS = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>64</i>&nbsp;        for (Collection collection : collections) {</b>
+<b class="nc"><i>65</i>&nbsp;            CollectionVO collectionVO = new CollectionVO();</b>
+<b class="nc"><i>66</i>&nbsp;            BeanUtils.copyProperties(collection, collectionVO);</b>
+<b class="nc"><i>67</i>&nbsp;            collectionVO.setHotelInfo(hotelMapper.selectById(collection.getHotelID()));</b>
+<b class="nc"><i>68</i>&nbsp;            collectionVOS.add(collectionVO);</b>
+<b class="nc"><i>69</i>&nbsp;        }</b>
+<b class="nc"><i>70</i>&nbsp;        return collectionVOS;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    @Override
+<i>74</i>&nbsp;    public Integer getHotelCollection(Integer hotelId) {
+<b class="nc"><i>75</i>&nbsp;        List&lt;Collection&gt; collections = collectionMapper.getHotelCollection(hotelId);</b>
+<b class="nc"><i>76</i>&nbsp;        return getCollectionVOS(collections).size();</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    @Override
+<i>80</i>&nbsp;    public Boolean userCollection(Integer userId, Integer hotelId) {
+<b class="nc"><i>81</i>&nbsp;        List&lt;Collection&gt; collections = collectionMapper.getUserCollection(userId);</b>
+<b class="nc"><i>82</i>&nbsp;        for (Collection collection : collections) {</b>
+<b class="nc"><i>83</i>&nbsp;            if (collection.getHotelID().equals(hotelId)) {</b>
+<b class="nc"><i>84</i>&nbsp;                return true;</b>
+<i>85</i>&nbsp;            }
+<b class="nc"><i>86</i>&nbsp;        }</b>
+<b class="nc"><i>87</i>&nbsp;        return false;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @Override
+<i>91</i>&nbsp;    public ResponseVO addCollectionByUserId(Integer hotelId, Integer userId) {
+<b class="nc"><i>92</i>&nbsp;        Collection collection = new Collection() {{</b>
+<b class="nc"><i>93</i>&nbsp;            setHotelID(hotelId);</b>
+<b class="nc"><i>94</i>&nbsp;            setUserID(userId);</b>
+<b class="nc"><i>95</i>&nbsp;        }};</b>
+<b class="nc"><i>96</i>&nbsp;        collectionMapper.addCollection(collection);</b>
+<b class="nc"><i>97</i>&nbsp;        return ResponseVO.buildSuccess(&quot;添加收藏成功&quot;);</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public ResponseVO annulCollectionByUserId(Integer hotelId, Integer userId) {
+<b class="nc"><i>102</i>&nbsp;        List&lt;Collection&gt; collections = collectionMapper.getUserCollection(userId);</b>
+<b class="nc"><i>103</i>&nbsp;        for (Collection collection : collections) {</b>
+<b class="nc"><i>104</i>&nbsp;            if (collection.getHotelID().equals(hotelId)) {</b>
+<b class="nc"><i>105</i>&nbsp;                collectionMapper.annualCollection(collection.getId());</b>
+<b class="nc"><i>106</i>&nbsp;                return ResponseVO.buildSuccess(&quot;取消收藏成功&quot;);</b>
+<i>107</i>&nbsp;            }
+<b class="nc"><i>108</i>&nbsp;        }</b>
+<b class="nc"><i>109</i>&nbsp;        return ResponseVO.buildFailure(&quot;没有收藏这个酒店&quot;);</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

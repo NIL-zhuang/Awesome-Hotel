@@ -3,9 +3,37 @@
 <mapper namespace="com.example.hotel.data.hotel.HotelMapper">
     <insert id="insertHotel" parameterType="com.example.hotel.po.Hotel"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate)
-        values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate})
+        insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum)
+        values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum})
     </insert>
+
+    <update id="updateHotelName">
+        update hotel set hotelName = #{hotelName} where id = #{id}
+    </update>
+
+    <update id="updateHotelBizRegion">
+        update hotel set bizRegion = #{bizRegion} where id = #{id}
+    </update>
+
+    <update id="updateHotelAddress">
+        update hotel set address = #{address} where id = #{id}
+    </update>
+
+    <select id="getHotelAddress" resultType="String">
+        select address from Hotel where id = #{id}
+    </select>
+
+    <update id="updateHotelDescription">
+        update hotel set hotelDescription = #{description} where id = #{id}
+    </update>
+
+    <update id="updateHotelPhoneNum">
+        update hotel set phoneNum = #{phoneNum} where id = #{id}
+    </update>
+
+    <update id="updateHotelStar">
+        update hotel set hotelStar = #{hotelStar} where id = #{id}
+    </update>
 
     <delete id="deleteHotel">
         delete from Hotel where id = #{id}
@@ -40,12 +68,12 @@
         <result column="hotelDescription" property="description"/>
         <result column="hotelStar" property="hotelStar"/>
         <result column="phoneNum" property="phoneNum"/>
-        <result column="rate" property="rate"/>
-        <result column="manager_id" property="managerId"/>
         <result column="commentTime" property="commentTime"/>
         <result column="points" property="points"/>
         <result column="sanitation" property="sanitation"/>
         <result column="environment" property="environment"/>
+        <result column="service" property="service"/>
+        <result column="equipment" property="equipment"/>
         <result column="picture" property="picture"/>
     </resultMap>
 

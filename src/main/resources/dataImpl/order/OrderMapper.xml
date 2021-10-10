@@ -48,7 +48,6 @@
         where id = #{orderId}
     </update>
 
-
     <update id="updateComment" parameterType="com.example.hotel.po.Comment">
         update orderlist
         set comments = #{comment},
@@ -76,7 +75,7 @@
 
     <select id="getHotelComment" resultMap="Comment">
         select * from orderlist
-        where hotelId = #{hotelId}
+        where hotelId = #{hotelId} and points is not null
     </select>
 
     <update id="annulComment">
@@ -88,6 +87,10 @@
         service = NULL,
         equipment = NULL
         where id = #{orderId}
+    </update>
+
+    <update id="argueAbnormalOrder">
+        update orderlist set comments = #{reason} where id = #{orderId}
     </update>
 
     <resultMap id="Order" type="com.example.hotel.po.Order">

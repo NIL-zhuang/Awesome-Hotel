@@ -63,7 +63,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public ResponseVO annulAnswer(Integer answerId) {
-        answerMapper.annualAnswer(answerId);
+        answerMapper.annulAnswer(answerId);
         return ResponseVO.buildSuccess(ANNUL_SUCCESS);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="homePage">
         <div v-if="userInfo.userType==='Client'">
             <ClientHomePage></ClientHomePage>
         </div>
@@ -44,5 +44,8 @@
 </script>
 
 <style scoped>
+    .homePage {
+
+    }
 
 </style>

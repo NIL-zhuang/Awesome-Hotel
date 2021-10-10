@@ -75,6 +75,11 @@ const routes = [
         component: () => import('@/views/admin/adminInfo')
       },
       {
+        path: '/salesPerson/info/:userId',
+        name: 'salesPersonInfo',
+        component: () => import('@/views/salesPerson/salesPersonInfo')
+      },
+      {
         path: '/salesPerson/manageSiteCoupon',
         name: 'manageSiteCoupon',
         component: () => import('@/views/salesPerson/siteCoupon')
@@ -93,8 +98,12 @@ const routes = [
         path: '/salesPerson/manageMembership',
         name: 'manageMembership',
         component: () => import('@/views/salesPerson/manageMembership')
+      },
+      {
+        path: '/helper',
+        name: 'helper',
+        component: () => import('@/views/helper')
       }
-
     ]
   },
 ]

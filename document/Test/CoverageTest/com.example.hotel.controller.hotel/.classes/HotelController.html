@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HotelController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.controller.hotel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HotelController (com.example.hotel.controller.hotel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HotelController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.3%
+  </span>
+  <span class="absValue">
+    (1/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.3%
+  </span>
+  <span class="absValue">
+    (1/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.controller.hotel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.bl.hotel.HotelSearchService;
+<i>4</i>&nbsp;import com.example.hotel.bl.hotel.HotelService;
+<i>5</i>&nbsp;import com.example.hotel.bl.hotel.RoomService;
+<i>6</i>&nbsp;import com.example.hotel.bl.question.AnswerService;
+<i>7</i>&nbsp;import com.example.hotel.bl.question.QuestionService;
+<i>8</i>&nbsp;import com.example.hotel.po.HotelRoom;
+<i>9</i>&nbsp;import com.example.hotel.util.ServiceException;
+<i>10</i>&nbsp;import com.example.hotel.vo.*;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;@RestController
+<i>15</i>&nbsp;@RequestMapping(&quot;/api/hotel&quot;)
+<b class="fc"><i>16</i>&nbsp;public class HotelController {</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Autowired
+<i>19</i>&nbsp;    private HotelService hotelService;
+<i>20</i>&nbsp;    @Autowired
+<i>21</i>&nbsp;    private RoomService roomService;
+<i>22</i>&nbsp;    @Autowired
+<i>23</i>&nbsp;    private HotelSearchService hotelSearchService;
+<i>24</i>&nbsp;    @Autowired
+<i>25</i>&nbsp;    private QuestionService questionService;
+<i>26</i>&nbsp;    @Autowired
+<i>27</i>&nbsp;    private AnswerService answerService;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @PostMapping(&quot;/addHotel&quot;)
+<i>31</i>&nbsp;    public ResponseVO createHotel(@RequestBody HotelForm hotelForm) throws ServiceException {
+<b class="nc"><i>32</i>&nbsp;        return hotelService.addHotel(hotelForm);</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @PostMapping(&quot;/{hotelId}/updateHotel&quot;)
+<i>36</i>&nbsp;    public ResponseVO updateHotelInfo(@PathVariable Integer hotelId, @RequestBody HotelForm hotelForm) throws ServiceException {
+<b class="nc"><i>37</i>&nbsp;        return hotelService.updateHotelInfo(hotelId, hotelForm);</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @GetMapping(&quot;/all&quot;)
+<i>41</i>&nbsp;    public ResponseVO retrieveAllHotels() {
+<b class="nc"><i>42</i>&nbsp;        return ResponseVO.buildSuccess(hotelService.retrieveHotels());</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @PostMapping(&quot;/roomInfo&quot;)
+<i>46</i>&nbsp;    public ResponseVO addRoomInfo(@RequestBody RoomVO hotelRoom) {
+<b class="nc"><i>47</i>&nbsp;        roomService.insertRoomInfo(hotelRoom);</b>
+<b class="nc"><i>48</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @PostMapping(&quot;/deleteRoom&quot;)
+<i>52</i>&nbsp;    public ResponseVO deleteRoom(@RequestParam(value = &quot;hotelId&quot;) Integer hotelId, @RequestParam(value = &quot;roomType&quot;) String roomType) {
+<b class="nc"><i>53</i>&nbsp;        roomService.deleteRoom(hotelId,roomType);</b>
+<b class="nc"><i>54</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    //如果end超过当前酒店数量，则返回从start到最后一个酒店
+<i>58</i>&nbsp;    @GetMapping(&quot;/retrieveHotels&quot;)
+<i>59</i>&nbsp;    public ResponseVO retrieveHotels(@RequestParam(value = &quot;start&quot;) Integer start, @RequestParam(value = &quot;end&quot;) Integer end){   //左闭右开,返回区间内的hotel组成的list
+<b class="nc"><i>60</i>&nbsp;        return ResponseVO.buildSuccess(hotelService.retrieveHotels(start,end));</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    @GetMapping(&quot;/{hotelId}/detail&quot;)
+<i>64</i>&nbsp;    public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
+<b class="nc"><i>65</i>&nbsp;        return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    @PostMapping(&quot;/searchHotel&quot;)
+<i>69</i>&nbsp;    public ResponseVO searchHotel(@RequestBody SearchBodyVO searchBody) {
+<b class="nc"><i>70</i>&nbsp;        return ResponseVO.buildSuccess(hotelSearchService.searchHotel(searchBody));</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    // 准备删除这段代码
+<i>74</i>&nbsp;    @PostMapping(&quot;/{hotelId}/registerHotelMembership&quot;)
+<i>75</i>&nbsp;    public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
+<b class="nc"><i>76</i>&nbsp;        System.out.println(hotelId);</b>
+<b class="nc"><i>77</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @PostMapping(&quot;/{hotelId}/deleteHotel&quot;)
+<i>81</i>&nbsp;    public ResponseVO deleteHotel(@PathVariable Integer hotelId) {
+<b class="nc"><i>82</i>&nbsp;        hotelService.deleteHotel(hotelId);</b>
+<b class="nc"><i>83</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @PostMapping(&quot;/addQuestion&quot;)
+<i>87</i>&nbsp;    public ResponseVO addQuestion(@RequestBody QuestionForm questionForm) {
+<b class="nc"><i>88</i>&nbsp;        return questionService.addQuestion(questionForm);</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @PostMapping(&quot;/{questionId}/annulQuestion&quot;)
+<i>92</i>&nbsp;    public ResponseVO annulQuestion(@PathVariable Integer questionId) {
+<b class="nc"><i>93</i>&nbsp;        return questionService.annulQuestion(questionId);</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    @GetMapping(&quot;/{hotelId}/getHotelQuestion&quot;)
+<i>97</i>&nbsp;    public ResponseVO getHotelQuestion(@PathVariable Integer hotelId) {
+<b class="nc"><i>98</i>&nbsp;        return ResponseVO.buildSuccess(questionService.getHotelQuestion(hotelId));</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @GetMapping(&quot;/{userId}/getUserQuestion&quot;)
+<i>102</i>&nbsp;    public ResponseVO getUserQuestion(@PathVariable Integer userId) {
+<b class="nc"><i>103</i>&nbsp;        return ResponseVO.buildSuccess(questionService.getUserQuestion(userId));</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    @PostMapping(&quot;/addAnswer&quot;)
+<i>107</i>&nbsp;    public ResponseVO addAnswer(@RequestBody AnswerVO answerVO) {
+<b class="nc"><i>108</i>&nbsp;        return answerService.addAnswer(answerVO);</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    @PostMapping(&quot;/{answerId}/annulAnswer&quot;)
+<i>112</i>&nbsp;    public ResponseVO annulAnswer(@PathVariable Integer answerId) {
+<b class="nc"><i>113</i>&nbsp;        return answerService.annulAnswer(answerId);</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    @GetMapping(&quot;/getAllAnswers&quot;)
+<i>117</i>&nbsp;    public ResponseVO getAllAnswers() {
+<b class="nc"><i>118</i>&nbsp;        return ResponseVO.buildSuccess(answerService.getAllAnswers());</b>
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    @GetMapping(&quot;/{questionId}/getQuestionAnswers&quot;)
+<i>122</i>&nbsp;    public ResponseVO getQuestionAnswer(@PathVariable Integer questionId) {
+<b class="nc"><i>123</i>&nbsp;        return ResponseVO.buildSuccess(answerService.getQuestionAnswers(questionId));</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

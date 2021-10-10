@@ -1,0 +1,78 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AdminMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.admin</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AdminMapper (com.example.hotel.data.admin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AdminMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.admin;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.User;
+<i>4</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>6</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * @Author: chenyizong
+<i>12</i>&nbsp; * @Date: 2020-03-04
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;@Mapper
+<i>15</i>&nbsp;@Repository
+<i>16</i>&nbsp;public interface AdminMapper {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    int addManager(User user);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    int addSalesPerson(User user);
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    List&lt;User&gt; getAllManagers();
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    List&lt;User&gt; getHotelManagers(@Param(&quot;hotelId&quot;) Integer hotelId);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    List&lt;User&gt; getAllSalesPerson();
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    int deleteManager(Integer id);
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    int deleteSalesPerson(Integer id);
+<i>31</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

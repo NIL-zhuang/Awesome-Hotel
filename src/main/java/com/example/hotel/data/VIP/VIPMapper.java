@@ -21,7 +21,7 @@ public interface VIPMapper {
 
     void addVIPClientConsumption(@Param("userId")Integer userId, @Param("amount") Integer amount);
 
-    void clientLevelUp(@Param("userId")Integer userId);
+    void clientLevelUp(@Param("userId")Integer userId, double reduction);
 
     void registerAsCorpVIP(CorpVIP corpVIP);
 
@@ -33,7 +33,7 @@ public interface VIPMapper {
 
     void addVIPCorpConsumption(@Param("corporationName")String corporationName, @Param("amount") Integer amount);
 
-    void corpLevelUp(@Param("corporationName")String corporationName);
+    void corpLevelUp(@Param("corporationName")String corporationName, double reduction);
 
     List<ClientVIP> getAllVIPClient();
 

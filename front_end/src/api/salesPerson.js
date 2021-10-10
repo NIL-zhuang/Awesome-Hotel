@@ -9,4 +9,10 @@ export function chargeCreditAPI(params) {
         params,
     })
 }
+export function getAllSalesmanTelAPI() {
+    return axios({
+        url: `${api.userPre}/getSalesPhoneNum`,
+        method: 'GET',
+    })
+}
 

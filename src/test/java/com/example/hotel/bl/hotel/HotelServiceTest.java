@@ -1,5 +1,7 @@
 package com.example.hotel.bl.hotel;
 
+import com.example.hotel.util.ServiceException;
+import com.example.hotel.vo.HotelForm;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.RoomVO;
 import org.junit.Assert;
@@ -25,19 +27,56 @@ public class HotelServiceTest {
     @Autowired
     private HotelService hotelService;
 
+
     @Test
     @Transactional
-    public void addHotel() {
+    public void addHotel() throws ServiceException {
+        HotelForm hotelForm = new HotelForm(){{
+           setDescription("123");
+           setAddress("南京");
+           setBizRegion("XiDan");
+           setHotelStar("Three");
+           setName("6667");
+           setPhoneNum("123456789");
+           setRate(4.1);
+        }};
+        hotelService.addHotel(hotelForm);
+        List<HotelVO> hotelVOS = hotelService.retrieveHotels();
+        int size = hotelVOS.size();
+        HotelVO hotelVO = hotelVOS.get(size-1);
+        Assert.assertThat(hotelVO.getName(),is("6667"));
+    }
+
+    @Test
+    @Transactional
+    public void updateHotelInfo() throws ServiceException {
+        HotelForm hotelForm = new HotelForm(){{
+           setName("汉庭酒店");
+           setAddress("456");
+           setDescription("789");
+        }};
+       hotelService.updateHotelInfo(1,hotelForm);
+       HotelVO hotel = hotelService.retrieveHotelDetails(1);
+       Assert.assertThat(hotel.getName(),is("汉庭酒店"));
+       Assert.assertThat(hotel.getAddress(),is("456"));
+       Assert.assertThat(hotel.getDescription(),is("789"));
     }
 
     @Test
     @Transactional
     public void deleteHotel() {
+        hotelService.deleteHotel(2);
+        HotelVO hotelVO = hotelService.retrieveHotelDetails(2);
+        Assert.assertThat(null,is(hotelVO.getId()));
     }
 
     @Test
     @Transactional
     public void updateRoomInfo() {
+        hotelService.updateRoomInfo(1, "DoubleBed",5);
+        HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
+        List<RoomVO> roomVOS = hotelVO.getRooms();
+        Assert.assertThat(roomVOS.get(1).getCurNum(),is(25));
     }
 
     @Test
@@ -45,47 +84,25 @@ public class HotelServiceTest {
     public void retrieveHotels() {
         List<HotelVO> hotelVOS = hotelService.retrieveHotels();
         int num = hotelVOS.size();
-        Assert.assertThat(num,is(3));
+        Assert.assertThat(num,is(39));
     }
 
     @Test
     @Transactional
     public void retrieveHotelDetails() {
+        HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
+        List<RoomVO> rooms = hotelVO.getRooms();
+        int num = rooms.size();
+        int DoubleBed = rooms.get(1).getCurNum();
+        Assert.assertThat(num,is(3));
+        Assert.assertThat(DoubleBed,is(30));
     }
 
     @Test
     @Transactional
     public void getRoomCurNum() {
-    }
-
-    @Test
-    @Transactional
-    public void retrieveAvailableHotelDetails() {
-        HotelVO hotel = hotelService.retrieveAvailableHotelDetails(1,"2020-06-01","2020-06-03");
-        int num = hotel.getId();
-        List<RoomVO> rooms = hotel.getRooms();
-        Assert.assertThat(num,is(1));
-        Assert.assertThat(rooms.get(0).getCurNum(),is(19));
-    }
-
-    @Test
-    @Transactional
-    public void checkRoom() {
-    }
-
-    @Test
-    @Transactional
-    public void addLike() {
-    }
-
-    @Test
-    @Transactional
-    public void removeLike() {
-    }
-
-    @Test
-    @Transactional
-    public void getLike() {
+        int num = hotelService.getRoomCurNum(1,"DoubleBed");
+        Assert.assertThat(num,is(30));
     }
 
     @Test

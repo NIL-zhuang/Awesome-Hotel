@@ -1,0 +1,70 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: QuestionService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.question</a> ]
+</div>
+
+<h1>Coverage Summary for Class: QuestionService (com.example.hotel.bl.question)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">QuestionService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.question;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.vo.QuestionForm;
+<i>4</i>&nbsp;import com.example.hotel.vo.QuestionVO;
+<i>5</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * @author ×¯×ÓÔª 181830266@smail.nju.edu.cn
+<i>11</i>&nbsp; * @date 2020/6/14 15:54
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public interface QuestionService {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    ResponseVO addQuestion(QuestionForm questionForm);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    ResponseVO annulQuestion(Integer questionId);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    List&lt;QuestionVO&gt; getHotelQuestion(Integer hotelId);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    List&lt;QuestionVO&gt; getUserQuestion(Integer userId);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

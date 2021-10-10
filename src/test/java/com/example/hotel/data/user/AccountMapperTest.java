@@ -1,7 +1,6 @@
 package com.example.hotel.data.user;
 
 import com.example.hotel.enums.UserType;
-import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -60,15 +59,8 @@ public class AccountMapperTest {
     @Test
     @Transactional
     public void updateAccount() {
-        accountMapper.updateAccount(4, "123123", "test one", "12312312312");
-        Assert.assertThat(accountMapper.getAccountById(4).getUserName(), is("test one"));
-    }
-
-    @Test
-    @Transactional
-    public void updateCredit() {
-        accountMapper.updateCredit(4, 120.0);
-        Assert.assertThat(accountMapper.getAccountById(4).getCredit(), is(120.0));
+        accountMapper.updateAccount(4, "testone", "12312312312", "12312312312");
+        Assert.assertThat(accountMapper.getAccountById(4).getUserName(), is("testone"));
     }
 
     @Test
@@ -87,9 +79,15 @@ public class AccountMapperTest {
 
     @Test
     @Transactional
-    public void updateAnnulTime() {
-        accountMapper.updateAnnulTime(4, 5);
-        Assert.assertThat(accountMapper.getAccountById(4).getAnnulTime(), is(5));
+    public void updatePassword() {
+        accountMapper.updatePassword(4, "123456");
+    }
+
+    @Test
+    @Transactional
+    public void minAnnulTime() {
+        accountMapper.minAnnulTime(4);
+        Assert.assertThat(accountMapper.getAccountById(4).getAnnulTime(), is(2));
     }
 
     @Test

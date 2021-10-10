@@ -47,7 +47,7 @@
         <br/>
         <div>
             <a-icon type="question-circle" theme="twoTone"/>
-            <span> 有疑问请咨询：
+            <span> 有疑问请咨询酒店方：
                 <a-tag color="blue">
                     {{ orderInfo.hotelPhoneNum }}
                 </a-tag>

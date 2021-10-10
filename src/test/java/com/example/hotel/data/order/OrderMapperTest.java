@@ -141,4 +141,13 @@ public class OrderMapperTest {
         Comment comment = orderMapper.getComment(1);
         Assert.assertNull(comment.getComment());
     }
+
+    @Test
+    @Transactional
+    public void argueAbnormalOrder(){
+        orderMapper.abnormalOrder(1);
+        orderMapper.argueAbnormalOrder(1,"reason");
+        String reason = orderMapper.getAllComment().get(0).getComment();
+        Assert.assertEquals(reason, "reason");
+    }
 }

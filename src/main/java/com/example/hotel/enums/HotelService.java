@@ -7,7 +7,7 @@ public enum HotelService {
 
     WakeUp("叫醒服务");
 
-    private String value;
+    private final String value;
 
     HotelService(String value){
         this.value = value;

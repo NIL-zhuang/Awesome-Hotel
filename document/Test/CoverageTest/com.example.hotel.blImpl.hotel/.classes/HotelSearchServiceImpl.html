@@ -1,0 +1,330 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HotelSearchServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.blImpl.hotel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HotelSearchServiceImpl (com.example.hotel.blImpl.hotel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HotelSearchServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.6%
+  </span>
+  <span class="absValue">
+    (62/ 76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.blImpl.hotel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.bl.hotel.HotelSearchService;
+<i>4</i>&nbsp;import com.example.hotel.bl.hotel.HotelService;
+<i>5</i>&nbsp;import com.example.hotel.bl.order.OrderService;
+<i>6</i>&nbsp;import com.example.hotel.controller.hotel.HotelController;
+<i>7</i>&nbsp;import com.example.hotel.vo.HotelVO;
+<i>8</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>9</i>&nbsp;import com.example.hotel.vo.RoomVO;
+<i>10</i>&nbsp;import com.example.hotel.vo.SearchBodyVO;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.stereotype.Service;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;import java.util.List;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;/**
+<i>19</i>&nbsp; * @Author: hx
+<i>20</i>&nbsp; * @Date: 2020-05-24
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;class Node{
+<i>24</i>&nbsp;    HotelVO hotel;
+<i>25</i>&nbsp;    int score;
+<i>26</i>&nbsp;    Node before = null;
+<i>27</i>&nbsp;    Node next = null;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    Node(HotelVO hotel, int score){
+<i>30</i>&nbsp;        this.hotel = hotel;
+<i>31</i>&nbsp;        this.score = score;
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;}
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;@Service
+<b class="fc"><i>36</i>&nbsp;public class HotelSearchServiceImpl implements HotelSearchService {</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Autowired
+<i>39</i>&nbsp;    private HotelService hotelService;
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;    private String checkInDate = null;</b>
+<b class="fc"><i>42</i>&nbsp;    private String checkOutDate = null;</b>
+<b class="fc"><i>43</i>&nbsp;    private String address = null;</b>
+<b class="fc"><i>44</i>&nbsp;    private String bizRegion = null;</b>
+<b class="fc"><i>45</i>&nbsp;    private String[] hotelStar = null;</b>
+<b class="fc"><i>46</i>&nbsp;    private String[] keyWords = null;</b>
+<b class="fc"><i>47</i>&nbsp;    private double maxPrice = 999;</b>
+<b class="fc"><i>48</i>&nbsp;    private double minScore = 0;</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private Node head;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public List&lt;HotelVO&gt; searchHotel(SearchBodyVO searchBodyVO) {
+<b class="fc"><i>55</i>&nbsp;        setInfo(searchBodyVO);</b>
+<b class="fc"><i>56</i>&nbsp;        return search();</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    private void setInfo(SearchBodyVO searchBodyVO){
+<b class="fc"><i>62</i>&nbsp;        checkInDate = searchBodyVO.getCheckInDate();</b>
+<b class="fc"><i>63</i>&nbsp;        checkOutDate = searchBodyVO.getCheckOutDate();</b>
+<b class="fc"><i>64</i>&nbsp;        address = searchBodyVO.getAddress();</b>
+<b class="fc"><i>65</i>&nbsp;        bizRegion = searchBodyVO.getBizRegion();</b>
+<b class="fc"><i>66</i>&nbsp;        hotelStar = searchBodyVO.getHotelStar();</b>
+<b class="fc"><i>67</i>&nbsp;        keyWords = searchBodyVO.getKeyWords();</b>
+<b class="fc"><i>68</i>&nbsp;        maxPrice = searchBodyVO.getMaxPrice();</b>
+<b class="fc"><i>69</i>&nbsp;        minScore = searchBodyVO.getMinScore();</b>
+<b class="fc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * 搜索，以 List&lt;HotelVO&gt; 格式返回符合要求的酒店
+<i>75</i>&nbsp;     * @return
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    private List&lt;HotelVO&gt; search(){
+<b class="fc"><i>78</i>&nbsp;        List&lt;HotelVO&gt; hotelVOS = hotelService.retrieveHotels();</b>
+<i>79</i>&nbsp;
+<b class="fc"><i>80</i>&nbsp;        List&lt;HotelVO&gt; targetHotels = new ArrayList&lt;&gt;();     //以关联度由高到底排序</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验</b>
+<b class="fc"><i>83</i>&nbsp;            hotel = hotelService.retrieveHotelDetails(hotel.getId());</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;            /*
+<i>88</i>&nbsp;             * judge为Boolean变量
+<i>89</i>&nbsp;             * 对表单中刚性条件进行判定，如果某项不符合则为false
+<i>90</i>&nbsp;             * 如果符合，则酒店进入候选池,并进行相关度评分
+<i>91</i>&nbsp;             * 候选池中酒店信息以双链表方式存储
+<i>92</i>&nbsp;             *
+<i>93</i>&nbsp;             * 检验内容包括：
+<i>94</i>&nbsp;             * 1.酒店地址是否符合
+<i>95</i>&nbsp;             * 2.酒店价格是否在可接受区间内
+<i>96</i>&nbsp;             * 3。酒店星级是否符合要求
+<i>97</i>&nbsp;             * 4.酒店评分是否符合要求
+<i>98</i>&nbsp;             *
+<i>99</i>&nbsp;             */
+<b class="fc"><i>100</i>&nbsp;            boolean judge = checkAddress(hotel,address) &amp;&amp; checkPrice(hotel,maxPrice)</b>
+<b class="fc"><i>101</i>&nbsp;                    &amp;&amp; checkHotelStar(hotel,hotelStar) &amp;&amp; checkHotelScore(hotel, minScore);</b>
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;            if(judge){</b>
+<b class="fc"><i>104</i>&nbsp;                int score = 0;</b>
+<b class="fc"><i>105</i>&nbsp;                score += checkBizRegion(hotel,bizRegion);</b>
+<b class="fc"><i>106</i>&nbsp;                score += checkKeyWords(hotel,keyWords);</b>
+<b class="fc"><i>107</i>&nbsp;                Node node = new Node(hotel,score);</b>
+<b class="fc"><i>108</i>&nbsp;                insertHotel(node);</b>
+<i>109</i>&nbsp;            }
+<b class="fc"><i>110</i>&nbsp;        }</b>
+<b class="fc"><i>111</i>&nbsp;        if (head!=null) {</b>
+<b class="fc"><i>112</i>&nbsp;            Node ptr = head;</b>
+<b class="fc"><i>113</i>&nbsp;            while (ptr != null) {</b>
+<b class="fc"><i>114</i>&nbsp;                targetHotels.add(ptr.hotel);</b>
+<b class="fc"><i>115</i>&nbsp;                ptr = ptr.next;</b>
+<i>116</i>&nbsp;            }
+<i>117</i>&nbsp;        }
+<b class="fc"><i>118</i>&nbsp;        head = null;</b>
+<i>119</i>&nbsp;        //if(targetHotels.size()==0){
+<i>120</i>&nbsp;            //targetHotels = secondarySearch();
+<i>121</i>&nbsp;       // }
+<b class="fc"><i>122</i>&nbsp;        return targetHotels;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;//    private List&lt;HotelVO&gt; secondarySearch(){
+<i>126</i>&nbsp;//        return null;
+<i>127</i>&nbsp;//    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /**
+<i>131</i>&nbsp;     * 刚性条件
+<i>132</i>&nbsp;     * 检查价格是否符合要求
+<i>133</i>&nbsp;     *
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    private boolean checkPrice(HotelVO hotel, double maxPrice){
+<b class="fc"><i>136</i>&nbsp;        double hotelPrice = hotel.getMinPrice();</b>
+<b class="fc"><i>137</i>&nbsp;        return maxPrice &gt; hotelPrice;</b>
+<i>138</i>&nbsp;    }
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * 刚性条件
+<i>142</i>&nbsp;     * 检查地址是否符合要求
+<i>143</i>&nbsp;     *
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    private boolean checkAddress(HotelVO hotel,String address){
+<b class="fc"><i>146</i>&nbsp;        return hotel.getAddress().contains(address);</b>
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * 刚性条件
+<i>152</i>&nbsp;     * 检查酒店的得分是否符合顾客要求
+<i>153</i>&nbsp;     * @param hotel
+<i>154</i>&nbsp;     * @param minScore
+<i>155</i>&nbsp;     * @return
+<i>156</i>&nbsp;     */
+<i>157</i>&nbsp;    private boolean checkHotelScore(HotelVO hotel, double minScore){
+<b class="fc"><i>158</i>&nbsp;        double hotelScore = hotel.getRate();</b>
+<b class="fc"><i>159</i>&nbsp;        return hotelScore &gt;= minScore;</b>
+<i>160</i>&nbsp;    }
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**
+<i>164</i>&nbsp;     * 刚性条件
+<i>165</i>&nbsp;     * 检查酒店星级,使用bitmap，从左到右三位分别表示“三星级”“四星级”“五星级”，0为false，1为true
+<i>166</i>&nbsp;     * ！如果顾客没有填写偏好，前端需传回 111 ！
+<i>167</i>&nbsp;     * @param hotel
+<i>168</i>&nbsp;     * @param hotelStar
+<i>169</i>&nbsp;     * @return
+<i>170</i>&nbsp;     */
+<i>171</i>&nbsp;    private boolean checkHotelStar(HotelVO hotel,String[] hotelStar){
+<b class="fc"><i>172</i>&nbsp;        String star = hotel.getHotelStar();</b>
+<b class="fc"><i>173</i>&nbsp;        boolean judge = false;</b>
+<b class="fc"><i>174</i>&nbsp;        for (String s : hotelStar) {</b>
+<b class="fc"><i>175</i>&nbsp;            judge = judge || s.equals(star);</b>
+<i>176</i>&nbsp;        }
+<i>177</i>&nbsp;
+<b class="fc"><i>178</i>&nbsp;        return judge;</b>
+<i>179</i>&nbsp;    }
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;    /**
+<i>183</i>&nbsp;     * 非刚性条件
+<i>184</i>&nbsp;     * 检查商圈是否符合要求，如果符合
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;    private int checkBizRegion(HotelVO hotel,String bizRegion){
+<b class="fc"><i>187</i>&nbsp;        if(bizRegion.equals(hotel.getBizRegion()))</b>
+<b class="fc"><i>188</i>&nbsp;            return 5;</b>
+<i>189</i>&nbsp;        else
+<b class="nc"><i>190</i>&nbsp;            return 0;</b>
+<i>191</i>&nbsp;    }
+<i>192</i>&nbsp;
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    /**
+<i>195</i>&nbsp;     * 非刚性条件
+<i>196</i>&nbsp;     * 检查关键字，每个关键字加2分
+<i>197</i>&nbsp;     * 如果没有对关键字进行检索，默认返回0分
+<i>198</i>&nbsp;     * @param hotel
+<i>199</i>&nbsp;     * @param keyWords
+<i>200</i>&nbsp;     * @return
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    private int checkKeyWords(HotelVO hotel,String[] keyWords){
+<b class="fc"><i>203</i>&nbsp;        if(keyWords==null)</b>
+<b class="nc"><i>204</i>&nbsp;            return 0;</b>
+<i>205</i>&nbsp;        else{
+<b class="fc"><i>206</i>&nbsp;            String description = hotel.getDescription();</b>
+<b class="fc"><i>207</i>&nbsp;            int l = keyWords.length;</b>
+<b class="fc"><i>208</i>&nbsp;            int score = 0;</b>
+<b class="fc"><i>209</i>&nbsp;            for (String keyWord : keyWords) {</b>
+<b class="fc"><i>210</i>&nbsp;                if (description.contains(keyWord))</b>
+<b class="nc"><i>211</i>&nbsp;                    score += 2;</b>
+<i>212</i>&nbsp;            }
+<b class="fc"><i>213</i>&nbsp;            return score;</b>
+<i>214</i>&nbsp;        }
+<i>215</i>&nbsp;    }
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    /**
+<i>219</i>&nbsp;     * 在链表中插入酒店
+<i>220</i>&nbsp;     * 插入的同时按分数由高到低排序
+<i>221</i>&nbsp;     * @param hotel
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    private void insertHotel(Node hotel){
+<b class="fc"><i>224</i>&nbsp;        if(head==null){</b>
+<b class="fc"><i>225</i>&nbsp;            head = hotel;</b>
+<i>226</i>&nbsp;        }else {
+<b class="nc"><i>227</i>&nbsp;            Node ptr = head.next;</b>
+<i>228</i>&nbsp;            while (true) {
+<b class="nc"><i>229</i>&nbsp;                if (ptr == null) {</b>
+<b class="nc"><i>230</i>&nbsp;                    head.next = hotel;</b>
+<b class="nc"><i>231</i>&nbsp;                    break;</b>
+<b class="nc"><i>232</i>&nbsp;                } else if (ptr.score &lt; hotel.score) {</b>
+<b class="nc"><i>233</i>&nbsp;                    ptr.before.next = hotel;</b>
+<b class="nc"><i>234</i>&nbsp;                    hotel.before = ptr.before;</b>
+<i>235</i>&nbsp;
+<b class="nc"><i>236</i>&nbsp;                    ptr.before = hotel;</b>
+<b class="nc"><i>237</i>&nbsp;                    hotel.next = ptr;</b>
+<b class="nc"><i>238</i>&nbsp;                    break;</b>
+<i>239</i>&nbsp;                } else {
+<b class="nc"><i>240</i>&nbsp;                    ptr = ptr.next;</b>
+<i>241</i>&nbsp;                }
+<i>242</i>&nbsp;            }
+<i>243</i>&nbsp;        }
+<b class="fc"><i>244</i>&nbsp;    }</b>
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;
+<i>247</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

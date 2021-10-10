@@ -1,0 +1,95 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AccountMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.user</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AccountMapper (com.example.hotel.data.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AccountMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.user;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.enums.VIPType;
+<i>4</i>&nbsp;import com.example.hotel.po.User;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>6</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>7</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;@Mapper
+<i>13</i>&nbsp;@Repository
+<i>14</i>&nbsp;public interface AccountMapper {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * 创建一个新的账号
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    void createNewAccount(User user);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * 根据用户名查找账号
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    User getAccountByEmail(@Param(&quot;email&quot;) String email);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    User getAccountById(@Param(&quot;id&quot;) int id);
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * 更新用户信息
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    void updateAccount(@Param(&quot;id&quot;) int id, @Param(&quot;userName&quot;) String username, @Param(&quot;phoneNumber&quot;) String phonenumber, @Param(&quot;corporation&quot;) String corporation);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    void updatePassword(@Param(&quot;id&quot;) int id, @Param(&quot;password&quot;) String password);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    void updateBirthday(@Param(&quot;id&quot;) int id, @Param(&quot;birthday&quot;) String birthday);
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    void updateVIPType(@Param(&quot;id&quot;) int id, @Param(&quot;vipType&quot;) VIPType vipType);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    void updateCorporate(@Param(&quot;id&quot;) int id, @Param(&quot;corporate&quot;) String corporate);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    void minAnnulTime(@Param(&quot;id&quot;) int id);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    void updatePortrait(@Param(&quot;id&quot;) Integer id, @Param(&quot;url&quot;) String url);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    void chargeCredit(@Param(&quot;id&quot;) Integer id, @Param(&quot;change&quot;) Integer change);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    List&lt;User&gt; getAllUsers();
+<i>48</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

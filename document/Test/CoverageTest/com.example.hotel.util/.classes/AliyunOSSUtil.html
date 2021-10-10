@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AliyunOSSUtil</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AliyunOSSUtil (com.example.hotel.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AliyunOSSUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4%
+  </span>
+  <span class="absValue">
+    (2/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.aliyun.oss.ClientException;
+<i>4</i>&nbsp;import com.aliyun.oss.OSSClient;
+<i>5</i>&nbsp;import com.aliyun.oss.OSSException;
+<i>6</i>&nbsp;import com.aliyun.oss.model.*;
+<i>7</i>&nbsp;import com.example.hotel.config.AliyunOSSConfigConstant;
+<i>8</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>9</i>&nbsp;import org.springframework.stereotype.Component;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.imageio.ImageIO;
+<i>12</i>&nbsp;import java.awt.*;
+<i>13</i>&nbsp;import java.io.File;
+<i>14</i>&nbsp;import java.io.IOException;
+<i>15</i>&nbsp;import java.text.SimpleDateFormat;
+<i>16</i>&nbsp;import java.util.Date;
+<i>17</i>&nbsp;import java.util.UUID;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;/**
+<i>20</i>&nbsp; * @author 庄子元 181830266@smail.nju.edu.cn
+<i>21</i>&nbsp; * @date 2020/5/25 17:11
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;@Component
+<b class="fc"><i>24</i>&nbsp;public class AliyunOSSUtil {</b>
+<b class="fc"><i>25</i>&nbsp;    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(AliyunOSSUtil.class);</b>
+<i>26</i>&nbsp;    private static String FILE_URL;
+<i>27</i>&nbsp;    private static final String bucketName = AliyunOSSConfigConstant.BUCKE_NAME;
+<i>28</i>&nbsp;    private static final String endpoint = AliyunOSSConfigConstant.END_POINT;
+<i>29</i>&nbsp;    private static final String accessKeyId = AliyunOSSConfigConstant.AccessKey_ID;
+<i>30</i>&nbsp;    private static final String accessKeySecret = AliyunOSSConfigConstant.AccessKey_Secret;
+<i>31</i>&nbsp;    private static final String fileHost = AliyunOSSConfigConstant.FILE_HOST;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * 上传文件。
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param file 需要上传的文件路径
+<i>38</i>&nbsp;     * @return 如果上传的文件是图片的话，会返回图片的&quot;URL&quot;，如果非图片的话会返回&quot;非图片，不可预览。文件路径为：+文件路径&quot;
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public static String upLoad(File file) {
+<i>41</i>&nbsp;        // 默认值为：true
+<b class="nc"><i>42</i>&nbsp;        boolean isImage = true;</b>
+<i>43</i>&nbsp;        // 判断所要上传的图片是否是图片，图片可以预览，其他文件不提供通过URL预览
+<i>44</i>&nbsp;        try {
+<b class="nc"><i>45</i>&nbsp;            Image image = ImageIO.read(file);</b>
+<b class="nc"><i>46</i>&nbsp;            isImage = image != null;</b>
+<b class="nc"><i>47</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>48</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>49</i>&nbsp;        }</b>
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;        logger.info(&quot;------OSS文件上传开始--------&quot; + file.getName());</b>
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;        SimpleDateFormat format = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;        String dateStr = format.format(new Date());</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;        // 创建OSSClient实例。
+<b class="nc"><i>57</i>&nbsp;        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);</b>
+<i>58</i>&nbsp;        try {
+<i>59</i>&nbsp;            // 判断容器是否存在,不存在就创建
+<b class="nc"><i>60</i>&nbsp;            if (!ossClient.doesBucketExist(bucketName)) {</b>
+<b class="nc"><i>61</i>&nbsp;                ossClient.createBucket(bucketName);</b>
+<b class="nc"><i>62</i>&nbsp;                CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);</b>
+<b class="nc"><i>63</i>&nbsp;                createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);</b>
+<b class="nc"><i>64</i>&nbsp;                ossClient.createBucket(createBucketRequest);</b>
+<i>65</i>&nbsp;            }
+<i>66</i>&nbsp;            // 设置文件路径和名称
+<b class="nc"><i>67</i>&nbsp;            String fileUrl = fileHost + &quot;/&quot; + (dateStr + &quot;/&quot; + UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;) + &quot;-&quot; + file.getName());</b>
+<b class="nc"><i>68</i>&nbsp;            if (isImage) {//如果是图片，则图片的URL为：....</b>
+<b class="nc"><i>69</i>&nbsp;                FILE_URL = &quot;https://&quot; + bucketName + &quot;.&quot; + endpoint + &quot;/&quot; + fileUrl;</b>
+<i>70</i>&nbsp;            } else {
+<b class="nc"><i>71</i>&nbsp;                FILE_URL = &quot;非图片，不可预览。文件路径为：&quot; + fileUrl;</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;            // 上传文件
+<b class="nc"><i>75</i>&nbsp;            PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));</b>
+<i>76</i>&nbsp;            // 设置权限(公开读)
+<b class="nc"><i>77</i>&nbsp;            ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);</b>
+<b class="nc"><i>78</i>&nbsp;            if (result != null) {</b>
+<b class="nc"><i>79</i>&nbsp;                logger.info(&quot;------OSS文件上传成功------&quot; + fileUrl);</b>
+<i>80</i>&nbsp;            }
+<b class="nc"><i>81</i>&nbsp;        } catch (OSSException oe) {</b>
+<b class="nc"><i>82</i>&nbsp;            logger.error(oe.getMessage());</b>
+<b class="nc"><i>83</i>&nbsp;        } catch (ClientException ce) {</b>
+<b class="nc"><i>84</i>&nbsp;            logger.error(ce.getErrorMessage());</b>
+<i>85</i>&nbsp;        } finally {
+<b class="nc"><i>86</i>&nbsp;            ossClient.shutdown();</b>
+<b class="nc"><i>87</i>&nbsp;        }</b>
+<b class="nc"><i>88</i>&nbsp;        return FILE_URL;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    /**
+<i>93</i>&nbsp;     * 通过文件名下载文件
+<i>94</i>&nbsp;     *
+<i>95</i>&nbsp;     * @param objectName    要下载的文件名
+<i>96</i>&nbsp;     * @param localFileName 本地要创建的文件名
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;    public static void downloadFile(String objectName, String localFileName) {
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;        // 创建OSSClient实例。
+<b class="nc"><i>101</i>&nbsp;        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);</b>
+<i>102</i>&nbsp;        // 下载OSS文件到本地文件。如果指定的本地文件存在会覆盖，不存在则新建。
+<b class="nc"><i>103</i>&nbsp;        ossClient.getObject(new GetObjectRequest(bucketName, objectName), new File(localFileName));</b>
+<i>104</i>&nbsp;        // 关闭OSSClient。
+<b class="nc"><i>105</i>&nbsp;        ossClient.shutdown();</b>
+<b class="nc"><i>106</i>&nbsp;    }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * 列举 test 文件下所有的文件
+<i>110</i>&nbsp;     */
+<i>111</i>&nbsp;    public static void listFile() {
+<i>112</i>&nbsp;        // 创建OSSClient实例。
+<b class="nc"><i>113</i>&nbsp;        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);</b>
+<i>114</i>&nbsp;        // 构造ListObjectsRequest请求。
+<b class="nc"><i>115</i>&nbsp;        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName);</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;        // 设置prefix参数来获取fun目录下的所有文件。
+<b class="nc"><i>118</i>&nbsp;        listObjectsRequest.setPrefix(&quot;test/&quot;);</b>
+<i>119</i>&nbsp;        // 列出文件。
+<b class="nc"><i>120</i>&nbsp;        ObjectListing listing = ossClient.listObjects(listObjectsRequest);</b>
+<i>121</i>&nbsp;        // 遍历所有文件。
+<b class="nc"><i>122</i>&nbsp;        System.out.println(&quot;Objects:&quot;);</b>
+<b class="nc"><i>123</i>&nbsp;        for (OSSObjectSummary objectSummary : listing.getObjectSummaries()) {</b>
+<b class="nc"><i>124</i>&nbsp;            System.out.println(objectSummary.getKey());</b>
+<b class="nc"><i>125</i>&nbsp;        }</b>
+<i>126</i>&nbsp;        // 遍历所有commonPrefix。
+<b class="nc"><i>127</i>&nbsp;        System.out.println(&quot;CommonPrefixes:&quot;);</b>
+<b class="nc"><i>128</i>&nbsp;        for (String commonPrefix : listing.getCommonPrefixes()) {</b>
+<b class="nc"><i>129</i>&nbsp;            System.out.println(commonPrefix);</b>
+<b class="nc"><i>130</i>&nbsp;        }</b>
+<i>131</i>&nbsp;        // 关闭OSSClient。
+<b class="nc"><i>132</i>&nbsp;        ossClient.shutdown();</b>
+<b class="nc"><i>133</i>&nbsp;    }</b>
+<i>134</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

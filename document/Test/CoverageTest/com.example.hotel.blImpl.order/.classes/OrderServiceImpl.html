@@ -1,0 +1,542 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: OrderServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.blImpl.order</a> ]
+</div>
+
+<h1>Coverage Summary for Class: OrderServiceImpl (com.example.hotel.blImpl.order)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrderServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.1%
+  </span>
+  <span class="absValue">
+    (27/ 29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.9%
+  </span>
+  <span class="absValue">
+    (155/ 194)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">OrderServiceImpl$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (28/ 30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.9%
+  </span>
+  <span class="absValue">
+    (165/ 204)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.blImpl.order;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.bl.VIP.VIPService;
+<i>4</i>&nbsp;import com.example.hotel.bl.hotel.HotelService;
+<i>5</i>&nbsp;import com.example.hotel.bl.hotel.RoomService;
+<i>6</i>&nbsp;import com.example.hotel.bl.order.OrderService;
+<i>7</i>&nbsp;import com.example.hotel.bl.user.AccountService;
+<i>8</i>&nbsp;import com.example.hotel.data.order.OrderMapper;
+<i>9</i>&nbsp;import com.example.hotel.enums.RoomType;
+<i>10</i>&nbsp;import com.example.hotel.enums.VIPType;
+<i>11</i>&nbsp;import com.example.hotel.po.Comment;
+<i>12</i>&nbsp;import com.example.hotel.po.Order;
+<i>13</i>&nbsp;import com.example.hotel.vo.*;
+<i>14</i>&nbsp;import org.springframework.beans.BeanUtils;
+<i>15</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>16</i>&nbsp;import org.springframework.stereotype.Service;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.text.SimpleDateFormat;
+<i>19</i>&nbsp;import java.time.LocalDate;
+<i>20</i>&nbsp;import java.time.format.DateTimeFormatter;
+<i>21</i>&nbsp;import java.util.ArrayList;
+<i>22</i>&nbsp;import java.util.Date;
+<i>23</i>&nbsp;import java.util.HashMap;
+<i>24</i>&nbsp;import java.util.List;
+<i>25</i>&nbsp;import java.util.stream.Collectors;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;/**
+<i>28</i>&nbsp; * @author chenyizong
+<i>29</i>&nbsp; * @date 2020-03-04
+<i>30</i>&nbsp; */
+<i>31</i>&nbsp;@Service
+<b class="fc"><i>32</i>&nbsp;public class OrderServiceImpl implements OrderService {</b>
+<i>33</i>&nbsp;    private final static String RESERVE_ERROR = &quot;预订失败&quot;;
+<i>34</i>&nbsp;    private final static String ROOMNUM_LACK = &quot;预订房间数量剩余不足&quot;;
+<i>35</i>&nbsp;    private final static String FINISH_ORDER = &quot;退房成功&quot;;
+<i>36</i>&nbsp;    private final static String WRONG_TIME = &quot;预订时间错误&quot;;
+<i>37</i>&nbsp;    private final static String REPEAT_ANNUL = &quot;不可重复撤销订单&quot;;
+<i>38</i>&nbsp;    private final static String COMPLETED_ORDER = &quot;已经入住过的订单不可撤销&quot;;
+<i>39</i>&nbsp;    private final static String ABNORMAL_ORDER = &quot;异常订单不可撤销&quot;;
+<i>40</i>&nbsp;    private final static String LABEL_ABNORMAL = &quot;已标记为异常订单&quot;;
+<i>41</i>&nbsp;    private final static String CHECK_IN = &quot;办理入住成功&quot;;
+<i>42</i>&nbsp;    private final static String LOW_CREDIT = &quot;信用值过低，无法预订酒店&quot;;
+<b class="fc"><i>43</i>&nbsp;    private final static SimpleDateFormat sf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<i>44</i>&nbsp;    @Autowired
+<i>45</i>&nbsp;    private OrderMapper orderMapper;
+<i>46</i>&nbsp;    @Autowired
+<i>47</i>&nbsp;    private HotelService hotelService;
+<i>48</i>&nbsp;    @Autowired
+<i>49</i>&nbsp;    private AccountService accountService;
+<i>50</i>&nbsp;    @Autowired
+<i>51</i>&nbsp;    private VIPService vipService;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public ResponseVO addOrder(OrderVO orderVO) {
+<i>55</i>&nbsp;        //判断用户信用值
+<b class="fc"><i>56</i>&nbsp;        UserVO user = accountService.getUserInfo(orderVO.getUserId());</b>
+<b class="fc"><i>57</i>&nbsp;        double credit = user.getCredit();</b>
+<b class="fc"><i>58</i>&nbsp;        if (!(credit &gt; 0))</b>
+<b class="fc"><i>59</i>&nbsp;            return ResponseVO.buildFailure(LOW_CREDIT);</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        int reserveRoomNum = orderVO.getRoomNum();</b>
+<b class="fc"><i>62</i>&nbsp;        int curNum = getRoomCurNumByOrder(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());</b>
+<b class="fc"><i>63</i>&nbsp;        if (reserveRoomNum &gt; curNum) {</b>
+<b class="nc"><i>64</i>&nbsp;            return ResponseVO.buildFailure(ROOMNUM_LACK);</b>
+<i>65</i>&nbsp;        }
+<b class="fc"><i>66</i>&nbsp;        String now = getSystemDate();</b>
+<b class="fc"><i>67</i>&nbsp;        int gap = getGap(orderVO.getCheckInDate(), now);</b>
+<b class="fc"><i>68</i>&nbsp;        if (gap &lt; 0) {</b>
+<b class="fc"><i>69</i>&nbsp;            return ResponseVO.buildFailure(WRONG_TIME);</b>
+<i>70</i>&nbsp;        }
+<i>71</i>&nbsp;        try {
+<b class="fc"><i>72</i>&nbsp;            Date date = new Date(System.currentTimeMillis());</b>
+<b class="fc"><i>73</i>&nbsp;            String curdate = sf.format(date);</b>
+<b class="fc"><i>74</i>&nbsp;            orderVO.setCreateDate(curdate);</b>
+<b class="fc"><i>75</i>&nbsp;            orderVO.setOrderState(&quot;未入住&quot;);</b>
+<b class="fc"><i>76</i>&nbsp;            Order order = new Order();</b>
+<b class="fc"><i>77</i>&nbsp;            BeanUtils.copyProperties(orderVO, order);</b>
+<b class="fc"><i>78</i>&nbsp;            orderMapper.addOrder(order);</b>
+<b class="nc"><i>79</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>80</i>&nbsp;            System.out.println(e.getMessage());</b>
+<b class="nc"><i>81</i>&nbsp;            return ResponseVO.buildFailure(RESERVE_ERROR);</b>
+<b class="fc"><i>82</i>&nbsp;        }</b>
+<b class="fc"><i>83</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Override
+<i>87</i>&nbsp;    public List&lt;Order&gt; getAllOrders() {
+<b class="fc"><i>88</i>&nbsp;        return orderMapper.getAllOrders();</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @Override
+<i>92</i>&nbsp;    public List&lt;Order&gt; getHotelOrders(Integer hotelId) {
+<b class="fc"><i>93</i>&nbsp;        List&lt;Order&gt; orders = getAllOrders();</b>
+<b class="fc"><i>94</i>&nbsp;        return orders.stream().filter(order -&gt; order.getHotelId().equals(hotelId)).collect(Collectors.toList());</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    @Override
+<i>98</i>&nbsp;    public List&lt;Order&gt; getUserOrders(int userId) {
+<b class="fc"><i>99</i>&nbsp;        return orderMapper.getUserOrders(userId);</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    @Override
+<i>104</i>&nbsp;    public ResponseVO annulOrder(int orderId) {
+<i>105</i>&nbsp;        //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
+<b class="fc"><i>106</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="fc"><i>107</i>&nbsp;        switch (order.getOrderState()) {</b>
+<i>108</i>&nbsp;            case &quot;已撤销&quot;:
+<b class="nc"><i>109</i>&nbsp;                return ResponseVO.buildFailure(REPEAT_ANNUL);</b>
+<i>110</i>&nbsp;            case &quot;已入住&quot;:
+<i>111</i>&nbsp;            case &quot;已退房&quot;:
+<b class="nc"><i>112</i>&nbsp;                return ResponseVO.buildFailure(COMPLETED_ORDER);</b>
+<i>113</i>&nbsp;            case &quot;异常订单&quot;:
+<b class="nc"><i>114</i>&nbsp;                return ResponseVO.buildFailure(ABNORMAL_ORDER);</b>
+<i>115</i>&nbsp;        }
+<b class="fc"><i>116</i>&nbsp;        orderMapper.annulOrder(orderId);</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;        //扣除信用积分
+<b class="fc"><i>119</i>&nbsp;        String checkInDate = order.getCheckInDate();</b>
+<b class="fc"><i>120</i>&nbsp;        int gap = getDays(checkInDate);</b>
+<b class="fc"><i>121</i>&nbsp;        if (gap == 0) {</b>
+<b class="fc"><i>122</i>&nbsp;            int change = -(int) (0.5 * order.getPrice());</b>
+<b class="fc"><i>123</i>&nbsp;            accountService.chargeCredit(order.getUserId(), change, &quot;撤销临近订单&quot;);</b>
+<i>124</i>&nbsp;        }
+<b class="fc"><i>125</i>&nbsp;        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());</b>
+<i>126</i>&nbsp;
+<b class="fc"><i>127</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    @Override
+<i>132</i>&nbsp;    public ResponseVO checkIn(int orderId) {
+<b class="fc"><i>133</i>&nbsp;        orderMapper.checkIn(orderId);</b>
+<b class="fc"><i>134</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="fc"><i>135</i>&nbsp;        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), order.getRoomNum());</b>
+<b class="fc"><i>136</i>&nbsp;        return ResponseVO.buildSuccess(CHECK_IN);</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    @Override
+<i>140</i>&nbsp;    public List&lt;Order&gt; probableAbnormalOrder(Integer hotelId) {
+<b class="fc"><i>141</i>&nbsp;        List&lt;Order&gt; orders = getHotelOrders(hotelId);</b>
+<b class="fc"><i>142</i>&nbsp;        List&lt;Order&gt; abnormal = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>143</i>&nbsp;        LocalDate date = LocalDate.now();</b>
+<b class="fc"><i>144</i>&nbsp;        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</b>
+<b class="fc"><i>145</i>&nbsp;        for (Order order : orders) {</b>
+<b class="fc"><i>146</i>&nbsp;            LocalDate beginDateTime = LocalDate.parse(order.getCheckInDate(), formatter);</b>
+<b class="fc"><i>147</i>&nbsp;            if (date.isAfter(beginDateTime) &amp;&amp; order.getOrderState().equals(&quot;未入住&quot;)) {</b>
+<b class="fc"><i>148</i>&nbsp;                abnormal.add(order);</b>
+<i>149</i>&nbsp;            }
+<b class="fc"><i>150</i>&nbsp;        }</b>
+<b class="fc"><i>151</i>&nbsp;        return abnormal;</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    @Override
+<i>155</i>&nbsp;    public ResponseVO abnormalOrder(int orderId) {
+<b class="fc"><i>156</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="fc"><i>157</i>&nbsp;        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</b>
+<b class="fc"><i>158</i>&nbsp;        LocalDate checkIn = LocalDate.parse(order.getCheckInDate(), formatter);</b>
+<b class="fc"><i>159</i>&nbsp;        LocalDate now = LocalDate.now();</b>
+<b class="fc"><i>160</i>&nbsp;        if (now.isBefore(checkIn)) {</b>
+<b class="fc"><i>161</i>&nbsp;            return ResponseVO.buildFailure(&quot;订单未逾期，无法标记异常&quot;);</b>
+<i>162</i>&nbsp;        }
+<i>163</i>&nbsp;        // 每次出现异常订单要减去信用值
+<b class="fc"><i>164</i>&nbsp;        accountService.chargeCredit(order.getUserId(), -(int) (order.getPrice() * 0.5), &quot;异常订单&quot;);</b>
+<b class="fc"><i>165</i>&nbsp;        orderMapper.abnormalOrder(orderId);</b>
+<b class="fc"><i>166</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;    @Override
+<i>170</i>&nbsp;    public ResponseVO handleAbnormal(int orderId, double ratio) {
+<b class="fc"><i>171</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="fc"><i>172</i>&nbsp;        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5 * ratio), &quot;撤销异常订单&quot;);</b>
+<b class="fc"><i>173</i>&nbsp;        orderMapper.finishOrder(orderId);</b>
+<b class="fc"><i>174</i>&nbsp;        return ResponseVO.buildSuccess();</b>
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    @Override
+<i>178</i>&nbsp;    public ResponseVO finishOrder(int orderId) {
+<b class="nc"><i>179</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="nc"><i>180</i>&nbsp;        orderMapper.finishOrder(orderId);</b>
+<i>181</i>&nbsp;        // 更新酒店房间数量，因为那个就是直接减法了，那我现在就减个负数叭
+<b class="nc"><i>182</i>&nbsp;        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());</b>
+<b class="nc"><i>183</i>&nbsp;        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5), &quot;完成订单&quot; + orderId);</b>
+<b class="nc"><i>184</i>&nbsp;        UserVO userVO = accountService.getUserInfo(order.getUserId());</b>
+<b class="nc"><i>185</i>&nbsp;        int price = (int) Math.round(order.getPrice());</b>
+<b class="nc"><i>186</i>&nbsp;        String corporation = userVO.getCorporation();</b>
+<b class="nc"><i>187</i>&nbsp;        if (corporation != null &amp;&amp; vipService.VIPCorpCheck(corporation)) {</b>
+<b class="nc"><i>188</i>&nbsp;            vipService.addVIPCorpConsumption(userVO.getCorporation(), price);</b>
+<b class="nc"><i>189</i>&nbsp;            return ResponseVO.buildSuccess(FINISH_ORDER);</b>
+<i>190</i>&nbsp;        }
+<b class="nc"><i>191</i>&nbsp;        if (userVO.getVipType() == VIPType.Client) {</b>
+<b class="nc"><i>192</i>&nbsp;            vipService.addVIPClientConsumption(order.getUserId(), price);</b>
+<i>193</i>&nbsp;        }
+<b class="nc"><i>194</i>&nbsp;        return ResponseVO.buildSuccess(FINISH_ORDER);</b>
+<i>195</i>&nbsp;    }
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    @Override
+<i>198</i>&nbsp;    public CommentVO getComment(int orderId) {
+<b class="fc"><i>199</i>&nbsp;        Comment comment = orderMapper.getComment(orderId);</b>
+<b class="fc"><i>200</i>&nbsp;        CommentVO commentVO = new CommentVO();</b>
+<b class="fc"><i>201</i>&nbsp;        BeanUtils.copyProperties(comment, commentVO);</b>
+<b class="fc"><i>202</i>&nbsp;        return commentVO;</b>
+<i>203</i>&nbsp;    }
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    @Override
+<i>206</i>&nbsp;    public ResponseVO annulComment(int orderId) {
+<b class="fc"><i>207</i>&nbsp;        CommentVO commentVO = getComment(orderId);</b>
+<b class="fc"><i>208</i>&nbsp;        Order order = orderMapper.getOrderById(orderId);</b>
+<b class="fc"><i>209</i>&nbsp;        hotelService.annulComment(commentVO, order.getHotelId());</b>
+<b class="fc"><i>210</i>&nbsp;        return ResponseVO.buildSuccess(orderMapper.annulComment(orderId));</b>
+<i>211</i>&nbsp;    }
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    @Override
+<i>214</i>&nbsp;    public List&lt;CommentVO&gt; getHotelComment(int hotelId) {
+<b class="fc"><i>215</i>&nbsp;        List&lt;Comment&gt; comments = orderMapper.getHotelComment(hotelId);</b>
+<b class="fc"><i>216</i>&nbsp;        return comments.stream().map(r -&gt; {</b>
+<b class="nc"><i>217</i>&nbsp;            CommentVO commentVO = new CommentVO();</b>
+<b class="nc"><i>218</i>&nbsp;            commentVO.setUserId(r.getUserId());</b>
+<b class="nc"><i>219</i>&nbsp;            commentVO.setSanitation(r.getSanitation());</b>
+<b class="nc"><i>220</i>&nbsp;            commentVO.setPoints(r.getPoints());</b>
+<b class="nc"><i>221</i>&nbsp;            commentVO.setOrderId(r.getOrderId());</b>
+<b class="nc"><i>222</i>&nbsp;            commentVO.setEquipment(r.getEquipment());</b>
+<b class="nc"><i>223</i>&nbsp;            commentVO.setComment(r.getComment());</b>
+<b class="nc"><i>224</i>&nbsp;            commentVO.setEnvironment(r.getEnvironment());</b>
+<b class="nc"><i>225</i>&nbsp;            commentVO.setService(r.getService());</b>
+<b class="nc"><i>226</i>&nbsp;            return commentVO;</b>
+<b class="fc"><i>227</i>&nbsp;        }).collect(Collectors.toList());</b>
+<i>228</i>&nbsp;    }
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;    @Override
+<i>231</i>&nbsp;    public ResponseVO addComment(CommentVO commentVO) {
+<b class="fc"><i>232</i>&nbsp;        Order order = orderMapper.getOrderById(commentVO.getOrderId());</b>
+<b class="fc"><i>233</i>&nbsp;        if (order.getOrderState().equals(&quot;未入住&quot;)) {</b>
+<b class="nc"><i>234</i>&nbsp;            return ResponseVO.buildFailure(&quot;订单未入住，无法评价&quot;);</b>
+<i>235</i>&nbsp;        }
+<b class="fc"><i>236</i>&nbsp;        Comment comment = new Comment() {{</b>
+<b class="fc"><i>237</i>&nbsp;            this.setComment(commentVO.getComment());</b>
+<b class="fc"><i>238</i>&nbsp;            this.setEnvironment(commentVO.getEnvironment());</b>
+<b class="fc"><i>239</i>&nbsp;            this.setEquipment(commentVO.getEquipment());</b>
+<b class="fc"><i>240</i>&nbsp;            this.setOrderId(commentVO.getOrderId());</b>
+<b class="fc"><i>241</i>&nbsp;            this.setPoints(commentVO.getPoints());</b>
+<b class="fc"><i>242</i>&nbsp;            this.setSanitation(commentVO.getSanitation());</b>
+<b class="fc"><i>243</i>&nbsp;            this.setUserId(commentVO.getUserId());</b>
+<b class="fc"><i>244</i>&nbsp;            this.setService(commentVO.getService());</b>
+<b class="fc"><i>245</i>&nbsp;        }};</b>
+<b class="fc"><i>246</i>&nbsp;        hotelService.addComment(commentVO, order.getHotelId());</b>
+<b class="fc"><i>247</i>&nbsp;        return ResponseVO.buildSuccess(orderMapper.updateComment(comment));</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    @Override
+<i>251</i>&nbsp;    public ResponseVO getUserComments(Integer userId) {
+<b class="fc"><i>252</i>&nbsp;        return ResponseVO.buildSuccess(orderMapper.getUserComment(userId));</b>
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;    /**
+<i>257</i>&nbsp;     * 获取输入的订单中，发生在最近一个月的
+<i>258</i>&nbsp;     * 此方法获取的订单均为事实订单，即用户已经付费（已入住 或 已完成）
+<i>259</i>&nbsp;     * 返回数据的格式为 List&lt;List&lt;Order&gt;&gt; ，大小为31，代变从距今0天（当天）到30天中的订单，第i天的索引为i
+<i>260</i>&nbsp;     */
+<i>261</i>&nbsp;    @Override
+<i>262</i>&nbsp;    public List&lt;List&lt;Order&gt;&gt; getOrdersInMonth(List&lt;Order&gt; orders) {
+<b class="fc"><i>263</i>&nbsp;        String now = getSystemDate();</b>
+<b class="fc"><i>264</i>&nbsp;        List&lt;Order&gt; temp = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>265</i>&nbsp;        List&lt;List&lt;Order&gt;&gt; summary = new ArrayList&lt;&gt;();</b>
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;        //整理orders并归入temp中转
+<b class="fc"><i>268</i>&nbsp;        for (Order order : orders) {</b>
+<b class="fc"><i>269</i>&nbsp;            String createDate = order.getCreateDate();</b>
+<b class="fc"><i>270</i>&nbsp;            int days = getGap(now, createDate);</b>
+<b class="fc"><i>271</i>&nbsp;            if (days &lt;= 30 &amp;&amp; order.getOrderState().equals(&quot;已完成&quot;))</b>
+<b class="nc"><i>272</i>&nbsp;                temp.add(order);</b>
+<b class="fc"><i>273</i>&nbsp;        }</b>
+<i>274</i>&nbsp;        //将order按天放入summary中
+<b class="fc"><i>275</i>&nbsp;        for (int i = 0; i &lt; 31; i++) {</b>
+<b class="fc"><i>276</i>&nbsp;            List&lt;Order&gt; orderList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>277</i>&nbsp;            for (Order order : temp) {</b>
+<b class="nc"><i>278</i>&nbsp;                int day = getGap(now, order.getCreateDate());</b>
+<b class="nc"><i>279</i>&nbsp;                if (day == i) {</b>
+<b class="nc"><i>280</i>&nbsp;                    orderList.add(order);</b>
+<b class="nc"><i>281</i>&nbsp;                    orders.remove(order);</b>
+<i>282</i>&nbsp;                }
+<b class="nc"><i>283</i>&nbsp;            }</b>
+<b class="fc"><i>284</i>&nbsp;            summary.add(orderList);</b>
+<i>285</i>&nbsp;        }
+<b class="fc"><i>286</i>&nbsp;        return summary;</b>
+<i>287</i>&nbsp;    }
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;    /**
+<i>290</i>&nbsp;     * 获取特定酒店近一个月的所有订单
+<i>291</i>&nbsp;     */
+<i>292</i>&nbsp;    @Override
+<i>293</i>&nbsp;    public List&lt;List&lt;Order&gt;&gt; getOrdersInMonthOfHotel(Integer hotelId) {
+<b class="fc"><i>294</i>&nbsp;        List&lt;Order&gt; orders = getHotelOrders(hotelId);</b>
+<b class="fc"><i>295</i>&nbsp;        return getOrdersInMonth(orders);</b>
+<i>296</i>&nbsp;    }
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    /**
+<i>300</i>&nbsp;     * 获取最近一个月产生的所有订单
+<i>301</i>&nbsp;     */
+<i>302</i>&nbsp;    @Override
+<i>303</i>&nbsp;    public List&lt;List&lt;Order&gt;&gt; getOrdersInMonthOfAll() {
+<b class="fc"><i>304</i>&nbsp;        List&lt;Order&gt; orders = getAllOrders();</b>
+<b class="fc"><i>305</i>&nbsp;        return getOrdersInMonth(orders);</b>
+<i>306</i>&nbsp;    }
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;    /**
+<i>309</i>&nbsp;     * 基于时间进行清洗，返回与输入的时间段发生重叠的订单
+<i>310</i>&nbsp;     * 要改的话可以用两种情况取反，会快一点
+<i>311</i>&nbsp;     */
+<i>312</i>&nbsp;    @Override
+<i>313</i>&nbsp;    public List&lt;Order&gt; filterOrders(List&lt;Order&gt; orders, String beginTime, String endTime) {
+<b class="fc"><i>314</i>&nbsp;        List&lt;Order&gt; relatedOrder = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>315</i>&nbsp;        if (beginTime == null || endTime == null)</b>
+<b class="nc"><i>316</i>&nbsp;            return relatedOrder;</b>
+<b class="fc"><i>317</i>&nbsp;        if (getGap(endTime, beginTime) &lt;= 0)</b>
+<b class="nc"><i>318</i>&nbsp;            return relatedOrder;</b>
+<b class="fc"><i>319</i>&nbsp;        for (Order order : orders) {</b>
+<b class="fc"><i>320</i>&nbsp;            int gap1 = getGap(order.getCheckOutDate(), beginTime);       //订单中的退房日期 - 搜索中的入住日期</b>
+<b class="fc"><i>321</i>&nbsp;            int gap2 = getGap(endTime, order.getCheckInDate());         //搜素的退房日期 - 订单中的入住日期</b>
+<i>322</i>&nbsp;
+<b class="fc"><i>323</i>&nbsp;            if (!((gap1 &lt; 0) || (gap2 &lt; 0))) {</b>
+<i>324</i>&nbsp;                //确保订单为未入住的有效订单
+<b class="fc"><i>325</i>&nbsp;                if (order.getOrderState().equals(&quot;未入住&quot;) || order.getOrderState().equals(&quot;已入住&quot;)) {</b>
+<b class="fc"><i>326</i>&nbsp;                    order.setRoomType(order.getRoomType());</b>
+<b class="fc"><i>327</i>&nbsp;                    relatedOrder.add(order);</b>
+<i>328</i>&nbsp;                }
+<i>329</i>&nbsp;            }
+<b class="fc"><i>330</i>&nbsp;        }</b>
+<b class="fc"><i>331</i>&nbsp;        return relatedOrder;</b>
+<i>332</i>&nbsp;    }
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;    /**
+<i>335</i>&nbsp;     * 通过订单号和入住时间，查找可用的房间情况，并在response中返回hotel
+<i>336</i>&nbsp;     */
+<i>337</i>&nbsp;    @Override
+<i>338</i>&nbsp;    public HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime) {
+<b class="fc"><i>339</i>&nbsp;        HotelVO hotel = hotelService.retrieveHotelDetails(hotelId);</b>
+<b class="fc"><i>340</i>&nbsp;        List&lt;RoomVO&gt; rooms = hotel.getRooms();</b>
+<b class="fc"><i>341</i>&nbsp;        List&lt;RoomVO&gt; roomVOS = new ArrayList&lt;&gt;();</b>
+<i>342</i>&nbsp;        //确保输入的房间情况不为空
+<b class="fc"><i>343</i>&nbsp;        if (!rooms.isEmpty()) {</b>
+<b class="fc"><i>344</i>&nbsp;            List&lt;Order&gt; orders = getHotelOrders(hotelId);</b>
+<b class="fc"><i>345</i>&nbsp;            orders = filterOrders(orders, beginTime, endTime);</b>
+<b class="fc"><i>346</i>&nbsp;            roomVOS = checkRoomByOrder(rooms, orders);</b>
+<i>347</i>&nbsp;        }
+<i>348</i>&nbsp;
+<b class="fc"><i>349</i>&nbsp;        hotel.setRooms(roomVOS);</b>
+<b class="fc"><i>350</i>&nbsp;        return hotel;</b>
+<i>351</i>&nbsp;    }
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;    @Override
+<i>354</i>&nbsp;    public List&lt;RoomVO&gt; checkRoomByOrder(List&lt;RoomVO&gt; rooms, List&lt;Order&gt; orders) {
+<b class="fc"><i>355</i>&nbsp;        HashMap&lt;String, Integer&gt; Type2Num = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>356</i>&nbsp;        for (RoomVO room : rooms) {</b>
+<b class="fc"><i>357</i>&nbsp;            Type2Num.put(room.getRoomType(), room.getTotal());</b>
+<b class="fc"><i>358</i>&nbsp;        }</b>
+<b class="fc"><i>359</i>&nbsp;        for (Order order : orders) {</b>
+<b class="fc"><i>360</i>&nbsp;            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {</b>
+<b class="fc"><i>361</i>&nbsp;                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();</b>
+<b class="fc"><i>362</i>&nbsp;                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);</b>
+<i>363</i>&nbsp;            }
+<b class="fc"><i>364</i>&nbsp;        }</b>
+<i>365</i>&nbsp;
+<b class="fc"><i>366</i>&nbsp;        List&lt;RoomVO&gt; roomVOS = new ArrayList&lt;&gt;();</b>
+<i>367</i>&nbsp;
+<b class="fc"><i>368</i>&nbsp;        for (RoomVO room : rooms) {</b>
+<b class="fc"><i>369</i>&nbsp;            if (Type2Num.get(room.getRoomType()) &gt; 0)</b>
+<b class="fc"><i>370</i>&nbsp;                room.setCurNum(Type2Num.get(room.getRoomType()));</b>
+<b class="fc"><i>371</i>&nbsp;            roomVOS.add(room);</b>
+<b class="fc"><i>372</i>&nbsp;        }</b>
+<b class="fc"><i>373</i>&nbsp;        return roomVOS;</b>
+<i>374</i>&nbsp;    }
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    @Override
+<i>377</i>&nbsp;    public Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type) {
+<b class="fc"><i>378</i>&nbsp;        HotelVO hotelVO = getOrderableRoom(hotelId, beginTime, endTime);</b>
+<b class="fc"><i>379</i>&nbsp;        List&lt;RoomVO&gt; rooms = hotelVO.getRooms();</b>
+<b class="fc"><i>380</i>&nbsp;        int curNum = 0;</b>
+<b class="fc"><i>381</i>&nbsp;        for (RoomVO room : rooms) {</b>
+<b class="fc"><i>382</i>&nbsp;            if (room.getRoomType().equals(RoomType.valueOf(type).toString())) {</b>
+<b class="fc"><i>383</i>&nbsp;                curNum = room.getCurNum();</b>
+<b class="fc"><i>384</i>&nbsp;                break;</b>
+<i>385</i>&nbsp;            }
+<b class="fc"><i>386</i>&nbsp;        }</b>
+<b class="fc"><i>387</i>&nbsp;        return curNum;</b>
+<i>388</i>&nbsp;    }
+<i>389</i>&nbsp;
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;    /**
+<i>392</i>&nbsp;     * 获取YYYY-MM-DD格式的当前系统日期
+<i>393</i>&nbsp;     *
+<i>394</i>&nbsp;     * @return
+<i>395</i>&nbsp;     */
+<i>396</i>&nbsp;    private static String getSystemDate() {
+<b class="fc"><i>397</i>&nbsp;        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<b class="fc"><i>398</i>&nbsp;        Date date = new Date();</b>
+<b class="fc"><i>399</i>&nbsp;        return sdf.format(date);</b>
+<i>400</i>&nbsp;    }
+<i>401</i>&nbsp;
+<i>402</i>&nbsp;    /**
+<i>403</i>&nbsp;     * 当前日期到订单中入住日期的时间差
+<i>404</i>&nbsp;     *
+<i>405</i>&nbsp;     * @param checkInDate
+<i>406</i>&nbsp;     * @return
+<i>407</i>&nbsp;     */
+<i>408</i>&nbsp;    private int getDays(String checkInDate) {
+<b class="fc"><i>409</i>&nbsp;        String now = getSystemDate();</b>
+<b class="fc"><i>410</i>&nbsp;        return getGap(checkInDate, now);</b>
+<i>411</i>&nbsp;    }
+<i>412</i>&nbsp;
+<i>413</i>&nbsp;    /**
+<i>414</i>&nbsp;     * 返回两个日期之间相差的天数
+<i>415</i>&nbsp;     */
+<i>416</i>&nbsp;    private int getGap(String date1, String date2) {
+<b class="fc"><i>417</i>&nbsp;        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),</b>
+<b class="fc"><i>418</i>&nbsp;                Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));</b>
+<b class="fc"><i>419</i>&nbsp;        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),</b>
+<b class="fc"><i>420</i>&nbsp;                Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));</b>
+<b class="fc"><i>421</i>&nbsp;        return (int) (Date1.toEpochDay() - Date2.toEpochDay());</b>
+<i>422</i>&nbsp;    }
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;    @Override
+<i>425</i>&nbsp;    public ResponseVO argueAbnormalOrder(Integer orderId, String reason) {
+<b class="fc"><i>426</i>&nbsp;        orderMapper.argueAbnormalOrder(orderId, reason);</b>
+<b class="fc"><i>427</i>&nbsp;        return ResponseVO.buildSuccess(true);</b>
+<i>428</i>&nbsp;    }
+<i>429</i>&nbsp;}
+<i>430</i>&nbsp;
+<i>431</i>&nbsp;
+<i>432</i>&nbsp;
+<i>433</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

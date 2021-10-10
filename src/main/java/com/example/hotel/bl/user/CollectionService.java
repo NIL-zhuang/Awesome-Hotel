@@ -10,15 +10,19 @@ import java.util.List;
  * @date 2020/6/15 21:48
  */
 public interface CollectionService {
-    public ResponseVO addCollection(CollectionVO collectionVO);
+    ResponseVO addCollection(CollectionVO collectionVO);
 
-    public ResponseVO annulCollection(Integer collectionId);
+    ResponseVO annulCollection(Integer collectionId);
 
-    public List<CollectionVO> getUserCollection(Integer userId);
+    List<CollectionVO> getUserCollection(Integer userId);
 
-    public Integer getHotelCollection(Integer hotelId);
+    Integer getHotelCollection(Integer hotelId);
 
-    public Boolean userCollection(Integer userId, Integer hotelId);
+    Boolean userCollection(Integer userId, Integer hotelId);
+
+    ResponseVO addCollectionByUserId(Integer hotelId, Integer userId);
+
+    ResponseVO annulCollectionByUserId(Integer hotelId, Integer userId);
 
 
 }

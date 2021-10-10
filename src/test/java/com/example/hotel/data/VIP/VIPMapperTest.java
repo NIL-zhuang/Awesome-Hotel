@@ -66,7 +66,7 @@ public class VIPMapperTest {
     @Transactional
     public void clientLevelUp() {
         vipMapper.registerAsClientVIP(clientVIP);
-        vipMapper.clientLevelUp(5);
+        vipMapper.clientLevelUp(5, 0.05);
         Assert.assertEquals(vipMapper.getVIPbyUserId(5).getLevel(), 4);
     }
 
@@ -96,7 +96,7 @@ public class VIPMapperTest {
     @Transactional
     public void corpLevelUp() {
         vipMapper.registerAsCorpVIP(corpVIP);
-        vipMapper.corpLevelUp(corpName);
+        vipMapper.corpLevelUp(corpName, 0.05);
         Assert.assertEquals(vipMapper.getVIPbyCorpName(corpName).getLevel(), 4);
     }
 

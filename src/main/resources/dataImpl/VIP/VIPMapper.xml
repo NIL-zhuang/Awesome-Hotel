@@ -36,7 +36,8 @@
 
     <update id="clientLevelUp">
         update VIP
-        set level = level + 1
+        set level = level + 1,
+            reduction = #{reduction}
         where userId = #{userId}
     </update>
 
@@ -72,7 +73,8 @@
 
     <update id="corpLevelUp">
         update VIP
-        set level = level + 1
+        set level = level + 1,
+            reduction = #{reduction}
         where corporationName = #{corporationName}
     </update>
 

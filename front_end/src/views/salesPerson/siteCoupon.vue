@@ -7,16 +7,7 @@
                 <a-icon type="plus"/>添加优惠策略
             </a-button>
         </div>
-
-        <a-table
-                :columns="columns"
-
-                bordered
-        >
-            <a-tag color="red" slot="couponName" slot-scope="text">
-                {{text}}
-            </a-tag>
-        </a-table>
+        <site-coupon-table user-type="SalesPerson"></site-coupon-table>
         <addSiteCoupon></addSiteCoupon>
     </div>
 </template>
@@ -24,23 +15,26 @@
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import addSiteCoupon from "./components/addSiteCoupon";
+    import siteCouponTable from "../coupon/siteCouponTable";
     const columns = [
         {
-            title: '优惠类型',
+            title: '优惠名称',
             dataIndex: 'couponName',
             scopedSlots: {customRender: 'couponName'},
         },
         {
             title: '折扣',
             dataIndex: 'discount',
+            scopedSlots: {customRender: 'discount'},
         },
         {
             title: '优惠简介',
             dataIndex: 'description',
         },
         {
-            title: '优惠金额',
-            dataIndex: 'discountMoney',
+            title: '受用VIP等级（VIP指定商圈优惠）',
+            dataIndex: 'vipLevel',
+            scopedSlots: {customRender: 'vipLevel'},
         },
     ];
     export default {
@@ -51,6 +45,7 @@
             }
         },
         components: {
+            siteCouponTable,
             addSiteCoupon,
         },
         computed: {
@@ -62,11 +57,12 @@
             ...mapMutations([
                 'set_addSiteCouponVisible',
             ]),
+            ...mapActions([
+
+            ]),
             addSiteCoupon() {
                 this.set_addSiteCouponVisible(true)
             },
-
-
         }
     }
 </script>

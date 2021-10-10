@@ -20,14 +20,15 @@
     </select>
     <update id="updateAccount">
         update User
-        set password=#{password},
-            username=#{userName},
-            phonenumber=#{phoneNumber}
+        set username=#{userName},
+            phonenumber=#{phoneNumber},
+            corporation = #{corporation}
         where id = #{id}
     </update>
-    <!--> 修改credit-->
-    <update id="updateCredit">
-        update user set credit=#{credit} where id=#{id}
+    <update id="updatePassword">
+        update User
+        set password = #{password}
+        where id = #{id}
     </update>
 
     <update id="updateBirthday">
@@ -45,8 +46,8 @@
         where id = #{id}
     </update>
 
-    <update id="updateAnnulTime">
-        update user set annulTime = #{time} where id = #{id}
+    <update id="minAnnulTime">
+        update user set annulTime = annulTime - 1 where id = #{id}
     </update>
 
     <update id="updatePortrait">

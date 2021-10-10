@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HotelMapper</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.data.hotel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HotelMapper (com.example.hotel.data.hotel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">HotelMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.data.hotel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.po.Hotel;
+<i>4</i>&nbsp;import com.example.hotel.vo.HotelVO;
+<i>5</i>&nbsp;import org.apache.ibatis.annotations.Mapper;
+<i>6</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>7</i>&nbsp;import org.springframework.stereotype.Repository;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;@Mapper
+<i>12</i>&nbsp;@Repository
+<i>13</i>&nbsp;public interface HotelMapper {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    int insertHotel(Hotel hotel);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    int updateHotelName(@Param(&quot;id&quot;) Integer id, @Param(&quot;hotelName&quot;) String hotelName);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    int updateHotelAddress(@Param(&quot;id&quot;) Integer id, @Param(&quot;address&quot;) String hotelAddress);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    int updateHotelDescription(@Param(&quot;id&quot;) Integer id, @Param(&quot;description&quot;) String hotelDescription);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    int deleteHotel(Integer id);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    List&lt;Hotel&gt; selectAllHotel();
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    Hotel selectById(@Param(&quot;id&quot;) Integer id);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    int updatePicture(@Param(&quot;id&quot;) Integer id, @Param(&quot;url&quot;) String url);
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    int updateHotelPoints(@Param(&quot;id&quot;) Integer id,
+<i>32</i>&nbsp;                          @Param(&quot;commentTime&quot;) Integer commentTime,
+<i>33</i>&nbsp;                          @Param(&quot;points&quot;) double points,
+<i>34</i>&nbsp;                          @Param(&quot;sanitation&quot;) double sanitation,
+<i>35</i>&nbsp;                          @Param(&quot;environment&quot;) double environment,
+<i>36</i>&nbsp;                          @Param(&quot;service&quot;) double service,
+<i>37</i>&nbsp;                          @Param(&quot;equipment&quot;) double equipment);
+<i>38</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

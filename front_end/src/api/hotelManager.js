@@ -9,6 +9,13 @@ export function addRoomAPI(data) {
         data,
     })
 }
+export function deleteRoomAPI(params) {
+    return axios({
+        url: `${api.hotelPre}/deleteRoom`,
+        method: 'POST',
+        params,
+    })
+}
 export function registerHotelMembershipAPI(data) {
     return axios({
         url: `${api.hotelPre}/${data.id}/registerHotelMembership`,

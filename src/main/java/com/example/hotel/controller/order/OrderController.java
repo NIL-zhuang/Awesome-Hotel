@@ -4,6 +4,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,8 +83,13 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/abnormalOrder")
-    public ResponseVO abnormalOrder(@PathVariable Integer orderId, @RequestParam double ratio) {
-        return orderService.abnormalOrder(orderId, ratio);
+    public ResponseVO abnormalOrder(@PathVariable Integer orderId) {
+        return orderService.abnormalOrder(orderId);
+    }
+
+    @PostMapping("/{orderId}/handleAbnormal")
+    public ResponseVO handleAbnormal(@PathVariable Integer orderId,@RequestParam double ratio){
+        return orderService.handleAbnormal(orderId, ratio);
     }
 
     @GetMapping("/{hotelId}/probableAbnormalOrder")
@@ -91,14 +97,25 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.probableAbnormalOrder(hotelId));
     }
 
-    @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
+    @GetMapping("/{hotelId}/getOrdersInMonthOfHotel")
     public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {
-        return orderService.getOrdersInMonthOfHotel(hotelId);
+        return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfHotel(hotelId));
     }
 
     @GetMapping("/getOrdersInMonthOfAll")
     public ResponseVO getOrdersInMonthOfAll() {
-        return orderService.getOrdersInMonthOfAll();
+        return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfAll());
     }
 
+    @GetMapping("/getHotelRoom")
+    public ResponseVO getOrderableRoom(@RequestParam(value = "hotelId") Integer hotelId,
+                                       @RequestParam(value = "startTime") String startTime,
+                                       @RequestParam(value = "endTime") String endTime) {
+        return ResponseVO.buildSuccess(orderService.getOrderableRoom(hotelId, startTime, endTime));
+    }
+
+    @PostMapping("/{orderId}/argueAbnormalOrder")
+    public ResponseVO argueAbnormalOrder(@PathVariable Integer orderId, @RequestParam String reason) {
+        return orderService.argueAbnormalOrder(orderId, reason);
+    }
 }

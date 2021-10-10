@@ -1,7 +1,7 @@
 package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
-import com.example.hotel.blImpl.user.PasswordEncryptHelper;
+import com.example.hotel.util.PasswordEncryptHelper;
 import com.example.hotel.data.admin.AdminMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;

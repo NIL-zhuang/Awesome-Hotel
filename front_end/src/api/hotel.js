@@ -35,6 +35,13 @@ export function addHotelAPI(data) {
         data,
     })
 }
+export function updateHotelInfoAPI(hotelId, data) {
+    return axios({
+        url: `${api.hotelPre}/${hotelId}/updateHotel`,
+        method: 'POST',
+        data,
+    })
+}
 export function deleteHotelAPI(hotelId) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/deleteHotel`,
@@ -48,6 +55,12 @@ export function addQuestionAPI(data) {
         data,
     })
 }
+export function deleteQuestionAPI(id) {
+    return axios({
+        url: `${api.hotelPre}/${id}/annulQuestion`,
+        method: 'POST',
+    })
+}
 export function getHotelQuestionAPI(hotelId) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/getHotelQuestion`,
@@ -59,5 +72,17 @@ export function addAnswerAPI(data) {
         url: `${api.hotelPre}/addAnswer`,
         method: 'POST',
         data
+    })
+}
+export function deleteAnswerAPI(id) {
+    return axios({
+        url: `${api.hotelPre}/${id}/annulAnswer`,
+        method: 'POST',
+    })
+}
+export function getHotelCommentsAPI(hotelId) {
+    return axios({
+        url: `/api/order/${hotelId}/getHotelComment`,
+        method: 'GET',
     })
 }

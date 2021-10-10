@@ -226,7 +226,6 @@
 
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('registerPassword')
-                console.log(password)
                 if (value === undefined) {
                     callback(new Error('请输入密码'))
                 }
@@ -331,6 +330,7 @@
     .main {
         min-width: 260px;
         width: 368px;
+        height: 1500px;
         margin: 100px auto;
 
         .top {

@@ -2,16 +2,29 @@
     <div>
         <a-tabs>
             <a-tab-pane key="1" tab="酒店点评">
-                <div style="font-size: large;padding: 10px">
-                    <a-icon class="eval" type="crown"/>
-                    评分
-                    <a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button @click="like" class="eval" icon="like"/>
-                    点赞
-                    <a-tag color="pink">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button @click="star" class="eval" icon="star"/>
-                    收藏
-                    <a-tag color="blue">{{this.currentHotelInfo.rate}}</a-tag>
+                <div style="font-size: large;padding: 10px;">
+                    <div style="display: inline-flex">
+                        <a-statistic :value="this.currentHotelInfo.rate.toFixed(1)" class="statistic" title="酒店评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.sanitation.toFixed(1)" class="statistic"
+                                     title="卫生评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.environment.toFixed(1)" class="statistic"
+                                     title="环境评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.service.toFixed(1)" class="statistic"
+                                     title="服务评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.equipment.toFixed(1)" class="statistic"
+                                     title="设施评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.commentTime" class="statistic"
+                                     title="当前被评价次数"></a-statistic>
+                        <a-statistic :value="this.currCollections" class="statistic" title="当前酒店收藏数"></a-statistic>
+                    </div>
+                    <a-button @click="unstar" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
+                        取消收藏
+                    </a-button>
+                    <a-button @click="star" icon="star" style="float: right" type="primary" v-else>
+                        收藏该酒店
+                    </a-button>
+                    <br/><br/>
+                    <HotelComment></HotelComment>
                 </div>
             </a-tab-pane>
             <a-tab-pane key="2" tab="常见问题">
@@ -24,8 +37,10 @@
                     <div slot="content">
                         <a-form :form="this.form">
                             <a-form-item>
-                                <a-textarea :placeholder="hint" :rows="4"
-                                            v-decorator="[
+                                <a-textarea
+                                        :placeholder="hint"
+                                        :rows="4" style="border-radius: 20px; "
+                                        v-decorator="[
                                             'question', { rules: [{ required: true, message: '请输入您的问题' }]}
                                         ]"
                                 />
@@ -46,7 +61,7 @@
                         :locale="{emptyText: '暂时没有问题'}"
                         class="comment-list"
                         item-layout="horizontal"
-                        style="background-color: white; font-size: larger"
+                        style="background-color: white; font-size: larger; padding: 10px; border-radius: 20px; "
                 >
                     <a-list-item slot="renderItem" slot-scope="item" style="display: inline">
                         <a-tag color="blue" v-if="item.userId===userId">您的提问</a-tag>
@@ -59,10 +74,22 @@
                                       type="primary">
                                 {{answersVisible.get(item.id)?'收起回答':'展开回答'}}
                             </a-button>
+                            <a-divider v-if="userId!==item.userId" type="vertical"/>
                             <a-button @click="answerAquestion(item.id)" icon="edit" size="small"
-                                      style="margin-left: 30px" v-if="userId!==item.userId">
+                                      v-if="userId!==item.userId">
                                 回答问题
                             </a-button>
+                            <a-divider type="vertical" v-if="item.userId===userId"/>
+                            <a-popconfirm
+                                    @confirm="deleteMyQuestion(item.id)"
+                                    cancelText="取消"
+                                    okText="确定"
+                                    title="你确定要删除问题吗？"
+                            >
+                                <a-button icon="minus-circle" size="small" type="danger" v-if="item.userId===userId">
+                                    删除问题
+                                </a-button>
+                            </a-popconfirm>
                             <a-list
                                     :data-source="item.answers"
                                     :header="`${item.answers.length}个回答`"
@@ -78,6 +105,16 @@
                                             {{ item.answer }}
                                         </p>
                                     </a-comment>
+                                    <a-popconfirm
+                                            @confirm="deleteMyAnswer(item.answerId)"
+                                            cancelText="取消"
+                                            okText="确定"
+                                            title="你确定要删除回答吗？"
+                                    >
+                                        <a-button icon="minus-circle" size="small" type="danger"
+                                                  v-if="item.userId===userId">删除回答
+                                        </a-button>
+                                    </a-popconfirm>
                                 </a-list-item>
                             </a-list>
                         </a-comment>
@@ -102,34 +139,15 @@
                 </a-drawer>
             </a-tab-pane>
             <a-tab-pane key="3" tab="酒店优惠">
-                <a-table
-                        :columns="columns"
-                        :dataSource="couponList"
-                        bordered
-
-                >
-                    <template slot="title">
-                        <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
-                    </template>
-                    <a-tag color="purple" slot="couponName" slot-scope="text">
-                        {{text}}
-                    </a-tag>
-                    <a-tag color="blue" slot="discount" slot-scope="disc">
-                        {{disc===0.00?'暂无':100*disc+'%'}}
-                    </a-tag>
-                    <a-tag color="pink" slot="discountMoney" slot-scope="money">
-                        {{money===0?'暂无':money}}
-                    </a-tag>
-                    <span slot="action">
-                <a-button size="small" type="primary">查看详情</a-button>
-            </span>
-                </a-table>
+                <HotelCouponTable :hotel-id="this.currentHotelInfo.id" user-type="Client"></HotelCouponTable>
             </a-tab-pane>
         </a-tabs>
     </div>
 </template>
 
 <script>
+    import HotelComment from "./HotelComment";
+    import HotelCouponTable from '../../coupon/hotelCouponTable';
     import {mapActions, mapGetters, mapMutations} from "vuex";
 
     const columns = [
@@ -166,22 +184,30 @@
                 submitting: false,
                 columns,
                 answerFormVisible: false,
-                activeQuestionId: 0
+                activeQuestionId: 0,
             }
+        },
+        components: {
+            HotelComment,
+            HotelCouponTable,
         },
         computed: {
             ...mapGetters([
+                'currentHotelId',
                 'currentHotelInfo',
                 'userId',
                 'userInfo',
                 'couponList',
                 'hotelQuestion',
                 'answersVisible',
+                'currCollections',
+                'currHotelCollectedByUser',
             ])
         },
         async mounted() {
-            this.getHotelCoupon(this.currentHotelInfo.id)
             this.getHotelQuestion()
+            this.getCurrCollections()
+            this.getUserCollectHotel(this.userId)
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'question'});
@@ -193,15 +219,32 @@
                 'addQuestion',
                 'addAnswer',
                 'getHotelQuestion',
+                'getCurrCollections',
+                'getUserCollectHotel',
+                'addCollection',
+                'annulCollection',
+                'deleteQuestion',
+                'deleteAnswer',
             ]),
             ...mapMutations([
                 'set_answersVisible',
+                'set_currCollections',
+                'set_couponDetailVisible',
+                'set_currentCouponInfo',
             ]),
-            like() {
-                console.log('点赞')
-            },
             star() {
-                console.log('收藏')
+                const params = {
+                    userID: this.userId,
+                    hotelID: this.currentHotelId,
+                }
+                this.addCollection(params)
+            },
+            unstar() {
+                const params = {
+                    hotelId: this.currentHotelId,
+                    userId: this.userId,
+                }
+                this.annulCollection(params)
             },
             showOrHideAnswers(id) {
                 this.answersVisible.set(id, !this.answersVisible.get(id))
@@ -230,7 +273,7 @@
             answerFormClose() {
                 this.answerFormVisible = false
             },
-            submitAnswer(e){
+            submitAnswer(e) {
                 e.preventDefault();
                 this.answerForm.validateFieldsAndScroll((err, values) => {
                     if (!err) {
@@ -245,15 +288,23 @@
                     }
                 })
                 this.answerFormVisible = false
+            },
+            showCouponDetail(record) {
+                this.set_currentCouponInfo(record)
+                this.set_couponDetailVisible(true)
+            },
+            deleteMyQuestion(id) {
+                this.deleteQuestion(id)
+            },
+            deleteMyAnswer(id) {
+                this.deleteAnswer(id)
             }
         }
     }
 </script>
 
 <style scoped>
-    .eval {
-        margin-left: 50px;
-        background-color: transparent;
-        border: transparent;
+    .statistic {
+        margin: 5px;
     }
 </style>

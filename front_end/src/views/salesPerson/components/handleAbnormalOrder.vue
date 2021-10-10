@@ -44,22 +44,25 @@
             <a-descriptions-item label="总价">
                 {{ orderInfo.price }}
             </a-descriptions-item>
-            <a-descriptions-item label="顾客申诉" span="3">
-                TODO: 待完成 存储和读取？
+            <a-descriptions-item label="顾客申诉">
+                <span v-if="currentOrderComment.comment !== ''">
+                    {{ currentOrderComment.comment }}
+                </span>
+                <span v-else>
+                    顾客尚未申诉
+                </span>
             </a-descriptions-item>
         </a-descriptions>
         <br/>
         <br/>
         <div>
             <a-icon type="question-circle" theme="twoTone"/>
-            <span> 有疑问请联系酒店工作人员：
+            <span> 有疑问请联系酒店方：
                 <a-tag color="blue">
                     {{ currentHotelInfo.phoneNum }}
                 </a-tag>
             </span>
             <div style="float: right">
-                <a-button type="primary" @click="reject">撤回申诉</a-button>
-                <a-divider type="vertical"></a-divider>
                 <a-button type="primary" @click="recoverHalf">恢复50%</a-button>
                 <a-divider type="vertical"></a-divider>
                 <a-button type="primary" @click="recoverAll">恢复100%</a-button>
@@ -84,35 +87,37 @@ export default {
             'handleAbnormalOrderVisible',
             'orderInfo',
             'currentHotelInfo',
-        ])
-    },
-    mutations: {
-        ...mapMutations([
-            'set_handleAbnormalOrderVisible'
+            'currentOrderComment',
         ])
     },
     methods: {
         ...mapMutations([
             'set_handleAbnormalOrderVisible'
         ]),
-
+        ...mapActions([
+            'handleAbnormalOrder'
+        ]),
         handleOK() {
+            console.log(this.orderInfo)
             this.set_handleAbnormalOrderVisible(false)
         },
         cancel() {
-            this.set_handleAbnormalOrderVisible(false)
-        },
-        reject() {
-            alert('撤回申诉')
+
             this.set_handleAbnormalOrderVisible(false)
         },
         recoverHalf() {
-            alert('恢复50%')
-            this.set_handleAbnormalOrderVisible(false)
+            const params = {
+                orderId: this.orderInfo.id,
+                ratio: 0.5,
+            }
+            this.handleAbnormalOrder(params)
         },
         recoverAll() {
-            alert('恢复100%')
-            this.set_handleAbnormalOrderVisible(false)
+            const params = {
+                orderId: this.orderInfo.id,
+                ratio: 1,
+            }
+            this.handleAbnormalOrder(params)
         }
     }
 }

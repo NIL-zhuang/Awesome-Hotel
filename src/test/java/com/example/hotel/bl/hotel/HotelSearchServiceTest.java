@@ -1,5 +1,7 @@
 package com.example.hotel.bl.hotel;
 
+import com.example.hotel.enums.HotelTag;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.SearchBodyVO;
 import org.junit.Assert;
@@ -82,6 +84,17 @@ public class HotelSearchServiceTest {
         setHotelStar(new String[]{"四星级"});
     }};
 
+    private final SearchBodyVO searchBodyVO5 = new SearchBodyVO(){{
+        setCheckInDate("2020-06-01");
+        setCheckOutDate("2020-06-03");
+        setAddress("南京");
+        setBizRegion("西单");
+        setKeyWords(new String[]{HotelTag.Breakfast.toString(), HotelTag.Cheap.toString()});
+        setMaxPrice(1000);
+        setMinScore(4.7);
+        setHotelStar(new String[]{"四星级"});
+    }};
+
     @Test
     @Transactional
     //测试星级
@@ -115,7 +128,7 @@ public class HotelSearchServiceTest {
     public void searchHotel4_1() {
         List<HotelVO> hotelVOS = hotelSearchService.searchHotel(searchBodyVO4_1);
         int num = hotelVOS.size();
-        Assert.assertThat(num, is(0));
+        Assert.assertThat(num, is(1));
     }
 
     @Test
@@ -125,5 +138,15 @@ public class HotelSearchServiceTest {
         List<HotelVO> hotelVOS = hotelSearchService.searchHotel(searchBodyVO4_2);
         int num = hotelVOS.size();
         Assert.assertThat(num,is(1));
+    }
+
+    @Test
+    @Transactional
+    //测试关键词
+    public void searchHotel5() {
+        List<HotelVO> hotelVOS = hotelSearchService.searchHotel(searchBodyVO5);
+        int num = hotelVOS.size();
+        Assert.assertThat(num,is(1));
+        Assert.assertThat(hotelVOS.get(0).getName(),is("如家酒店"));
     }
 }

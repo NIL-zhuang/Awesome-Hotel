@@ -1,0 +1,82 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VIPService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.bl.VIP</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VIPService (com.example.hotel.bl.VIP)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">VIPService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.VIP;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public interface VIPService {
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;    ResponseVO registerAsClientVIP(Integer userId, String Birthday);
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    ResponseVO freezeClientVIP(Integer userId);
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    ResponseVO restoreClientVIP(Integer userId);
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    ResponseVO getVIPbyUserId(Integer userId);
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    ResponseVO addVIPClientConsumption(Integer userId, Integer amount);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    ResponseVO registerAsCorpVIP(String corporationName);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    ResponseVO freezeCorpVIP(String corporationName);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    ResponseVO restoreCorpVIP(String corporationName);
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    ResponseVO getVIPbyCorpName(String corporationName);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    ResponseVO addVIPCorpConsumption(String corporationName, Integer amount);
+<i>26</i>&nbsp;    
+<i>27</i>&nbsp;    boolean VIPCorpCheck(String corporationName);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    ResponseVO getAllVIPClient();
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    ResponseVO getAllVIPCorp();
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

@@ -1,10 +1,8 @@
 package com.example.hotel.controller.user;
 
-import com.example.hotel.bl.VIP.VIPService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.bl.user.CollectionService;
 import com.example.hotel.vo.*;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +18,6 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private CollectionService collectionService;
-    @Autowired
-    private VIPService vipService;
 
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
@@ -49,7 +45,12 @@ public class AccountController {
 
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
-        return accountService.updateUserInfo(id, userInfoVO.getPassword(), userInfoVO.getUserName(), userInfoVO.getPhoneNumber());
+        return accountService.updateUserInfo(id, userInfoVO.getUserName(), userInfoVO.getPhoneNumber(), userInfoVO.getCorporation());
+    }
+
+    @PostMapping("/{id}/userInfo/updatePassword")
+    public ResponseVO updatePassword(@PathVariable int id, @RequestParam String password) {
+        return accountService.updatePassword(id, password);
     }
 
     @PostMapping("/{id}/updateUserBirthday")
@@ -61,7 +62,7 @@ public class AccountController {
     @PostMapping("/registerCorporationMembership")
     public ResponseVO registerCorporationMembership(@RequestParam Integer id,
                                                     @RequestParam String corporation) {
-        return accountService.corporateVIP(id, corporation);
+        return accountService.updateCorporation(id, corporation);
     }
 
     @GetMapping("/getUserInfoByEmail")
@@ -105,6 +106,17 @@ public class AccountController {
         return collectionService.annulCollection(collectionId);
     }
 
+    @PostMapping("/{hotelId}/addCollectionByUserId")
+    public ResponseVO addCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+        return collectionService.addCollectionByUserId(hotelId, userId);
+    }
+
+    @PostMapping("/annulCollectionByUserId")
+    public ResponseVO annulCollectionByUserId(@RequestParam(value = "hotelId") Integer hotelId, @RequestParam(value = "userId") Integer userId) {
+        return collectionService.annulCollectionByUserId(hotelId, userId);
+    }
+
+
     @GetMapping("/{userId}/getUserCollection")
     public ResponseVO getUserCollection(@PathVariable Integer userId) {
         return ResponseVO.buildSuccess(collectionService.getUserCollection(userId));
@@ -116,12 +128,12 @@ public class AccountController {
     }
 
     @GetMapping("/userCollection")
-    public ResponseVO userCollection(@RequestParam Integer userId, @RequestParam Integer hotelId) {
+    public ResponseVO userCollection(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "hotelId") Integer hotelId) {
         return ResponseVO.buildSuccess(collectionService.userCollection(userId, hotelId));
     }
 
     @PostMapping("/{creditId}/argueCredit")
-    public ResponseVO argueCredit(@PathVariable Integer creditId,@RequestParam String argue) {
+    public ResponseVO argueCredit(@PathVariable Integer creditId, @RequestParam String argue) {
         return accountService.argueCredit(creditId, argue);
     }
 
@@ -134,4 +146,10 @@ public class AccountController {
     public ResponseVO getArgueCredit() {
         return ResponseVO.buildSuccess(accountService.getArgueCredits());
     }
+
+    @GetMapping("/getSalesPhoneNum")
+    public ResponseVO getSalesPhoneNum() {
+        return ResponseVO.buildSuccess(accountService.getAllPhoneNumOfSalesPerson());
+    }
+
 }

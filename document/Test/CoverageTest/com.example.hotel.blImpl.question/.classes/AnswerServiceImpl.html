@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AnswerServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.hotel.blImpl.question</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AnswerServiceImpl (com.example.hotel.blImpl.question)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnswerServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (18/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.blImpl.question;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.hotel.bl.question.AnswerService;
+<i>4</i>&nbsp;import com.example.hotel.data.question.AnswerMapper;
+<i>5</i>&nbsp;import com.example.hotel.po.Answer;
+<i>6</i>&nbsp;import com.example.hotel.vo.AnswerVO;
+<i>7</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>8</i>&nbsp;import org.springframework.beans.BeanUtils;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import org.springframework.stereotype.Service;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;import java.util.List;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * @author 庄子元 181830266@smail.nju.edu.cn
+<i>17</i>&nbsp; * @date 2020/6/14 16:36
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;@Service
+<b class="fc"><i>20</i>&nbsp;public class AnswerServiceImpl implements AnswerService {</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private static final String ADD_SUCCESS = &quot;答案添加成功&quot;;
+<i>23</i>&nbsp;    private static final String ADD_FAIL = &quot;答案添加失败&quot;;
+<i>24</i>&nbsp;    private static final String ANNUL_SUCCESS = &quot;答案删除成功&quot;;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Autowired
+<i>27</i>&nbsp;    private AnswerMapper answerMapper;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @Override
+<i>30</i>&nbsp;    public ResponseVO addAnswer(AnswerVO answerVO) {
+<i>31</i>&nbsp;        try {
+<b class="fc"><i>32</i>&nbsp;            Answer answer = new Answer();</b>
+<b class="fc"><i>33</i>&nbsp;            BeanUtils.copyProperties(answerVO, answer);</b>
+<b class="fc"><i>34</i>&nbsp;            answerMapper.addAnswer(answer);</b>
+<b class="fc"><i>35</i>&nbsp;            return ResponseVO.buildSuccess(ADD_SUCCESS);</b>
+<b class="nc"><i>36</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>37</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>38</i>&nbsp;            return ResponseVO.buildFailure(ADD_FAIL);</b>
+<i>39</i>&nbsp;        }
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @Override
+<i>43</i>&nbsp;    public List&lt;AnswerVO&gt; getAllAnswers() {
+<b class="fc"><i>44</i>&nbsp;        List&lt;Answer&gt; answers = answerMapper.getAllAnswers();</b>
+<b class="fc"><i>45</i>&nbsp;        return getAnswerVOS(answers);</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    public List&lt;AnswerVO&gt; getQuestionAnswers(Integer questionId) {
+<b class="fc"><i>50</i>&nbsp;        List&lt;Answer&gt; answers = answerMapper.getQuestionAnswers(questionId);</b>
+<b class="fc"><i>51</i>&nbsp;        return getAnswerVOS(answers);</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    private List&lt;AnswerVO&gt; getAnswerVOS(List&lt;Answer&gt; answers) {
+<b class="fc"><i>55</i>&nbsp;        List&lt;AnswerVO&gt; answerVOS = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>56</i>&nbsp;        for (Answer answer : answers) {</b>
+<b class="fc"><i>57</i>&nbsp;            AnswerVO answerVO = new AnswerVO();</b>
+<b class="fc"><i>58</i>&nbsp;            BeanUtils.copyProperties(answer, answerVO);</b>
+<b class="fc"><i>59</i>&nbsp;            answerVOS.add(answerVO);</b>
+<b class="fc"><i>60</i>&nbsp;        }</b>
+<b class="fc"><i>61</i>&nbsp;        return answerVOS;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public ResponseVO annulAnswer(Integer answerId) {
+<b class="fc"><i>66</i>&nbsp;        answerMapper.annulAnswer(answerId);</b>
+<b class="fc"><i>67</i>&nbsp;        return ResponseVO.buildSuccess(ANNUL_SUCCESS);</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
+</div>
+</body>
+</html>

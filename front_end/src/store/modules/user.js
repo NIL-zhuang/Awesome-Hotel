@@ -1,7 +1,6 @@
-import Vue from 'vue'
-import router from '@/router'
-import {getToken, setToken, removeToken} from '@/utils/auth'
-import {resetRouter} from '@/router'
+import router from '../../router'
+import {getToken, setToken, removeToken} from '../../utils/auth'
+import {resetRouter} from '../../router'
 import {message} from 'ant-design-vue'
 import {
     loginAPI,
@@ -10,36 +9,45 @@ import {
     updateUserInfoAPI,
     updateUserBirthdayAPI,
     getUserCreditAPI,
-} from '@/api/user'
+    getUserCollectionsAPI,
+    annulCollectionAPI,
+    addCollectionAPI, updateUserPasswordAPI,
+} from '../../api/user'
 
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
-} from '@/api/order'
+} from '../../api/order'
 
 import {
     getHotelByIdAPI
-} from "@/api/hotel";
+} from "../../api/hotel";
 
 import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
     getUserVIPAPI,
-} from "@/api/membership"
+    getCorpVIPAPI,
+    VIPCorpCheckAPI,
+} from "../../api/membership"
 
 import moment from "moment";
+import passwordForm from "../../views/user/components/passwordForm";
 
 const getDefaultState = () => {
     return {
         userId: '',
         userInfo: {},
         userVIP: {},
-        dateRange: [moment(), moment().add(1, 'd')],
+        corpVIP: {},
+        dateRange: [moment().add(1, 'd'), moment().add(2, 'd')],
         userOrderList: [],
         onceOrderedList: [],
         creditChangeList: [],
+        userCollections: [],
         registerSiteMembershipModalVisible: false,
         registerCorporationMembershipModalVisible: false,
+        isCorpVIP: false,
     }
 }
 const user = {
@@ -49,11 +57,15 @@ const user = {
             state.token = ''
             state.userId = ''
             state.userInfo = {}
+            state.userVIP = {}
+            state.corpVIP = {}
             state.userOrderList = []
             state.onceOrderedList = []
             state.creditChangeList = []
+            state.userCollections = []
             state.registerSiteMembershipModalVisible = false
             state.registerCorporationMembershipModalVisible = false
+            state.isCorpVIP = false
         },
         set_token: function (state, token) {
             state.token = token
@@ -82,6 +94,9 @@ const user = {
         set_creditChangeList: (state, data) => {
             state.creditChangeList = data
         },
+        set_userCollections: (state, data) => {
+            state.userCollections = data
+        },
         set_registerSiteMembershipModalVisible: (state, data) => {
             state.registerSiteMembershipModalVisible = data
         },
@@ -93,6 +108,9 @@ const user = {
                 ...state.userVIP,
                 ...data
             }
+        },
+        set_corpVIP: (state, data) => {
+            state.corpVIP = data
         },
     },
 
@@ -137,7 +155,9 @@ const user = {
             const res = await updateUserInfoAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getUserInfo')
+                await dispatch('getUserInfo')
+                dispatch('corpVIPCheck', params.corporation)
+                dispatch('getCorpVIP', params.corporation)
             }
         },
         getUserOrders: async ({state, commit}) => {
@@ -190,20 +210,16 @@ const user = {
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
-                console.log('in register')
-                console.log(Number(state.userId))
                 dispatch('getUserVIP', Number(state.userId))
             }
         },
-        registerCorporationMembership: async ({state, dispatch}, data) => {
-            const params = {
-                id: Number(state.userId),
-                ...data,
-            }
-            const res = await registerCorpMembershipAPI(params)
+        registerCorporationMembership: async ({state, dispatch}, corpName) => {
+            const res = await registerCorpMembershipAPI(corpName)
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
+                dispatch('corpVIPCheck', corpName)
+                dispatch('getCorpVIP', corpName)
             }
         },
         getUserVIP: async ({state, commit}, id) => {
@@ -211,6 +227,18 @@ const user = {
             if (res) {
                 commit('set_userVIP', res)
             }
+        },
+        getCorpVIP: async ({state, commit}, name) => {
+            const res = await getCorpVIPAPI(name)
+            if (!res) {
+                commit('set_corpVIP', {})
+            }
+            if (res) {
+                commit('set_corpVIP', res)
+            }
+        },
+        corpVIPCheck: async ({state}, name) => {
+            state.isCorpVIP = await VIPCorpCheckAPI(name)
         },
         updateUserBirthday: async ({state, dispatch}, data) => {
             const params = {
@@ -229,8 +257,52 @@ const user = {
             if (res) {
                 commit('set_creditChangeList', res)
             }
-        }
+        },
+        getUserCollections: async ({state, commit}, id) => {
+            const res = await getUserCollectionsAPI(id)
+            if (res) {
+                commit('set_userCollections', res)
+            }
+        },
+        addCollection: async ({state, commit}, data) => {
+            const res = await addCollectionAPI(data)
+            if (res) {
+                message.success('收藏成功')
+                commit('set_currHotelCollectedByUser', true)
+                commit('update_currCollections', 1)
+            }
+        },
+        annulCollection: async ({state, commit}, data) => {
+            const res = await annulCollectionAPI(data)
+            if (res){
+                message.success('取消收藏成功')
+                commit('set_currHotelCollectedByUser', false)
+                commit('update_currCollections', -1)
+            }
+        },
+        updateUserCorporation: async ({state, commit, dispatch}, corporation) => {
+            const params = {
+                id: state.userId,
+                userName: state.userInfo.userName,
+                phoneNumber: state.userInfo.phoneNumber,
+                corporation: corporation,
+            }
+            const res = await updateUserInfoAPI(params)
+            if (res)  {
+                dispatch('getUserInfo')
 
+            }
+        },
+        updateUserPassword: async ({state, commit, dispatch}, password) => {
+            const params = {
+                id: state.userId,
+                password: password
+            }
+            const res = await updateUserPasswordAPI(params)
+            if (res) {
+                message.success('修改成功')
+            }
+        }
     }
 }
 

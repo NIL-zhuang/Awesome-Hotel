@@ -20,5 +20,5 @@ public interface AnswerMapper {
 
     List<Answer> getQuestionAnswers(@Param("questionId") Integer questionId);
 
-    int annualAnswer(@Param("answerId") Integer answerId);
+    int annulAnswer(@Param("answerId") Integer answerId);
 }
